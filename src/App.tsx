@@ -2,6 +2,7 @@ import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-ro
 import { useState } from 'react';
 import CalculatorIndex from '@/src/components/calculators/CalculatorIndex';
 import HowToUseCalculator from '@/src/components/blog/HowToUseCalculator';
+import AmortizationSchedule from '@/src/components/blog/AmortizationSchedule';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -311,6 +312,14 @@ function BlogStub() {
       readTime: "5 min read",
       description: "A step-by-step guide to calculating your optimal house budget using our interactive tools."
     },
+    {
+      title: "Amortization Schedule: The Hidden Truth About Your Mortgage Payments",
+      path: "/blog/amortization-schedule",
+      category: "Education",
+      date: "May 15, 2026",
+      readTime: "10 min read",
+      description: "Discover why 86% of your first mortgage payment goes to interest and how understanding amortization can save you thousands."
+    },
   ];
 
   const getCategoryColor = (category: string) => {
@@ -391,6 +400,7 @@ export default function App() {
             <Route path="/calculator" element={<CalculatorIndex />} />
             <Route path="/blog" element={<BlogStub />} />
             <Route path="/blog/how-to-use-calculator" element={<HowToUseCalculator />} />
+            <Route path="/blog/amortization-schedule" element={<AmortizationSchedule />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
