@@ -61,15 +61,7 @@ export default function BiWeeklyPayments() {
           </a>
           <a href="#section-6" onClick={(e) => scrollToSection(e, 'section-6')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
-            6. How Bi-Weekly Differs from Bi-Monthly
-          </a>
-          <a href="#section-7" onClick={(e) => scrollToSection(e, 'section-7')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
-            <ChevronRight className="w-3.5 h-3.5" />
-            7. The Real Question
-          </a>
-          <a href="#section-8" onClick={(e) => scrollToSection(e, 'section-8')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
-            <ChevronRight className="w-3.5 h-3.5" />
-            8. See What You'd Save
+            6. The Real Question & What You'd Save
           </a>
         </nav>
       </div>
@@ -111,7 +103,6 @@ export default function BiWeeklyPayments() {
             Payment Schedule Comparison
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Monthly */}
             <div className="bg-card border border-border rounded-lg p-4">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-3 h-3 rounded-full bg-blue-500" />
@@ -128,7 +119,6 @@ export default function BiWeeklyPayments() {
                 <span className="font-medium text-foreground">Total: 12 payments</span> — no extra principal
               </div>
             </div>
-            {/* Bi-Weekly */}
             <div className="bg-card border-2 border-emerald-400 dark:border-emerald-600 rounded-lg p-4">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-3 h-3 rounded-full bg-emerald-500" />
@@ -175,7 +165,6 @@ export default function BiWeeklyPayments() {
             That adds up to <strong>13 full payments</strong>.
           </p>
 
-          {/* Math callout */}
           <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-5 text-blue-800 dark:text-blue-300">
             <div className="flex items-start gap-3">
               <Percent className="w-5 h-5 mt-0.5 shrink-0" />
@@ -190,6 +179,37 @@ export default function BiWeeklyPayments() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* Bi-Weekly vs Bi-Monthly distinction moved here */}
+          <div className="bg-card border border-border rounded-xl p-5 mt-6">
+            <h3 className="font-semibold text-foreground mb-3">⚠️ Don't Confuse Bi-Weekly with Bi-Monthly</h3>
+            <p className="text-muted-foreground text-sm">
+              These terms are often confused, but the difference matters. As{' '}
+              <a 
+                href="https://www.investopedia.com/personal-finance/bi-monthly-vs-bi-weekly-mortgage-payments/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center gap-1"
+              >
+                Investopedia explains
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              :
+            </p>
+            <ul className="space-y-2 mt-3">
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-xs font-bold text-blue-700 dark:text-blue-300 shrink-0 mt-0.5">BW</span>
+                <span><strong className="text-foreground">Bi-Weekly:</strong> Every 2 weeks = 26/year = 13 full payments</span>
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <span className="w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-400 shrink-0 mt-0.5">BM</span>
+                <span><strong className="text-foreground">Bi-Monthly:</strong> Twice a month = 24/year = 12 payments — saves <em>nothing</em></span>
+              </li>
+            </ul>
+            <p className="text-xs text-muted-foreground mt-3 border-l-4 border-amber-400 pl-3 bg-amber-50/50 dark:bg-amber-950/20 py-1 rounded-r">
+              <strong>Tip:</strong> Some lenders advertise "bi-weekly" but set up bi-monthly. Confirm payments are every two weeks.
+            </p>
           </div>
         </div>
       </section>
@@ -214,7 +234,6 @@ export default function BiWeeklyPayments() {
           </p>
         </div>
 
-        {/* Comparison table */}
         <div className="overflow-x-auto rounded-xl border border-border my-6">
           <table className="w-full text-sm">
             <thead>
@@ -251,11 +270,9 @@ export default function BiWeeklyPayments() {
           </table>
         </div>
 
-        <div className="space-y-4 text-muted-foreground leading-relaxed">
-          <p>
-            One hundred and two thousand dollars. A <a href="https://www.bankrate.com/finance/college/planning/college-savings-statistics/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">decent chunk of a child's college education<ExternalLink className="w-3 h-3" /></a>. A very nice car. Or, invested at 7%, that $102,000 could grow to over $400,000 by the time you retire.
-          </p>
-        </div>
+        <p className="text-muted-foreground">
+          One hundred and two thousand dollars. A <a href="https://www.bankrate.com/finance/college/planning/college-savings-statistics/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">decent chunk of a child's college education<ExternalLink className="w-3 h-3" /></a>. A very nice car. Or, invested at 7%, that $102,000 could grow to over $400,000 by the time you retire.
+        </p>
       </section>
 
       {/* Section 4 - The Catch */}
@@ -279,7 +296,6 @@ export default function BiWeeklyPayments() {
           </p>
         </div>
 
-        {/* Warning boxes */}
         <div className="space-y-3 my-5">
           <div className="flex items-start gap-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800/50 rounded-lg p-4">
             <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
@@ -301,7 +317,6 @@ export default function BiWeeklyPayments() {
           </div>
         </div>
 
-        {/* Three questions */}
         <div className="bg-card border border-border rounded-xl p-6 my-6">
           <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
@@ -349,7 +364,6 @@ export default function BiWeeklyPayments() {
             extra principal each month. On a $2,528 payment, that's <strong>$211/month extra</strong>.
           </p>
 
-          {/* DIY Calculation */}
           <div className="bg-muted/40 border border-border rounded-xl p-5">
             <h3 className="font-semibold text-foreground mb-3">DIY Extra Payment Calculator</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
@@ -392,57 +406,15 @@ export default function BiWeeklyPayments() {
         </div>
       </section>
 
-      {/* Section 6 - Bi-Weekly vs Bi-Monthly */}
+      {/* Section 6 - The Real Question + CTA (merged former 7 + 8) */}
       <section id="section-6" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">6. How Bi-Weekly Differs from Bi-Monthly</h2>
-        <div className="space-y-4 text-muted-foreground leading-relaxed">
-          <p>
-            These terms are often confused, but the difference matters. As{' '}
-            <a 
-              href="https://www.investopedia.com/personal-finance/bi-monthly-vs-bi-weekly-mortgage-payments/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline inline-flex items-center gap-1"
-            >
-              Investopedia explains
-              <ExternalLink className="w-3 h-3" />
-            </a>
-            :
-          </p>
-          <ul className="space-y-3">
-            <li className="flex items-start gap-3 p-3 border border-border rounded-lg">
-              <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-sm font-bold text-blue-700 dark:text-blue-300 shrink-0">BW</div>
-              <div>
-                <span className="font-medium text-foreground">Bi-Weekly:</span>{' '}
-                <span className="text-muted-foreground">Payment every 2 weeks = 26 payments/year = 13 full payments.</span>
-              </div>
-            </li>
-            <li className="flex items-start gap-3 p-3 border border-border rounded-lg">
-              <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-sm font-bold text-gray-600 dark:text-gray-400 shrink-0">BM</div>
-              <div>
-                <span className="font-medium text-foreground">Bi-Monthly (Semi-Monthly):</span>{' '}
-                <span className="text-muted-foreground">Two payments per month = 24 payments/year = 12 full payments. 
-                No extra payment! This saves <strong className="text-foreground">nothing</strong> in interest.</span>
-              </div>
-            </li>
-          </ul>
-          <p className="text-sm text-muted-foreground border-l-4 border-amber-400 pl-4 py-2 bg-amber-50/50 dark:bg-amber-950/20 rounded-r-lg">
-            <strong className="text-foreground">Tip:</strong> Some lenders advertise &ldquo;bi-weekly&rdquo; but actually set up bi-monthly. 
-            always confirm that payments are drafted every two weeks, not twice a month.
-          </p>
-        </div>
-      </section>
-
-      {/* Section 7 - The Real Question */}
-      <section id="section-7" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">7. The Real Question</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">6. The Real Question & What You'd Save</h2>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
             The math is clear. Bi-weekly payments save you money. But the real question isn't 
             &ldquo;does it work&rdquo;—it's &ldquo;should I do this instead of something else?&rdquo;
           </p>
           
-          {/* Priority Flowchart */}
           <div className="bg-card border border-border rounded-xl p-6 my-6">
             <h3 className="font-semibold text-foreground mb-4">Where Does Mortgage Acceleration Fit in Your Financial Priority List?</h3>
             <div className="space-y-3">
@@ -489,19 +461,12 @@ export default function BiWeeklyPayments() {
             </a>{' '}
             reinforces that any extra principal payment—no matter how small—reduces the total cost of borrowing.
           </p>
-        </div>
-      </section>
 
-      {/* Section 8 - See What You'd Save */}
-      <section id="section-8" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">8. See What You'd Save</h2>
-        <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
             Sarah's story isn't unusual. She just happened to notice the numbers. With our 
             Mortgage Calculator, you don't have to wait two years for the surprise.
           </p>
           
-          {/* CTA Card */}
           <div className="bg-gradient-to-br from-primary/5 via-primary/[0.02] to-background border-2 border-primary/20 rounded-xl p-8 text-center">
             <DollarSign className="w-10 h-10 text-primary mx-auto mb-3" />
             <h3 className="text-2xl font-bold text-foreground mb-2">Crunch Your Own Numbers</h3>

@@ -32,7 +32,7 @@ export default function WhatIsPmi() {
         </p>
       </div>
 
-      {/* Table of Contents */}
+      {/* Table of Contents - 10 sections */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">
         <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
           <BookOpen className="w-4 h-4" />
@@ -53,23 +53,31 @@ export default function WhatIsPmi() {
           </a>
           <a href="#section-4" onClick={(e) => scrollToSection(e, 'section-4')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
-            4. The Cancellation Rules: Know Your Rights
+            4. Automatic Termination at 78% LTV
           </a>
           <a href="#section-5" onClick={(e) => scrollToSection(e, 'section-5')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
-            5. The Appraisal Shortcut
+            5. Your Right to Request at 80% LTV
           </a>
           <a href="#section-6" onClick={(e) => scrollToSection(e, 'section-6')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
-            6. What If Your Lender Says No?
+            6. Can You Use Current Market Value?
           </a>
           <a href="#section-7" onClick={(e) => scrollToSection(e, 'section-7')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
-            7. Faster Paths to PMI Freedom
+            7. The Appraisal Shortcut
           </a>
           <a href="#section-8" onClick={(e) => scrollToSection(e, 'section-8')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
-            8. The Calculator Tells the Story
+            8. What If Your Lender Says No?
+          </a>
+          <a href="#section-9" onClick={(e) => scrollToSection(e, 'section-9')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+            <ChevronRight className="w-3.5 h-3.5" />
+            9. Faster Paths to PMI Freedom
+          </a>
+          <a href="#section-10" onClick={(e) => scrollToSection(e, 'section-10')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+            <ChevronRight className="w-3.5 h-3.5" />
+            10. The Calculator Tells the Story
           </a>
         </nav>
       </div>
@@ -121,7 +129,6 @@ export default function WhatIsPmi() {
             insurance policy that covers that gap. You pay the premiums. They get the protection.
           </p>
 
-          {/* Visual: Who PMI protects */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6">
             <div className="bg-card border-2 border-red-200 dark:border-red-800/50 rounded-xl p-5 text-center">
               <div className="text-3xl mb-2">💳</div>
@@ -168,7 +175,6 @@ export default function WhatIsPmi() {
           </p>
         </div>
 
-        {/* Cost breakdown table */}
         <div className="overflow-x-auto rounded-xl border border-border my-6">
           <table className="w-full text-sm">
             <thead>
@@ -225,56 +231,89 @@ export default function WhatIsPmi() {
         </p>
       </section>
 
-      {/* Section 4 - Cancellation Rules */}
+      {/* Section 4 - Automatic Termination (split from old section 4) */}
       <section id="section-4" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">4. The Cancellation Rules: Know Your Rights</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">4. Automatic Termination at 78% LTV</h2>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
             Here's where the <strong>Homeowners Protection Act of 1998</strong>—also called the PMI Cancellation 
             Act—comes in. This federal law gives you specific, enforceable rights.
           </p>
+        </div>
 
-          {/* Rule cards */}
-          <div className="space-y-4 my-6">
-            {/* Automatic Termination */}
-            <div className="bg-card border border-border rounded-xl p-5">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Automatic Termination</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    When your loan balance drops to <strong>78%</strong> of the original home value, your 
-                    lender <em>must</em> cancel PMI automatically. No request needed. No fees. This is the law. 
-                    The catch? You must be current on your payments.
-                  </p>
-                </div>
+        <div className="bg-card border-2 border-green-200 dark:border-green-800/50 rounded-xl p-6 my-6">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-6 h-6 text-green-600 dark:text-green-400" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground text-lg">Automatic Termination</h3>
+              <p className="text-muted-foreground mt-2">
+                When your loan balance drops to <strong>78%</strong> of the <em>original</em> home value, your 
+                lender <strong>must</strong> cancel PMI automatically. No request needed. No fees. This is the law.
+              </p>
+              <p className="text-muted-foreground mt-2">
+                The catch? You must be current on your payments. If you've missed payments recently, the 
+                automatic termination may be delayed.
+              </p>
+              <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800/50 rounded-lg p-3 mt-3">
+                <p className="text-sm text-green-800 dark:text-green-300">
+                  <strong>Key point:</strong> "Original value" means the purchase price or appraised value at 
+                  loan origination—not today's market value.
+                </p>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* Right to Request */}
-            <div className="bg-card border border-border rounded-xl p-5">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
-                  <ClipboardCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Your Right to Request Cancellation</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    You don't have to wait for 78%. At <strong>80%</strong> loan-to-value, you can request 
-                    cancellation in writing. The lender can require:
-                  </p>
-                  <ul className="list-disc pl-5 mt-2 text-sm text-muted-foreground space-y-1">
-                    <li>A good payment history</li>
-                    <li>No other liens on the property</li>
-                    <li>Possibly an appraisal to verify current value</li>
-                  </ul>
-                </div>
+        <p className="text-muted-foreground">
+          On a $400,000 home with 10% down ($360k loan), you'd need to pay down to <strong>$312,000</strong> 
+          to hit 78% LTV. That means paying off <strong>$48,000</strong> in principal—which takes about 
+          11 years on a standard 30-year schedule.
+        </p>
+      </section>
+
+      {/* Section 5 - Right to Request (split from old section 4) */}
+      <section id="section-5" className="mb-12 scroll-mt-20">
+        <h2 className="text-2xl font-bold text-foreground mb-4">5. Your Right to Request at 80% LTV</h2>
+        <div className="space-y-4 text-muted-foreground leading-relaxed">
+          <p>
+            You don't have to wait for 78%. At <strong>80%</strong> loan-to-value, you can request 
+            cancellation in writing.
+          </p>
+
+          <div className="bg-card border-2 border-blue-200 dark:border-blue-800/50 rounded-xl p-6 my-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
+                <ClipboardCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground text-lg">Your Right to Request</h3>
+                <p className="text-muted-foreground mt-2">
+                  Under the Homeowners Protection Act, the lender can require:
+                </p>
+                <ul className="list-disc pl-5 mt-2 text-muted-foreground space-y-1">
+                  <li>A good payment history (current on all payments)</li>
+                  <li>No other liens on the property</li>
+                  <li>Possibly an appraisal to verify current value ($400–$600)</li>
+                  <li>Written confirmation that the property hasn't declined in value</li>
+                </ul>
               </div>
             </div>
           </div>
 
+          <p className="text-muted-foreground">
+            The law says the lender must respond to your request within <strong>30 days</strong> and 
+            make a decision. If approved, PMI must be canceled within 45 days of the date you meet 
+            the criteria.
+          </p>
+        </div>
+      </section>
+
+      {/* Section 6 - Can You Use Current Market Value (new split) */}
+      <section id="section-6" className="mb-12 scroll-mt-20">
+        <h2 className="text-2xl font-bold text-foreground mb-4">6. Can You Use Current Market Value?</h2>
+        <div className="space-y-4 text-muted-foreground leading-relaxed">
           <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/50 rounded-xl p-5">
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
@@ -291,25 +330,19 @@ export default function WhatIsPmi() {
                     CFPB's guide on canceling PMI
                     <ExternalLink className="w-3 h-3" />
                   </a>{' '}
-                  explains that current market value—not just your original purchase price—can be used to 
-                  calculate your loan-to-value ratio.
+                  explains that <strong>current market value</strong>—not just your original purchase price—can 
+                  be used to calculate your loan-to-value ratio.
                 </p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Section 5 - Appraisal Shortcut */}
-      <section id="section-5" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">5. The Appraisal Shortcut</h2>
-        <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
-            This is exactly what Marcus and Elena did. Their $300,000 home was now worth $370,000. Suddenly 
-            their 5% down payment didn't matter—the market had built their equity for them.
+            This is a game-changer for anyone who bought in 2020–2022 and has seen significant appreciation. 
+            Even if you've barely paid down principal, a $50,000 increase in home value might push your LTV 
+            below 80% all by itself.
           </p>
 
-          {/* LTV visualization */}
           <div className="bg-card border border-border rounded-xl p-6 my-6">
             <h3 className="font-semibold text-foreground mb-4">How Appreciation Changes Your LTV</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -339,8 +372,23 @@ export default function WhatIsPmi() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="space-y-3">
+      {/* Section 7 - Appraisal Shortcut (renumbered) */}
+      <section id="section-7" className="mb-12 scroll-mt-20">
+        <h2 className="text-2xl font-bold text-foreground mb-4">7. The Appraisal Shortcut</h2>
+        <div className="space-y-4 text-muted-foreground leading-relaxed">
+          <p>
+            This is exactly what Marcus and Elena did. Their $300,000 home was now worth $370,000. Suddenly 
+            their 5% down payment didn't matter—the market had built their equity for them.
+          </p>
+
+          <p>
+            The rules for market-appreciation cancellation:
+          </p>
+
+          <div className="space-y-3 my-4">
             <p className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
               <span><strong className="text-foreground">Loan is 2-5 years old:</strong> You need 75% LTV for market-appreciation cancellation</span>
@@ -363,9 +411,9 @@ export default function WhatIsPmi() {
         </div>
       </section>
 
-      {/* Section 6 - What If Lender Says No */}
-      <section id="section-6" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">6. What If Your Lender Says No?</h2>
+      {/* Section 8 - What If Lender Says No (renumbered) */}
+      <section id="section-8" className="mb-12 scroll-mt-20">
+        <h2 className="text-2xl font-bold text-foreground mb-4">8. What If Your Lender Says No?</h2>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
             This happens. Sometimes a lender "loses" your request or claims you haven't met the criteria.
@@ -408,9 +456,9 @@ export default function WhatIsPmi() {
         </div>
       </section>
 
-      {/* Section 7 - Faster Paths */}
-      <section id="section-7" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">7. Faster Paths to PMI Freedom</h2>
+      {/* Section 9 - Faster Paths (renumbered) */}
+      <section id="section-9" className="mb-12 scroll-mt-20">
+        <h2 className="text-2xl font-bold text-foreground mb-4">9. Faster Paths to PMI Freedom</h2>
         <div className="space-y-4">
           {[
             { title: "Extra principal payments", desc: "Even $100/month can shave years off your PMI duration. Use our calculator to see the impact." },
@@ -431,9 +479,9 @@ export default function WhatIsPmi() {
         </div>
       </section>
 
-      {/* Section 8 - Calculator */}
-      <section id="section-8" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">8. The Calculator Tells the Story</h2>
+      {/* Section 10 - Calculator (renumbered) */}
+      <section id="section-10" className="mb-12 scroll-mt-20">
+        <h2 className="text-2xl font-bold text-foreground mb-4">10. The Calculator Tells the Story</h2>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
             Our Mortgage Calculator shows you exactly when your PMI will end. Open the amortization table, 
@@ -443,7 +491,6 @@ export default function WhatIsPmi() {
             Then try adding <strong>$100/month</strong> in extra principal and watch that date jump forward—sometimes by years.
           </p>
 
-          {/* CTA */}
           <div className="bg-gradient-to-br from-primary/5 via-primary/[0.02] to-background border-2 border-primary/20 rounded-xl p-8 text-center mt-8">
             <DollarSign className="w-10 h-10 text-primary mx-auto mb-3" />
             <h3 className="text-2xl font-bold text-foreground mb-2">Find Your PMI End Date</h3>
