@@ -3,6 +3,7 @@ import { useState } from 'react';
 import CalculatorIndex from '@/src/components/calculators/CalculatorIndex';
 import HowToUseCalculator from '@/src/components/blog/HowToUseCalculator';
 import AmortizationSchedule from '@/src/components/blog/AmortizationSchedule';
+import BiWeeklyPayments from '@/src/components/blog/BiWeeklyPayments';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -320,6 +321,14 @@ function BlogStub() {
       readTime: "10 min read",
       description: "Discover why 86% of your first mortgage payment goes to interest and how understanding amortization can save you thousands."
     },
+    {
+      title: "Bi-Weekly Mortgage Payments: Are They Worth It?",
+      path: "/blog/biweekly-payments",
+      category: "Strategies",
+      date: "May 20, 2026",
+      readTime: "9 min read",
+      description: "An honest look at the math, the gotchas, and whether accelerating your mortgage makes sense for your financial situation."
+    },
   ];
 
   const getCategoryColor = (category: string) => {
@@ -401,6 +410,7 @@ export default function App() {
             <Route path="/blog" element={<BlogStub />} />
             <Route path="/blog/how-to-use-calculator" element={<HowToUseCalculator />} />
             <Route path="/blog/amortization-schedule" element={<AmortizationSchedule />} />
+            <Route path="/blog/biweekly-payments" element={<BiWeeklyPayments />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
