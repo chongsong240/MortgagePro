@@ -4,6 +4,8 @@ import CalculatorIndex from '@/src/components/calculators/CalculatorIndex';
 import HowToUseCalculator from '@/src/components/blog/HowToUseCalculator';
 import AmortizationSchedule from '@/src/components/blog/AmortizationSchedule';
 import BiWeeklyPayments from '@/src/components/blog/BiWeeklyPayments';
+import WhatIsPmi from '@/src/components/blog/WhatIsPmi';
+import ThirtyVsFifteenYear from '@/src/components/blog/ThirtyVsFifteenYear';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -329,6 +331,22 @@ function BlogStub() {
       readTime: "9 min read",
       description: "An honest look at the math, the gotchas, and whether accelerating your mortgage makes sense for your financial situation."
     },
+    {
+      title: "PMI in Mortgages: What It Is and How to Get Rid of It",
+      path: "/blog/what-is-pmi",
+      category: "Education",
+      date: "May 22, 2026",
+      readTime: "8 min read",
+      description: "If you're putting down less than 20%, you're paying for something that doesn't protect you. Here's exactly how to cancel it."
+    },
+    {
+      title: "30-Year vs 15-Year Mortgage: The Decision That Shapes Your Future",
+      path: "/blog/30-vs-15-year",
+      category: "Comparisons",
+      date: "May 24, 2026",
+      readTime: "10 min read",
+      description: "The math favors one side clearly. But the right answer depends on five questions that have nothing to do with interest rates."
+    },
   ];
 
   const getCategoryColor = (category: string) => {
@@ -411,6 +429,8 @@ export default function App() {
             <Route path="/blog/how-to-use-calculator" element={<HowToUseCalculator />} />
             <Route path="/blog/amortization-schedule" element={<AmortizationSchedule />} />
             <Route path="/blog/biweekly-payments" element={<BiWeeklyPayments />} />
+            <Route path="/blog/what-is-pmi" element={<WhatIsPmi />} />
+            <Route path="/blog/30-vs-15-year" element={<ThirtyVsFifteenYear />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
