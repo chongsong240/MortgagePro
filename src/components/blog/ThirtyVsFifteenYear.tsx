@@ -67,10 +67,11 @@ export default function ThirtyVsFifteenYear() {
             <ChevronRight className="w-3.5 h-3.5" />
             7. Five Questions Before You Decide
           </a>
-          <a href="#section-8" onClick={(e) => scrollToSection(e, 'section-8')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
+          <a href="#section-7-cta" onClick={(e) => scrollToSection(e, 'section-7-cta')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
             8. Try Both Scenarios Right Now
           </a>
+
         </nav>
       </div>
 
@@ -428,8 +429,9 @@ export default function ThirtyVsFifteenYear() {
       </section>
 
       {/* Section 8 - Try Both */}
-      <section id="section-8" className="mb-12 scroll-mt-20">
+      <section id="section-7-cta" className="mb-12 scroll-mt-20">
         <h2 className="text-2xl font-bold text-foreground mb-4">8. Try Both Scenarios Right Now</h2>
+
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
             Abstract comparisons only go so far. Open our Mortgage Calculator and enter your real numbers. 
