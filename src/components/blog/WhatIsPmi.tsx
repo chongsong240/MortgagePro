@@ -147,17 +147,7 @@ export default function WhatIsPmi() {
           </div>
 
           <p>
-            Not exactly a great deal. But as{' '}
-            <a 
-              href="https://www.bankrate.com/mortgages/pmi/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline inline-flex items-center gap-1"
-            >
-              Bankrate notes in their PMI guide
-              <ExternalLink className="w-3 h-3" />
-            </a>
-            , for most first-time buyers, it's the only path to homeownership without saving for years.
+            Not exactly a great deal. But for most first-time buyers, it's the only path to homeownership without saving for years.
           </p>
         </div>
       </section>
@@ -441,17 +431,7 @@ export default function WhatIsPmi() {
           </div>
           <p>
             Make sure you have documentation: a copy of your amortization schedule, recent appraisal, and 
-            any correspondence with your lender. The{' '}
-            <a 
-              href="https://www.bankrate.com/mortgages/how-to-get-rid-of-pmi/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline inline-flex items-center gap-1"
-            >
-              Bankrate guide on removing PMI
-              <ExternalLink className="w-3 h-3" />
-            </a>{' '}
-            recommends keeping a paper trail from day one.
+            any correspondence with your lender. Keeping a paper trail from day one is strongly recommended.
           </p>
         </div>
       </section>

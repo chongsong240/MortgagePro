@@ -6,6 +6,7 @@ import AmortizationSchedule from '@/src/components/blog/AmortizationSchedule';
 import BiWeeklyPayments from '@/src/components/blog/BiWeeklyPayments';
 import WhatIsPmi from '@/src/components/blog/WhatIsPmi';
 import ThirtyVsFifteenYear from '@/src/components/blog/ThirtyVsFifteenYear';
+import HowMuchHouseCanIAfford from '@/src/components/blog/HowMuchHouseCanIAfford';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -347,6 +348,14 @@ function BlogStub() {
       readTime: "10 min read",
       description: "The math favors one side clearly. But the right answer depends on five questions that have nothing to do with interest rates."
     },
+    {
+      title: "How Much House Can I Afford? A Step-by-Step Guide",
+      path: "/blog/how-much-house-can-i-afford",
+      category: "Education",
+      date: "May 23, 2026",
+      readTime: "12 min read",
+      description: "Dave called me stressed out about whether he could afford a home. Here's the exact math lenders use and how to find your number."
+    },
   ];
 
   const getCategoryColor = (category: string) => {
@@ -431,6 +440,7 @@ export default function App() {
             <Route path="/blog/biweekly-payments" element={<BiWeeklyPayments />} />
             <Route path="/blog/what-is-pmi" element={<WhatIsPmi />} />
             <Route path="/blog/30-vs-15-year" element={<ThirtyVsFifteenYear />} />
+            <Route path="/blog/how-much-house-can-i-afford" element={<HowMuchHouseCanIAfford />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />

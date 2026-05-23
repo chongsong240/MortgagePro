@@ -271,7 +271,7 @@ export default function BiWeeklyPayments() {
         </div>
 
         <p className="text-muted-foreground">
-          One hundred and two thousand dollars. A <a href="https://www.bankrate.com/finance/college/planning/college-savings-statistics/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline inline-flex items-center gap-1">decent chunk of a child's college education<ExternalLink className="w-3 h-3" /></a>. A very nice car. Or, invested at 7%, that $102,000 could grow to over $400,000 by the time you retire.
+          One hundred and two thousand dollars. A decent chunk of a child's college education. A very nice car. Or, invested at 7%, that $102,000 could grow to over $400,000 by the time you retire.
         </p>
       </section>
 
@@ -347,17 +347,8 @@ export default function BiWeeklyPayments() {
         <h2 className="text-2xl font-bold text-foreground mb-4">5. The DIY Alternative</h2>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
-            You don't need anyone's permission to pay off your mortgage faster. As{' '}
-            <a 
-              href="https://www.bankrate.com/mortgages/bi-weekly-vs-monthly-mortgage-payments/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline inline-flex items-center gap-1"
-            >
-              Bankrate points out in their comparison
-              <ExternalLink className="w-3 h-3" />
-            </a>
-            , the DIY approach is often superior because you keep full control.
+            You don't need anyone's permission to pay off your mortgage faster. As Bankrate's analysis 
+            points out, the DIY approach is often superior because you keep full control.
           </p>
           <p>
             Here's how: take your monthly payment, divide by 12, and add that amount as 

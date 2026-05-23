@@ -36,6 +36,28 @@ export default function Calculator() {
   const [flash, setFlash] = useState(false);
   const [flashDirection, setFlashDirection] = useState<'up' | 'down'>('down');
   const [showAmortizationTable, setShowAmortizationTable] = useState(false);
+  const [stateDetecting, setStateDetecting] = useState<boolean>(true);
+
+  // Auto-detect state from IP on first load
+  useEffect(() => {
+    let cancelled = false;
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (cancelled) return;
+        const regionCode = data?.region_code as string;
+        if (regionCode && stateData[regionCode]) {
+          handleStateChange(regionCode);
+        }
+      })
+      .catch(() => {
+        // Silent fail - just stay on National Average
+      })
+      .finally(() => {
+        if (!cancelled) setStateDetecting(false);
+      });
+    return () => { cancelled = true; };
+  }, []);
 
   // Sync down payment % and amount
   const handleHomePriceChange = (val: number) => {
@@ -245,8 +267,8 @@ export default function Calculator() {
             <div className="flex justify-between items-center">
               <Label>Location (State)</Label>
               <Select value={selectedState} onValueChange={handleStateChange}>
-                <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Select State" />
+                <SelectTrigger className="w-44">
+                  <SelectValue placeholder={stateDetecting ? "Detecting..." : "Select State"} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="National">National Average</SelectItem>

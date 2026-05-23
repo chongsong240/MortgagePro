@@ -338,17 +338,7 @@ export default function ThirtyVsFifteenYear() {
           </div>
 
           <p>
-            The{' '}
-            <a 
-              href="https://www.bankrate.com/mortgages/15-year-vs-30-year-mortgage/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary hover:underline inline-flex items-center gap-1"
-            >
-              Bankrate analysis of 15 vs 30 year mortgages
-              <ExternalLink className="w-3 h-3" />
-            </a>{' '}
-            confirms that the 15-year path is especially powerful for mid-career buyers who have stable 
+            Bankrate's analysis confirms that the 15-year path is especially powerful for mid-career buyers who have stable 
             income and want to eliminate their largest debt before retirement.
           </p>
         </div>
