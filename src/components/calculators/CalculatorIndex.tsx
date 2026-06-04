@@ -1,10 +1,22 @@
+import { useSearchParams } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StandardCalculator from "./StandardCalculator";
 import BiWeeklyCalculator from "./BiWeeklyCalculator";
 import RentVsBuyCalculator from "./RentVsBuyCalculator";
 import FIRECalculator from "./FIRECalculator";
 
+const TAB_MAP: Record<string, string> = {
+  standard: "standard",
+  biweekly: "biweekly",
+  rentvsbuy: "rentvsbuy",
+  fire: "fire",
+};
+
 export default function CalculatorIndex() {
+  const [searchParams] = useSearchParams();
+  const tabParam = searchParams.get("tab") || "standard";
+  const defaultTab = TAB_MAP[tabParam] || "standard";
+
   return (
     <div className="w-full">
       <div className="mb-6">
@@ -12,7 +24,7 @@ export default function CalculatorIndex() {
         <p className="text-muted-foreground">Select a calculator scenario to analyze your real estate decisions.</p>
       </div>
       
-      <Tabs defaultValue="standard" className="w-full">
+      <Tabs defaultValue={defaultTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:w-[600px] mb-8">
           <TabsTrigger value="standard">Standard</TabsTrigger>
           <TabsTrigger value="biweekly">Bi-Weekly</TabsTrigger>

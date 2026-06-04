@@ -129,25 +129,25 @@ function HomePage() {
       icon: "🏠",
       title: "Standard Mortgage Calculator",
       desc: "Calculate your monthly payment with real-time sliders for home price, down payment, interest rate, and loan term. See the full amortization schedule and your PITI breakdown at a glance.",
-      link: "/calculator",
+      link: "/calculator?tab=standard",
     },
     {
       icon: "📅",
       title: "Bi-Weekly vs Monthly",
       desc: "Compare standard monthly payments against an accelerated bi-weekly schedule. See how much interest you can save and how many years you can shave off your loan.",
-      link: "/calculator",
+      link: "/calculator?tab=biweekly",
     },
     {
       icon: "🏡",
       title: "Rent vs Buy Analyzer",
       desc: "Is renting or buying the smarter financial move for you? This tool factors in home appreciation, rent inflation, property taxes, and closing costs to find your breakeven year.",
-      link: "/calculator",
+      link: "/calculator?tab=rentvsbuy",
     },
     {
       icon: "🔥",
       title: "FIRE Impact Calculator",
       desc: "Thinking about Financial Independence or Early Retirement? See how buying a home could delay — or accelerate — your FIRE timeline.",
-      link: "/calculator",
+      link: "/calculator?tab=fire",
     },
   ];
 
