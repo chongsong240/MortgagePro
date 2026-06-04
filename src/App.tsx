@@ -120,48 +120,286 @@ function Footer() {
   );
 }
 
-// Stubs for other pages
+// ============================================================
+// Home Page — rich content for SEO and user engagement
+// ============================================================
 function HomePage() {
+  const calculatorTools = [
+    {
+      icon: "🏠",
+      title: "Standard Mortgage Calculator",
+      desc: "Calculate your monthly payment with real-time sliders for home price, down payment, interest rate, and loan term. See the full amortization schedule and your PITI breakdown at a glance.",
+      link: "/calculator",
+    },
+    {
+      icon: "📅",
+      title: "Bi-Weekly vs Monthly",
+      desc: "Compare standard monthly payments against an accelerated bi-weekly schedule. See how much interest you can save and how many years you can shave off your loan.",
+      link: "/calculator",
+    },
+    {
+      icon: "🏡",
+      title: "Rent vs Buy Analyzer",
+      desc: "Is renting or buying the smarter financial move for you? This tool factors in home appreciation, rent inflation, property taxes, and closing costs to find your breakeven year.",
+      link: "/calculator",
+    },
+    {
+      icon: "🔥",
+      title: "FIRE Impact Calculator",
+      desc: "Thinking about Financial Independence or Early Retirement? See how buying a home could delay — or accelerate — your FIRE timeline.",
+      link: "/calculator",
+    },
+  ];
+
+  const blogPosts = [
+    {
+      title: "How Much House Can I Afford? A Step-by-Step Guide",
+      path: "/blog/how-much-house-can-i-afford",
+      date: "May 23, 2026",
+    },
+    {
+      title: "30-Year vs 15-Year Mortgage: The Decision That Shapes Your Future",
+      path: "/blog/30-vs-15-year",
+      date: "May 24, 2026",
+    },
+    {
+      title: "PMI in Mortgages: What It Is and How to Get Rid of It",
+      path: "/blog/what-is-pmi",
+      date: "May 22, 2026",
+    },
+    {
+      title: "Bi-Weekly Mortgage Payments: Are They Worth It?",
+      path: "/blog/biweekly-payments",
+      date: "May 20, 2026",
+    },
+  ];
+
+  const faqs = [
+    {
+      q: "How is my monthly mortgage payment calculated?",
+      a: "Your monthly payment (often called PITI) has four components: Principal (the loan amount you borrowed), Interest (the cost of borrowing), Taxes (property taxes), and Insurance (homeowner's insurance). Our calculator uses the standard amortization formula: M = P × [r(1+r)^n] / [(1+r)^n − 1], where P is the loan amount, r is the monthly interest rate, and n is the number of payments.",
+    },
+    {
+      q: "What credit score do I need to buy a house?",
+      a: "Minimum credit score requirements vary by loan type. Conventional loans typically require 620+, FHA loans allow 580 (or 500 with 10% down), and VA loans have no official minimum but most lenders look for 620+. A higher score can qualify you for a lower interest rate, which can save tens of thousands of dollars over the life of the loan.",
+    },
+    {
+      q: "How much should I put down on a house?",
+      a: "While 20% down eliminates Private Mortgage Insurance (PMI), many first-time buyers put down much less. FHA loans require as little as 3.5% down, and conventional loans can go as low as 3–5%. However, a smaller down payment means higher monthly payments and the added cost of PMI — typically 0.5% to 1% of the loan amount annually.",
+    },
+    {
+      q: "What is PMI and when can I cancel it?",
+      a: "PMI (Private Mortgage Insurance) protects the lender, not you. It's required when your down payment is less than 20% of the home's value. You can request cancellation once your loan balance reaches 80% of the home's original value, and it must be automatically canceled at 78%. Making extra principal payments can help you reach this threshold faster.",
+    },
+    {
+      q: "Should I choose a 30-year or 15-year mortgage?",
+      a: "A 30-year mortgage offers lower monthly payments but you'll pay significantly more interest over time. A 15-year mortgage typically has a lower interest rate and cuts your total interest roughly in half, but the monthly payment is much higher. The right choice depends on your cash flow, other financial goals, and how long you plan to stay in the home.",
+    },
+    {
+      q: "What is an amortization schedule?",
+      a: "An amortization schedule breaks down every mortgage payment into principal and interest. In the early years, the vast majority of your payment goes toward interest — often 80% or more. Over time, this reverses. Understanding your amortization schedule can help you decide whether making extra payments, refinancing, or choosing a shorter term makes sense for you.",
+    },
+    {
+      q: "Are bi-weekly mortgage payments worth it?",
+      a: "Making half your monthly payment every two weeks results in 26 half-payments per year — the equivalent of 13 full monthly payments instead of 12. This extra payment per year can shave 4–5 years off a 30-year loan and save tens of thousands of dollars in interest. Before setting this up, confirm your lender applies payments correctly and check for any fees.",
+    },
+    {
+      q: "How much house can I afford based on my income?",
+      a: "Lenders typically follow the 28/36 rule: your total monthly housing costs should not exceed 28% of your gross monthly income, and your total debt payments (housing + car loans + student loans + credit cards) should not exceed 36%. For example, with a $100,000 annual income ($8,333/month), your housing budget would be about $2,333/month maximum.",
+    },
+    {
+      q: "What's included in closing costs?",
+      a: "Closing costs typically range from 2% to 5% of the home's purchase price. They include loan origination fees, appraisal, title search and insurance, attorney fees, prepaid property taxes, homeowners insurance, and escrow deposits. Some costs are negotiable, and you may be able to roll them into the loan or negotiate for the seller to pay a portion.",
+    },
+    {
+      q: "How does my interest rate affect my monthly payment?",
+      a: "Even a small change in interest rate can have a big impact. On a $400,000 loan, a 6% rate gives a monthly P&I payment of about $2,398, while a 7% rate increases it to $2,661 — that's $263 more per month and nearly $95,000 more in interest over 30 years. Use our interactive calculator to see how different rates affect your specific scenario.",
+    },
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-      <h1 className="text-5xl font-bold tracking-tight text-foreground mb-6">MortgagePro - Free Mortgage Calculator</h1>
-      <p className="text-xl text-muted-foreground max-w-2xl mb-10">
-        Professional-grade calculators and deep insights to help you navigate the US real estate market, whether you're a first-time buyer or pursuing FIRE.
-      </p>
-      <Link 
-        to="/calculator" 
-        className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
-      >
-        <CalculatorIcon className="w-5 h-5 mr-2" />
-        Start Calculating
-      </Link>
+    <div className="space-y-16 pb-16">
+
+      {/* ========== HERO ========== */}
+      <section className="flex flex-col items-center text-center pt-8 md:pt-16">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
+          Free Mortgage Calculator & Home Financing Guide
+        </h1>
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 leading-relaxed">
+          Professional-grade calculators, deep educational content, and transparent data — built for first-time buyers, 
+          refinancers, and FIRE enthusiasts navigating the US real estate market.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Link
+            to="/calculator"
+            className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors text-lg"
+          >
+            <CalculatorIcon className="w-5 h-5 mr-2" />
+            Open Mortgage Calculator
+          </Link>
+          <Link
+            to="/blog"
+            className="inline-flex items-center justify-center bg-secondary text-secondary-foreground px-8 py-3 rounded-md font-medium hover:bg-secondary/80 transition-colors text-lg border border-border"
+          >
+            <BookOpen className="w-5 h-5 mr-2" />
+            Read Guides & Articles
+          </Link>
+        </div>
+      </section>
+
+      {/* ========== WHY US ========== */}
+      <section className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold tracking-tight text-foreground mb-8 text-center">Why Use MortgagePro?</h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="text-3xl mb-3">🎯</div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">Interactive Real-Time Calculators</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Unlike static calculators that give you a single number, our tools respond instantly as you adjust sliders. 
+              Drag the home price, down payment, or interest rate to see your monthly payment change in real time — 
+              with visual charts that show exactly where every dollar goes.
+            </p>
+          </div>
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="text-3xl mb-3">📊</div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">Full Transparency, No Upsells</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              We don't ask for your email, phone number, or any personal data. All calculations happen locally in your 
+              browser. No ads disguised as "lender recommendations." No sales calls. Just the math — clear, accurate, 
+              and honest.
+            </p>
+          </div>
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="text-3xl mb-3">📍</div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">State-Specific Accuracy</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Property taxes and insurance costs vary wildly across the US. Our calculators include real state-level data 
+              — from California's 0.76% effective tax rate to New Jersey's 2.4% — so your estimates are grounded in 
+              the reality of your local market.
+            </p>
+          </div>
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="text-3xl mb-3">🧠</div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">Deep Educational Content</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Every article we publish is researched and cross-verified against authoritative sources 
+              (CFPB, Investopedia, IRS guidelines) to ensure accuracy. We don't just give you a number — 
+              we help you understand the <em>why</em> behind it, so you can make informed decisions with confidence.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ========== POPULAR CALCULATORS ========== */}
+      <section className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2 text-center">Popular Calculators</h2>
+        <p className="text-muted-foreground text-center mb-8">
+          Choose the tool that matches your situation — or use them all to build a complete picture.
+        </p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {calculatorTools.map((tool, i) => (
+            <Link
+              key={i}
+              to={tool.link}
+              className="group bg-card border border-border rounded-xl p-5 hover:shadow-md hover:border-primary/30 transition-all duration-200"
+            >
+              <div className="text-2xl mb-3">{tool.icon}</div>
+              <h3 className="text-base font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                {tool.title}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {tool.desc}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ========== LATEST ARTICLES ========== */}
+      <section className="max-w-4xl mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight text-foreground">Latest Articles</h2>
+            <p className="text-muted-foreground">In-depth guides and strategies published by our editorial process.</p>
+          </div>
+          <Link to="/blog" className="text-sm text-primary hover:underline font-medium whitespace-nowrap">
+            View all articles →
+          </Link>
+        </div>
+        <div className="space-y-3">
+          {blogPosts.map((post, i) => (
+            <Link
+              key={i}
+              to={post.path}
+              className="group flex items-center justify-between bg-card border border-border rounded-lg px-5 py-4 hover:shadow-sm hover:border-primary/30 transition-all duration-200"
+            >
+              <span className="text-foreground group-hover:text-primary transition-colors font-medium">
+                {post.title}
+              </span>
+              <span className="text-sm text-muted-foreground whitespace-nowrap ml-4">{post.date}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ========== FAQ ========== */}
+      <section className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2 text-center">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-muted-foreground text-center mb-8">
+          Answers to the most common questions about mortgages, payments, and our tools.
+        </p>
+        <div className="space-y-3">
+          {faqs.map((faq, i) => (
+            <details key={i} className="group bg-card border border-border rounded-lg overflow-hidden">
+              <summary className="flex items-center justify-between px-5 py-4 cursor-pointer text-foreground font-medium hover:bg-muted/50 transition-colors list-none">
+                <span className="pr-4">{faq.q}</span>
+                <svg
+                  className="w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform duration-200 group-open:rotate-180"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed border-t border-border pt-3">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
     </div>
   );
 }
+
 
 function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto py-12 px-4">
       <h1 className="text-4xl font-bold tracking-tight mb-6">About MortgagePro</h1>
       <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
-        <p className="text-lg leading-relaxed">
-          MortgagePro is your independent guide to smarter home financing. Founded by <strong>Chong Song</strong>, a passionate software developer and personal finance enthusiast, this platform was born out of a simple frustration: most mortgage calculators are confusing, opaque, or loaded with hidden sales pitches.
-        </p>
-        <h2 className="text-2xl font-semibold text-foreground mt-8">Our Mission</h2>
-        <p>
-          We believe that understanding the math behind your mortgage shouldn't require a finance degree — or a call to a salesperson. Our goal is to build the most intuitive and transparent mortgage tools on the web, empowering you to run your own numbers and gain the confidence to make one of life's biggest financial decisions.
-        </p>
-        <h2 className="text-2xl font-semibold text-foreground mt-8">Meet the Founder</h2>
-        <p>
-          Hi, I'm <strong>Chong Song</strong>. My background is in software engineering, but my passion lies in dissecting the financial structures that shape our lives. I built MortgagePro after spending weeks analyzing amortization tables for my own home purchase and realizing how much hidden information exists in a standard loan agreement.
-        </p>
-        <p>
-          I'm dedicated to maintaining this platform as an independent, ad-supported resource, ensuring all tools remain free for everyone.
-        </p>
-        <h2 className="text-2xl font-semibold text-foreground mt-8">Our Editorial Process</h2>
-        <p>
-          Accuracy matters, especially when it comes to your money. Our content is built on a foundation of trusted, authoritative sources including Investopedia, the Consumer Financial Protection Bureau (CFPB), and other publicly available financial data. Every article goes through a rigorous process of research, writing, and cross-verification by our editorial team to ensure the information you receive is reliable, clear, and up to date.
-        </p>
+          <p className="text-lg leading-relaxed">
+            MortgagePro is your independent guide to smarter home financing. Founded by <strong>Chong Song</strong>, a passionate software developer and personal finance enthusiast, this platform was born out of a simple frustration: most mortgage calculators are confusing, opaque, or loaded with hidden sales pitches.
+          </p>
+          <h2 className="text-2xl font-semibold text-foreground mt-8">Our Mission</h2>
+          <p>
+            We believe that understanding the math behind your mortgage shouldn't require a finance degree — or a call to a salesperson. Our goal is to build the most intuitive and transparent mortgage tools on the web, empowering you to run your own numbers and gain the confidence to make one of life's biggest financial decisions.
+          </p>
+          <h2 className="text-2xl font-semibold text-foreground mt-8">Meet the Founder</h2>
+          <p>
+            Hi, I'm <strong>Chong Song</strong>. My background is in software engineering, but my passion lies in dissecting the financial structures that shape our lives. I built MortgagePro after spending weeks analyzing amortization tables for my own home purchase and realizing how much hidden information exists in a standard loan agreement.
+          </p>
+          <p>
+            I'm dedicated to maintaining this platform as an independent, ad-supported resource, ensuring all tools remain free for everyone.
+          </p>
+          <h2 className="text-2xl font-semibold text-foreground mt-8">Our Editorial Process</h2>
+          <p>
+            Accuracy matters, especially when it comes to your money. Every article is researched, written, and reviewed through the MortgagePro editorial process — grounded in publicly available financial data and authoritative sources including Investopedia, the Consumer Financial Protection Bureau (CFPB), and official IRS guidelines. Each piece undergoes rigorous cross-verification before publication to ensure the information you receive is reliable, clear, and up to date.
+          </p>
         <h2 className="text-2xl font-semibold text-foreground mt-8">What We Offer</h2>
         <p className="text-muted-foreground">
           All of our tools are free to use and run directly in your browser — no data is ever stored or shared.
