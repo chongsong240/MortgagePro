@@ -174,6 +174,16 @@ function HomePage() {
       path: "/blog/biweekly-payments",
       date: "May 20, 2026",
     },
+    {
+      title: "How Much Will My Monthly Mortgage Payment Be? (PITI Explained)",
+      path: "/blog/monthly-payment-breakdown",
+      date: "June 5, 2026",
+    },
+    {
+      title: "How Much Income Do I Need for a $500,000 House?",
+      path: "/blog/income-needed",
+      date: "June 5, 2026",
+    },
   ];
 
   const faqs = [

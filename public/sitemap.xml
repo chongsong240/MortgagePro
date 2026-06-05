@@ -82,6 +82,18 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <url>
+    <loc>https://www.mortgagepro.io/#/blog/monthly-payment-breakdown</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.mortgagepro.io/#/blog/income-needed</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
   <!-- ============================================ -->
   <!-- Programmatic SEO Pages (Static HTML)          -->
   <!-- ============================================ -->
