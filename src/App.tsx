@@ -7,6 +7,7 @@ import BiWeeklyPayments from '@/src/components/blog/BiWeeklyPayments';
 import WhatIsPmi from '@/src/components/blog/WhatIsPmi';
 import ThirtyVsFifteenYear from '@/src/components/blog/ThirtyVsFifteenYear';
 import HowMuchHouseCanIAfford from '@/src/components/blog/HowMuchHouseCanIAfford';
+import MonthlyPaymentBreakdown from '@/src/components/blog/MonthlyPaymentBreakdown';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -594,6 +595,14 @@ function BlogStub() {
       readTime: "12 min read",
       description: "Dave called me stressed out about whether he could afford a home. Here's the exact math lenders use and how to find your number."
     },
+    {
+      title: "How Much Will My Monthly Mortgage Payment Be? (PITI Explained)",
+      path: "/blog/monthly-payment-breakdown",
+      category: "Guides",
+      date: "June 5, 2026",
+      readTime: "9 min read",
+      description: "Most first-time buyers only look at the loan amount and rate. Here's why your actual payment can be hundreds more — and how to calculate the real number before you shop."
+    },
   ];
 
   const getCategoryColor = (category: string) => {
@@ -679,6 +688,7 @@ export default function App() {
             <Route path="/blog/what-is-pmi" element={<WhatIsPmi />} />
             <Route path="/blog/30-vs-15-year" element={<ThirtyVsFifteenYear />} />
             <Route path="/blog/how-much-house-can-i-afford" element={<HowMuchHouseCanIAfford />} />
+            <Route path="/blog/monthly-payment-breakdown" element={<MonthlyPaymentBreakdown />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
