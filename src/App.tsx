@@ -8,6 +8,7 @@ import WhatIsPmi from '@/src/components/blog/WhatIsPmi';
 import ThirtyVsFifteenYear from '@/src/components/blog/ThirtyVsFifteenYear';
 import HowMuchHouseCanIAfford from '@/src/components/blog/HowMuchHouseCanIAfford';
 import MonthlyPaymentBreakdown from '@/src/components/blog/MonthlyPaymentBreakdown';
+import IncomeNeeded from '@/src/components/blog/IncomeNeeded';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -603,6 +604,14 @@ function BlogStub() {
       readTime: "9 min read",
       description: "Most first-time buyers only look at the loan amount and rate. Here's why your actual payment can be hundreds more — and how to calculate the real number before you shop."
     },
+    {
+      title: "How Much Income Do I Need for a $500,000 House?",
+      path: "/blog/income-needed",
+      category: "Education",
+      date: "June 5, 2026",
+      readTime: "8 min read",
+      description: "The short answer is around $135,000 a year. The longer answer depends on your down payment, interest rate, other debts, and the expenses most people forget."
+    },
   ];
 
   const getCategoryColor = (category: string) => {
@@ -689,6 +698,7 @@ export default function App() {
             <Route path="/blog/30-vs-15-year" element={<ThirtyVsFifteenYear />} />
             <Route path="/blog/how-much-house-can-i-afford" element={<HowMuchHouseCanIAfford />} />
             <Route path="/blog/monthly-payment-breakdown" element={<MonthlyPaymentBreakdown />} />
+            <Route path="/blog/income-needed" element={<IncomeNeeded />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
