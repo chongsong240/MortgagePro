@@ -9,6 +9,7 @@ import ThirtyVsFifteenYear from '@/src/components/blog/ThirtyVsFifteenYear';
 import HowMuchHouseCanIAfford from '@/src/components/blog/HowMuchHouseCanIAfford';
 import MonthlyPaymentBreakdown from '@/src/components/blog/MonthlyPaymentBreakdown';
 import IncomeNeeded from '@/src/components/blog/IncomeNeeded';
+import WhyMostlyInterest from '@/src/components/blog/WhyMostlyInterest';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -183,6 +184,11 @@ function HomePage() {
       title: "How Much Income Do I Need for a $500,000 House?",
       path: "/blog/income-needed",
       date: "June 5, 2026",
+    },
+    {
+      title: "Why Do Mortgage Payments Go Mostly to Interest?",
+      path: "/blog/why-mostly-interest",
+      date: "June 9, 2026",
     },
   ];
 
@@ -709,6 +715,7 @@ export default function App() {
             <Route path="/blog/how-much-house-can-i-afford" element={<HowMuchHouseCanIAfford />} />
             <Route path="/blog/monthly-payment-breakdown" element={<MonthlyPaymentBreakdown />} />
             <Route path="/blog/income-needed" element={<IncomeNeeded />} />
+            <Route path="/blog/why-mostly-interest" element={<WhyMostlyInterest />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />

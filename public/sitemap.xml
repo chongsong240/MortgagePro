@@ -94,6 +94,12 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <url>
+    <loc>https://www.mortgagepro.io/#/blog/why-mostly-interest</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
   <!-- ============================================ -->
   <!-- Programmatic SEO Pages (Static HTML)          -->
   <!-- ============================================ -->
