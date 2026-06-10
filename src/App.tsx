@@ -10,6 +10,7 @@ import HowMuchHouseCanIAfford from '@/src/components/blog/HowMuchHouseCanIAfford
 import MonthlyPaymentBreakdown from '@/src/components/blog/MonthlyPaymentBreakdown';
 import IncomeNeeded from '@/src/components/blog/IncomeNeeded';
 import WhyMostlyInterest from '@/src/components/blog/WhyMostlyInterest';
+import PayOffEarly from '@/src/components/blog/PayOffEarly';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -155,15 +156,37 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    // Pinned: PITI article always first
     {
-      title: "How Much House Can I Afford? A Step-by-Step Guide",
-      path: "/blog/how-much-house-can-i-afford",
-      date: "May 23, 2026",
+      title: "How Much Will My Monthly Mortgage Payment Be? (PITI Explained)",
+      path: "/blog/monthly-payment-breakdown",
+      date: "June 5, 2026",
+    },
+    // Sorted by date descending
+    {
+      title: "Should I Pay Off My Mortgage Early?",
+      path: "/blog/pay-off-early",
+      date: "June 10, 2026",
+    },
+    {
+      title: "Why Do Mortgage Payments Go Mostly to Interest?",
+      path: "/blog/why-mostly-interest",
+      date: "June 9, 2026",
+    },
+    {
+      title: "How Much Income Do I Need for a $500,000 House?",
+      path: "/blog/income-needed",
+      date: "June 5, 2026",
     },
     {
       title: "30-Year vs 15-Year Mortgage: The Decision That Shapes Your Future",
       path: "/blog/30-vs-15-year",
       date: "May 24, 2026",
+    },
+    {
+      title: "How Much House Can I Afford? A Step-by-Step Guide",
+      path: "/blog/how-much-house-can-i-afford",
+      date: "May 23, 2026",
     },
     {
       title: "PMI in Mortgages: What It Is and How to Get Rid of It",
@@ -174,21 +197,6 @@ function HomePage() {
       title: "Bi-Weekly Mortgage Payments: Are They Worth It?",
       path: "/blog/biweekly-payments",
       date: "May 20, 2026",
-    },
-    {
-      title: "How Much Will My Monthly Mortgage Payment Be? (PITI Explained)",
-      path: "/blog/monthly-payment-breakdown",
-      date: "June 5, 2026",
-    },
-    {
-      title: "How Much Income Do I Need for a $500,000 House?",
-      path: "/blog/income-needed",
-      date: "June 5, 2026",
-    },
-    {
-      title: "Why Do Mortgage Payments Go Mostly to Interest?",
-      path: "/blog/why-mostly-interest",
-      date: "June 9, 2026",
     },
   ];
 
@@ -628,6 +636,22 @@ function BlogStub() {
       readTime: "8 min read",
       description: "The short answer is around $135,000 a year. The longer answer depends on your down payment, interest rate, other debts, and the expenses most people forget."
     },
+    {
+      title: "Why Do Mortgage Payments Go Mostly to Interest?",
+      path: "/blog/why-mostly-interest",
+      category: "Education",
+      date: "June 9, 2026",
+      readTime: "10 min read",
+      description: "My friend Rob paid over $15,000 in his first six months. His loan balance dropped by less than $3,000. Here's how the math really works."
+    },
+    {
+      title: "Should I Pay Off My Mortgage Early?",
+      path: "/blog/pay-off-early",
+      category: "Strategies",
+      date: "June 10, 2026",
+      readTime: "9 min read",
+      description: "My aunt burned her mortgage statement in a fire pit. My financial advisor won't pay off his 2.75% rate. Two smart people, two different answers. Here's how to figure out yours."
+    },
   ];
 
   const getCategoryColor = (category: string) => {
@@ -716,6 +740,7 @@ export default function App() {
             <Route path="/blog/monthly-payment-breakdown" element={<MonthlyPaymentBreakdown />} />
             <Route path="/blog/income-needed" element={<IncomeNeeded />} />
             <Route path="/blog/why-mostly-interest" element={<WhyMostlyInterest />} />
+            <Route path="/blog/pay-off-early" element={<PayOffEarly />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />

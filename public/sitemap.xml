@@ -100,6 +100,12 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <url>
+    <loc>https://www.mortgagepro.io/#/blog/pay-off-early</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
   <!-- ============================================ -->
   <!-- Programmatic SEO Pages (Static HTML)          -->
   <!-- ============================================ -->
