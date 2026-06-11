@@ -939,6 +939,43 @@ function main() {
     console.log(`   ✅  ${state.name} → /mortgage-payment/${slug}/   (${fmtCurrency(data.totalMonthly)}/mo)`);
   }
 
+  // --- Phase 0: SPA route pages (for GitHub Pages SEO) ---
+  // GitHub Pages is a static server. When Googlebot (or a user) visits
+  // /calculator, it looks for dist/calculator/index.html. If not found,
+  // it returns 404 which triggers a redirect back to /, preventing Google
+  // from indexing these pages. We copy the root index.html to each route
+  // so the server returns HTTP 200 and React Router handles the rendering.
+  console.log('\n📄 SPA route pages (GitHub Pages SEO fix)...');
+  const rootIndexHtml = path.join(DIST_DIR, 'index.html');
+  if (!fs.existsSync(rootIndexHtml)) {
+    console.error('   ❌ dist/index.html not found. Run `vite build` first.');
+    process.exit(1);
+  }
+  const spaRoutes = [
+    'calculator',
+    'blog',
+    'blog/how-to-use-calculator',
+    'blog/amortization-schedule',
+    'blog/biweekly-payments',
+    'blog/what-is-pmi',
+    'blog/30-vs-15-year',
+    'blog/how-much-house-can-i-afford',
+    'blog/monthly-payment-breakdown',
+    'blog/income-needed',
+    'blog/why-mostly-interest',
+    'blog/pay-off-early',
+    'about',
+    'privacy',
+    'disclaimer',
+  ];
+  for (const route of spaRoutes) {
+    const outDir = path.join(DIST_DIR, route);
+    fs.mkdirSync(outDir, { recursive: true });
+    fs.copyFileSync(rootIndexHtml, path.join(outDir, 'index.html'));
+    console.log(`   ✅  /${route}/index.html`);
+  }
+  console.log(`   ✅  ${spaRoutes.length} SPA route pages generated.`);
+
   // --- Phase 3: Sitemap ---
   console.log(`\n🗺️  Generating sitemap.xml...`);
   const sitemap = generateSitemap();

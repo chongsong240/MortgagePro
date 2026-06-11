@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MortgagePro — Redirecting...</title>
   <script>
-    // GitHub Pages SPA fallback: redirect all 404s to root with the path as hash
-    // React Router (BrowserRouter) will then render the correct page
+    // GitHub Pages SPA fallback: save current path and redirect to root
+    // The index.html will read this and restore the URL via history.replaceState
     sessionStorage.redirect = location.pathname + location.search + location.hash;
-    location.href = '/';
+    location.replace('/');
   </script>
 </head>
 <body>
