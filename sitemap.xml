@@ -6,27 +6,27 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.mortgagepro.io//calculator</loc>
+    <loc>https://www.mortgagepro.io/calculator</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.mortgagepro.io//blog</loc>
+    <loc>https://www.mortgagepro.io/blog</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.mortgagepro.io//about</loc>
+    <loc>https://www.mortgagepro.io/about</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.mortgagepro.io//privacy</loc>
+    <loc>https://www.mortgagepro.io/privacy</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
-    <loc>https://www.mortgagepro.io//disclaimer</loc>
+    <loc>https://www.mortgagepro.io/disclaimer</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>
