@@ -11,7 +11,7 @@ import { Building2, DollarSign, Percent, Calendar, ChevronDown, ChevronUp } from
 import { cn } from '@/lib/utils';
 
 // Cast the raw imported JSON so TypeScript knows its shape
-const stateData = stateDataRaw as Record<string, { name: string, property_tax_rate: number, closing_cost_pct: number, avg_insurance: number }>;
+const stateData = stateDataRaw as Record<string, { name: string, median_home_price: number, property_tax_rate: number, closing_cost_pct: number, avg_annual_insurance: number }>;
 
 const COLORS = ['#1E3A8A', '#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE'];
 
@@ -91,7 +91,7 @@ export default function Calculator() {
       setInputs(prev => ({
         ...prev,
         propertyTaxRate: s.property_tax_rate * 100, // JSON has 0.012 -> 1.2%
-        homeInsurance: s.avg_insurance
+        homeInsurance: s.avg_annual_insurance
       }));
     }
   };

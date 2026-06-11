@@ -4,9 +4,11 @@ import StandardCalculator from "./StandardCalculator";
 import BiWeeklyCalculator from "./BiWeeklyCalculator";
 import RentVsBuyCalculator from "./RentVsBuyCalculator";
 import FIRECalculator from "./FIRECalculator";
+import AffordabilityCalculator from "./AffordabilityCalculator";
 
 const TAB_MAP: Record<string, string> = {
   standard: "standard",
+  affordability: "affordability",
   biweekly: "biweekly",
   rentvsbuy: "rentvsbuy",
   fire: "fire",
@@ -25,8 +27,9 @@ export default function CalculatorIndex() {
       </div>
       
       <Tabs defaultValue={defaultTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 lg:w-[600px] mb-8">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mb-8">
           <TabsTrigger value="standard">Standard</TabsTrigger>
+          <TabsTrigger value="affordability">Affordability</TabsTrigger>
           <TabsTrigger value="biweekly">Bi-Weekly</TabsTrigger>
           <TabsTrigger value="rentvsbuy">Rent vs Buy</TabsTrigger>
           <TabsTrigger value="fire">FIRE Impact</TabsTrigger>
@@ -34,6 +37,10 @@ export default function CalculatorIndex() {
         
         <TabsContent value="standard" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
           <StandardCalculator />
+        </TabsContent>
+
+        <TabsContent value="affordability" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+          <AffordabilityCalculator />
         </TabsContent>
         
         <TabsContent value="biweekly" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
