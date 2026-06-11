@@ -357,8 +357,8 @@ function generateStateHtml(
       <a href="${SITE_URL}/" class="logo">Mortgage<span>Pro</span></a>
       <nav class="nav-links">
         <a href="${SITE_URL}/">Home</a>
-        <a href="${SITE_URL}/#/calculator">Calculator</a>
-        <a href="${SITE_URL}/#/blog">Blog</a>
+        <a href="${SITE_URL}/calculator">Calculator</a>
+        <a href="${SITE_URL}/blog">Blog</a>
       </nav>
     </div>
   </header>
@@ -460,13 +460,13 @@ ${amortRows}
     <div class="cta-box">
       <h3>🧮 Try the Interactive Calculator</h3>
       <p>Adjust the down payment, interest rate, or loan term — see how your payment changes in real time.</p>
-      <a href="${SITE_URL}/#/calculator" class="cta-btn">Open Full Calculator →</a>
+      <a href="${SITE_URL}/calculator" class="cta-btn">Open Full Calculator →</a>
     </div>
 
     <div class="card" style="text-align: center;">
       <h2>Compare Mortgage Costs by State</h2>
       <div class="neighbor-links">
-        <a href="${SITE_URL}/#/calculator">Use the Interactive Calculator →</a>
+        <a href="${SITE_URL}/calculator">Use the Interactive Calculator →</a>
       </div>
       <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 8px;">
         Explore state-specific rates, down payments, and loan terms.
@@ -474,7 +474,7 @@ ${amortRows}
     </div>
 
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
-      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Sources: Zillow Q1 2025 (median home prices), ATTOM 2025 (property tax rates), Quadrant Information Services Feb 2025 (insurance premiums). Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/#/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
+      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Sources: Zillow Q1 2025 (median home prices), ATTOM 2025 (property tax rates), Quadrant Information Services Feb 2025 (insurance premiums). Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
     </div>
 
   </main>
@@ -839,14 +839,14 @@ function generateSitemap(): string {
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
   ];
 
-  // Static SPA pages
+  // Static SPA pages — clean URLs (no #/) now that we use BrowserRouter
   const staticPages: [string, string, string][] = [
     ['', '1.0', 'weekly'],
-    ['#/calculator', '0.9', 'weekly'],
-    ['#/blog', '0.8', 'weekly'],
-    ['#/about', '0.5', 'monthly'],
-    ['#/privacy', '0.3', 'yearly'],
-    ['#/disclaimer', '0.3', 'yearly'],
+    ['/calculator', '0.9', 'weekly'],
+    ['/blog', '0.8', 'weekly'],
+    ['/about', '0.5', 'monthly'],
+    ['/privacy', '0.3', 'yearly'],
+    ['/disclaimer', '0.3', 'yearly'],
   ];
   for (const [path, priority, freq] of staticPages) {
     lines.push(`  <url>`);
@@ -856,7 +856,7 @@ function generateSitemap(): string {
     lines.push(`  </url>`);
   }
 
-  // Blog articles
+  // Blog articles — clean URLs (BrowserRouter, no #/)
   const blogSlugs = [
     'how-to-use-calculator', 'amortization-schedule', 'biweekly-payments',
     'what-is-pmi', '30-vs-15-year', 'how-much-house-can-i-afford',
@@ -864,7 +864,7 @@ function generateSitemap(): string {
   ];
   for (const slug of blogSlugs) {
     lines.push(`  <url>`);
-    lines.push(`    <loc>${SITE_URL}/#/blog/${slug}</loc>`);
+    lines.push(`    <loc>${SITE_URL}/blog/${slug}</loc>`);
     lines.push(`    <priority>0.8</priority>`);
     lines.push(`    <changefreq>monthly</changefreq>`);
     lines.push(`  </url>`);

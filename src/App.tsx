@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import CalculatorIndex from '@/src/components/calculators/CalculatorIndex';
 import HowToUseCalculator from '@/src/components/blog/HowToUseCalculator';
