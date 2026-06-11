@@ -193,11 +193,11 @@ const fmtSlug = (name: string) => name.toLowerCase().replace(/\s+/g, '-');
 // ============================================================
 
 function generateStateMetaTitle(stateName: string): string {
-  return `Mortgage Payment in ${stateName} | Monthly Cost & Calculator (2025)`;
+  return `${stateName} Mortgage Calculator (2025) | Monthly Payment & Home Affordability`;
 }
 
 function generateStateMetaDescription(stateName: string, medianPrice: number, monthly: number): string {
-  return `What's the monthly mortgage payment in ${stateName}? The median home price is ${fmtCurrency(medianPrice)}. With 20% down at 6.5%, the estimated monthly payment is ${fmtCurrency(monthly)}. State-specific tax & insurance included.`;
+  return `Calculate your monthly mortgage payment in ${stateName} for 2025. See the breakdown of principal, interest, property taxes (state-specific rate), and insurance. Based on a median home price of ${fmtCurrency(medianPrice)} with 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo.`;
 }
 
 function generateStateIntro(stateName: string, medianPrice: number, taxRateStr: string, insurance: number): string {
@@ -483,9 +483,9 @@ ${amortRows}
     <div class="container">
       <p>${SITE_NAME} — Free mortgage calculators and educational resources.</p>
       <p style="margin-top: 4px;">
-        <a href="${SITE_URL}/#/privacy">Privacy</a> &middot;
-        <a href="${SITE_URL}/#/disclaimer">Disclaimer</a> &middot;
-        <a href="${SITE_URL}/#/about">About</a>
+        <a href="${SITE_URL}/privacy">Privacy</a> &middot;
+        <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
+        <a href="${SITE_URL}/about">About</a>
       </p>
     </div>
   </footer>
@@ -499,11 +499,11 @@ ${amortRows}
 // ============================================================
 
 function generateMetaTitle(amount: number): string {
-  return `Mortgage Payment on a $${fmtNumber(amount)} House | Monthly Cost (2025)`;
+  return `$${fmtNumber(amount)} Mortgage Calculator (2025) | Monthly Payment & Home Affordability`;
 }
 
 function generateMetaDescription(amount: number, monthly: number): string {
-  return `What's the monthly mortgage payment on a $${fmtNumber(amount)} house? With 20% down at 6.5% interest, the estimated payment is ${fmtCurrency(monthly)}/mo. Full PITI breakdown + amortization.`;
+  return `Calculate your monthly mortgage payment on a $${fmtNumber(amount)} house for 2025. With 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo including principal, interest, taxes & insurance. Full PITI breakdown and amortization schedule.`;
 }
 
 function generateIntroParagraph(amount: number): string {
@@ -674,8 +674,8 @@ function generateHtml(amount: number, data: ReturnType<typeof calculateLoan>): s
       <a href="${SITE_URL}/" class="logo">Mortgage<span>Pro</span></a>
       <nav class="nav-links">
         <a href="${SITE_URL}/">Home</a>
-        <a href="${SITE_URL}/#/calculator">Calculator</a>
-        <a href="${SITE_URL}/#/blog">Blog</a>
+      <a href="${SITE_URL}/calculator">Calculator</a>
+        <a href="${SITE_URL}/blog">Blog</a>
       </nav>
     </div>
   </header>
@@ -778,7 +778,7 @@ ${amortRows}
     <div class="cta-box">
       <h3>🧮 Try the Interactive Calculator</h3>
       <p>Adjust the down payment, interest rate, or loan term — see how your payment changes in real time.</p>
-      <a href="${SITE_URL}/#/calculator" class="cta-btn">Open Full Calculator →</a>
+        <a href="${SITE_URL}/calculator" class="cta-btn">Open Full Calculator →</a>
     </div>
 
     <div class="card" style="text-align: center;">
@@ -797,7 +797,7 @@ ${amortRows}
     </div>
 
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
-      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/#/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
+      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
     </div>
 
   </main>
@@ -806,9 +806,9 @@ ${amortRows}
     <div class="container">
       <p>${SITE_NAME} — Free mortgage calculators and educational resources.</p>
       <p style="margin-top: 4px;">
-        <a href="${SITE_URL}/#/privacy">Privacy</a> &middot;
-        <a href="${SITE_URL}/#/disclaimer">Disclaimer</a> &middot;
-        <a href="${SITE_URL}/#/about">About</a>
+        <a href="${SITE_URL}/privacy">Privacy</a> &middot;
+        <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
+        <a href="${SITE_URL}/about">About</a>
       </p>
     </div>
   </footer>
@@ -841,7 +841,7 @@ function generateSitemap(): string {
 
   // Static SPA pages — clean URLs (no #/) now that we use BrowserRouter
   const staticPages: [string, string, string][] = [
-    ['', '1.0', 'weekly'],
+    ['/', '1.0', 'weekly'],
     ['/calculator', '0.9', 'weekly'],
     ['/blog', '0.8', 'weekly'],
     ['/about', '0.5', 'monthly'],
@@ -850,7 +850,7 @@ function generateSitemap(): string {
   ];
   for (const [path, priority, freq] of staticPages) {
     lines.push(`  <url>`);
-    lines.push(`    <loc>${SITE_URL}/${path}</loc>`);
+    lines.push(`    <loc>${SITE_URL}${path}</loc>`);
     lines.push(`    <priority>${priority}</priority>`);
     lines.push(`    <changefreq>${freq}</changefreq>`);
     lines.push(`  </url>`);
