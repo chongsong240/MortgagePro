@@ -12,7 +12,8 @@ import IncomeNeeded from '@/src/components/blog/IncomeNeeded';
 import WhyMostlyInterest from '@/src/components/blog/WhyMostlyInterest';
 import PayOffEarly from '@/src/components/blog/PayOffEarly';
 import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
-import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
+import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
+import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -165,6 +166,19 @@ function HomePage() {
       date: "June 5, 2026",
     },
     // Sorted by date descending
+    {
+      title: "Is Buying a Home Still Worth It in 2026?",
+      path: "/blog/is-buying-worth-it-2026",
+      date: "June 19, 2026",
+    },
+    {
+      title: "Is Buying a Home Still Worth It in 2026?",
+      path: "/blog/is-buying-worth-it-2026",
+      category: "Guides",
+      date: "June 19, 2026",
+      readTime: "12 min read",
+      description: "My neighbors Jen and Mike have been saving since 2021 and still can't pull the trigger. Here's what I told them — and what anyone trying to decide in this market needs to hear."
+    },
     {
       title: "FHA vs Conventional Loan: Which One Actually Costs You Less?",
       path: "/blog/fha-vs-conventional",
@@ -580,20 +594,20 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "Is Buying a Home Still Worth It in 2026?",
+      path: "/blog/is-buying-worth-it-2026",
+      category: "Guides",
+      date: "June 19, 2026",
+      readTime: "12 min read",
+      description: "My neighbors Jen and Mike have been saving since 2021. Stable jobs, a decent down payment, a baby due in September. They're ready to buy by every measure. So why can't they pull the trigger?"
+    },
+    { 
       title: "FHA vs Conventional Loan: Which One Actually Costs You Less?", 
       path: "/blog/fha-vs-conventional",
       category: "Comparisons",
       date: "June 19, 2026",
       readTime: "11 min read",
       description: "My cousin Maria bought her first house with an FHA loan because the bank said it was easier to qualify for. Two years later, she learned why that 'easy' loan could cost her $30K more. Here's what she wishes someone had explained on day one."
-    },
-    {
-      title: "FHA vs Conventional Loan: Which One Actually Costs You Less?",
-      path: "/blog/fha-vs-conventional",
-      category: "Comparisons",
-      date: "June 19, 2026",
-      readTime: "11 min read",
-      description: "FHA loans are easier to qualify for, but my cousin Maria learned the hard way why 'easier' can cost you thirty thousand dollars more. Here's the real breakdown."
     },
     { 
       title: "How to Use Our Mortgage Calculator to Plan Your Monthly Payment", 
@@ -765,7 +779,8 @@ export default function App() {
             <Route path="/blog/why-mostly-interest" element={<WhyMostlyInterest />} />
             <Route path="/blog/pay-off-early" element={<PayOffEarly />} />
             <Route path="/blog/fha-vs-conventional" element={<FhaVsConventional />} />
-            <Route path="/blog/fha-vs-conventional" element={<FhaVsConventional />} />
+            <Route path="/blog/is-buying-worth-it-2026" element={<IsBuyingWorthIt2026 />} />
+            <Route path="/blog/is-buying-worth-it-2026" element={<IsBuyingWorthIt2026 />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />

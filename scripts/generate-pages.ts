@@ -861,7 +861,8 @@ function generateSitemap(): string {
     'how-to-use-calculator', 'amortization-schedule', 'biweekly-payments',
     'what-is-pmi', '30-vs-15-year', 'how-much-house-can-i-afford',
     'monthly-payment-breakdown', 'income-needed', 'why-mostly-interest', 'pay-off-early',
-    'fha-vs-conventional'
+    'fha-vs-conventional',
+    'is-buying-worth-it-2026'
   ];
   for (const slug of blogSlugs) {
     lines.push(`  <url>`);
@@ -966,6 +967,7 @@ function main() {
     'blog/why-mostly-interest',
     'blog/pay-off-early',
     'blog/fha-vs-conventional',
+    'blog/is-buying-worth-it-2026',
     'about',
     'privacy',
     'disclaimer',
