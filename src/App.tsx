@@ -13,7 +13,6 @@ import WhyMostlyInterest from '@/src/components/blog/WhyMostlyInterest';
 import PayOffEarly from '@/src/components/blog/PayOffEarly';
 import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
 import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
-import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -170,14 +169,6 @@ function HomePage() {
       title: "Is Buying a Home Still Worth It in 2026?",
       path: "/blog/is-buying-worth-it-2026",
       date: "June 19, 2026",
-    },
-    {
-      title: "Is Buying a Home Still Worth It in 2026?",
-      path: "/blog/is-buying-worth-it-2026",
-      category: "Guides",
-      date: "June 19, 2026",
-      readTime: "12 min read",
-      description: "My neighbors Jen and Mike have been saving since 2021 and still can't pull the trigger. Here's what I told them — and what anyone trying to decide in this market needs to hear."
     },
     {
       title: "FHA vs Conventional Loan: Which One Actually Costs You Less?",
@@ -779,7 +770,6 @@ export default function App() {
             <Route path="/blog/why-mostly-interest" element={<WhyMostlyInterest />} />
             <Route path="/blog/pay-off-early" element={<PayOffEarly />} />
             <Route path="/blog/fha-vs-conventional" element={<FhaVsConventional />} />
-            <Route path="/blog/is-buying-worth-it-2026" element={<IsBuyingWorthIt2026 />} />
             <Route path="/blog/is-buying-worth-it-2026" element={<IsBuyingWorthIt2026 />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
