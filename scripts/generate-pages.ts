@@ -860,7 +860,8 @@ function generateSitemap(): string {
   const blogSlugs = [
     'how-to-use-calculator', 'amortization-schedule', 'biweekly-payments',
     'what-is-pmi', '30-vs-15-year', 'how-much-house-can-i-afford',
-    'monthly-payment-breakdown', 'income-needed', 'why-mostly-interest', 'pay-off-early'
+    'monthly-payment-breakdown', 'income-needed', 'why-mostly-interest', 'pay-off-early',
+    'fha-vs-conventional'
   ];
   for (const slug of blogSlugs) {
     lines.push(`  <url>`);
@@ -964,6 +965,7 @@ function main() {
     'blog/income-needed',
     'blog/why-mostly-interest',
     'blog/pay-off-early',
+    'blog/fha-vs-conventional',
     'about',
     'privacy',
     'disclaimer',

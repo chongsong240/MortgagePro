@@ -11,6 +11,8 @@ import MonthlyPaymentBreakdown from '@/src/components/blog/MonthlyPaymentBreakdo
 import IncomeNeeded from '@/src/components/blog/IncomeNeeded';
 import WhyMostlyInterest from '@/src/components/blog/WhyMostlyInterest';
 import PayOffEarly from '@/src/components/blog/PayOffEarly';
+import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
+import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -163,6 +165,11 @@ function HomePage() {
       date: "June 5, 2026",
     },
     // Sorted by date descending
+    {
+      title: "FHA vs Conventional Loan: Which One Actually Costs You Less?",
+      path: "/blog/fha-vs-conventional",
+      date: "June 19, 2026",
+    },
     {
       title: "Should I Pay Off My Mortgage Early?",
       path: "/blog/pay-off-early",
@@ -573,6 +580,22 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "FHA vs Conventional Loan: Which One Actually Costs You Less?", 
+      path: "/blog/fha-vs-conventional",
+      category: "Comparisons",
+      date: "June 19, 2026",
+      readTime: "11 min read",
+      description: "My cousin Maria bought her first house with an FHA loan because the bank said it was easier to qualify for. Two years later, she learned why that 'easy' loan could cost her $30K more. Here's what she wishes someone had explained on day one."
+    },
+    {
+      title: "FHA vs Conventional Loan: Which One Actually Costs You Less?",
+      path: "/blog/fha-vs-conventional",
+      category: "Comparisons",
+      date: "June 19, 2026",
+      readTime: "11 min read",
+      description: "FHA loans are easier to qualify for, but my cousin Maria learned the hard way why 'easier' can cost you thirty thousand dollars more. Here's the real breakdown."
+    },
+    { 
       title: "How to Use Our Mortgage Calculator to Plan Your Monthly Payment", 
       path: "/blog/how-to-use-calculator",
       category: "Guides",
@@ -741,6 +764,8 @@ export default function App() {
             <Route path="/blog/income-needed" element={<IncomeNeeded />} />
             <Route path="/blog/why-mostly-interest" element={<WhyMostlyInterest />} />
             <Route path="/blog/pay-off-early" element={<PayOffEarly />} />
+            <Route path="/blog/fha-vs-conventional" element={<FhaVsConventional />} />
+            <Route path="/blog/fha-vs-conventional" element={<FhaVsConventional />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
