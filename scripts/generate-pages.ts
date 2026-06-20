@@ -238,6 +238,7 @@ function generateStateHtml(
   <title>${generateStateMetaTitle(stateName)}</title>
   <meta name="description" content="${generateStateMetaDescription(stateName, medianPrice, data.totalMonthly)}" />
   <link rel="canonical" href="${SITE_URL}/mortgage-payment/${slug}/" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4050078688462520" crossorigin="anonymous"></script>
   
   <!-- Open Graph -->
   <meta property="og:title" content="${generateStateMetaTitle(stateName)}" />
@@ -555,6 +556,7 @@ function generateHtml(amount: number, data: ReturnType<typeof calculateLoan>): s
   <title>${generateMetaTitle(amount)}</title>
   <meta name="description" content="${generateMetaDescription(amount, data.totalMonthly)}" />
   <link rel="canonical" href="${SITE_URL}/mortgage-payment/${amount}/" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4050078688462520" crossorigin="anonymous"></script>
   
   <!-- Open Graph -->
   <meta property="og:title" content="${generateMetaTitle(amount)}" />
