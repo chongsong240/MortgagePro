@@ -13,6 +13,7 @@ import WhyMostlyInterest from '@/src/components/blog/WhyMostlyInterest';
 import PayOffEarly from '@/src/components/blog/PayOffEarly';
 import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
 import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
+import FivePercentDown from '@/src/components/blog/FivePercentDown';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -165,6 +166,11 @@ function HomePage() {
       date: "June 5, 2026",
     },
     // Sorted by date descending
+    {
+      title: "Can I Buy a House With 5% Down?",
+      path: "/blog/can-i-buy-with-5-percent-down",
+      date: "June 25, 2026",
+    },
     {
       title: "Is Buying a Home Still Worth It in 2026?",
       path: "/blog/is-buying-worth-it-2026",
@@ -585,6 +591,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "Can I Buy a House With 5% Down?",
+      path: "/blog/can-i-buy-with-5-percent-down",
+      category: "Education",
+      date: "June 25, 2026",
+      readTime: "11 min read",
+      description: "My brother-in-law Chris had $22,000 saved and was told he needed 20% down. Turned out he could buy with 5%. Here's the real math on low-down-payment mortgages, including PMI, closing costs, and when it makes sense to pull the trigger."
+    },
+    { 
       title: "Is Buying a Home Still Worth It in 2026?",
       path: "/blog/is-buying-worth-it-2026",
       category: "Guides",
@@ -771,6 +785,7 @@ export default function App() {
             <Route path="/blog/pay-off-early" element={<PayOffEarly />} />
             <Route path="/blog/fha-vs-conventional" element={<FhaVsConventional />} />
             <Route path="/blog/is-buying-worth-it-2026" element={<IsBuyingWorthIt2026 />} />
+            <Route path="/blog/can-i-buy-with-5-percent-down" element={<FivePercentDown />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
