@@ -865,7 +865,8 @@ function generateSitemap(): string {
     'monthly-payment-breakdown', 'income-needed', 'why-mostly-interest', 'pay-off-early',
     'fha-vs-conventional',
     'is-buying-worth-it-2026',
-    'can-i-buy-with-5-percent-down'
+    'can-i-buy-with-5-percent-down',
+    'credit-score-needed'
   ];
   for (const slug of blogSlugs) {
     lines.push(`  <url>`);
@@ -972,6 +973,7 @@ function main() {
     'blog/fha-vs-conventional',
     'blog/is-buying-worth-it-2026',
     'blog/can-i-buy-with-5-percent-down',
+    'blog/credit-score-needed',
     'about',
     'privacy',
     'disclaimer',

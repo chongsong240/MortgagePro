@@ -14,6 +14,8 @@ import PayOffEarly from '@/src/components/blog/PayOffEarly';
 import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
 import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
 import FivePercentDown from '@/src/components/blog/FivePercentDown';
+import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
+import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
 
 
@@ -166,6 +168,11 @@ function HomePage() {
       date: "June 5, 2026",
     },
     // Sorted by date descending
+    {
+      title: "What Credit Score Do I Need to Buy a House?",
+      path: "/blog/credit-score-needed",
+      date: "July 1, 2026",
+    },
     {
       title: "Can I Buy a House With 5% Down?",
       path: "/blog/can-i-buy-with-5-percent-down",
@@ -591,6 +598,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "What Credit Score Do I Need to Buy a House?",
+      path: "/blog/credit-score-needed",
+      category: "Education",
+      date: "July 1, 2026",
+      readTime: "12 min read",
+      description: "A friend of mine spent six months convinced he couldn't buy a house because his credit score was 640. Here's the real truth about minimum credit scores, rate tiers, and how much improving your score is actually worth in monthly savings."
+    },
+    { 
       title: "Can I Buy a House With 5% Down?",
       path: "/blog/can-i-buy-with-5-percent-down",
       category: "Education",
@@ -786,6 +801,8 @@ export default function App() {
             <Route path="/blog/fha-vs-conventional" element={<FhaVsConventional />} />
             <Route path="/blog/is-buying-worth-it-2026" element={<IsBuyingWorthIt2026 />} />
             <Route path="/blog/can-i-buy-with-5-percent-down" element={<FivePercentDown />} />
+            <Route path="/blog/credit-score-needed" element={<CreditScoreNeeded />} />
+            <Route path="/blog/credit-score-needed" element={<CreditScoreNeeded />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
