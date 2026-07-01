@@ -474,6 +474,8 @@ ${amortRows}
       </p>
     </div>
 
+    ${generateRecommendedReadingHtml(getRecommendedArticles(true))}
+
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
       <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Sources: Zillow Q1 2025 (median home prices), ATTOM 2025 (property tax rates), Quadrant Information Services Feb 2025 (insurance premiums). Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
     </div>
@@ -798,6 +800,8 @@ ${amortRows}
       </p>
     </div>
 
+    ${generateRecommendedReadingHtml(getRecommendedArticles(false))}
+
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
       <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
     </div>
@@ -820,7 +824,72 @@ ${amortRows}
 }
 
 // ============================================================
-// 6. Helper: get neighbor amounts
+// 6a. Recommended blog articles (internal linking for SEO)
+// ============================================================
+
+interface BlogRef {
+  slug: string;
+  title: string;
+  description: string;
+}
+
+const ALL_ARTICLES: BlogRef[] = [
+  { slug: 'how-to-use-calculator', title: 'How to Use Our Mortgage Calculator', description: 'Step-by-step guide to understanding your monthly payment' },
+  { slug: 'amortization-schedule', title: 'What is an Amortization Schedule?', description: 'How principal and interest change over your loan term' },
+  { slug: 'biweekly-payments', title: 'Bi-Weekly Payments: Are They Worth It?', description: 'Save thousands in interest with accelerated payments' },
+  { slug: 'what-is-pmi', title: 'PMI in Mortgages: What It Is & How to Avoid It', description: 'Private mortgage insurance explained' },
+  { slug: '30-vs-15-year', title: '30-Year vs 15-Year Mortgage', description: 'Which loan term is right for you?' },
+  { slug: 'how-much-house-can-i-afford', title: 'How Much House Can I Afford?', description: 'The 28/36 rule and other guidelines' },
+  { slug: 'monthly-payment-breakdown', title: 'Monthly Payment Breakdown (PITI)', description: 'Principal, interest, taxes, and insurance explained' },
+  { slug: 'income-needed', title: 'How Much Income Do You Need to Buy a House?', description: 'Income requirements by home price' },
+  { slug: 'why-mostly-interest', title: 'Why Most of Your Early Payments Go to Interest', description: 'Front-loaded interest explained simply' },
+  { slug: 'pay-off-early', title: 'How to Pay Off Your Mortgage Early', description: 'Strategies to save interest and own your home sooner' },
+  { slug: 'fha-vs-conventional', title: 'FHA vs Conventional Loans', description: 'Which mortgage type is better for you?' },
+  { slug: 'is-buying-worth-it-2026', title: 'Is Buying a House Worth It in 2026?', description: 'Rent vs buy analysis for today\'s market' },
+  { slug: 'can-i-buy-with-5-percent-down', title: 'Can I Buy a House with 5% Down?', description: 'Low down payment options explained' },
+  { slug: 'credit-score-needed', title: 'What Credit Score Do You Need for a Mortgage?', description: 'Minimum scores by loan type' },
+];
+
+/** Returns a subset of articles relevant to the page context */
+function getRecommendedArticles(isStatePage: boolean): BlogRef[] {
+  // Pick 4-5 articles that are most relevant
+  if (isStatePage) {
+    // State pages: focus on local costs, PITI breakdown, and affordability
+    return [
+      ALL_ARTICLES[6], // monthly-payment-breakdown (PITI)
+      ALL_ARTICLES[5], // how-much-house-can-i-afford
+      ALL_ARTICLES[7], // income-needed
+      ALL_ARTICLES[3], // what-is-pmi
+      ALL_ARTICLES[4], // 30-vs-15-year
+    ];
+  }
+  // Amount pages: focus on affordability, amortization, and calculator usage
+  return [
+    ALL_ARTICLES[0], // how-to-use-calculator
+    ALL_ARTICLES[5], // how-much-house-can-i-afford
+    ALL_ARTICLES[7], // income-needed
+    ALL_ARTICLES[1], // amortization-schedule
+    ALL_ARTICLES[3], // what-is-pmi
+  ];
+}
+
+function generateRecommendedReadingHtml(articles: BlogRef[]): string {
+  return `
+    <div class="card" style="text-align: left;">
+      <h2>📚 Recommended Reading</h2>
+      <p style="color: #64748b; margin-bottom: 20px;">Deepen your understanding with these mortgage guides and resources.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+        ${articles.map(a => `
+        <a href="${SITE_URL}/blog/${a.slug}" style="display: block; padding: 18px; background: #f8fafc; border-radius: 10px; text-decoration: none; border: 1px solid #e2e8f0; transition: all 0.2s; hover:border-primary hover:bg-blue-50;" onmouseover="this.style.borderColor='#2563eb';this.style.backgroundColor='#f0f7ff'" onmouseout="this.style.borderColor='#e2e8f0';this.style.backgroundColor='#f8fafc'">
+          <div style="font-weight: 600; color: #1a1a2e; margin-bottom: 4px;">${a.title}</div>
+          <div style="font-size: 0.85rem; color: #64748b;">${a.description}</div>
+        </a>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ============================================================
+// 6b. Helper: get neighbor amounts
 // ============================================================
 
 function getNeighbors(amount: number): { lower: number | null; higher: number | null } {
