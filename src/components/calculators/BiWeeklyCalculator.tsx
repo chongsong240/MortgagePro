@@ -120,22 +120,52 @@ export default function BiWeeklyCalculator() {
 
       {/* RIGHT: Results */}
       <div className="lg:col-span-8 flex flex-col gap-6">
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent className="pt-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center pt-2">
-              <div>
-                <div className="text-muted-foreground text-sm uppercase font-semibold tracking-wider mb-2">Interest Saved</div>
-                <div className="text-5xl font-bold text-green-600 dark:text-green-400">
-                  {formatCurrency(Math.max(0, biWeeklyStats.interestSaved))}
+        {/* HERO SAVINGS CARD — large prominent display per blueprint spec */}
+        <Card className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 border-2 border-green-200 dark:border-green-800 overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-64 h-64 opacity-5">
+            <svg viewBox="0 0 200 200" className="w-full h-full">
+              <path d="M100 0L200 100L100 200L0 100Z" fill="currentColor" className="text-green-500" />
+            </svg>
+          </div>
+          <CardContent className="pt-8 pb-8 relative z-10">
+            {biWeeklyStats.interestSaved > 0 ? (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                  <div className="space-y-1">
+                    <div className="text-green-700 dark:text-green-300 text-sm uppercase font-bold tracking-widest mb-1">
+                      You'll Save
+                    </div>
+                    <div className="text-6xl md:text-7xl font-extrabold text-green-600 dark:text-green-400 leading-none tracking-tight">
+                      {formatCurrency(Math.max(0, biWeeklyStats.interestSaved))}
+                    </div>
+                    <div className="text-green-600/60 dark:text-green-400/60 text-sm font-medium mt-1">
+                      in total interest
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="text-blue-700 dark:text-blue-300 text-sm uppercase font-bold tracking-widest mb-1">
+                      Pay Off
+                    </div>
+                    <div className="text-6xl md:text-7xl font-extrabold text-blue-600 dark:text-blue-400 leading-none tracking-tight">
+                      {biWeeklyStats.yearsSaved.toFixed(1)}
+                      <span className="text-3xl md:text-4xl text-blue-400 dark:text-blue-500 font-semibold ml-2">Years</span>
+                    </div>
+                    <div className="text-blue-600/60 dark:text-blue-400/60 text-sm font-medium mt-1">
+                      earlier than standard
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <div className="text-muted-foreground text-sm uppercase font-semibold tracking-wider mb-2">Time Saved</div>
-                <div className="text-5xl font-bold text-blue-600 dark:text-blue-400">
-                  {biWeeklyStats.yearsSaved.toFixed(1)} <span className="text-2xl text-muted-foreground font-medium">Years</span>
+                {/* Savings detail bar */}
+                <div className="mt-6 max-w-lg mx-auto bg-green-100/50 dark:bg-green-900/20 rounded-lg px-4 py-3 text-center text-sm text-green-800 dark:text-green-200">
+                  Switching from monthly to bi-weekly payments saves you <strong>{formatCurrency(Math.max(0, biWeeklyStats.interestSaved))}</strong> in interest and shortens your loan term by <strong>{biWeeklyStats.yearsSaved.toFixed(1)} years</strong>.
                 </div>
+              </>
+            ) : (
+              <div className="text-center py-4">
+                <div className="text-3xl font-bold text-muted-foreground">No savings calculated</div>
+                <p className="text-muted-foreground/70 mt-2">Adjust your loan parameters to see the bi-weekly benefit.</p>
               </div>
-            </div>
+            )}
           </CardContent>
         </Card>
 

@@ -33,8 +33,8 @@ export default function Calculator() {
   });
 
   const [selectedState, setSelectedState] = useState<string>('National');
-  const [flash, setFlash] = useState(false);
-  const [flashDirection, setFlashDirection] = useState<'up' | 'down'>('down');
+  const [flash, setFlash] = useState<'up' | 'down' | null>(null);
+  const [flashVisible, setFlashVisible] = useState(false);
   const [showAmortizationTable, setShowAmortizationTable] = useState(false);
   const [stateDetecting, setStateDetecting] = useState<boolean>(true);
 
@@ -99,17 +99,21 @@ export default function Calculator() {
   const results = useMemo(() => calculateMortgage(inputs), [inputs]);
 
   // Flash animation on result change with direction detection
+  // Triggers a scale + color pulse whenever the monthly payment changes
   const prevPayment = useRef(results.totalMonthlyPayment);
   useEffect(() => {
     const diff = results.totalMonthlyPayment - prevPayment.current;
     if (diff > 0) {
-      setFlashDirection('up');
+      setFlash('up');
     } else if (diff < 0) {
-      setFlashDirection('down');
+      setFlash('down');
     }
     prevPayment.current = results.totalMonthlyPayment;
-    setFlash(true);
-    const timer = setTimeout(() => setFlash(false), 300);
+    setFlashVisible(true);
+    const timer = setTimeout(() => {
+      setFlashVisible(false);
+      setFlash(null);
+    }, 600);
     return () => clearTimeout(timer);
   }, [results.totalMonthlyPayment]);
 
@@ -339,10 +343,10 @@ export default function Calculator() {
           </CardHeader>
           <CardContent>
             <div className={cn(
-              "text-5xl font-bold tracking-tight transition-colors duration-300",
-              flash && flashDirection === 'up' ? "text-red-300" : "",
-              flash && flashDirection === 'down' ? "text-green-300" : "",
-              !flash ? "text-white" : ""
+              "text-5xl font-bold tracking-tight",
+              flashVisible && flash === 'up' ? "text-red-300 scale-110" : "",
+              flashVisible && flash === 'down' ? "text-green-300 scale-110" : "",
+              !flashVisible ? "text-white scale-100" : ""
             )}>
               {formatCurrency(results.totalMonthlyPayment)}
             </div>
