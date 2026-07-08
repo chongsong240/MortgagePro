@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function MonthlyPaymentBreakdown() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="How Much Will My Monthly Mortgage Payment Be? (PITI Explained)"
+        description="Most first-time buyers only look at the loan amount and rate. Here's why your actual payment can be hundreds more — and how to calculate the real number before you shop."
+        datePublished="2026-06-05"
+        url="https://www.mortgagepro.io/blog/monthly-payment-breakdown"
+        faqs={[
+          { q: 'What does PITI stand for in a mortgage payment?', a: 'PITI stands for Principal, Interest, Taxes, and Insurance. These four components make up your total monthly mortgage payment. PMI (Private Mortgage Insurance) may also be added if your down payment is less than 20%.' },
+          { q: 'How much does property tax add to a monthly mortgage payment?', a: 'Property taxes vary widely by state. On a $400,000 home, monthly taxes range from about $133 in Alabama (0.40% rate) to $800 in New Jersey (2.40% rate). Always factor in your local rate for an accurate estimate.' },
+          { q: 'What is the 28% rule for mortgage payments?', a: 'The 28% rule states your total monthly housing payment (PITI) should not exceed 28% of your gross monthly income. On a $100,000 salary, that means a maximum housing payment of about $2,333/month.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

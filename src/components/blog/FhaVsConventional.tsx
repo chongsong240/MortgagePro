@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Shield, BookOpen, Calculator, AlertTriangle, TrendingUp, Home } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function FhaVsConventional() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="FHA vs Conventional Loan: Which One Actually Costs You Less?"
+        description="My cousin Maria bought with an FHA loan because it was easier to qualify for. Two years later, she learned why that easy loan could cost her $30K more. Here's what she wishes someone had explained."
+        datePublished="2026-06-19"
+        url="https://www.mortgagepro.io/blog/fha-vs-conventional"
+        faqs={[
+          { q: 'What is the difference between FHA and conventional loans?', a: 'FHA loans are government-backed and easier to qualify for (minimum 580 credit score, 3.5% down). Conventional loans have stricter requirements (620+ credit score) but offer more flexibility and cancelable PMI.' },
+          { q: 'Can FHA mortgage insurance be canceled?', a: 'No. On FHA loans with less than 10% down, the mortgage insurance premium (MIP) lasts for the entire life of the loan. The only way to remove it is to refinance into a conventional loan. Conventional PMI can be canceled at 20% equity.' },
+          { q: 'Which loan is cheaper long-term, FHA or conventional?', a: 'For borrowers who qualify for both, conventional is usually cheaper long-term because PMI can be canceled. FHA MIP that lasts 30 years can cost $18,000-$34,000 more than conventional PMI that gets canceled after a few years.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, CreditCard, Calculator } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function HowMuchHouseCanIAfford() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="How Much House Can I Afford? A Step-by-Step Guide"
+        description="Dave called me stressed out about whether he could afford a home. Here's the exact math lenders use and how to find your number."
+        datePublished="2026-05-23"
+        url="https://www.mortgagepro.io/blog/how-much-house-can-i-afford"
+        faqs={[
+          { q: 'How do lenders calculate how much house I can afford?', a: 'Lenders use the 28/36 rule: your total monthly housing costs (PITI) should not exceed 28% of gross monthly income, and all debt payments combined should not exceed 36%. On an $85,000 salary, the maximum housing payment is about $1,983/month.' },
+          { q: 'How much house can I afford on an $85,000 salary?', a: 'With an $85,000 salary, 10% down, and 6.5% interest rate, you can typically afford a home around $310,000. Existing debts like car loans and student loans reduce this amount.' },
+          { q: 'Does my debt affect how much house I can afford?', a: 'Yes significantly. The 36% back-end DTI rule means all debts combined cannot exceed 36% of gross income. A $750/month car and student loan payment can reduce your maximum home price by $40,000 or more.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

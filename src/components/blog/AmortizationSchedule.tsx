@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function AmortizationSchedule() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="Amortization Schedule: The Hidden Truth About Your Mortgage Payments"
+        description="Discover why 86% of your first mortgage payment goes to interest and how understanding amortization can save you thousands."
+        datePublished="2026-05-15"
+        url="https://www.mortgagepro.io/blog/amortization-schedule"
+        faqs={[
+          { q: 'What is an amortization schedule?', a: 'An amortization schedule is a table showing every mortgage payment broken down into principal and interest, along with the remaining balance after each payment.' },
+          { q: 'Why do early mortgage payments go mostly to interest?', a: 'Interest is calculated on the remaining balance. In month one, the balance is at its maximum, so interest is highest. As the balance decreases, more of each payment goes toward principal.' },
+          { q: 'When does the principal exceed interest in a mortgage payment?', a: 'On a 30-year mortgage, the crossover point where principal exceeds interest typically occurs around year 18-19.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

@@ -1,6 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
-import CalculatorIndex from '@/src/components/calculators/CalculatorIndex';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
 import HowToUseCalculator from '@/src/components/blog/HowToUseCalculator';
 import AmortizationSchedule from '@/src/components/blog/AmortizationSchedule';
 import BiWeeklyPayments from '@/src/components/blog/BiWeeklyPayments';
@@ -15,9 +14,124 @@ import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
 import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
 import FivePercentDown from '@/src/components/blog/FivePercentDown';
 import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
-import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
-import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X } from 'lucide-react';
+import {
+  MortgageCalculatorPage,
+  AffordabilityCalculatorPage,
+  BiWeeklyCalculatorPage,
+  RentVsBuyCalculatorPage,
+  FIRECalculatorPage,
+  PmiCalculatorPage,
+  RefinanceCalculatorPage,
+  ClosingCostCalculatorPage,
+  ExtraPaymentCalculatorPage,
+  ArmVsFixedCalculatorPage,
+} from '@/src/components/pages/CalculatorPages';
+import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X, ChevronDown } from 'lucide-react';
 
+const CALCULATOR_LINKS = [
+  { name: 'Mortgage Calculator', path: '/mortgage-calculator' },
+  { name: 'Affordability Calculator', path: '/affordability-calculator' },
+  { name: 'Bi-Weekly Calculator', path: '/biweekly-mortgage-calculator' },
+  { name: 'Rent vs Buy Calculator', path: '/rent-vs-buy-calculator' },
+  { name: 'FIRE Impact Calculator', path: '/fire-impact-calculator' },
+  { name: 'PMI Calculator', path: '/pmi-calculator' },
+  { name: 'Refinance Calculator', path: '/refinance-calculator' },
+  { name: 'Closing Cost Calculator', path: '/closing-cost-calculator' },
+  { name: 'Extra Payment Calculator', path: '/extra-payment-calculator' },
+  { name: 'ARM vs Fixed Calculator', path: '/arm-vs-fixed-calculator' },
+];
+
+function DropdownNav({ isMobile = false, onItemClick }: { isMobile?: boolean; onItemClick?: () => void }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+
+  const isCalculatorActive = location.pathname.startsWith('/calculator') || 
+    CALCULATOR_LINKS.some(l => location.pathname.startsWith(l.path));
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <div className="border-l-4 border-transparent">
+        <div 
+          className={`flex items-center px-4 py-3 text-base font-medium transition-colors cursor-pointer ${
+            isCalculatorActive 
+              ? 'bg-primary/10 border-l-4 border-primary text-primary' 
+              : 'text-muted-foreground hover:bg-muted'
+          }`}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <CalculatorIcon className="w-5 h-5 mr-3" />
+          Calculators
+          <ChevronDown className={`w-4 h-4 ml-auto transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </div>
+        {isOpen && (
+          <div className="pl-10 space-y-1 pb-2">
+            {CALCULATOR_LINKS.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                onClick={() => { setIsOpen(false); onItemClick?.(); }}
+                className={`block px-3 py-2 text-sm rounded-md transition-colors ${
+                  location.pathname === link.path
+                    ? 'bg-primary/10 text-primary font-medium'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div ref={dropdownRef} className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors gap-1 ${
+          isCalculatorActive
+            ? 'border-primary text-foreground'
+            : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
+        }`}
+      >
+        <CalculatorIcon className="w-4 h-4" />
+        Calculators
+        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 w-64 bg-background border border-border rounded-lg shadow-lg z-50 py-2 max-h-[70vh] overflow-y-auto">
+          {CALCULATOR_LINKS.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              onClick={() => setIsOpen(false)}
+              className={`block px-4 py-2.5 text-sm transition-colors ${
+                location.pathname === link.path
+                  ? 'bg-primary/10 text-primary font-medium'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function Navigation() {
   const location = useLocation();
@@ -25,10 +139,11 @@ function Navigation() {
 
   const links = [
     { name: 'Home', path: '/', icon: Home },
-    { name: 'Calculator', path: '/calculator', icon: CalculatorIcon },
     { name: 'Blog', path: '/blog', icon: BookOpen },
     { name: 'About', path: '/about', icon: Info },
   ];
+
+  const closeMobile = () => setIsOpen(false);
 
   return (
     <nav className="border-b bg-background sticky top-0 z-50">
@@ -76,11 +191,12 @@ function Navigation() {
                 </Link>
               );
             })}
+            <DropdownNav />
           </div>
         </div>
       </div>
 
-      {/* Mobile menu, show/hide based on menu state. */}
+      {/* Mobile menu */}
       {isOpen && (
         <div className="sm:hidden border-t">
           <div className="pt-2 pb-3 space-y-1">
@@ -91,7 +207,7 @@ function Navigation() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeMobile}
                   className={`flex items-center px-4 py-3 text-base font-medium transition-colors ${
                     isActive 
                       ? 'bg-primary/10 border-l-4 border-primary text-primary' 
@@ -103,6 +219,7 @@ function Navigation() {
                 </Link>
               );
             })}
+            <DropdownNav isMobile onItemClick={closeMobile} />
           </div>
         </div>
       )}
@@ -138,36 +255,34 @@ function HomePage() {
       icon: "🏠",
       title: "Standard Mortgage Calculator",
       desc: "Calculate your monthly payment with real-time sliders for home price, down payment, interest rate, and loan term. See the full amortization schedule and your PITI breakdown at a glance.",
-      link: "/calculator?tab=standard",
+      link: "/mortgage-calculator",
     },
     {
       icon: "📅",
       title: "Bi-Weekly vs Monthly",
       desc: "Compare standard monthly payments against an accelerated bi-weekly schedule. See how much interest you can save and how many years you can shave off your loan.",
-      link: "/calculator?tab=biweekly",
+      link: "/biweekly-mortgage-calculator",
     },
     {
       icon: "🏡",
       title: "Rent vs Buy Analyzer",
       desc: "Is renting or buying the smarter financial move for you? This tool factors in home appreciation, rent inflation, property taxes, and closing costs to find your breakeven year.",
-      link: "/calculator?tab=rentvsbuy",
+      link: "/rent-vs-buy-calculator",
     },
     {
       icon: "🔥",
       title: "FIRE Impact Calculator",
       desc: "Thinking about Financial Independence or Early Retirement? See how buying a home could delay — or accelerate — your FIRE timeline.",
-      link: "/calculator?tab=fire",
+      link: "/fire-impact-calculator",
     },
   ];
 
   const blogPosts = [
-    // Pinned: PITI article always first
     {
       title: "How Much Will My Monthly Mortgage Payment Be? (PITI Explained)",
       path: "/blog/monthly-payment-breakdown",
       date: "June 5, 2026",
     },
-    // Sorted by date descending
     {
       title: "What Credit Score Do I Need to Buy a House?",
       path: "/blog/credit-score-needed",
@@ -282,7 +397,7 @@ function HomePage() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
-            to="/calculator"
+            to="/mortgage-calculator"
             className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors text-lg"
           >
             <CalculatorIcon className="w-5 h-5 mr-2" />
@@ -341,14 +456,25 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ========== POPULAR CALCULATORS ========== */}
+      {/* ========== ALL 10 CALCULATORS ========== */}
       <section className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2 text-center">Popular Calculators</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-foreground mb-2 text-center">All Calculators</h2>
         <p className="text-muted-foreground text-center mb-8">
           Choose the tool that matches your situation — or use them all to build a complete picture.
         </p>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {calculatorTools.map((tool, i) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { icon: "🏠", title: "Mortgage Calculator", desc: "Monthly payment with sliders, PITI breakdown, amortization chart.", link: "/mortgage-calculator" },
+            { icon: "💰", title: "Affordability Calculator", desc: "How much house can you afford? 28/36 rule with state data.", link: "/affordability-calculator" },
+            { icon: "📅", title: "Bi-Weekly Calculator", desc: "Compare standard vs bi-weekly. Save interest, pay off early.", link: "/biweekly-mortgage-calculator" },
+            { icon: "🏡", title: "Rent vs Buy Analyzer", desc: "Find your breakeven year with appreciation and investment returns.", link: "/rent-vs-buy-calculator" },
+            { icon: "🔥", title: "FIRE Impact Calculator", desc: "How home buying affects your early retirement timeline.", link: "/fire-impact-calculator" },
+            { icon: "🛡️", title: "PMI Calculator", desc: "Calculate PMI cost, cancellation timeline, and total paid.", link: "/pmi-calculator" },
+            { icon: "🔄", title: "Refinance Calculator", desc: "Compare current vs refi. Break-even point and lifetime savings.", link: "/refinance-calculator" },
+            { icon: "📋", title: "Closing Cost Calculator", desc: "Itemized closing costs with state-specific data.", link: "/closing-cost-calculator" },
+            { icon: "💵", title: "Extra Payment Calculator", desc: "See how extra principal payments save interest and time.", link: "/extra-payment-calculator" },
+            { icon: "📊", title: "ARM vs Fixed Calculator", desc: "Compare 30yr/15yr fixed vs 5/1 and 7/1 ARMs.", link: "/arm-vs-fixed-calculator" },
+          ].map((tool, i) => (
             <Link
               key={i}
               to={tool.link}
@@ -786,7 +912,21 @@ export default function App() {
         <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/calculator" element={<CalculatorIndex />} />
+            
+            {/* Calculator routes — standalone pages with individual SEO */}
+            <Route path="/calculator" element={<Navigate to="/mortgage-calculator" replace />} />
+            <Route path="/mortgage-calculator" element={<MortgageCalculatorPage />} />
+            <Route path="/affordability-calculator" element={<AffordabilityCalculatorPage />} />
+            <Route path="/biweekly-mortgage-calculator" element={<BiWeeklyCalculatorPage />} />
+            <Route path="/rent-vs-buy-calculator" element={<RentVsBuyCalculatorPage />} />
+            <Route path="/fire-impact-calculator" element={<FIRECalculatorPage />} />
+            <Route path="/pmi-calculator" element={<PmiCalculatorPage />} />
+            <Route path="/refinance-calculator" element={<RefinanceCalculatorPage />} />
+            <Route path="/closing-cost-calculator" element={<ClosingCostCalculatorPage />} />
+            <Route path="/extra-payment-calculator" element={<ExtraPaymentCalculatorPage />} />
+            <Route path="/arm-vs-fixed-calculator" element={<ArmVsFixedCalculatorPage />} />
+
+            {/* Blog routes */}
             <Route path="/blog" element={<BlogStub />} />
             <Route path="/blog/how-to-use-calculator" element={<HowToUseCalculator />} />
             <Route path="/blog/amortization-schedule" element={<AmortizationSchedule />} />
@@ -802,10 +942,13 @@ export default function App() {
             <Route path="/blog/is-buying-worth-it-2026" element={<IsBuyingWorthIt2026 />} />
             <Route path="/blog/can-i-buy-with-5-percent-down" element={<FivePercentDown />} />
             <Route path="/blog/credit-score-needed" element={<CreditScoreNeeded />} />
-            <Route path="/blog/credit-score-needed" element={<CreditScoreNeeded />} />
+
+            {/* Other pages */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
+            
+            {/* 404 catch-all */}
             <Route path="*" element={<div className="text-center py-20 text-muted-foreground">Page under construction via the blueprint instructions.</div>} />
           </Routes>
         </main>

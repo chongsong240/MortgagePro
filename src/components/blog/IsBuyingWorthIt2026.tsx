@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Home, TrendingUp, BookOpen, Calculator, AlertTriangle, Shield, Calendar } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function IsBuyingWorthIt2026() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="Is Buying a Home Still Worth It in 2026?"
+        description="My neighbors Jen and Mike have been saving since 2021. Stable jobs, a decent down payment, a baby due in September. They're ready to buy by every measure. So why can't they pull the trigger?"
+        datePublished="2026-06-19"
+        url="https://www.mortgagepro.io/blog/is-buying-worth-it-2026"
+        faqs={[
+          { q: 'Is it a good time to buy a house in 2026?', a: 'It depends on your personal situation more than market timing. If you have stable income, savings beyond the down payment, and plan to stay 5+ years, buying can make sense even at 6-7% rates. Waiting for perfect conditions often means missing years of equity building.' },
+          { q: 'Should I wait for mortgage rates to drop before buying?', a: 'Timing the market is risky. If rates drop, prices often rise as more buyers enter the market. The monthly payment may not improve. Focus on whether the payment fits your budget today, not on predicting future rates.' },
+          { q: 'Is renting better than buying in 2026?', a: 'Renting is not throwing money away. It provides flexibility, no maintenance costs, and in some markets renting and investing the difference beats buying over 10 years. Use our Rent vs Buy calculator to find your personal breakeven year.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Calculator, TrendingUp, AlertTriangle, CheckCircle, DollarSign, Target } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function CreditScoreNeeded() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="What Credit Score Do I Need to Buy a House?"
+        description="A friend spent six months convinced he couldn't buy a house because his credit score was 640. Here's the real truth about minimum credit scores, rate tiers, and how much improving your score is actually worth."
+        datePublished="2026-07-01"
+        url="https://www.mortgagepro.io/blog/credit-score-needed"
+        faqs={[
+          { q: 'What is the minimum credit score to buy a house?', a: 'For conventional loans, most lenders require a minimum of 620. FHA loans accept scores as low as 580 with 3.5% down. VA loans have no official minimum but most lenders look for 620+. Higher scores qualify for lower interest rates.' },
+          { q: 'How much does credit score affect mortgage rate?', a: 'Significantly. On a $350,000 loan, the difference between a 760+ score (6.25% rate) and a 620-639 score (7.25% rate) is about $233/month and $84,000 in total interest over 30 years.' },
+          { q: 'How can I improve my credit score before buying a house?', a: 'Pay all bills on time (35% of FICO score), keep credit card balances below 30% of limits, avoid opening new accounts before applying, and check your credit report for errors at annualcreditreport.com.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

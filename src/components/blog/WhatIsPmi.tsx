@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, ExternalLink, CheckCircle2, XCircle, Landmark, ClipboardCheck } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function WhatIsPmi() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="PMI in Mortgages: What It Is and How to Get Rid of It"
+        description="If you're putting down less than 20%, you're paying for something that doesn't protect you. Here's exactly how to cancel PMI and save thousands."
+        datePublished="2026-05-22"
+        url="https://www.mortgagepro.io/blog/what-is-pmi"
+        faqs={[
+          { q: 'What is PMI and who does it protect?', a: 'PMI (Private Mortgage Insurance) protects the lender, not you. It is required when your down payment is less than 20% of the home price. PMI typically costs 0.5% to 1.5% of the loan amount annually.' },
+          { q: 'When can I cancel PMI on my mortgage?', a: 'You can request PMI cancellation when your loan balance reaches 80% of the original home value. Under the Homeowners Protection Act, PMI must be automatically terminated when your balance reaches 78%.' },
+          { q: 'Can home appreciation help me cancel PMI faster?', a: 'Yes. If your home has appreciated in value, you may already have 20% equity even without paying down much principal. A new appraisal ($400-$600) can confirm this and allow you to request PMI cancellation early.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, ExternalLink, CheckCircle2, XCircle, Scale, Lightbulb, HelpCircle } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function ThirtyVsFifteenYear() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="30-Year vs 15-Year Mortgage: The Decision That Shapes Your Future"
+        description="The math favors one side clearly. But the right answer for your life depends on five questions that have nothing to do with interest rates."
+        datePublished="2026-05-24"
+        url="https://www.mortgagepro.io/blog/30-vs-15-year"
+        faqs={[
+          { q: 'How much more interest do you pay on a 30-year vs 15-year mortgage?', a: 'On a $400,000 loan, a 30-year mortgage at 6.5% costs roughly $312,000 more in interest than a 15-year mortgage at 5.75%. The 15-year also builds equity about 4x faster in the first 5 years.' },
+          { q: 'Is a 15-year mortgage always better than a 30-year?', a: 'Mathematically yes, but practically it depends on your income stability, cash flow needs, and other financial goals. A 30-year with disciplined extra payments can achieve similar results with more flexibility.' },
+          { q: 'What is the middle path between 30-year and 15-year mortgages?', a: 'Take a 30-year loan but pay it like a 15-year by adding extra principal each month. You get the lower contractual obligation as a safety net while still paying off the loan in roughly 15 years.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

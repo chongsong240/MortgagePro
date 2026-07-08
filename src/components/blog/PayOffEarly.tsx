@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, PieChart, BookOpen, Calculator, AlertTriangle, TrendingUp } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function PayOffEarly() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="Should I Pay Off My Mortgage Early?"
+        description="My aunt burned her mortgage statement in a fire pit. My financial advisor won't pay off his 2.75% rate. Two smart people, two different answers. Here's how to figure out yours."
+        datePublished="2026-06-10"
+        url="https://www.mortgagepro.io/blog/pay-off-early"
+        faqs={[
+          { q: 'Is it worth paying off your mortgage early?', a: 'It depends on your mortgage rate. At 6.5%+, paying extra gives a guaranteed 6.5% return, which is hard to beat safely. At 3% or below, investing the difference in a diversified portfolio may yield higher returns over time.' },
+          { q: 'What should I do before making extra mortgage payments?', a: 'Build a 3-6 month emergency fund first, pay off high-interest debt (credit cards at 18-25%), and max out any employer 401(k) match. Only then does extra mortgage payment make financial sense.' },
+          { q: 'How much can I save by paying $100 extra per month on my mortgage?', a: 'On a $400,000 loan at 6.5%, an extra $100/month saves about $46,000 in interest and pays off the loan roughly 4.5 years early.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

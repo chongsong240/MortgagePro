@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, ExternalLink, CheckCircle2, XCircle } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function BiWeeklyPayments() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="Bi-Weekly Mortgage Payments: Are They Worth It?"
+        description="An honest look at the math, the gotchas, and whether accelerating your mortgage makes sense for your financial situation."
+        datePublished="2026-05-20"
+        url="https://www.mortgagepro.io/blog/biweekly-payments"
+        faqs={[
+          { q: 'How do bi-weekly mortgage payments save money?', a: 'Making 26 half-payments per year equals 13 full payments instead of 12. That extra payment goes entirely to principal, reducing the balance faster and saving tens of thousands in interest.' },
+          { q: 'How many years can bi-weekly payments save on a 30-year mortgage?', a: 'On a typical 30-year mortgage, bi-weekly payments can shave 4-6 years off the loan term and save $50,000-$100,000+ in interest depending on the loan amount and rate.' },
+          { q: 'What is the difference between bi-weekly and bi-monthly mortgage payments?', a: 'Bi-weekly means every two weeks (26 payments/year = 13 full payments). Bi-monthly means twice a month (24 payments/year = 12 full payments). Only bi-weekly saves money.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

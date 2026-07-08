@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Calculator, Shield, Home, DollarSign, AlertTriangle } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function FivePercentDown() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="Can I Buy a House With 5% Down?"
+        description="My brother-in-law Chris had $22,000 saved and was told he needed 20% down. Turned out he could buy with 5%. Here's the real math on low-down-payment mortgages."
+        datePublished="2026-06-25"
+        url="https://www.mortgagepro.io/blog/can-i-buy-with-5-percent-down"
+        faqs={[
+          { q: 'Can I buy a house with only 5% down?', a: 'Yes. Conventional loans allow as little as 3-5% down for first-time buyers. With 5% down on a $400,000 home, you need $20,000 plus closing costs (typically $8,000-$16,000). You will pay PMI until you reach 20% equity.' },
+          { q: 'How much does PMI cost with 5% down?', a: 'PMI with 5% down typically costs $150-$250/month on a $400,000 home. It can be canceled once you reach 20% equity through a combination of loan paydown and home appreciation.' },
+          { q: 'Is it better to wait for 20% down or buy with 5% down?', a: 'It depends. Waiting for 20% means years of rent payments while home prices may rise. Buying with 5% means higher monthly costs but you start building equity immediately. Calculate the total cost of waiting vs buying now.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

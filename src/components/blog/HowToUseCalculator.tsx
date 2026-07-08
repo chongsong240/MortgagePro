@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function HowToUseCalculator() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="How to Use Our Mortgage Calculator to Plan Your Monthly Payment"
+        description="A complete step-by-step guide to understanding every input, reading your results, and making smarter home-buying decisions with our interactive calculator."
+        datePublished="2026-05-10"
+        url="https://www.mortgagepro.io/blog/how-to-use-calculator"
+        faqs={[
+          { q: 'What inputs do I need to use the mortgage calculator?', a: 'You need four main inputs: home price, down payment percentage, interest rate, and loan term. Optionally, select your state for accurate property tax and insurance estimates.' },
+          { q: 'How does the down payment affect my monthly payment?', a: 'A larger down payment reduces your loan amount and monthly payment. Putting down 20% or more eliminates PMI, saving $100-$400/month. On a $400,000 home, going from 10% to 20% down saves about $133/month in PMI alone.' },
+          { q: 'What is the amortization schedule in the calculator?', a: 'The amortization schedule shows every year of your loan broken down into principal paid, interest paid, and remaining balance. In year 1 of a 30-year mortgage, about 85% of your payment goes to interest.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

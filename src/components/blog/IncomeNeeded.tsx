@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function IncomeNeeded() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="How Much Income Do I Need for a $500,000 House?"
+        description="The short answer is around $135,000 a year. The longer answer depends on your down payment, interest rate, other debts, and the expenses most people forget."
+        datePublished="2026-06-05"
+        url="https://www.mortgagepro.io/blog/income-needed"
+        faqs={[
+          { q: 'How much income do I need to buy a $500,000 house?', a: 'With 20% down at 6.5% interest, the monthly payment is about $3,178. Using the 28% DTI rule, you need roughly $136,200/year in gross income. With only 5% down, the required income rises to about $158,500/year due to PMI and a larger loan.' },
+          { q: 'Can I buy a $500,000 house on a $100,000 salary?', a: 'Generally no, not comfortably. A $100,000 salary allows a maximum housing payment of about $2,333/month under the 28% rule, but a $500,000 home with 20% down costs about $3,178/month. A very large down payment could make it work.' },
+          { q: 'How does debt affect how much house I can afford?', a: 'Lenders use a 36% back-end DTI ratio for all debts combined. If you have $500/month in car and student loan payments, that reduces your available housing budget by $500/month, potentially lowering your maximum home price by $60,000-$80,000.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">

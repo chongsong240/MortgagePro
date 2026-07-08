@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator, TrendingUp, AlertTriangle } from 'lucide-react';
+import BlogSchema from './BlogSchema';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -13,6 +14,17 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: stri
 export default function WhyMostlyInterest() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
+      <BlogSchema
+        title="Why Do Mortgage Payments Go Mostly to Interest?"
+        description="My friend Rob paid over $15,000 in his first six months. His loan balance dropped by less than $3,000. Here's how the math really works."
+        datePublished="2026-06-09"
+        url="https://www.mortgagepro.io/blog/why-mostly-interest"
+        faqs={[
+          { q: 'Why do early mortgage payments go mostly to interest?', a: 'Interest is calculated monthly on the remaining balance. In month one, the full loan amount is outstanding, so interest is at its peak. On a $400,000 loan at 6.5%, the first payment is $2,167 interest and only $361 principal.' },
+          { q: 'When does a mortgage payment become mostly principal?', a: 'On a 30-year mortgage, the crossover where principal exceeds interest occurs around year 18-19. In the final years, nearly 99% of each payment goes to principal.' },
+          { q: 'How can I pay less interest on my mortgage?', a: 'Three main strategies: make extra principal payments (even $100/month saves tens of thousands), switch to bi-weekly payments (equivalent to one extra payment per year), or choose a 15-year term from the start.' },
+        ]}
+      />
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
