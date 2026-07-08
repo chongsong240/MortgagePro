@@ -100,7 +100,7 @@ function DropdownNav({ isMobile = false, onItemClick }: { isMobile?: boolean; on
     <div ref={dropdownRef} className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors gap-1 ${
+        className={`inline-flex items-center px-1 pt-1 border-b-2 text-base font-medium transition-colors gap-1 ${
           isCalculatorActive
             ? 'border-primary text-foreground'
             : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
@@ -137,61 +137,70 @@ function Navigation() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
-  const links = [
+  // Calculators placed right after Home
+  const linksBefore = [
     { name: 'Home', path: '/', icon: Home },
+  ];
+  const linksAfter = [
     { name: 'Blog', path: '/blog', icon: BookOpen },
     { name: 'About', path: '/about', icon: Info },
   ];
 
   const closeMobile = () => setIsOpen(false);
 
+  const navLinkClass = (isActive: boolean) =>
+    `inline-flex items-center px-1 pt-1 border-b-2 text-base font-medium transition-colors ${
+      isActive
+        ? 'border-primary text-foreground'
+        : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
+    }`;
+
   return (
     <nav className="border-b bg-background sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex justify-between w-full sm:w-auto">
-            <div className="flex-shrink-0 flex items-center gap-2">
-              <div className="w-8 h-8 rounded bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">
-                M
-              </div>
-              <span className="font-bold text-xl tracking-tight text-foreground">MortgagePro</span>
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0 flex items-center gap-2">
+            <div className="w-8 h-8 rounded bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl">
+              M
             </div>
-            
-            <div className="flex items-center sm:hidden">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
-              >
-                <span className="sr-only">Open main menu</span>
-                {isOpen ? (
-                  <X className="block h-6 w-6" aria-hidden="true" />
-                ) : (
-                  <Menu className="block h-6 w-6" aria-hidden="true" />
-                )}
-              </button>
-            </div>
+            <span className="font-bold text-xl tracking-tight text-foreground">MortgagePro</span>
           </div>
-          
-          <div className="hidden sm:ml-8 sm:flex sm:space-x-8">
-            {links.map((link) => {
-              const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
+
+          {/* Desktop nav */}
+          <div className="hidden sm:flex sm:items-center sm:gap-8">
+            {linksBefore.map((link) => {
+              const isActive = location.pathname === link.path;
               const Icon = link.icon;
               return (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors ${
-                    isActive 
-                      ? 'border-primary text-foreground' 
-                      : 'border-transparent text-muted-foreground hover:border-border hover:text-foreground'
-                  }`}
-                >
+                <Link key={link.path} to={link.path} className={navLinkClass(isActive)}>
                   <Icon className="w-4 h-4 mr-2" />
                   {link.name}
                 </Link>
               );
             })}
             <DropdownNav />
+            {linksAfter.map((link) => {
+              const isActive = location.pathname === link.path || location.pathname.startsWith(link.path);
+              const Icon = link.icon;
+              return (
+                <Link key={link.path} to={link.path} className={navLinkClass(isActive)}>
+                  <Icon className="w-4 h-4 mr-2" />
+                  {link.name}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Mobile hamburger */}
+          <div className="flex items-center sm:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+            >
+              <span className="sr-only">Open main menu</span>
+              {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
+            </button>
           </div>
         </div>
       </div>
@@ -200,8 +209,8 @@ function Navigation() {
       {isOpen && (
         <div className="sm:hidden border-t">
           <div className="pt-2 pb-3 space-y-1">
-            {links.map((link) => {
-              const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
+            {[...linksBefore, ...linksAfter].map((link) => {
+              const isActive = link.path === '/' ? location.pathname === '/' : location.pathname.startsWith(link.path);
               const Icon = link.icon;
               return (
                 <Link
@@ -209,8 +218,8 @@ function Navigation() {
                   to={link.path}
                   onClick={closeMobile}
                   className={`flex items-center px-4 py-3 text-base font-medium transition-colors ${
-                    isActive 
-                      ? 'bg-primary/10 border-l-4 border-primary text-primary' 
+                    isActive
+                      ? 'bg-primary/10 border-l-4 border-primary text-primary'
                       : 'border-l-4 border-transparent text-muted-foreground hover:bg-muted hover:border-border hover:text-foreground'
                   }`}
                 >
@@ -243,6 +252,49 @@ function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+// Hero CTA dropdown — lets users pick which calculator to open
+function HeroCalculatorDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors text-lg gap-2"
+      >
+        <CalculatorIcon className="w-5 h-5" />
+        Open a Calculator
+        <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <div className="absolute top-full left-0 mt-2 w-72 bg-background border border-border rounded-xl shadow-xl z-50 py-2 overflow-hidden">
+          <p className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Choose a Calculator</p>
+          {CALCULATOR_LINKS.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-3 px-4 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            >
+              <CalculatorIcon className="w-4 h-4 shrink-0 text-primary" />
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -396,13 +448,7 @@ function HomePage() {
           refinancers, and FIRE enthusiasts navigating the US real estate market.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            to="/mortgage-calculator"
-            className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors text-lg"
-          >
-            <CalculatorIcon className="w-5 h-5 mr-2" />
-            Open Mortgage Calculator
-          </Link>
+          <HeroCalculatorDropdown />
           <Link
             to="/blog"
             className="inline-flex items-center justify-center bg-secondary text-secondary-foreground px-8 py-3 rounded-md font-medium hover:bg-secondary/80 transition-colors text-lg border border-border"
