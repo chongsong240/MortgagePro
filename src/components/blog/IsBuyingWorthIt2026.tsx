@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Home, TrendingUp, BookOpen, Calculator, AlertTriangle, Shield, Calendar } from 'lucide-react';
 import BlogSchema from './BlogSchema';
+import AllCalculatorsGrid from './AllCalculatorsGrid';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -357,15 +358,16 @@ export default function IsBuyingWorthIt2026() {
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              to="/rent-vs-buy-calculator"
+              to="/mortgage-calculator"
               className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-8 py-3 rounded-md font-medium hover:bg-secondary/80 transition-colors border border-border"
             >
-              Rent vs Buy Tool
+              Full Mortgage Calculator
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </section>
+      <AllCalculatorsGrid />
 
     </article>
   );

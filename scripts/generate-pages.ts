@@ -16,6 +16,39 @@ const DEBUG = true;
 function log(msg: string) { if (DEBUG) console.log(`   ${msg}`); }
 
 // ============================================================
+// 1a. Load state data from JSON file (single source of truth)
+// ============================================================
+
+const RAW_STATE_DATA: Record<string, any> = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '..', 'src/data/state_data.json'), 'utf-8')
+);
+
+interface StateInfo {
+  name: string;
+  property_tax_rate: number;
+  closing_cost_pct: number;
+  avg_insurance: number;
+  median_price?: number;
+}
+
+const STATE_DATA: Record<string, StateInfo> = {};
+for (const [code, info] of Object.entries(RAW_STATE_DATA)) {
+  STATE_DATA[code] = {
+    name: (info as any).name,
+    property_tax_rate: (info as any).property_tax_rate,
+    closing_cost_pct: (info as any).closing_cost_pct ?? 0.03,
+    median_price: (info as any).median_home_price,
+    avg_insurance: (info as any).avg_annual_insurance,
+  };
+}
+
+// National averages for amount pages (calculate from all states)
+const stateValues = Object.values(STATE_DATA);
+const NATIONAL_AVG_TAX_RATE = stateValues.reduce((s, d) => s + d.property_tax_rate, 0) / stateValues.length;
+const NATIONAL_AVG_INSURANCE = Math.round(stateValues.reduce((s, d) => s + d.avg_insurance, 0) / stateValues.length);
+const NATIONAL_AVG_CLOSING_COST_PCT = stateValues.reduce((s, d) => s + d.closing_cost_pct, 0) / stateValues.length;
+
+// ============================================================
 // 1. Shared helpers
 // ============================================================
 
@@ -31,72 +64,6 @@ function fmtNumber(n: number): string {
 function fmtDollar(n: number): string {
   return Math.round(n).toLocaleString('en-US');
 }
-
-// ============================================================
-// 2. Data — state_data.json (embedded for portability)
-// ============================================================
-
-interface StateInfo {
-  name: string;
-  property_tax_rate: number;
-  closing_cost_pct: number;
-  avg_insurance: number;
-  median_price?: number;
-}
-
-const STATE_DATA: Record<string, StateInfo> = {
-  AL: { name: 'Alabama', property_tax_rate: 0.004, closing_cost_pct: 0.03, avg_insurance: 1500, median_price: 210000 },
-  AK: { name: 'Alaska', property_tax_rate: 0.0099, closing_cost_pct: 0.04, avg_insurance: 1300, median_price: 330000 },
-  AZ: { name: 'Arizona', property_tax_rate: 0.0066, closing_cost_pct: 0.04, avg_insurance: 1200, median_price: 425000 },
-  AR: { name: 'Arkansas', property_tax_rate: 0.0062, closing_cost_pct: 0.03, avg_insurance: 2000, median_price: 195000 },
-  CA: { name: 'California', property_tax_rate: 0.0076, closing_cost_pct: 0.05, avg_insurance: 1200, median_price: 735000 },
-  CO: { name: 'Colorado', property_tax_rate: 0.0055, closing_cost_pct: 0.04, avg_insurance: 2300, median_price: 540000 },
-  CT: { name: 'Connecticut', property_tax_rate: 0.0179, closing_cost_pct: 0.04, avg_insurance: 1600, median_price: 380000 },
-  DE: { name: 'Delaware', property_tax_rate: 0.0056, closing_cost_pct: 0.04, avg_insurance: 1400, median_price: 365000 },
-  DC: { name: 'District of Columbia', property_tax_rate: 0.0056, closing_cost_pct: 0.04, avg_insurance: 1400, median_price: 630000 },
-  FL: { name: 'Florida', property_tax_rate: 0.009, closing_cost_pct: 0.04, avg_insurance: 3500, median_price: 395000 },
-  GA: { name: 'Georgia', property_tax_rate: 0.0089, closing_cost_pct: 0.04, avg_insurance: 1700, median_price: 315000 },
-  HI: { name: 'Hawaii', property_tax_rate: 0.0029, closing_cost_pct: 0.04, avg_insurance: 1200, median_price: 830000 },
-  ID: { name: 'Idaho', property_tax_rate: 0.0067, closing_cost_pct: 0.04, avg_insurance: 1300, median_price: 430000 },
-  IL: { name: 'Illinois', property_tax_rate: 0.0195, closing_cost_pct: 0.04, avg_insurance: 1400, median_price: 275000 },
-  IN: { name: 'Indiana', property_tax_rate: 0.0078, closing_cost_pct: 0.03, avg_insurance: 1800, median_price: 235000 },
-  IA: { name: 'Iowa', property_tax_rate: 0.0137, closing_cost_pct: 0.03, avg_insurance: 1700, median_price: 205000 },
-  KS: { name: 'Kansas', property_tax_rate: 0.0126, closing_cost_pct: 0.03, avg_insurance: 2400, median_price: 240000 },
-  KY: { name: 'Kentucky', property_tax_rate: 0.0081, closing_cost_pct: 0.03, avg_insurance: 2300, median_price: 220000 },
-  LA: { name: 'Louisiana', property_tax_rate: 0.0054, closing_cost_pct: 0.04, avg_insurance: 3000, median_price: 210000 },
-  ME: { name: 'Maine', property_tax_rate: 0.0122, closing_cost_pct: 0.04, avg_insurance: 1300, median_price: 390000 },
-  MD: { name: 'Maryland', property_tax_rate: 0.0106, closing_cost_pct: 0.04, avg_insurance: 1500, median_price: 405000 },
-  MA: { name: 'Massachusetts', property_tax_rate: 0.0108, closing_cost_pct: 0.04, avg_insurance: 1700, median_price: 625000 },
-  MI: { name: 'Michigan', property_tax_rate: 0.0141, closing_cost_pct: 0.04, avg_insurance: 1400, median_price: 235000 },
-  MN: { name: 'Minnesota', property_tax_rate: 0.0105, closing_cost_pct: 0.04, avg_insurance: 1700, median_price: 335000 },
-  MS: { name: 'Mississippi', property_tax_rate: 0.0075, closing_cost_pct: 0.03, avg_insurance: 2600, median_price: 175000 },
-  MO: { name: 'Missouri', property_tax_rate: 0.0094, closing_cost_pct: 0.03, avg_insurance: 2000, median_price: 245000 },
-  MT: { name: 'Montana', property_tax_rate: 0.0082, closing_cost_pct: 0.04, avg_insurance: 1800, median_price: 450000 },
-  NE: { name: 'Nebraska', property_tax_rate: 0.0151, closing_cost_pct: 0.03, avg_insurance: 2200, median_price: 280000 },
-  NV: { name: 'Nevada', property_tax_rate: 0.0059, closing_cost_pct: 0.04, avg_insurance: 1400, median_price: 435000 },
-  NH: { name: 'New Hampshire', property_tax_rate: 0.0184, closing_cost_pct: 0.04, avg_insurance: 1400, median_price: 480000 },
-  NJ: { name: 'New Jersey', property_tax_rate: 0.024, closing_cost_pct: 0.04, avg_insurance: 1400, median_price: 495000 },
-  NM: { name: 'New Mexico', property_tax_rate: 0.0067, closing_cost_pct: 0.04, avg_insurance: 1500, median_price: 290000 },
-  NY: { name: 'New York', property_tax_rate: 0.0138, closing_cost_pct: 0.04, avg_insurance: 1700, median_price: 425000 },
-  NC: { name: 'North Carolina', property_tax_rate: 0.0072, closing_cost_pct: 0.04, avg_insurance: 1600, median_price: 315000 },
-  ND: { name: 'North Dakota', property_tax_rate: 0.0096, closing_cost_pct: 0.03, avg_insurance: 2200, median_price: 240000 },
-  OH: { name: 'Ohio', property_tax_rate: 0.0152, closing_cost_pct: 0.03, avg_insurance: 1300, median_price: 215000 },
-  OK: { name: 'Oklahoma', property_tax_rate: 0.0085, closing_cost_pct: 0.03, avg_insurance: 3000, median_price: 200000 },
-  OR: { name: 'Oregon', property_tax_rate: 0.0091, closing_cost_pct: 0.04, avg_insurance: 1100, median_price: 480000 },
-  PA: { name: 'Pennsylvania', property_tax_rate: 0.0154, closing_cost_pct: 0.04, avg_insurance: 1200, median_price: 250000 },
-  RI: { name: 'Rhode Island', property_tax_rate: 0.0142, closing_cost_pct: 0.04, avg_insurance: 1700, median_price: 455000 },
-  SC: { name: 'South Carolina', property_tax_rate: 0.0054, closing_cost_pct: 0.04, avg_insurance: 2100, median_price: 300000 },
-  SD: { name: 'South Dakota', property_tax_rate: 0.011, closing_cost_pct: 0.03, avg_insurance: 2400, median_price: 290000 },
-  TN: { name: 'Tennessee', property_tax_rate: 0.0067, closing_cost_pct: 0.04, avg_insurance: 2000, median_price: 315000 },
-  TX: { name: 'Texas', property_tax_rate: 0.018, closing_cost_pct: 0.04, avg_insurance: 2500, median_price: 330000 },
-  UT: { name: 'Utah', property_tax_rate: 0.0059, closing_cost_pct: 0.04, avg_insurance: 1200, median_price: 510000 },
-  VT: { name: 'Vermont', property_tax_rate: 0.0179, closing_cost_pct: 0.04, avg_insurance: 1300, median_price: 340000 },
-  VA: { name: 'Virginia', property_tax_rate: 0.0081, closing_cost_pct: 0.04, avg_insurance: 1500, median_price: 375000 },
-  WA: { name: 'Washington', property_tax_rate: 0.0092, closing_cost_pct: 0.04, avg_insurance: 1300, median_price: 570000 },
-  WV: { name: 'West Virginia', property_tax_rate: 0.0058, closing_cost_pct: 0.03, avg_insurance: 1700, median_price: 160000 },
-  WI: { name: 'Wisconsin', property_tax_rate: 0.0157, closing_cost_pct: 0.04, avg_insurance: 1100, median_price: 300000 },
-  WY: { name: 'Wyoming', property_tax_rate: 0.006, closing_cost_pct: 0.03, avg_insurance: 2000, median_price: 330000 },
-};
 
 // ============================================================
 // 3. Mortgage math
@@ -213,11 +180,45 @@ function insuranceTier(annualCost: number): { tier: InsuranceTier; desc: string 
   return { tier: 'high', desc: 'high — likely driven by exposure to severe weather, coastal winds, or tornado activity' };
 }
 
-const NATIONAL_AVG_TAX_RATE = 0.0099;
-const NATIONAL_AVG_INSURANCE = 1818;
-
 function fmtPct(v: number): string {
   return (v * 100).toFixed(2);
+}
+
+// ============================================================
+// 4aa. All Calculators section (reusable for amount & state pages)
+// ============================================================
+
+const ALL_CALCULATORS = [
+  { icon: '🏠', name: 'Mortgage Calculator', desc: 'Monthly payment with sliders, PITI breakdown, amortization chart.', url: `${SITE_URL}/mortgage-calculator` },
+  { icon: '💰', name: 'Affordability Calculator', desc: 'How much house can you afford? 28/36 rule with state data.', url: `${SITE_URL}/affordability-calculator` },
+  { icon: '📅', name: 'Bi-Weekly Calculator', desc: 'Compare standard vs bi-weekly. Save interest, pay off early.', url: `${SITE_URL}/biweekly-mortgage-calculator` },
+  { icon: '🏡', name: 'Rent vs Buy Analyzer', desc: 'Find your breakeven year with appreciation and investment returns.', url: `${SITE_URL}/rent-vs-buy-calculator` },
+  { icon: '🔥', name: 'FIRE Impact Calculator', desc: 'How home buying affects your early retirement timeline.', url: `${SITE_URL}/fire-impact-calculator` },
+  { icon: '🛡️', name: 'PMI Calculator', desc: 'Calculate PMI cost, cancellation timeline, and total paid.', url: `${SITE_URL}/pmi-calculator` },
+  { icon: '🔄', name: 'Refinance Calculator', desc: 'Compare current vs refi. Break-even point and lifetime savings.', url: `${SITE_URL}/refinance-calculator` },
+  { icon: '📋', name: 'Closing Cost Calculator', desc: 'Itemized closing costs with state-specific data.', url: `${SITE_URL}/closing-cost-calculator` },
+  { icon: '💵', name: 'Extra Payment Calculator', desc: 'See how extra principal payments save interest and time.', url: `${SITE_URL}/extra-payment-calculator` },
+  { icon: '📊', name: 'ARM vs Fixed Calculator', desc: 'Compare 30yr/15yr fixed vs 5/1 and 7/1 ARMs.', url: `${SITE_URL}/arm-vs-fixed-calculator` },
+];
+
+function generateAllCalculatorsHtml(): string {
+  const items = ALL_CALCULATORS.map(c =>
+    `      <a href="${c.url}" class="calc-grid-item">
+        <div class="calc-icon">${c.icon}</div>
+        <div>
+          <div class="calc-name">${c.name}</div>
+          <div class="calc-desc">${c.desc}</div>
+        </div>
+      </a>`
+  ).join('\n');
+
+  return `<div class="card">
+      <h2>📊 All Mortgage Calculators</h2>
+      <p style="margin-bottom: 16px;">Choose the tool that matches your situation — or use them all to build a complete picture.</p>
+      <div class="calc-grid">
+${items}
+      </div>
+    </div>`;
 }
 
 // ============================================================
@@ -664,6 +665,32 @@ function generateStateHtml(
     .tier-moderate { background: #fef3c7; color: #92400e; }
     .tier-high { background: #fee2e2; color: #991b1b; }
 
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .calc-grid-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+    .calc-grid-item:hover {
+      background: #f0f7ff;
+      border-color: #93c5fd;
+      box-shadow: 0 1px 4px rgba(37,99,235,0.1);
+    }
+    .calc-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+    .calc-name { font-weight: 600; color: #1a1a2e; font-size: 0.95rem; margin-bottom: 2px; }
+    .calc-desc { color: #64748b; font-size: 0.8rem; line-height: 1.4; }
+
     @media (max-width: 640px) {
       .hero h1 { font-size: 1.6rem; }
       .payment-card .amount { font-size: 2.2rem; }
@@ -671,6 +698,7 @@ function generateStateHtml(
       .card { padding: 20px; }
       table { font-size: 0.85rem; }
       th, td { padding: 8px; }
+      .calc-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -797,15 +825,7 @@ ${amortRows}
       <a href="${SITE_URL}/mortgage-calculator" class="cta-btn">Open Full Calculator →</a>
     </div>
 
-    <div class="card" style="text-align: center;">
-      <h2>Compare Mortgage Costs by State</h2>
-      <div class="neighbor-links">
-        <a href="${SITE_URL}/calculator" class="neighbor-links-item">Use the Interactive Calculator →</a>
-      </div>
-      <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 8px;">
-        Explore state-specific rates, down payments, and loan terms.
-      </p>
-    </div>
+    ${generateAllCalculatorsHtml()}
 
     ${generateRecommendedReadingHtml(getRecommendedArticles(true))}
 
@@ -855,8 +875,8 @@ function generateIntroParagraph(amount: number): string {
 }
 
 function generateAmountHtml(amount: number, slug: string): string {
-  const taxRate = 0.0099; // national avg
-  const insurance = 1818;  // national avg
+  const taxRate = NATIONAL_AVG_TAX_RATE;
+  const insurance = NATIONAL_AVG_INSURANCE;
   const data = calcMortgage(amount, taxRate, insurance);
   const firstYearInterest = calcFirstYearInterest(data.loanAmount, 6.5);
   const amortRows = calcAmortSchedule(data.loanAmount, 6.5).map(y =>
@@ -946,7 +966,7 @@ function generateAmountHtml(amount: number, slug: string): string {
         <thead><tr><th>Component</th><th class="text-right">Monthly Cost</th><th class="text-right">Annual Cost</th></tr></thead>
         <tbody>
           <tr><td><strong>Principal & Interest</strong></td><td class="text-right">${fmtCurrency(data.monthlyPI)}</td><td class="text-right">${fmtCurrency(data.monthlyPI * 12)}</td></tr>
-          <tr><td>Property Taxes (0.99% est.)</td><td class="text-right">${fmtCurrency(data.monthlyTax)}</td><td class="text-right">${fmtCurrency(data.monthlyTax * 12)}</td></tr>
+          <tr><td>Property Taxes (${fmtPct(NATIONAL_AVG_TAX_RATE)}% est.)</td><td class="text-right">${fmtCurrency(data.monthlyTax)}</td><td class="text-right">${fmtCurrency(data.monthlyTax * 12)}</td></tr>
           <tr><td>Home Insurance</td><td class="text-right">${fmtCurrency(data.monthlyInsurance)}</td><td class="text-right">${fmtCurrency(data.monthlyInsurance * 12)}</td></tr>
           <tr class="total-row"><td>Total Monthly Payment</td><td class="text-right">${fmtCurrency(data.totalMonthly)}</td><td class="text-right">${fmtCurrency(data.totalMonthly * 12)}</td></tr>
         </tbody>
@@ -985,6 +1005,8 @@ function generateAmountHtml(amount: number, slug: string): string {
       <p>Adjust the down payment, interest rate, or loan term — see how your payment changes in real time.</p>
       <a href="${SITE_URL}/mortgage-calculator" class="cta-btn">Open Full Calculator →</a>
     </div>
+
+    ${generateAllCalculatorsHtml()}
 
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
       <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
@@ -1102,8 +1124,8 @@ function main() {
     const html = generateAmountHtml(amount, slug);
     fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf-8');
     slugs.push(`mortgage-payment/${slug}`);
-    const data = calcMortgage(amount, 0.0099, 1818);
-    log(`✅  $${fmtNumber(amount)} → /mortgage-payment/${slug}/   (${fmtCurrency(data.totalMonthly)}/mo)`);
+    const amountData = calcMortgage(amount, NATIONAL_AVG_TAX_RATE, NATIONAL_AVG_INSURANCE);
+    log(`✅  $${fmtNumber(amount)} → /mortgage-payment/${slug}/   (${fmtCurrency(amountData.totalMonthly)}/mo)`);
     pageCount++;
   }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Calculator, Shield, Home, DollarSign, AlertTriangle } from 'lucide-react';
 import BlogSchema from './BlogSchema';
+import AllCalculatorsGrid from './AllCalculatorsGrid';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -353,6 +354,8 @@ export default function FivePercentDown() {
           </Link>
         </div>
       </section>
+
+      <AllCalculatorsGrid />
 
       <div className="mt-10 pt-8 border-t border-border">
         <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>

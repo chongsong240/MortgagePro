@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator } from 'lucide-react';
 import BlogSchema from './BlogSchema';
+import AllCalculatorsGrid from './AllCalculatorsGrid';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -471,6 +472,7 @@ export default function IncomeNeeded() {
           </p>
         </div>
       </section>
+      <AllCalculatorsGrid />
 
     </article>
   );

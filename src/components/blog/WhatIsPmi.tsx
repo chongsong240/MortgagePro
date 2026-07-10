@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, ExternalLink, CheckCircle2, XCircle, Landmark, ClipboardCheck } from 'lucide-react';
 import BlogSchema from './BlogSchema';
+import AllCalculatorsGrid from './AllCalculatorsGrid';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -500,6 +501,8 @@ export default function WhatIsPmi() {
           </div>
         </div>
       </section>
+
+      <AllCalculatorsGrid />
 
       {/* Footer */}
       <div className="border-t border-border pt-8 mt-8">

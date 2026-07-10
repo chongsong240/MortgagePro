@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, CreditCard, Calculator } from 'lucide-react';
 import BlogSchema from './BlogSchema';
+import AllCalculatorsGrid from './AllCalculatorsGrid';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -561,6 +562,8 @@ export default function HowMuchHouseCanIAfford() {
           </Link>
         </div>
       </section>
+
+      <AllCalculatorsGrid />
 
       {/* Related Articles */}
       <div className="mt-10 pt-8 border-t border-border">
