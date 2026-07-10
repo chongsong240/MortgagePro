@@ -14,6 +14,7 @@ import FhaVsConventional from '@/src/components/blog/FhaVsConventional';
 import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
 import FivePercentDown from '@/src/components/blog/FivePercentDown';
 import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
+import WhenShouldYouRefinance from '@/src/components/blog/WhenShouldYouRefinance';
 import {
   MortgageCalculatorPage,
   AffordabilityCalculatorPage,
@@ -330,6 +331,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "When Should You Refinance Your Home Loan?",
+      path: "/blog/when-should-you-refinance",
+      date: "July 10, 2026",
+    },
     {
       title: "How Much Will My Monthly Mortgage Payment Be? (PITI Explained)",
       path: "/blog/monthly-payment-breakdown",
@@ -770,6 +776,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "When Should You Refinance Your Home Loan?",
+      path: "/blog/when-should-you-refinance",
+      category: "Strategies",
+      date: "July 10, 2026",
+      readTime: "11 min read",
+      description: "My friend Kevin refinanced his mortgage twice in three years. My cousin Lisa almost did but it would have cost her thousands. Here's how to know which camp you're in."
+    },
+    { 
       title: "What Credit Score Do I Need to Buy a House?",
       path: "/blog/credit-score-needed",
       category: "Education",
@@ -988,6 +1002,7 @@ export default function App() {
             <Route path="/blog/is-buying-worth-it-2026" element={<IsBuyingWorthIt2026 />} />
             <Route path="/blog/can-i-buy-with-5-percent-down" element={<FivePercentDown />} />
             <Route path="/blog/credit-score-needed" element={<CreditScoreNeeded />} />
+            <Route path="/blog/when-should-you-refinance" element={<WhenShouldYouRefinance />} />
 
             {/* Other pages */}
             <Route path="/about" element={<AboutPage />} />
