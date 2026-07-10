@@ -242,10 +242,10 @@ export default function WhenShouldYouRefinance() {
           It's worth a phone call to your lender before you get too far down the road.
         </p>
         <p className="text-lg leading-relaxed text-foreground">
-          If you're shopping for a home in <Link to="/mortgage-payment/california/" className="text-primary hover:underline font-medium">California</Link>,{' '}
-          <Link to="/mortgage-payment/texas/" className="text-primary hover:underline font-medium">Texas</Link>,{' '}
-          <Link to="/mortgage-payment/florida/" className="text-primary hover:underline font-medium">Florida</Link>,{' '}
-          <Link to="/mortgage-payment/new-york/" className="text-primary hover:underline font-medium">New York</Link>, or 
+          If you're shopping for a home in <a href="/mortgage-payment/california/" className="text-primary hover:underline font-medium">California</a>,{' '}
+           <a href="/mortgage-payment/texas/" className="text-primary hover:underline font-medium">Texas</a>,{' '}
+           <a href="/mortgage-payment/florida/" className="text-primary hover:underline font-medium">Florida</a>,{' '}
+           <a href="/mortgage-payment/new-york/" className="text-primary hover:underline font-medium">New York</a>, or 
           any other state, closing costs can vary a lot. Our{' '}
           <Link to="/closing-cost-calculator" className="text-primary hover:underline font-medium">Closing Cost Calculator</Link>{' '}
           uses state-specific data so you can get a realistic estimate for where you live.
