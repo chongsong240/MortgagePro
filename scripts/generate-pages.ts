@@ -926,7 +926,34 @@ function generateAmountHtml(amount: number, slug: string): string {
     .cta-btn:hover { background: #1d4ed8; }
     .site-footer { background: #1a1a2e; color: #94a3b8; padding: 32px 0; margin-top: 48px; text-align: center; font-size: 0.85rem; }
     .site-footer a { color: #93c5fd; text-decoration: none; }
-    @media (max-width: 640px) { .hero h1 { font-size: 1.6rem; } .payment-card .amount { font-size: 2.2rem; } .nav-links { display: none; } .card { padding: 20px; } table { font-size: 0.85rem; } th, td { padding: 8px; } }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .calc-grid-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+    .calc-grid-item:hover {
+      background: #f0f7ff;
+      border-color: #93c5fd;
+      box-shadow: 0 1px 4px rgba(37,99,235,0.1);
+    }
+    .calc-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+    .calc-name { font-weight: 600; color: #1a1a2e; font-size: 0.95rem; margin-bottom: 2px; }
+    .calc-desc { color: #64748b; font-size: 0.8rem; line-height: 1.4; }
+
+    @media (max-width: 640px) { .hero h1 { font-size: 1.6rem; } .payment-card .amount { font-size: 2.2rem; } .nav-links { display: none; } .card { padding: 20px; } table { font-size: 0.85rem; } th, td { padding: 8px; } .calc-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
