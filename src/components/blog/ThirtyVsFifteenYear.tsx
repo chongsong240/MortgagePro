@@ -454,7 +454,7 @@ export default function ThirtyVsFifteenYear() {
               monthly payment that fits your life.
             </p>
             <Link 
-              to="/calculator" 
+              to="/mortgage-calculator" 
               className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
             >
               Open the Calculator
@@ -480,6 +480,10 @@ export default function ThirtyVsFifteenYear() {
             <Link to="/blog/what-is-pmi" className="text-primary hover:underline flex items-center gap-1">
               <ArrowRight className="w-3 h-3" />
               What Is PMI?
+            </Link>
+            <Link to="/mortgage-calculator" className="text-primary hover:underline flex items-center gap-1">
+              <ArrowRight className="w-3 h-3" />
+              All Calculators
             </Link>
           </div>
         </div>

@@ -273,7 +273,7 @@ export default function MonthlyPaymentBreakdown() {
           It gives you the full PITI breakdown in seconds — no sign-up required.
         </p>
         <Link
-          to="/calculator"
+          to="/mortgage-calculator"
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
         >
           <Calculator className="w-4 h-4" />
@@ -443,8 +443,8 @@ export default function MonthlyPaymentBreakdown() {
           The fastest way is to use a calculator that does it in about five seconds.
         </p>
         <p className="text-lg leading-relaxed mb-4">
-          Our <Link to="/calculator" className="text-primary hover:underline font-medium">mortgage calculator</Link> takes your home price, down payment, rate, and location, and 
-          gives you a complete monthly payment breakdown — principal, interest, taxes, insurance, PMI 
+          Our <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">mortgage calculator</Link> takes your home price, down payment, rate, and location, and
+          gives you a complete monthly payment breakdown — principal, interest, taxes, insurance, PMI
           if applicable. The full picture. You can adjust any variable and watch the number update 
           instantly. No waiting. No forms to fill out.
         </p>
@@ -452,7 +452,7 @@ export default function MonthlyPaymentBreakdown() {
           Once you know your baseline number, here are some related guides to dive deeper:
         </p>
         <div className="space-y-3 mb-4">
-          <Link to="/calculator?tab=biweekly" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
+          <Link to="/biweekly-mortgage-calculator" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
             <div className="w-8 h-8 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center flex-shrink-0">
               <Percent className="w-4 h-4" />
             </div>

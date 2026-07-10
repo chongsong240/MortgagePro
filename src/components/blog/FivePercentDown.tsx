@@ -195,7 +195,7 @@ export default function FivePercentDown() {
           five years, built equity, and locked in his housing cost. Whether that $12,000 was "worth it" depends on 
           what would have happened if he'd kept renting and saving. For a full breakdown of how different down 
           payments affect your total costs, check out our{' '}
-          <Link to="/calculator?tab=standard" className="text-primary hover:underline font-medium">mortgage calculator</Link>.
+          <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">mortgage calculator</Link>.
         </p>
       </section>
 
@@ -345,14 +345,32 @@ export default function FivePercentDown() {
             your relatives have been quoting for years. Your real budget.
           </p>
           <Link
-            to="/calculator"
+            to="/pmi-calculator"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
           >
-            Open the Calculator
+            Try the PMI Calculator
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>
+
+      <div className="mt-10 pt-8 border-t border-border">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Link to="/blog/credit-score-needed" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">What Credit Score Do I Need to Buy a House?</div>
+          </Link>
+          <Link to="/blog/fha-vs-conventional" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">FHA vs Conventional: Which Loan Is Better?</div>
+          </Link>
+          <Link to="/mortgage-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Tools</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Browse All 10 Calculators →</div>
+          </Link>
+        </div>
+      </div>
 
     </article>
   );

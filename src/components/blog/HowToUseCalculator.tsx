@@ -86,7 +86,7 @@ export default function HowToUseCalculator() {
       <section id="section-1" className="mb-12">
         <h2 className="text-2xl font-bold text-foreground mb-4">1. Getting Started: What You'll Need</h2>
         <p className="text-muted-foreground leading-relaxed mb-4">
-          Before you open the <Link to="/calculator" className="text-primary font-medium hover:underline">Mortgage Calculator</Link>, 
+          Before you open the <Link to="/mortgage-calculator" className="text-primary font-medium hover:underline">Mortgage Calculator</Link>,
           take a moment to gather a few key numbers. You don't need to be pre-approved for a loan — estimates 
           are perfectly fine. Here's what you'll want to have handy:
         </p>
@@ -626,7 +626,7 @@ export default function HowToUseCalculator() {
             No sign-up required, completely free.
           </p>
           <Link 
-            to="/calculator" 
+            to="/mortgage-calculator" 
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
           >
             Open Calculator
@@ -649,6 +649,12 @@ export default function HowToUseCalculator() {
             <div className="text-xs text-muted-foreground mb-1">Related</div>
             <div className="font-medium text-foreground group-hover:text-primary transition-colors">
               Bi-Weekly Mortgage Payments: Are They Worth It?
+            </div>
+          </Link>
+          <Link to="/mortgage-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Tools</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">
+              Browse All 10 Calculators →
             </div>
           </Link>
         </div>

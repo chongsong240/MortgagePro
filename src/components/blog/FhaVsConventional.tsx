@@ -252,7 +252,7 @@ export default function FhaVsConventional() {
         </p>
         <p className="text-lg leading-relaxed text-foreground">
           Over a decade, that gap could total <strong>$18,000 to $34,000</strong> in extra insurance costs on the FHA side.
-          Want to see the exact impact on your numbers? Use our <Link to="/calculator" className="text-primary hover:underline font-medium">interactive mortgage calculator</Link> to
+          Want to see the exact impact on your numbers? Use our <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">interactive mortgage calculator</Link> to
           compare both loan types side by side with real PMI and MIP estimates.
         </p>
       </section>
@@ -351,7 +351,7 @@ export default function FhaVsConventional() {
             Try your numbers before you walk into any lender's office.
           </p>
           <Link
-            to="/calculator"
+            to="/mortgage-calculator"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
           >
             Open the Calculator

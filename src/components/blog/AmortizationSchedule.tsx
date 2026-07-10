@@ -481,7 +481,7 @@ export default function AmortizationSchedule() {
         <p className="text-muted-foreground leading-relaxed mb-4">
           This is why integrating an extra payment simulator into your mortgage calculator isn't just a feature 
           — it's a game-changer. On our 
-          <Link to="/calculator" className="text-primary font-medium hover:underline"> Mortgage Calculator</Link>, 
+          <Link to="/mortgage-calculator" className="text-primary font-medium hover:underline"> Mortgage Calculator</Link>,
           you can switch to the "Amortization" view and add an extra $100/month to your principal. 
           You'll watch the total interest cost drop immediately and see your loan term shrink in real-time.
         </p>
@@ -632,8 +632,8 @@ export default function AmortizationSchedule() {
 
         <p className="text-muted-foreground leading-relaxed mb-6">
           A proper calculator turns abstract numbers into a real, interactive story about your money. 
-          On our <Link to="/calculator" className="text-primary font-medium hover:underline">Mortgage Calculator</Link>, 
-          you can switch to the "Amortization" view, drag a slider to add an extra $100/month to your principal, 
+          On our <Link to="/mortgage-calculator" className="text-primary font-medium hover:underline">Mortgage Calculator</Link>,
+          you can switch to the "Amortization" view, drag a slider to add an extra $100/month to your principal,
           and watch the total interest cost drop immediately on the chart.
         </p>
 
@@ -688,7 +688,7 @@ export default function AmortizationSchedule() {
             No sign-up required, completely free.
           </p>
           <Link 
-            to="/calculator" 
+            to="/mortgage-calculator" 
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
           >
             Open Calculator
@@ -711,6 +711,12 @@ export default function AmortizationSchedule() {
             <div className="text-xs text-muted-foreground mb-1">Next article →</div>
             <div className="font-medium text-foreground group-hover:text-primary transition-colors">
               Bi-Weekly Mortgage Payments: Are They Worth It?
+            </div>
+          </Link>
+          <Link to="/mortgage-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Tools</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">
+              Browse All 10 Calculators →
             </div>
           </Link>
         </div>

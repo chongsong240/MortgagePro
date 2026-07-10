@@ -118,7 +118,7 @@ export default function HowMuchHouseCanIAfford() {
           <p className="text-foreground font-medium mb-1">Start Here</p>
           <p className="text-sm text-muted-foreground">
             If you want to skip ahead and see your number right now, open our{' '}
-            <Link to="/calculator" className="text-primary font-medium hover:underline">Affordability Calculator</Link>.
+            <Link to="/affordability-calculator" className="text-primary font-medium hover:underline">Affordability Calculator</Link>.
             This article will help you understand exactly what those numbers mean and why they matter.
           </p>
         </div>
@@ -303,7 +303,7 @@ export default function HowMuchHouseCanIAfford() {
           <p className="text-foreground font-medium mb-1">Try this in the calculator</p>
           <p className="text-sm text-muted-foreground">
             Open our{' '}
-            <Link to="/calculator" className="text-primary font-medium hover:underline">Mortgage Calculator</Link>,
+            <Link to="/mortgage-calculator" className="text-primary font-medium hover:underline">Mortgage Calculator</Link>,
             set Home Price = $310,000, Down Payment = $30,000. Then try sliding the down payment to
             <strong> $62,000 (20%)</strong>. Watch PMI disappear from the payment breakdown &mdash; that's
             <strong> $133/month</strong> back in your pocket, or <strong>$1,596/year</strong>.
@@ -368,7 +368,7 @@ export default function HowMuchHouseCanIAfford() {
             <div>
               <p className="font-semibold text-foreground mb-1">Our calculator handles this automatically</p>
               <p className="text-sm text-muted-foreground">
-                In the <Link to="/calculator" className="text-primary font-medium hover:underline">Mortgage Calculator</Link>,
+                In the <Link to="/mortgage-calculator" className="text-primary font-medium hover:underline">Mortgage Calculator</Link>,
                 you can add your monthly debt payments and it will automatically calculate both your front-end and
                 back-end DTI limits.
               </p>
@@ -553,7 +553,7 @@ export default function HowMuchHouseCanIAfford() {
             Open our interactive affordability calculator. No sign-up required, completely free.
           </p>
           <Link
-            to="/calculator"
+            to="/affordability-calculator"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
           >
             Open Affordability Calculator
@@ -573,6 +573,10 @@ export default function HowMuchHouseCanIAfford() {
           <Link to="/blog/what-is-pmi" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
             <div className="text-xs text-muted-foreground mb-1">Important read</div>
             <div className="font-medium text-foreground group-hover:text-primary transition-colors">PMI in Mortgages: What It Is and How to Get Rid of It</div>
+          </Link>
+          <Link to="/mortgage-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Tools</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Browse All 10 Calculators →</div>
           </Link>
         </div>
       </div>

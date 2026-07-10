@@ -478,10 +478,10 @@ export default function BiWeeklyPayments() {
               instantly. The number in the top-left corner might genuinely shock you.
             </p>
             <Link 
-              to="/calculator" 
+              to="/biweekly-mortgage-calculator" 
               className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
             >
-              Try the Calculator
+              Try the Bi-Weekly Calculator
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </div>
@@ -504,6 +504,10 @@ export default function BiWeeklyPayments() {
             <Link to="/blog/amortization-schedule" className="text-primary hover:underline flex items-center gap-1">
               <ArrowRight className="w-3 h-3" />
               Amortization Schedule
+            </Link>
+            <Link to="/mortgage-calculator" className="text-primary hover:underline flex items-center gap-1">
+              <ArrowRight className="w-3 h-3" />
+              All Calculators
             </Link>
           </div>
         </div>

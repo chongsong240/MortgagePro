@@ -269,7 +269,7 @@ export default function PayOffEarly() {
         </p>
         <div className="text-center">
           <Link
-            to="/calculator?tab=biweekly"
+            to="/biweekly-mortgage-calculator"
             className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
           >
             <Calculator className="w-4 h-4" />
@@ -291,11 +291,11 @@ export default function PayOffEarly() {
           Add $100 a month. Add $500. Try a yearly lump sum. Watch the payoff date move.
         </p>
         <Link
-          to="/calculator"
+          to="/extra-payment-calculator"
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
         >
           <Calculator className="w-4 h-4" />
-          Open the Mortgage Calculator
+          Open the Extra Payment Calculator
         </Link>
       </div>
 
@@ -394,7 +394,7 @@ export default function PayOffEarly() {
       <section className="mb-10">
         <p className="font-medium text-foreground mb-3">Dive deeper into related topics:</p>
         <div className="space-y-3">
-          <Link to="/calculator?tab=biweekly" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
+          <Link to="/biweekly-mortgage-calculator" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
             <div className="w-8 h-8 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center flex-shrink-0">
               <Percent className="w-4 h-4" />
             </div>
@@ -434,6 +434,17 @@ export default function PayOffEarly() {
             <div className="flex-1">
               <div className="font-medium text-foreground group-hover:text-primary transition-colors">What Goes Into Your Monthly Payment?</div>
               <div className="text-sm text-muted-foreground">The full PITI breakdown beyond just principal and interest.</div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+          </Link>
+
+          <Link to="/mortgage-calculator" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
+            <div className="w-8 h-8 rounded bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+              <Calculator className="w-4 h-4" />
+            </div>
+            <div className="flex-1">
+              <div className="font-medium text-foreground group-hover:text-primary transition-colors">Browse All 10 Calculators</div>
+              <div className="text-sm text-muted-foreground">Mortgage, PMI, Refinance, Closing Costs, ARM vs Fixed, and more.</div>
             </div>
             <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
           </Link>

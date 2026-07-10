@@ -255,7 +255,7 @@ export default function IncomeNeeded() {
           and shows you the full monthly cost. No sign-up, no sales calls.
         </p>
         <Link
-          to="/calculator"
+          to="/affordability-calculator"
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
         >
           <Calculator className="w-4 h-4" />
@@ -421,7 +421,7 @@ export default function IncomeNeeded() {
           All of the above is the long version. Here's the short version.
         </p>
         <p className="text-lg leading-relaxed mb-4">
-          Our <Link to="/calculator" className="text-primary hover:underline font-medium">mortgage calculator</Link> lets you put in any 
+          Our <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">mortgage calculator</Link> lets you put in any
           home price, any down payment, any rate, and instantly see the full monthly payment—with 
           estimates for taxes and insurance based on your location. Then you can check it against 
           your own income and decide what's actually comfortable, not just what the bank will approve.

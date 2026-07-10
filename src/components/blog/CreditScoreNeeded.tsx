@@ -384,8 +384,8 @@ export default function CreditScoreNeeded() {
         </p>
         <p className="text-lg leading-relaxed text-foreground mb-4">
           Go play with our{' '}
-          <Link to="/calculator" className="text-primary hover:underline font-medium">mortgage calculator</Link>. 
-          Enter the rate you'd likely get with your current score. Then try a rate half a point lower—which might 
+          <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">mortgage calculator</Link>.
+          Enter the rate you'd likely get with your current score. Then try a rate half a point lower—which might
           be available if your score were 30 points higher. The monthly difference tells you exactly how much 
           improving your credit is worth.
         </p>
@@ -403,12 +403,30 @@ export default function CreditScoreNeeded() {
             Try your current rate, then try a better one. The difference is your motivation.
           </p>
           <Link
-            to="/calculator"
+            to="/mortgage-calculator"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
           >
             Open the Calculator
             <ArrowRight className="w-4 h-4" />
           </Link>
+        </div>
+
+        <div className="mt-10 pt-8 border-t border-border">
+          <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Link to="/blog/income-needed" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+              <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+              <div className="font-medium text-foreground group-hover:text-primary transition-colors">How Much Income Do You Need for a $500,000 House?</div>
+            </Link>
+            <Link to="/blog/can-i-buy-with-5-percent-down" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+              <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+              <div className="font-medium text-foreground group-hover:text-primary transition-colors">Can I Buy a House with 5% Down?</div>
+            </Link>
+            <Link to="/mortgage-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+              <div className="text-xs text-muted-foreground mb-1">Tools</div>
+              <div className="font-medium text-foreground group-hover:text-primary transition-colors">Browse All 10 Calculators →</div>
+            </Link>
+          </div>
         </div>
 
         <p className="text-lg leading-relaxed text-foreground mt-8">

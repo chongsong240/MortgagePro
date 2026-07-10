@@ -274,7 +274,7 @@ export default function WhyMostlyInterest() {
           every split between principal and interest, for the entire life of the loan.
         </p>
         <Link
-          to="/calculator"
+          to="/mortgage-calculator"
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
         >
           <Calculator className="w-4 h-4" />
@@ -367,7 +367,7 @@ export default function WhyMostlyInterest() {
               Pay half your monthly amount every two weeks instead of the full amount once a month. Because 
               of how the calendar works, you end up making the equivalent of <strong>13 full payments</strong> 
               per year instead of 12. That extra payment chips away at principal faster. 
-              {' '}<Link to="/calculator?tab=biweekly" className="text-primary hover:underline font-medium">
+              {' '}<Link to="/biweekly-mortgage-calculator" className="text-primary hover:underline font-medium">
                 Try our bi-weekly comparison tool →
               </Link>
             </p>
@@ -428,8 +428,8 @@ export default function WhyMostlyInterest() {
         </p>
         <p className="text-lg leading-relaxed">
           Couldn't agree more. You can pull up your own amortization breakdown right now with 
-          {' '}<Link to="/calculator" className="text-primary hover:underline font-medium">our mortgage calculator</Link> — 
-          just enter your numbers and look for the schedule that shows exactly how much of each payment 
+          {' '}<Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">our mortgage calculator</Link> —
+          just enter your numbers and look for the schedule that shows exactly how much of each payment
           is interest versus principal, month by month, for the entire life of the loan.
         </p>
 
@@ -447,7 +447,7 @@ export default function WhyMostlyInterest() {
             <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
           </Link>
 
-          <Link to="/calculator?tab=biweekly" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
+          <Link to="/biweekly-mortgage-calculator" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
             <div className="w-8 h-8 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center flex-shrink-0">
               <Percent className="w-4 h-4" />
             </div>

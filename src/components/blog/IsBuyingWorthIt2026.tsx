@@ -121,7 +121,7 @@ export default function IsBuyingWorthIt2026() {
         <p className="text-lg leading-relaxed text-foreground">
           Nobody wants to be the person who bought at the top. That fear is real, and it's keeping a lot of would-be buyers 
           on the sidelines. You can run your own numbers with our{' '}
-          <Link to="/calculator" className="text-primary hover:underline font-medium">interactive mortgage calculator</Link>{' '}
+          <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">interactive mortgage calculator</Link>{' '}
           to see exactly how the current rate environment affects your monthly payment.
         </p>
       </section>
@@ -176,7 +176,7 @@ export default function IsBuyingWorthIt2026() {
           Waiting is a bet. Sometimes it pays off. But it's not the no-risk move people pretend it is. If you wait two years 
           and prices are up 8% and rates are the same, you've made your situation worse, not better. If you want to see the 
           numbers for yourself, our{' '}
-          <Link to="/calculator?tab=standard" className="text-primary hover:underline font-medium">standard mortgage calculator</Link>{' '}
+          <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">standard mortgage calculator</Link>{' '}
           lets you plug in different rate and price scenarios to compare.
         </p>
       </section>
@@ -314,7 +314,7 @@ export default function IsBuyingWorthIt2026() {
         </p>
         <p className="text-lg leading-relaxed text-foreground">
           If you're torn between the two, our{' '}
-          <Link to="/calculator?tab=rentvsbuy" className="text-primary hover:underline font-medium">Rent vs Buy Analyzer</Link>{' '}
+          <Link to="/rent-vs-buy-calculator" className="text-primary hover:underline font-medium">Rent vs Buy Analyzer</Link>{' '}
           factors in home appreciation, rent inflation, property taxes, and closing costs to find your breakeven year—that 
           critical point where buying starts to make more financial sense than renting.
         </p>
@@ -350,14 +350,14 @@ export default function IsBuyingWorthIt2026() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/calculator"
+              to="/rent-vs-buy-calculator"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
             >
               Try the Calculator
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              to="/calculator?tab=rentvsbuy"
+              to="/rent-vs-buy-calculator"
               className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-8 py-3 rounded-md font-medium hover:bg-secondary/80 transition-colors border border-border"
             >
               Rent vs Buy Tool
