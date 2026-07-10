@@ -1,4 +1,5 @@
 import CalculatorPageLayout, { PageConfig } from './CalculatorPageLayout';
+import CalculatorSchema from './CalculatorSchema';
 import StandardCalculator from '@/src/components/calculators/StandardCalculator';
 import AffordabilityCalculator from '@/src/components/calculators/AffordabilityCalculator';
 import BiWeeklyCalculator from '@/src/components/calculators/BiWeeklyCalculator';
@@ -51,6 +52,11 @@ const mortgageCalcConfig: PageConfig = {
 export function MortgageCalculatorPage() {
   return (
     <CalculatorPageLayout config={mortgageCalcConfig}>
+      <CalculatorSchema
+        name="Mortgage Calculator"
+        description="Calculate your monthly mortgage payment with real-time sliders for home price, down payment, interest rate, and loan term. Full PITI breakdown, amortization schedule, and charts."
+        url="https://www.mortgagepro.io/mortgage-calculator"
+      />
       <StandardCalculator />
     </CalculatorPageLayout>
   );
@@ -98,6 +104,11 @@ const affordabilityConfig: PageConfig = {
 export function AffordabilityCalculatorPage() {
   return (
     <CalculatorPageLayout config={affordabilityConfig}>
+      <CalculatorSchema
+        name="Home Affordability Calculator"
+        description="How much house can you afford? Based on your income, debts, down payment, and location, this calculator uses the 28/36 rule to determine your maximum home price."
+        url="https://www.mortgagepro.io/affordability-calculator"
+      />
       <AffordabilityCalculator />
     </CalculatorPageLayout>
   );
@@ -143,6 +154,11 @@ const biweeklyConfig: PageConfig = {
 export function BiWeeklyCalculatorPage() {
   return (
     <CalculatorPageLayout config={biweeklyConfig}>
+      <CalculatorSchema
+        name="Bi-Weekly Mortgage Payment Calculator"
+        description="Compare standard monthly payments against an accelerated bi-weekly schedule. See how much interest you can save and how many years you can shave off your 30-year loan."
+        url="https://www.mortgagepro.io/biweekly-mortgage-calculator"
+      />
       <BiWeeklyCalculator />
     </CalculatorPageLayout>
   );
@@ -188,6 +204,11 @@ const rentVsBuyConfig: PageConfig = {
 export function RentVsBuyCalculatorPage() {
   return (
     <CalculatorPageLayout config={rentVsBuyConfig}>
+      <CalculatorSchema
+        name="Rent vs Buy Calculator"
+        description="Is renting or buying the smarter financial move? This tool factors in home appreciation, rent inflation, property taxes, closing costs, and investment returns to find your breakeven year."
+        url="https://www.mortgagepro.io/rent-vs-buy-calculator"
+      />
       <RentVsBuyCalculator />
     </CalculatorPageLayout>
   );
@@ -235,6 +256,11 @@ const fireConfig: PageConfig = {
 export function FIRECalculatorPage() {
   return (
     <CalculatorPageLayout config={fireConfig}>
+      <CalculatorSchema
+        name="FIRE Impact Calculator"
+        description="Thinking about Financial Independence or Early Retirement? See how buying a home could delay — or accelerate — your FIRE timeline based on your savings rate and investment strategy."
+        url="https://www.mortgagepro.io/fire-impact-calculator"
+      />
       <FIRECalculator />
     </CalculatorPageLayout>
   );
@@ -280,6 +306,11 @@ const pmiConfig: PageConfig = {
 export function PmiCalculatorPage() {
   return (
     <CalculatorPageLayout config={pmiConfig}>
+      <CalculatorSchema
+        name="PMI Calculator (Private Mortgage Insurance)"
+        description="Calculate your PMI monthly cost, how long it will take to reach 20% equity, and the total PMI you'll pay. Includes home appreciation to accelerate LTV progress."
+        url="https://www.mortgagepro.io/pmi-calculator"
+      />
       <PmiCalculator />
     </CalculatorPageLayout>
   );
@@ -324,6 +355,11 @@ const refinanceConfig: PageConfig = {
 export function RefinanceCalculatorPage() {
   return (
     <CalculatorPageLayout config={refinanceConfig}>
+      <CalculatorSchema
+        name="Refinance Calculator"
+        description="Compare your current mortgage against a refinance. Calculate monthly savings, break-even point, and lifetime interest difference to decide if refinancing makes sense."
+        url="https://www.mortgagepro.io/refinance-calculator"
+      />
       <RefinanceCalculator />
     </CalculatorPageLayout>
   );
@@ -370,6 +406,11 @@ const closingCostConfig: PageConfig = {
 export function ClosingCostCalculatorPage() {
   return (
     <CalculatorPageLayout config={closingCostConfig}>
+      <CalculatorSchema
+        name="Closing Cost Calculator"
+        description="Estimate your home buying closing costs with itemized breakdown. Includes state-specific data, loan origination fees, title insurance, appraisal, and seller concessions."
+        url="https://www.mortgagepro.io/closing-cost-calculator"
+      />
       <ClosingCostCalculator />
     </CalculatorPageLayout>
   );
@@ -415,6 +456,11 @@ const extraPaymentConfig: PageConfig = {
 export function ExtraPaymentCalculatorPage() {
   return (
     <CalculatorPageLayout config={extraPaymentConfig}>
+      <CalculatorSchema
+        name="Extra Payment Calculator"
+        description="See how making extra principal payments can save you thousands in interest and pay off your mortgage years early. Includes year-by-year balance comparison chart."
+        url="https://www.mortgagepro.io/extra-payment-calculator"
+      />
       <ExtraPaymentCalculator />
     </CalculatorPageLayout>
   );
@@ -460,6 +506,11 @@ const armVsFixedConfig: PageConfig = {
 export function ArmVsFixedCalculatorPage() {
   return (
     <CalculatorPageLayout config={armVsFixedConfig}>
+      <CalculatorSchema
+        name="ARM vs Fixed Rate Mortgage Calculator"
+        description="Compare 30-year fixed, 15-year fixed, 5/1 ARM, and 7/1 ARM side by side. See monthly payments over time with a chart showing when adjustable rates reset."
+        url="https://www.mortgagepro.io/arm-vs-fixed-calculator"
+      />
       <ArmVsFixedCalculator />
     </CalculatorPageLayout>
   );
