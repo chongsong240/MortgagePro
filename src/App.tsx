@@ -15,6 +15,7 @@ import IsBuyingWorthIt2026 from '@/src/components/blog/IsBuyingWorthIt2026';
 import FivePercentDown from '@/src/components/blog/FivePercentDown';
 import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
 import WhenShouldYouRefinance from '@/src/components/blog/WhenShouldYouRefinance';
+import ClosingCostsExplained from '@/src/components/blog/ClosingCostsExplained';
 import {
   MortgageCalculatorPage,
   AffordabilityCalculatorPage,
@@ -331,6 +332,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "Closing Costs Explained: The Money You Need Beyond the Down Payment",
+      path: "/blog/closing-costs-explained",
+      date: "July 12, 2026",
+    },
     {
       title: "When Should You Refinance Your Home Loan?",
       path: "/blog/when-should-you-refinance",
@@ -776,6 +782,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "Closing Costs Explained: The Money You Need Beyond the Down Payment",
+      path: "/blog/closing-costs-explained",
+      category: "Education",
+      date: "July 12, 2026",
+      readTime: "10 min read",
+      description: "My neighbors Jen and Mike thought they had the numbers figured out. Then a week before closing, they found out they needed nearly $12,000 more than they'd planned."
+    },
+    { 
       title: "When Should You Refinance Your Home Loan?",
       path: "/blog/when-should-you-refinance",
       category: "Strategies",
@@ -1003,6 +1017,7 @@ export default function App() {
             <Route path="/blog/can-i-buy-with-5-percent-down" element={<FivePercentDown />} />
             <Route path="/blog/credit-score-needed" element={<CreditScoreNeeded />} />
             <Route path="/blog/when-should-you-refinance" element={<WhenShouldYouRefinance />} />
+            <Route path="/blog/closing-costs-explained" element={<ClosingCostsExplained />} />
 
             {/* Other pages */}
             <Route path="/about" element={<AboutPage />} />
