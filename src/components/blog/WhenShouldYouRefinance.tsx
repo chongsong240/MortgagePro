@@ -113,9 +113,9 @@ export default function WhenShouldYouRefinance() {
         <p className="text-lg leading-relaxed text-foreground mb-4">
           The new loan might come with a lower rate, a different length, or different conditions. But it always comes with 
           closing costs. And those closing costs are the reason refinancing isn't automatically a good deal just because 
-          rates went down. If you want to estimate those costs upfront, check out our{' '}
-          <Link to="/closing-cost-calculator" className="text-primary hover:underline font-medium">Closing Cost Calculator</Link>{' '}
-          to get an itemized breakdown of what you'd actually pay.
+          rates went down. If you're wondering whether you should pull the trigger, start with our{' '}
+          <Link to="/refinance-calculator" className="text-primary hover:underline font-medium">Refinance Calculator</Link>{' '}
+          to compare your current loan against a new one side by side.
         </p>
       </section>
 
@@ -190,8 +190,8 @@ export default function WhenShouldYouRefinance() {
             80 points since then, you might qualify for a significantly better rate even if market rates haven't moved much. 
             This is more common than people realize, especially for first-time buyers who worked on their credit before purchasing. 
             Use our{' '}
-            <Link to="/affordability-calculator" className="text-primary hover:underline font-medium">Affordability Calculator</Link>{' '}
-            to see how a better rate changes what you can afford.
+            <Link to="/extra-payment-calculator" className="text-primary hover:underline font-medium">Extra Payment Calculator</Link>{' '}
+            to see how ripping off that PMI or rate drop changes the math on your total interest.
           </p>
         </div>
 
@@ -352,10 +352,10 @@ export default function WhenShouldYouRefinance() {
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              to="/closing-cost-calculator"
+              to="/extra-payment-calculator"
               className="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-8 py-3 rounded-md font-medium hover:bg-secondary/80 transition-colors border border-border"
             >
-              Estimate Closing Costs
+              Try Extra Payment Calculator
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

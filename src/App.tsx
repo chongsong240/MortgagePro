@@ -16,6 +16,7 @@ import FivePercentDown from '@/src/components/blog/FivePercentDown';
 import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
 import WhenShouldYouRefinance from '@/src/components/blog/WhenShouldYouRefinance';
 import ClosingCostsExplained from '@/src/components/blog/ClosingCostsExplained';
+import ArmVsFixedArm from '@/src/components/blog/ArmVsFixedArm';
 import {
   MortgageCalculatorPage,
   AffordabilityCalculatorPage,
@@ -332,6 +333,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "ARM vs Fixed Mortgage: Which One Makes Sense Right Now?",
+      path: "/blog/arm-vs-fixed-arm",
+      date: "July 20, 2026",
+    },
     {
       title: "Closing Costs Explained: The Money You Need Beyond the Down Payment",
       path: "/blog/closing-costs-explained",
@@ -782,6 +788,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "ARM vs Fixed Mortgage: Which One Makes Sense Right Now?",
+      path: "/blog/arm-vs-fixed-arm",
+      category: "Comparisons",
+      date: "July 20, 2026",
+      readTime: "11 min read",
+      description: "My friend Dave had two loan estimates on the same house. His agent told him fixed. His brother-in-law said ARM. Here's how he decided in five minutes."
+    },
+    { 
       title: "Closing Costs Explained: The Money You Need Beyond the Down Payment",
       path: "/blog/closing-costs-explained",
       category: "Education",
@@ -1018,6 +1032,7 @@ export default function App() {
             <Route path="/blog/credit-score-needed" element={<CreditScoreNeeded />} />
             <Route path="/blog/when-should-you-refinance" element={<WhenShouldYouRefinance />} />
             <Route path="/blog/closing-costs-explained" element={<ClosingCostsExplained />} />
+            <Route path="/blog/arm-vs-fixed-arm" element={<ArmVsFixedArm />} />
 
             {/* Other pages */}
             <Route path="/about" element={<AboutPage />} />

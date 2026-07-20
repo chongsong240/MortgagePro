@@ -1105,6 +1105,7 @@ function generateSitemap(): string {
     'is-buying-worth-it-2026', 'can-i-buy-with-5-percent-down', 'credit-score-needed',
     'when-should-you-refinance',
     'closing-costs-explained',
+    'arm-vs-fixed-arm',
   ];
   for (const slug of blogs) {
     lines.push(`  <url><loc>${SITE_URL}/blog/${slug}</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>`);
@@ -1203,6 +1204,7 @@ function main() {
     { path: 'blog/credit-score-needed', title: 'What Credit Score Do You Need to Buy a House? | MortgagePro', description: 'What credit score do you need to buy a house in 2026? Minimum requirements for FHA, conventional, and USDA loans.', priority: 0.8 },
     { path: 'blog/when-should-you-refinance', title: 'When Should You Refinance Your Home Loan? | MortgagePro', description: 'My friend Kevin refinanced his mortgage twice in three years. My cousin Lisa almost did but it would have cost her thousands. Here\'s how to know which camp you\'re in.', priority: 0.8 },
     { path: 'blog/closing-costs-explained', title: 'Closing Costs Explained: The Money You Need Beyond the Down Payment | MortgagePro', description: 'My neighbors Jen and Mike thought they had the numbers figured out. Then a week before closing, they found out they needed nearly $12,000 more than they\'d planned.', priority: 0.8 },
+        { path: 'blog/arm-vs-fixed-arm', title: 'ARM vs Fixed Mortgage: Which One Makes Sense Right Now? | MortgagePro', description: 'My friend Dave had two loan estimates on the same house. His agent told him fixed. His brother-in-law said ARM. Here\'s how he decided in five minutes.', priority: 0.8 },
     { path: 'about', title: 'About MortgagePro - Free Mortgage Calculators & Resources', description: 'Learn about MortgagePro. We provide free mortgage calculators, educational resources, and state-specific data for home buyers.', priority: 0.5 },
     { path: 'privacy', title: 'Privacy Policy | MortgagePro', description: 'MortgagePro privacy policy. Learn how we collect, use, and protect your data.', priority: 0.3 },
     { path: 'disclaimer', title: 'Disclaimer | MortgagePro', description: 'MortgagePro disclaimer. Our calculators provide estimates for informational purposes only.', priority: 0.3 },
