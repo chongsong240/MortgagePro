@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator, TrendingUp, AlertTriangle } from 'lucide-react';
 import BlogSchema from './BlogSchema';
+import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight, ExampleBox, Checklist } from './BlogComponents';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
@@ -170,10 +171,13 @@ export default function WhyMostlyInterest() {
           You just paid over twenty-five hundred dollars. Your debt went down by <strong>three hundred 
           and sixty-one bucks</strong>.
         </p>
-        <p className="text-lg leading-relaxed bg-muted/40 border border-border rounded-lg p-4">
-          Rob stared at his screen for a while after I walked him through this. "So I'm basically renting 
-          money from the bank," he said. That's not far off.
-        </p>
+        <div className="space-y-3">
+          <p className="text-lg leading-relaxed bg-muted/40 border border-border rounded-lg p-4">
+            Rob stared at his screen for a while after I walked him through this. "So I'm basically renting 
+            money from the bank," he said. That's not far off.
+          </p>
+        </div>
+        <StatHighlight value="$2,167" label="Interest paid in month one vs. just $361 to principal" color="red" />
       </section>
 
       {/* ============================================ */}

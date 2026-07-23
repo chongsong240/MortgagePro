@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -124,10 +125,14 @@ export default function IncomeNeeded() {
             Required Monthly Income = Estimated Housing Payment ÷ 0.28
           </p>
         </div>
+        <InfoBox title="📘 The 28% Rule">
+          <p>Lenders use this ratio because they want to ensure you have enough income left over for living expenses, savings, and other financial obligations after your housing payment. It's not a recommendation — it's the <strong>maximum</strong> they'll allow.</p>
+        </InfoBox>
         <p className="text-lg leading-relaxed">
           That's it. Once you know your likely payment, divide by 0.28, and you've got your minimum 
           monthly income. Multiply by 12, and you've got your annual salary requirement.
         </p>
+        <StatHighlight value="$136,200" label="Minimum annual income needed for a $500K home with 20% down at 6.5%" color="blue" />
       </section>
 
       {/* ============================================ */}
