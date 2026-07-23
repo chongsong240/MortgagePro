@@ -711,6 +711,8 @@ function generateStateHtml(
         <a href="${SITE_URL}/">Home</a>
         <a href="${SITE_URL}/mortgage-calculator">Calculator</a>
         <a href="${SITE_URL}/blog">Blog</a>
+        <a href="${SITE_URL}/about">About</a>
+        <a href="${SITE_URL}/contact">Contact</a>
       </nav>
     </div>
   </header>
@@ -854,7 +856,7 @@ ${amortRows}
 }
 
 // ============================================================
-// 5a. Content generation - Amount pages
+// 5a. Content generation - Amount pages (ENHANCED)
 // ============================================================
 
 function generateMetaTitle(amount: number): string {
@@ -865,16 +867,35 @@ function generateMetaDescription(amount: number, monthly: number): string {
   return `Calculate your monthly mortgage payment on a $${fmtNumber(amount)} house for 2025. With 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo including principal, interest, taxes & insurance. Full PITI breakdown and amortization schedule.`;
 }
 
-function generateIntroParagraph(amount: number): string {
-  const k = amount / 1000;
-  const category = amount <= 250000
-    ? 'entry-level'
-    : amount <= 450000
-    ? 'mid-range'
-    : amount <= 650000
-    ? 'upper-mid-range'
-    : 'premium';
-  return `<p>A <strong>$${fmtNumber(amount)}</strong> purchase price places you in the <strong>${category}</strong> tier of the US housing market. With a <strong>20% down payment</strong> and a <strong>6.5% APR on a 30-year fixed-rate mortgage</strong>, here is a complete breakdown of your estimated monthly costs.</p>`;
+function generateAmountFaq(amount: number, data: MortgageData, downPct: number): { q: string; a: string }[] {
+  const downPayment = amount * (downPct / 100);
+  const loanAmount = amount - downPayment;
+  return [
+    {
+      q: `How much income do I need for a $${fmtNumber(amount)} house?`,
+      a: `For a $${fmtNumber(amount)} home with a ${downPct}% down payment ($${fmtCurrency(downPayment)}) and a 6.5% interest rate, you need about <strong>${fmtCurrency(data.incomeNeeded)}/year</strong> based on the 28% front-end DTI rule. This covers principal, interest, property taxes, and homeowners insurance. If your down payment is smaller, you'll need additional income to cover PMI and a larger loan balance.`,
+    },
+    {
+      q: `What is the monthly payment on a $${fmtNumber(amount)} house?`,
+      a: `With ${downPct}% down and a 6.5% 30-year fixed rate, the total monthly payment is approximately <strong>${fmtCurrency(data.totalMonthly)}</strong>. This includes <strong>${fmtCurrency(data.monthlyPI)}</strong> for principal and interest, <strong>${fmtCurrency(data.monthlyTax)}</strong> for property taxes, and <strong>${fmtCurrency(data.monthlyInsurance)}</strong> for homeowners insurance. Your actual payment will depend on your exact interest rate, property tax rate, and insurance costs.`,
+    },
+    {
+      q: `How much is the down payment on a $${fmtNumber(amount)} house?`,
+      a: `A standard ${downPct}% down payment is <strong>${fmtCurrency(downPayment)}</strong>, which avoids Private Mortgage Insurance (PMI). If you put down less — for example, 10% (${fmtCurrency(amount * 0.1)}) or 5% (${fmtCurrency(amount * 0.05)}) — you'll pay PMI, typically 0.5%–1% of the loan amount annually, until you reach 20% equity.`,
+    },
+    {
+      q: `What are the total closing costs on a $${fmtNumber(amount)} home?`,
+      a: `Closing costs typically range from 2% to 5% of the purchase price. On a $${fmtNumber(amount)} home, expect to pay between <strong>${fmtCurrency(Math.round(amount * 0.02))}</strong> and <strong>${fmtCurrency(Math.round(amount * 0.05))}</strong> in closing costs. Combined with a ${downPct}% down payment, you'd need total cash at closing of approximately <strong>${fmtCurrency(downPayment + Math.round(amount * 0.035))}</strong>.`,
+    },
+    {
+      q: `How much interest will I pay on a $${fmtNumber(amount)} mortgage?`,
+      a: `Over a 30-year term at 6.5%, you'll pay approximately <strong>${fmtCurrency(data.totalInterest)}</strong> in total interest on the loan portion. In the first year alone, roughly <strong>${fmtCurrency(calcFirstYearInterest(loanAmount, 6.5))}</strong> goes to interest. This is why many homeowners consider making extra principal payments or choosing a shorter loan term.`,
+    },
+    {
+      q: `Is a $${fmtNumber(amount)} house affordable on my salary?`,
+      a: `Using the standard 28/36 rule, you need a minimum annual income of <strong>${fmtCurrency(data.incomeNeeded)}</strong> to qualify for a $${fmtNumber(amount)} home with ${downPct}% down. Your total monthly housing costs should not exceed 28% of your gross monthly income. If you have other debts (car loans, student loans, credit cards), your total debt-to-income ratio should stay below 36%. Use our <a href="${SITE_URL}/affordability-calculator" style="color: #2563eb;">Affordability Calculator</a> for a personalized estimate.`,
+    },
+  ];
 }
 
 function generateAmountHtml(amount: number, slug: string): string {
@@ -886,6 +907,37 @@ function generateAmountHtml(amount: number, slug: string): string {
     `            <tr><td>Year ${y.year}</td><td class="text-right">${fmtCurrency(y.principal)}</td><td class="text-right">${fmtCurrency(y.interest)}</td><td class="text-right">${fmtCurrency(y.balance)}</td></tr>`
   ).join('\n');
 
+  const category = amount <= 250000 ? 'entry-level' : amount <= 450000 ? 'mid-range' : amount <= 650000 ? 'upper-mid-range' : 'premium';
+  const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1);
+  const downPct = 20;
+  const downAmount = Math.round(amount * (downPct / 100));
+  const loanAmount = amount - downAmount;
+  const closingCosts = Math.round(amount * 0.035);
+  const totalCashNeeded = downAmount + closingCosts;
+
+  // 10% down scenario
+  const loan10 = amount - Math.round(amount * 0.1);
+  const monthlyP10 = (loan10 * (6.5 / 100 / 12) * Math.pow(1 + (6.5 / 100 / 12), 360)) / (Math.pow(1 + (6.5 / 100 / 12), 360) - 1);
+  const pmi10 = loan10 * 0.007 / 12;
+  const total10down = Math.round(monthlyP10 + (amount * taxRate) / 12 + insurance / 12 + pmi10);
+
+  const faqItems = generateAmountFaq(amount, data, downPct);
+  const faqHtml = faqItems.map((item, i) => {
+    const borderStyle = i < faqItems.length - 1 ? 'margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;' : '';
+    return `<div style="${borderStyle}">
+      <h3 style="font-size: 1rem; margin-bottom: 6px;">${item.q}</h3>
+      <p style="color: #475569; font-size: 0.95rem;">${item.a}</p>
+    </div>`;
+  }).join('\n');
+
+  // Neighboring amount links for internal linking
+  const allAmounts = [150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 650000, 700000, 750000, 800000];
+  const idx = allAmounts.indexOf(amount);
+  const neighborLinks: string[] = [];
+  if (idx > 0) neighborLinks.push(`<a href="${SITE_URL}/mortgage-payment/${allAmounts[idx - 1]}/" class="neighbor-links-item">$${fmtNumber(allAmounts[idx - 1])} House</a>`);
+  neighborLinks.push(`<a href="${SITE_URL}/mortgage-payment/${allAmounts[idx]}/" class="neighbor-links-item" style="background:#2563eb;color:white;">$${fmtNumber(allAmounts[idx])}</a>`);
+  if (idx < allAmounts.length - 1) neighborLinks.push(`<a href="${SITE_URL}/mortgage-payment/${allAmounts[idx + 1]}/" class="neighbor-links-item">$${fmtNumber(allAmounts[idx + 1])} House</a>`);
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -895,6 +947,40 @@ function generateAmountHtml(amount: number, slug: string): string {
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="${SITE_URL}/mortgage-payment/${slug}/">
   <title>${generateMetaTitle(amount)}</title>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How much income do I need for a $${fmtNumber(amount)} house?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For a $${fmtNumber(amount)} home with ${downPct}% down and 6.5% rate, you need about ${fmtCurrency(data.incomeNeeded)} per year based on the 28% DTI rule."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the monthly payment on a $${fmtNumber(amount)} house?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "With ${downPct}% down at 6.5% on a 30-year term, the total monthly payment is approximately ${fmtCurrency(data.totalMonthly)} including principal, interest, taxes, and insurance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much is the down payment on a $${fmtNumber(amount)} house?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A ${downPct}% down payment on a $${fmtNumber(amount)} home is ${fmtCurrency(downAmount)}. A smaller down payment of 5-10% is possible but requires PMI."
+        }
+      }
+    ]
+  }
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1a1a2e; background: #f8fafc; }
@@ -930,31 +1016,21 @@ function generateAmountHtml(amount: number, slug: string): string {
     .site-footer { background: #1a1a2e; color: #94a3b8; padding: 32px 0; margin-top: 48px; text-align: center; font-size: 0.85rem; }
     .site-footer a { color: #93c5fd; text-decoration: none; }
 
-    .calc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 12px;
-    }
-    .calc-grid-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 14px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.2s;
-    }
-    .calc-grid-item:hover {
-      background: #f0f7ff;
-      border-color: #93c5fd;
-      box-shadow: 0 1px 4px rgba(37,99,235,0.1);
-    }
+    .calc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .calc-grid-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s; }
+    .calc-grid-item:hover { background: #f0f7ff; border-color: #93c5fd; box-shadow: 0 1px 4px rgba(37,99,235,0.1); }
     .calc-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
     .calc-name { font-weight: 600; color: #1a1a2e; font-size: 0.95rem; margin-bottom: 2px; }
     .calc-desc { color: #64748b; font-size: 0.8rem; line-height: 1.4; }
+
+    .neighbor-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
+    .neighbor-links-item { display: inline-block; padding: 10px 20px; background: #f1f5f9; border-radius: 8px; color: #2563eb; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
+    .neighbor-links-item:hover { background: #e2e8f0; }
+
+    .tier-affordable { background: #dcfce7; color: #166534; display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+    .tier-mid-range { background: #dbeafe; color: #1e40af; display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+    .tier-upper-mid-range { background: #fef3c7; color: #92400e; display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+    .tier-premium { background: #fee2e2; color: #991b1b; display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
 
     @media (max-width: 640px) { .hero h1 { font-size: 1.6rem; } .payment-card .amount { font-size: 2.2rem; } .nav-links { display: none; } .card { padding: 20px; } table { font-size: 0.85rem; } th, td { padding: 8px; } .calc-grid { grid-template-columns: 1fr; } }
   </style>
@@ -967,6 +1043,8 @@ function generateAmountHtml(amount: number, slug: string): string {
         <a href="${SITE_URL}/">Home</a>
         <a href="${SITE_URL}/mortgage-calculator">Calculator</a>
         <a href="${SITE_URL}/blog">Blog</a>
+        <a href="${SITE_URL}/about">About</a>
+        <a href="${SITE_URL}/contact">Contact</a>
       </nav>
     </div>
   </header>
@@ -974,38 +1052,64 @@ function generateAmountHtml(amount: number, slug: string): string {
   <section class="hero">
     <div class="container">
       <h1>$${fmtNumber(amount)} Mortgage Payment (2025)</h1>
-      <p>Complete monthly cost breakdown for a $${fmtNumber(amount)} home — national average taxes, insurance, and full amortization schedule.</p>
+      <p>What it actually costs to own a $${fmtNumber(amount)} home — down payment, closing costs, monthly PITI, PMI scenarios, and amortization.</p>
     </div>
   </section>
 
   <div class="payment-card">
     <div class="label">Estimated Monthly Payment</div>
     <div class="amount">${fmtCurrency(data.totalMonthly)}</div>
-    <div class="sub">Principal & Interest + Taxes + Insurance • 20% down at 6.5% APR</div>
+    <div class="sub">Principal & Interest + Taxes + Insurance • ${downPct}% down at 6.5% APR</div>
   </div>
 
   <main class="container">
+
     <div class="card">
-      <h2>Monthly Payment on a $${fmtNumber(amount)} Home</h2>
-      ${generateIntroParagraph(amount)}
+      <h2>Monthly Payment on a $${fmtNumber(amount)} Home <span class="tier-${category}">${categoryLabel}</span></h2>
+      <p>A <strong>$${fmtNumber(amount)}</strong> purchase price places you in the <strong>${category}</strong> tier of the US housing market. With a <strong>${downPct}% down payment (${fmtCurrency(downAmount)})</strong> and a <strong>6.5% APR on a 30-year fixed-rate mortgage</strong>, the total monthly cost comes to <strong>${fmtCurrency(data.totalMonthly)}</strong>. But buying a $${fmtNumber(amount)} home involves more than just the monthly payment — you also need to plan for the upfront costs.</p>
+
+      <h3 style="margin-top: 20px;">What You Need Up Front</h3>
+      <table>
+        <thead><tr><th>Upfront Cost Item</th><th class="text-right">Amount</th></tr></thead>
+        <tbody>
+          <tr><td>Down Payment (${downPct}%)</td><td class="text-right">${fmtCurrency(downAmount)}</td></tr>
+          <tr><td>Estimated Closing Costs (3.5%)</td><td class="text-right">${fmtCurrency(closingCosts)}</td></tr>
+          <tr class="total-row"><td><strong>Total Cash Needed at Closing</strong></td><td class="text-right"><strong>${fmtCurrency(totalCashNeeded)}</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 8px;">Closing costs include loan origination, appraisal, title insurance, escrow fees, and prepaid taxes. Some costs may be negotiable or can be rolled into the loan.</p>
     </div>
 
     <div class="card">
-      <h2>Monthly Payment Breakdown</h2>
+      <h2>Real-World Scenario: Buying a $${fmtNumber(amount)} Home</h2>
+      <p>Imagine you're a first-time buyer looking at a $${fmtNumber(amount)} home. Here's how the numbers work out in a realistic scenario:</p>
+      <ul style="margin: 16px 0; padding-left: 20px; color: #475569; line-height: 2;">
+        <li><strong>20% down:</strong> You bring <strong>${fmtCurrency(downAmount)}</strong> to the table</li>
+        <li><strong>Loan amount:</strong> You finance <strong>${fmtCurrency(loanAmount)}</strong> at 6.5% for 30 years</li>
+        <li><strong>Monthly P&I:</strong> <strong>${fmtCurrency(data.monthlyPI)}</strong> — this is your base payment</li>
+        <li><strong>Property taxes:</strong> Estimated at <strong>${fmtPct(NATIONAL_AVG_TAX_RATE)}%</strong> = <strong>${fmtCurrency(data.monthlyTax)}/month</strong></li>
+        <li><strong>Home insurance:</strong> <strong>${fmtCurrency(data.monthlyInsurance)}/month</strong> (national average)</li>
+        <li><strong>Total monthly:</strong> <strong>${fmtCurrency(data.totalMonthly)}</strong> — your PITI</li>
+      </ul>
+      <p>Your lender will check that this total doesn't exceed <strong>28% of your gross monthly income</strong>. That means you need about <strong>${fmtCurrency(data.incomeNeeded)}/year</strong> to qualify.</p>
+    </div>
+
+    <div class="card">
+      <h2>Monthly Payment Breakdown (PITI)</h2>
       <table>
-        <thead><tr><th>Component</th><th class="text-right">Monthly Cost</th><th class="text-right">Annual Cost</th></tr></thead>
+        <thead><tr><th>Component</th><th class="text-right">Monthly Cost</th><th class="text-right">Annual Cost</th><th class="text-right">% of Payment</th></tr></thead>
         <tbody>
-          <tr><td><strong>Principal & Interest</strong></td><td class="text-right">${fmtCurrency(data.monthlyPI)}</td><td class="text-right">${fmtCurrency(data.monthlyPI * 12)}</td></tr>
-          <tr><td>Property Taxes (${fmtPct(NATIONAL_AVG_TAX_RATE)}% est.)</td><td class="text-right">${fmtCurrency(data.monthlyTax)}</td><td class="text-right">${fmtCurrency(data.monthlyTax * 12)}</td></tr>
-          <tr><td>Home Insurance</td><td class="text-right">${fmtCurrency(data.monthlyInsurance)}</td><td class="text-right">${fmtCurrency(data.monthlyInsurance * 12)}</td></tr>
-          <tr class="total-row"><td>Total Monthly Payment</td><td class="text-right">${fmtCurrency(data.totalMonthly)}</td><td class="text-right">${fmtCurrency(data.totalMonthly * 12)}</td></tr>
+          <tr><td><strong>Principal & Interest</strong></td><td class="text-right">${fmtCurrency(data.monthlyPI)}</td><td class="text-right">${fmtCurrency(data.monthlyPI * 12)}</td><td class="text-right">${(data.monthlyPI / data.totalMonthly * 100).toFixed(1)}%</td></tr>
+          <tr><td>Property Taxes (${fmtPct(NATIONAL_AVG_TAX_RATE)}% est.)</td><td class="text-right">${fmtCurrency(data.monthlyTax)}</td><td class="text-right">${fmtCurrency(data.monthlyTax * 12)}</td><td class="text-right">${(data.monthlyTax / data.totalMonthly * 100).toFixed(1)}%</td></tr>
+          <tr><td>Home Insurance</td><td class="text-right">${fmtCurrency(data.monthlyInsurance)}</td><td class="text-right">${fmtCurrency(data.monthlyInsurance * 12)}</td><td class="text-right">${(data.monthlyInsurance / data.totalMonthly * 100).toFixed(1)}%</td></tr>
+          <tr class="total-row"><td>Total Monthly Payment</td><td class="text-right">${fmtCurrency(data.totalMonthly)}</td><td class="text-right">${fmtCurrency(data.totalMonthly * 12)}</td><td class="text-right">100%</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="card">
       <h2>Income Required</h2>
-      <p>Using the standard <strong>28% front-end DTI rule</strong>, you'd need a gross annual income of approximately <strong>${fmtCurrency(data.incomeNeeded)}</strong> to comfortably afford this home with 20% down at 6.5%.</p>
+      <p>Using the standard <strong>28% front-end DTI rule</strong>, you'd need a gross annual income of approximately <strong>${fmtCurrency(data.incomeNeeded)}</strong> to comfortably afford this home with ${downPct}% down at 6.5%.</p>
       <div style="margin-top: 16px; background: #f0f7ff; border-radius: 8px; padding: 16px;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
           <span style="font-weight: 600;">Recommended annual income:</span>
@@ -1015,8 +1119,32 @@ function generateAmountHtml(amount: number, slug: string): string {
     </div>
 
     <div class="card">
+      <h2>PMI Scenario: What If You Put Down Less Than 20%?</h2>
+      <p>Many first-time buyers put down less than 20%. Here's how a 10% down payment changes your costs on a $${fmtNumber(amount)} home:</p>
+      <table>
+        <thead><tr><th>Item</th><th class="text-right">10% Down</th><th class="text-right">20% Down</th></tr></thead>
+        <tbody>
+          <tr><td>Down Payment</td><td class="text-right">${fmtCurrency(Math.round(amount * 0.1))}</td><td class="text-right">${fmtCurrency(downAmount)}</td></tr>
+          <tr><td>Monthly P&I</td><td class="text-right">${fmtCurrency(Math.round(monthlyP10))}</td><td class="text-right">${fmtCurrency(data.monthlyPI)}</td></tr>
+          <tr><td>Monthly PMI</td><td class="text-right">${fmtCurrency(Math.round(pmi10))}</td><td class="text-right">$0</td></tr>
+          <tr><td>Total PITI+PMI</td><td class="text-right"><strong>${fmtCurrency(total10down)}</strong></td><td class="text-right"><strong>${fmtCurrency(data.totalMonthly)}</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 8px;">With 10% down, your monthly payment is <strong>${fmtCurrency(total10down - data.totalMonthly)} higher</strong> due to a larger loan amount and PMI. PMI can be canceled once you reach 20% equity. Use our <a href="${SITE_URL}/pmi-calculator" style="color: #2563eb;">PMI Calculator</a> to see your exact cost.</p>
+    </div>
+
+    <div class="card">
+      <h2>Neighboring Home Price Comparisons</h2>
+      <p>Not sure if $${fmtNumber(amount)} is the right price point? Compare with similar price ranges:</p>
+      <div class="neighbor-links">
+        ${neighborLinks.join('\n        ')}
+      </div>
+    </div>
+
+    <div class="card">
       <h2>How Interest Shapes Your Payments</h2>
-      <p>In your first year, approximately <strong>${fmtCurrency(firstYearInterest)}</strong> goes toward interest alone. Over the full 30-year term, you'll pay a total of <strong>${fmtCurrency(data.totalInterest)}</strong> in interest.</p>
+      <p>In your first year, approximately <strong>${fmtCurrency(firstYearInterest)}</strong> goes toward interest alone. Over the full 30-year term, you'll pay a total of <strong>${fmtCurrency(data.totalInterest)}</strong> in interest on the $${fmtNumber(loanAmount)} loan.</p>
+      <p style="margin-top: 8px;">This front-loaded interest is how amortization works — in year one, roughly <strong>${(firstYearInterest / (data.monthlyPI * 12) * 100).toFixed(0)}%</strong> of your P&I payments go to interest. By year 10, that drops to around 50%. Making extra principal payments early can save you tens of thousands in interest.</p>
     </div>
 
     <div class="card">
@@ -1030,6 +1158,13 @@ function generateAmountHtml(amount: number, slug: string): string {
       <p style="margin-top: 12px; font-size: 0.85rem; color: #94a3b8;">* Full 30-year amortization available in our interactive calculator.</p>
     </div>
 
+    <div class="card">
+      <h2>❓ Frequently Asked Questions — $${fmtNumber(amount)} Home Purchase</h2>
+      <div style="margin-top: 16px;">
+        ${faqHtml}
+      </div>
+    </div>
+
     <div class="cta-box">
       <h3>🧮 Try the Interactive Calculator</h3>
       <p>Adjust the down payment, interest rate, or loan term — see how your payment changes in real time.</p>
@@ -1039,7 +1174,7 @@ function generateAmountHtml(amount: number, slug: string): string {
     ${generateAllCalculatorsHtml()}
 
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
-      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
+      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Sources: Zillow Q1 2025 (median home prices), ATTOM 2025 (property tax rates), Quadrant Information Services Feb 2025 (insurance premiums). Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
     </div>
   </main>
 
@@ -1047,9 +1182,12 @@ function generateAmountHtml(amount: number, slug: string): string {
     <div class="container">
       <p>${SITE_NAME} — Free mortgage calculators and educational resources.</p>
       <p style="margin-top: 4px;">
+        <a href="${SITE_URL}/about">About</a> &middot;
+        <a href="${SITE_URL}/contact">Contact</a> &middot;
+        <a href="${SITE_URL}/editorial-policy">Editorial Policy</a> &middot;
+        <a href="${SITE_URL}/calculator-methodology">Methodology</a> &middot;
         <a href="${SITE_URL}/privacy">Privacy</a> &middot;
-        <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
-        <a href="${SITE_URL}/about">About</a>
+        <a href="${SITE_URL}/disclaimer">Disclaimer</a>
       </p>
     </div>
   </footer>
