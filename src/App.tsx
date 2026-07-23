@@ -17,6 +17,9 @@ import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
 import WhenShouldYouRefinance from '@/src/components/blog/WhenShouldYouRefinance';
 import ClosingCostsExplained from '@/src/components/blog/ClosingCostsExplained';
 import ArmVsFixedArm from '@/src/components/blog/ArmVsFixedArm';
+import ContactPage from '@/src/components/pages/ContactPage';
+import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
+import CalculatorMethodologyPage from '@/src/components/pages/CalculatorMethodologyPage';
 import {
   MortgageCalculatorPage,
   AffordabilityCalculatorPage,
@@ -243,15 +246,45 @@ function Footer() {
   return (
     <footer className="bg-muted/50 border-t mt-auto">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <ShieldAlert className="w-5 h-5" />
-            <span className="text-sm">Not intended to provide financial advice. Estimates only.</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">M</div>
+              <span className="font-bold text-lg text-foreground">MortgagePro</span>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Free mortgage calculators and educational content for first-time homebuyers. Transparent, independent, and always free.
+            </p>
           </div>
-          <div className="flex gap-6 text-sm text-muted-foreground">
-            <Link to="/privacy" className="hover:text-foreground">Privacy Policy</Link>
-            <Link to="/disclaimer" className="hover:text-foreground">Disclaimer</Link>
+          
+          {/* Trust & Legal */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-3 text-sm">Trust & Legal</h3>
+            <div className="flex flex-col gap-2 text-sm">
+              <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</Link>
+              <Link to="/editorial-policy" className="text-muted-foreground hover:text-foreground transition-colors">Editorial Policy</Link>
+              <Link to="/calculator-methodology" className="text-muted-foreground hover:text-foreground transition-colors">Calculator Methodology</Link>
+              <Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link>
+            </div>
           </div>
+          
+          {/* Legal */}
+          <div>
+            <h3 className="font-semibold text-foreground mb-3 text-sm">Legal</h3>
+            <div className="flex flex-col gap-2 text-sm">
+              <Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
+              <Link to="/disclaimer" className="text-muted-foreground hover:text-foreground transition-colors">Disclaimer</Link>
+            </div>
+            <div className="flex items-center gap-2 mt-4 text-muted-foreground">
+              <ShieldAlert className="w-4 h-4" />
+              <span className="text-xs">Not intended to provide financial advice. Estimates only.</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="border-t border-border mt-8 pt-6 text-center text-xs text-muted-foreground">
+          &copy; {new Date().getFullYear()} MortgagePro. All rights reserved.
         </div>
       </div>
     </footer>
@@ -1038,6 +1071,9 @@ export default function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/editorial-policy" element={<EditorialPolicyPage />} />
+            <Route path="/calculator-methodology" element={<CalculatorMethodologyPage />} />
             
             {/* 404 catch-all */}
             <Route path="*" element={<div className="text-center py-20 text-muted-foreground">Page under construction via the blueprint instructions.</div>} />

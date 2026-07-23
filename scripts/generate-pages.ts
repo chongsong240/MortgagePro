@@ -839,9 +839,12 @@ ${amortRows}
     <div class="container">
       <p>${SITE_NAME} — Free mortgage calculators and educational resources.</p>
       <p style="margin-top: 4px;">
+        <a href="${SITE_URL}/about">About</a> &middot;
+        <a href="${SITE_URL}/contact">Contact</a> &middot;
+        <a href="${SITE_URL}/editorial-policy">Editorial Policy</a> &middot;
+        <a href="${SITE_URL}/calculator-methodology">Methodology</a> &middot;
         <a href="${SITE_URL}/privacy">Privacy</a> &middot;
-        <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
-        <a href="${SITE_URL}/about">About</a>
+        <a href="${SITE_URL}/disclaimer">Disclaimer</a>
       </p>
     </div>
   </footer>
@@ -1093,6 +1096,9 @@ function generateSitemap(): string {
     `  <url><loc>${SITE_URL}/arm-vs-fixed-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/blog</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/about</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
+    `  <url><loc>${SITE_URL}/contact</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
+    `  <url><loc>${SITE_URL}/editorial-policy</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
+    `  <url><loc>${SITE_URL}/calculator-methodology</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/privacy</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/disclaimer</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>`,
   ];
@@ -1206,6 +1212,9 @@ function main() {
     { path: 'blog/closing-costs-explained', title: 'Closing Costs Explained: The Money You Need Beyond the Down Payment | MortgagePro', description: 'My neighbors Jen and Mike thought they had the numbers figured out. Then a week before closing, they found out they needed nearly $12,000 more than they\'d planned.', priority: 0.8 },
         { path: 'blog/arm-vs-fixed-arm', title: 'ARM vs Fixed Mortgage: Which One Makes Sense Right Now? | MortgagePro', description: 'My friend Dave had two loan estimates on the same house. His agent told him fixed. His brother-in-law said ARM. Here\'s how he decided in five minutes.', priority: 0.8 },
     { path: 'about', title: 'About MortgagePro - Free Mortgage Calculators & Resources', description: 'Learn about MortgagePro. We provide free mortgage calculators, educational resources, and state-specific data for home buyers.', priority: 0.5 },
+    { path: 'contact', title: 'Contact Us | MortgagePro', description: 'Contact MortgagePro. Reach out with questions, bug reports, or suggestions for our mortgage calculators and content.', priority: 0.5 },
+    { path: 'editorial-policy', title: 'Editorial Policy | MortgagePro', description: 'MortgagePro editorial policy. Learn how we create, review, and maintain accurate, trustworthy mortgage content.', priority: 0.5 },
+    { path: 'calculator-methodology', title: 'Calculator Methodology | MortgagePro', description: 'MortgagePro calculator methodology. See the formulas, assumptions, and data sources behind every mortgage calculator.', priority: 0.5 },
     { path: 'privacy', title: 'Privacy Policy | MortgagePro', description: 'MortgagePro privacy policy. Learn how we collect, use, and protect your data.', priority: 0.3 },
     { path: 'disclaimer', title: 'Disclaimer | MortgagePro', description: 'MortgagePro disclaimer. Our calculators provide estimates for informational purposes only.', priority: 0.3 },
   ];
