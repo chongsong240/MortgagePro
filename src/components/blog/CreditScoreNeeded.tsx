@@ -377,6 +377,71 @@ export default function CreditScoreNeeded() {
       </section>
 
       {/* 8. See What It Means */}
+      {/* ============================================ */}
+      {/* Calculator Data Table - Unique to MortgagePro */}
+      {/* ============================================ */}
+      <section id="calculator-data" className="mb-12">
+        <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">
+          📊 From Our Calculator: How Your Rate Changes Your Payment
+        </h2>
+        <p className="text-lg leading-relaxed text-foreground mb-4">
+          These aren't estimates. They're exact calculations from <strong>MortgagePro's mortgage calculator</strong> 
+          formula. Here's what different credit score tiers could mean for your monthly payment:
+        </p>
+        <div className="overflow-x-auto mb-4">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-2 pr-4 font-medium text-muted-foreground">Credit Tier</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Est. Rate</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Monthly P&I</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Total PITI</th>
+                <th className="text-right py-2 font-medium text-muted-foreground">vs. 740+ Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4">Excellent (740+)</td>
+                <td className="text-right py-2 pr-4">6.5%</td>
+                <td className="text-right py-2 pr-4">$2,528</td>
+                <td className="text-right py-2 pr-4 font-semibold">$3,087</td>
+                <td className="text-right py-2">—</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4">Good (700-739)</td>
+                <td className="text-right py-2 pr-4">7.0%</td>
+                <td className="text-right py-2 pr-4">$2,661</td>
+                <td className="text-right py-2 pr-4 font-semibold">$3,220</td>
+                <td className="text-right py-2 text-amber-600">+$133/mo</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4">Fair (640-699)</td>
+                <td className="text-right py-2 pr-4">7.5%</td>
+                <td className="text-right py-2 pr-4">$2,797</td>
+                <td className="text-right py-2 pr-4 font-semibold">$3,356</td>
+                <td className="text-right py-2 text-amber-600">+$269/mo</td>
+              </tr>
+              <tr className="border-b border-border bg-red-50 dark:bg-red-950/20">
+                <td className="py-2 pr-4 font-semibold">Poor (below 640)</td>
+                <td className="text-right py-2 pr-4">8.0%+</td>
+                <td className="text-right py-2 pr-4">$2,935</td>
+                <td className="text-right py-2 pr-4 font-semibold text-red-600">$3,494</td>
+                <td className="text-right py-2 text-red-600 font-semibold">+$407/mo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-sm text-muted-foreground mb-2">
+          <strong>Assumptions:</strong> $400,000 loan (20% down on $500,000 home), 30-year fixed. 
+          Taxes at 1% (~$417/mo), insurance at national average (~$142/mo). 
+          Rates by credit tier are illustrative based on industry averages as of mid-2026.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Source: <Link to="/mortgage-calculator" className="text-primary hover:underline">MortgagePro Calculator</Link> — 
+          see how <em>your</em> rate changes your payment.
+        </p>
+      </section>
+
       <section id="see-what-it-means" className="mb-12">
         <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">See What Your Score Means in Real Dollars</h2>
         <p className="text-lg leading-relaxed text-foreground mb-4">

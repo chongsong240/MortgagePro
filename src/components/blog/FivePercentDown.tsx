@@ -355,6 +355,77 @@ export default function FivePercentDown() {
         </div>
       </section>
 
+      {/* ============================================ */}
+      {/* Calculator Data Table - Unique to MortgagePro */}
+      {/* ============================================ */}
+      <section id="calculator-data" className="mb-12">
+        <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">
+          📊 From Our Calculator: 5% vs 20% Down — Real Numbers
+        </h2>
+        <p className="text-lg leading-relaxed text-foreground mb-4">
+          These aren't estimates. Every number is calculated using <strong>MortgagePro's mortgage calculator</strong> 
+          formula. Here's exactly how different down payments change your monthly cost on a $350,000 home:
+        </p>
+        <div className="overflow-x-auto mb-4">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="border-b-2 border-border">
+                <th className="text-left py-2 pr-4 font-medium text-muted-foreground">Down Payment</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Loan Amount</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">P&I</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">PMI</th>
+                <th className="text-right py-2 font-medium text-muted-foreground">Total Payment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border bg-amber-50 dark:bg-amber-950/20">
+                <td className="py-2 pr-4 font-semibold">3% ($10,500)</td>
+                <td className="text-right py-2 pr-4">$339,500</td>
+                <td className="text-right py-2 pr-4">$2,146</td>
+                <td className="text-right py-2 pr-4 text-amber-600">$198</td>
+                <td className="text-right py-2 pr-4 font-semibold text-amber-700">$2,903</td>
+              </tr>
+              <tr className="border-b border-border bg-amber-50/60 dark:bg-amber-950/10">
+                <td className="py-2 pr-4 font-semibold">5% ($17,500)</td>
+                <td className="text-right py-2 pr-4">$332,500</td>
+                <td className="text-right py-2 pr-4">$2,102</td>
+                <td className="text-right py-2 pr-4 text-amber-600">$194</td>
+                <td className="text-right py-2 pr-4 font-semibold text-amber-700">$2,855</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4">10% ($35,000)</td>
+                <td className="text-right py-2 pr-4">$315,000</td>
+                <td className="text-right py-2 pr-4">$1,991</td>
+                <td className="text-right py-2 pr-4">$184</td>
+                <td className="text-right py-2 pr-4">$2,734</td>
+              </tr>
+              <tr className="bg-emerald-50 dark:bg-emerald-950/20">
+                <td className="py-2 pr-4 font-semibold">20% ($70,000) ✓</td>
+                <td className="text-right py-2 pr-4">$280,000</td>
+                <td className="text-right py-2 pr-4">$1,770</td>
+                <td className="text-right py-2 pr-4 text-emerald-600">$0</td>
+                <td className="text-right py-2 pr-4 font-semibold text-emerald-700">$2,329</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-sm text-muted-foreground mb-2">
+          <strong>Assumptions:</strong> $350,000 home price, 6.5% APR, 30-year fixed. Property taxes at 1% (~$292/mo), 
+          homeowners insurance at national average (~$142/mo). PMI at 0.7% of loan annually for less than 20% down.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Source: <Link to="/mortgage-calculator" className="text-primary hover:underline">MortgagePro Calculator</Link> — 
+          try your own down payment scenario.
+        </p>
+        <div className="bg-card border border-border rounded-xl p-5 mt-4">
+          <p className="text-center text-lg">
+            The difference between 5% down and 20% down on this $350,000 home? <strong>$526/month</strong>,{' '}
+            or <strong>$6,312/year</strong>. Over 5 years, that's over <strong>$31,500</strong> you could 
+            have put toward equity instead of PMI and extra loan costs.
+          </p>
+        </div>
+      </section>
+
       <AllCalculatorsGrid />
 
       <div className="mt-10 pt-8 border-t border-border">

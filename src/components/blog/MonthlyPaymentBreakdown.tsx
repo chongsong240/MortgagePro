@@ -399,6 +399,70 @@ export default function MonthlyPaymentBreakdown() {
       </section>
 
       {/* ============================================ */}
+      {/* Calculator Data Table - Unique to MortgagePro */}
+      {/* ============================================ */}
+      <section id="calculator-data" className="mb-10">
+        <h2 className="text-3xl font-bold tracking-tight text-foreground mb-4">
+          📊 From Our Calculator: 3 Home Prices Compared
+        </h2>
+        <p className="text-lg leading-relaxed mb-4">
+          These are exact numbers from <strong>MortgagePro's mortgage calculator</strong> formula. 
+          See how your monthly payment changes across different price points with the same down payment:
+        </p>
+        <div className="overflow-x-auto mb-4">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-2 pr-4 font-medium text-muted-foreground">Home Price</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Loan Amount</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">P&I</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Taxes + Ins.</th>
+                <th className="text-right py-2 font-medium text-muted-foreground">Total PITI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4 font-semibold">$300,000</td>
+                <td className="text-right py-2 pr-4">$240,000</td>
+                <td className="text-right py-2 pr-4">$1,517</td>
+                <td className="text-right py-2 pr-4">$392</td>
+                <td className="text-right py-2 pr-4 font-semibold">$1,909</td>
+              </tr>
+              <tr className="border-b border-border bg-primary/5">
+                <td className="py-2 pr-4 font-semibold">$400,000</td>
+                <td className="text-right py-2 pr-4">$320,000</td>
+                <td className="text-right py-2 pr-4">$2,023</td>
+                <td className="text-right py-2 pr-4">$492</td>
+                <td className="text-right py-2 pr-4 font-semibold">$2,515</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4 font-semibold">$500,000</td>
+                <td className="text-right py-2 pr-4">$400,000</td>
+                <td className="text-right py-2 pr-4">$2,528</td>
+                <td className="text-right py-2 pr-4">$559</td>
+                <td className="text-right py-2 pr-4 font-semibold">$3,087</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-4 font-semibold">$600,000</td>
+                <td className="text-right py-2 pr-4">$480,000</td>
+                <td className="text-right py-2 pr-4">$3,034</td>
+                <td className="text-right py-2 pr-4">$642</td>
+                <td className="text-right py-2 pr-4 font-semibold">$3,676</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-sm text-muted-foreground mb-2">
+          <strong>Assumptions:</strong> 20% down payment, 6.5% APR, 30-year fixed. Property taxes at 1% of home price, 
+          homeowners insurance at national average ($142/mo). No PMI (20% down).
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Source: <Link to="/mortgage-calculator" className="text-primary hover:underline">MortgagePro Calculator</Link> — 
+          try your own numbers for free.
+        </p>
+      </section>
+
+      {/* ============================================ */}
       {/* Section 6 - Amortization Surprise */}
       {/* ============================================ */}
       <section id="amortization-surprise" className="mb-10">

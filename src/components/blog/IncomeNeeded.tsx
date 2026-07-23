@@ -197,6 +197,68 @@ export default function IncomeNeeded() {
       </section>
 
       {/* ============================================ */}
+      {/* Calculator Data Table - Unique to MortgagePro */}
+      {/* ============================================ */}
+      <section id="calculator-data" className="mb-10">
+        <h2 className="text-3xl font-bold tracking-tight text-foreground mb-4">
+          📊 From Our Calculator: Down Payment Comparison
+        </h2>
+        <p className="text-lg leading-relaxed mb-4">
+          These numbers are computed using <strong>MortgagePro's mortgage calculator</strong> formula — 
+          the same amortization math lenders use. Every row is unique to your income scenario:
+        </p>
+        <div className="overflow-x-auto mb-4">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-2 pr-4 font-medium text-muted-foreground">Down Payment</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Loan Amount</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Monthly P&I</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">+ PMI</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Total PITI</th>
+                <th className="text-right py-2 font-medium text-muted-foreground">Income Needed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4">5% ($25,000)</td>
+                <td className="text-right py-2 pr-4">$475,000</td>
+                <td className="text-right py-2 pr-4">$3,003</td>
+                <td className="text-right py-2 pr-4 text-amber-600">$277</td>
+                <td className="text-right py-2 pr-4 font-semibold">$3,839</td>
+                <td className="text-right py-2 font-semibold text-amber-700">$164,500</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4">10% ($50,000)</td>
+                <td className="text-right py-2 pr-4">$450,000</td>
+                <td className="text-right py-2 pr-4">$2,844</td>
+                <td className="text-right py-2 pr-4 text-amber-600">$263</td>
+                <td className="text-right py-2 pr-4 font-semibold">$3,666</td>
+                <td className="text-right py-2 font-semibold">$157,100</td>
+              </tr>
+              <tr className="border-b border-border bg-emerald-50 dark:bg-emerald-950/20">
+                <td className="py-2 pr-4 font-semibold">20% ($100,000) ✓</td>
+                <td className="text-right py-2 pr-4">$400,000</td>
+                <td className="text-right py-2 pr-4">$2,528</td>
+                <td className="text-right py-2 pr-4 text-emerald-600">$0</td>
+                <td className="text-right py-2 pr-4 font-semibold text-emerald-700">$3,087</td>
+                <td className="text-right py-2 font-semibold text-emerald-700">$132,300</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-sm text-muted-foreground mb-2">
+          <strong>Assumptions:</strong> $500,000 home price, 6.5% APR, 30-year fixed. Property taxes at 1% (~$417/mo), 
+          homeowners insurance at national average (~$142/mo). PMI at 0.7% of loan annually. 
+          Income calculated using the 28% front-end DTI rule.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Source: <Link to="/mortgage-calculator" className="text-primary hover:underline">MortgagePro Calculator</Link> — 
+          try your own numbers for free.
+        </p>
+      </section>
+
+      {/* ============================================ */}
       {/* Section 4 - What Changes the Math */}
       {/* ============================================ */}
       <section id="what-changes" className="mb-10">

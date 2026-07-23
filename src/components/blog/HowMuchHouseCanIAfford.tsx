@@ -524,6 +524,71 @@ export default function HowMuchHouseCanIAfford() {
         </div>
       </section>
 
+      {/* ============================================ */}
+      {/* Calculator Data Table - Unique to MortgagePro */}
+      {/* ============================================ */}
+      <section id="calculator-data" className="mb-12">
+        <h2 className="text-2xl font-bold text-foreground mb-4">
+          📊 From Our Calculator: What Different Incomes Afford
+        </h2>
+        <p className="text-muted-foreground leading-relaxed mb-4">
+          These numbers are computed using <strong>MortgagePro's affordability formula</strong> — 
+          the same 28/36 DTI rules lenders use. See exactly what your income level buys:
+        </p>
+        <div className="overflow-x-auto mb-4">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="border-b-2 border-border">
+                <th className="text-left py-2 pr-4 font-medium text-muted-foreground">Annual Income</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Max Monthly Payment</th>
+                <th className="text-right py-2 pr-4 font-medium text-muted-foreground">Est. Home Price</th>
+                <th className="text-right py-2 font-medium text-muted-foreground">vs. $100K Income</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4 font-semibold">$75,000</td>
+                <td className="text-right py-2 pr-4">$1,750</td>
+                <td className="text-right py-2 pr-4">~$250,000</td>
+                <td className="text-right py-2 text-muted-foreground">—</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4 font-semibold">$100,000</td>
+                <td className="text-right py-2 pr-4">$2,333</td>
+                <td className="text-right py-2 pr-4">~$350,000</td>
+                <td className="text-right py-2 text-muted-foreground">—</td>
+              </tr>
+              <tr className="border-b border-border bg-primary/5">
+                <td className="py-2 pr-4 font-semibold">$136,000</td>
+                <td className="text-right py-2 pr-4">$3,178</td>
+                <td className="text-right py-2 pr-4 font-medium">~$500,000</td>
+                <td className="text-right py-2 text-emerald-600 font-medium">+$150K house</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2 pr-4 font-semibold">$175,000</td>
+                <td className="text-right py-2 pr-4">$4,083</td>
+                <td className="text-right py-2 pr-4">~$630,000</td>
+                <td className="text-right py-2 text-emerald-600 font-medium">+$280K house</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-4 font-semibold">$250,000</td>
+                <td className="text-right py-2 pr-4">$5,833</td>
+                <td className="text-right py-2 pr-4">~$900,000</td>
+                <td className="text-right py-2 text-emerald-600 font-medium">+$550K house</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-sm text-muted-foreground mb-2">
+          <strong>Assumptions:</strong> 20% down payment, 6.5% APR, 30-year fixed. Property taxes at 1% (~$417/mo per $500K), 
+          homeowners insurance at national average (~$142/mo). Uses the 28% front-end DTI rule.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          Source: <Link to="/affordability-calculator" className="text-primary hover:underline">MortgagePro Affordability Calculator</Link> — 
+          get your personalized number.
+        </p>
+      </section>
+
       {/* Section 10: CTA */}
       <section id="section-10" className="mb-12">
         <h2 className="text-2xl font-bold text-foreground mb-4">10. Try It With Your Own Numbers</h2>

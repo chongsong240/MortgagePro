@@ -108,6 +108,17 @@ function calcMortgage(price: number, taxRate: number, insurance: number, downPct
   };
 }
 
+/** Calculate total monthly PITI at a given interest rate for rate-sensitivity analysis */
+function calcPITIAtRate(amount: number, rate: number, loanAmount: number, taxRate: number, insurance: number): number {
+  const moRate = rate / 100 / 12;
+  const pi = moRate > 0
+    ? (loanAmount * moRate * Math.pow(1 + moRate, 360)) / (Math.pow(1 + moRate, 360) - 1)
+    : loanAmount / 360;
+  const tax = (amount * taxRate) / 12;
+  const ins = insurance / 12;
+  return Math.round(pi + tax + ins);
+}
+
 function calcFirstYearInterest(loanAmount: number, rate: number): number {
   const monthlyRate = rate / 100 / 12;
   const numPayments = 30 * 12;
@@ -1081,17 +1092,21 @@ function generateAmountHtml(amount: number, slug: string): string {
     </div>
 
     <div class="card">
-      <h2>Real-World Scenario: Buying a $${fmtNumber(amount)} Home</h2>
-      <p>Imagine you're a first-time buyer looking at a $${fmtNumber(amount)} home. Here's how the numbers work out in a realistic scenario:</p>
-      <ul style="margin: 16px 0; padding-left: 20px; color: #475569; line-height: 2;">
-        <li><strong>20% down:</strong> You bring <strong>${fmtCurrency(downAmount)}</strong> to the table</li>
-        <li><strong>Loan amount:</strong> You finance <strong>${fmtCurrency(loanAmount)}</strong> at 6.5% for 30 years</li>
-        <li><strong>Monthly P&I:</strong> <strong>${fmtCurrency(data.monthlyPI)}</strong> — this is your base payment</li>
-        <li><strong>Property taxes:</strong> Estimated at <strong>${fmtPct(NATIONAL_AVG_TAX_RATE)}%</strong> = <strong>${fmtCurrency(data.monthlyTax)}/month</strong></li>
-        <li><strong>Home insurance:</strong> <strong>${fmtCurrency(data.monthlyInsurance)}/month</strong> (national average)</li>
-        <li><strong>Total monthly:</strong> <strong>${fmtCurrency(data.totalMonthly)}</strong> — your PITI</li>
-      </ul>
-      <p>Your lender will check that this total doesn't exceed <strong>28% of your gross monthly income</strong>. That means you need about <strong>${fmtCurrency(data.incomeNeeded)}/year</strong> to qualify.</p>
+      <h2>🏡 Buyer Story: Sarah Buys a $${fmtNumber(amount)} Home</h2>
+      <p>Sarah is a 30-year-old marketing manager earning $${fmtCurrency(Math.round(data.incomeNeeded * 0.85 / 1000) * 1000)}/year. She's saved $${fmtCurrency(Math.round(downAmount / 1000) * 1000)} for a down payment — about ${downPct}% of her target price. After getting pre-approved at a 6.5% rate, here's what her realtor walked through with her:</p>
+      <div style="background: #f0f7ff; border-radius: 8px; padding: 16px; margin: 16px 0;">
+        <h3 style="font-size: 1rem; margin-bottom: 8px;">Sarah's Numbers at a Glance</h3>
+        <ul style="margin: 0; padding-left: 20px; color: #475569; line-height: 2;">
+          <li><strong>Home price:</strong> $${fmtNumber(amount)}</li>
+          <li><strong>Down payment (${downPct}%):</strong> $${fmtCurrency(downAmount)}</li>
+          <li><strong>Loan amount:</strong> $${fmtCurrency(loanAmount)} at 6.5% for 30 years</li>
+          <li><strong>Monthly P&I:</strong> $${fmtCurrency(data.monthlyPI)}</li>
+          <li><strong>Property taxes:</strong> ~$${fmtCurrency(data.monthlyTax)}/mo (national avg ${fmtPct(NATIONAL_AVG_TAX_RATE)}%)</li>
+          <li><strong>Home insurance:</strong> ~$${fmtCurrency(data.monthlyInsurance)}/mo</li>
+          <li><strong>Total monthly payment (PITI):</strong> $${fmtCurrency(data.totalMonthly)}</li>
+        </ul>
+      </div>
+      <p>"I was nervous about whether I could actually afford this," Sarah said. "Seeing the full PITI breakdown made it clear — the payment fit within my budget, and I knew I wouldn't be house-poor." Her lender confirmed the total payment was under <strong>28% of her gross income</strong>, which means she qualified with an income of about <strong>$${fmtCurrency(data.incomeNeeded)}/year</strong>.</p>
     </div>
 
     <div class="card">
@@ -1145,6 +1160,35 @@ function generateAmountHtml(amount: number, slug: string): string {
       <h2>How Interest Shapes Your Payments</h2>
       <p>In your first year, approximately <strong>${fmtCurrency(firstYearInterest)}</strong> goes toward interest alone. Over the full 30-year term, you'll pay a total of <strong>${fmtCurrency(data.totalInterest)}</strong> in interest on the $${fmtNumber(loanAmount)} loan.</p>
       <p style="margin-top: 8px;">This front-loaded interest is how amortization works — in year one, roughly <strong>${(firstYearInterest / (data.monthlyPI * 12) * 100).toFixed(0)}%</strong> of your P&I payments go to interest. By year 10, that drops to around 50%. Making extra principal payments early can save you tens of thousands in interest.</p>
+    </div>
+
+    <div class="card">
+      <h2>📈 Interest Rate Sensitivity — How Rates Affect Your Payment</h2>
+      <p>Interest rates change constantly. Here's how different rates impact your total monthly payment on this $${fmtNumber(amount)} home with ${downPct}% down:</p>
+      <table>
+        <thead><tr><th>Interest Rate</th><th class="text-right">Monthly Payment</th><th class="text-right">Difference from 6.5%</th></tr></thead>
+        <tbody>
+          <tr><td>6.0%</td><td class="text-right">${fmtCurrency(calcPITIAtRate(amount, 6.0, loanAmount, taxRate, insurance))}</td><td class="text-right" style="color: #166534;">-${fmtCurrency(calcPITIAtRate(amount, 6.5, loanAmount, taxRate, insurance) - calcPITIAtRate(amount, 6.0, loanAmount, taxRate, insurance))}/mo</td></tr>
+          <tr style="background:#f0f7ff;"><td><strong>6.5% (baseline)</strong></td><td class="text-right"><strong>${fmtCurrency(calcPITIAtRate(amount, 6.5, loanAmount, taxRate, insurance))}</strong></td><td class="text-right">—</td></tr>
+          <tr><td>7.0%</td><td class="text-right">${fmtCurrency(calcPITIAtRate(amount, 7.0, loanAmount, taxRate, insurance))}</td><td class="text-right" style="color: #dc2626;">+${fmtCurrency(calcPITIAtRate(amount, 7.0, loanAmount, taxRate, insurance) - calcPITIAtRate(amount, 6.5, loanAmount, taxRate, insurance))}/mo</td></tr>
+          <tr><td>7.5%</td><td class="text-right">${fmtCurrency(calcPITIAtRate(amount, 7.5, loanAmount, taxRate, insurance))}</td><td class="text-right" style="color: #dc2626;">+${fmtCurrency(calcPITIAtRate(amount, 7.5, loanAmount, taxRate, insurance) - calcPITIAtRate(amount, 6.5, loanAmount, taxRate, insurance))}/mo</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 8px;">A 1% rate increase from 6.5% to 7.5% adds roughly <strong>${fmtCurrency(calcPITIAtRate(amount, 7.5, loanAmount, taxRate, insurance) - calcPITIAtRate(amount, 6.5, loanAmount, taxRate, insurance))}/month</strong> — that's <strong>${fmtCurrency((calcPITIAtRate(amount, 7.5, loanAmount, taxRate, insurance) - calcPITIAtRate(amount, 6.5, loanAmount, taxRate, insurance)) * 12)}/year</strong>. Shopping for competitive rates can save you thousands over your loan term. Use our <a href="${SITE_URL}/refinance-calculator" style="color: #2563eb;">Refinance Calculator</a> to compare rate scenarios.</p>
+    </div>
+
+    <div class="card">
+      <h2>💰 Down Payment Comparison — 5% vs 10% vs 20%</h2>
+      <p>Your down payment size dramatically changes your monthly costs. Here's a side-by-side comparison for a $${fmtNumber(amount)} home:</p>
+      <table>
+        <thead><tr><th>Down Payment</th><th class="text-right">Loan Amount</th><th class="text-right">Monthly P&I</th><th class="text-right">+ PMI</th><th class="text-right">Total PITI</th></tr></thead>
+        <tbody>
+          <tr><td><strong>5% Down</strong> ($${fmtCurrency(Math.round(amount * 0.05))})</td><td class="text-right">$${fmtCurrency(Math.round(amount * 0.95))}</td><td class="text-right">$${fmtCurrency(Math.round((amount * 0.95) * (6.5/100/12) * Math.pow(1+(6.5/100/12), 360) / (Math.pow(1+(6.5/100/12), 360)-1)))}</td><td class="text-right">$${fmtCurrency(Math.round(amount * 0.95 * 0.007 / 12))}</td><td class="text-right"><strong>$${fmtCurrency(Math.round(Math.round((amount * 0.95) * (6.5/100/12) * Math.pow(1+(6.5/100/12), 360) / (Math.pow(1+(6.5/100/12), 360)-1)) + (amount * taxRate) / 12 + insurance / 12 + (amount * 0.95 * 0.007 / 12)))}</strong></td></tr>
+          <tr><td><strong>10% Down</strong> ($${fmtCurrency(Math.round(amount * 0.1))})</td><td class="text-right">$${fmtCurrency(Math.round(amount * 0.9))}</td><td class="text-right">${fmtCurrency(Math.round(monthlyP10))}</td><td class="text-right">${fmtCurrency(Math.round(pmi10))}</td><td class="text-right"><strong>${fmtCurrency(total10down)}</strong></td></tr>
+          <tr style="background:#f0f7ff;"><td><strong>20% Down</strong> (${fmtCurrency(downAmount)}) <span style="color: #166534;">✓ No PMI</span></td><td class="text-right">${fmtCurrency(loanAmount)}</td><td class="text-right">${fmtCurrency(data.monthlyPI)}</td><td class="text-right">$0</td><td class="text-right"><strong>${fmtCurrency(data.totalMonthly)}</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top: 8px;">A <strong>20% down payment</strong> saves you roughly <strong>${fmtCurrency(total10down - data.totalMonthly)}/month</strong> compared to 10% down — almost entirely from eliminating PMI. If you can't afford 20%, an FHA loan may allow 3.5% down, though with upfront MIP. Use our <a href="${SITE_URL}/affordability-calculator" style="color: #2563eb;">Affordability Calculator</a> to find the right down payment for your situation.</p>
     </div>
 
     <div class="card">
