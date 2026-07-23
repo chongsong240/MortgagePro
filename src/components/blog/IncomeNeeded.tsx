@@ -379,6 +379,7 @@ export default function IncomeNeeded() {
           Before you commit to a number, remember that the mortgage isn't your only cost. Homeowners 
           discover this quickly.
         </p>
+        <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>
         <div className="space-y-3 mb-4">
           <div className="flex items-start gap-3 bg-card border border-border rounded-lg p-4">
             <div className="w-7 h-7 rounded bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400 flex items-center justify-center flex-shrink-0 text-sm font-bold">$</div>

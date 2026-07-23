@@ -374,6 +374,30 @@ export default function ClosingCostsExplained() {
         </div>
       </section>
 
+      
+      {/* Continue Reading */}
+      <div className="mt-10 pt-8 border-t border-border">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Link to="/blog/monthly-payment-breakdown" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">How Much Will My Monthly Mortgage Payment Be?</div>
+          </Link>
+          <Link to="/blog/how-much-house-can-i-afford" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">How Much House Can I Afford?</div>
+          </Link>
+          <Link to="/closing-cost-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Calculator</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Closing Cost Calculator</div>
+          </Link>
+          <Link to="/mortgage-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Tools</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Browse All 10 Calculators →</div>
+          </Link>
+        </div>
+      </div>
+
       <AllCalculatorsGrid />
     </article>
   );

@@ -453,7 +453,8 @@ export default function MonthlyPaymentBreakdown() {
           Once you know your baseline number, here are some related guides to dive deeper:
         </p>
         <div className="space-y-3 mb-4">
-          <Link to="/biweekly-mortgage-calculator" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
+          <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>
+        <Link to="/biweekly-mortgage-calculator" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
             <div className="w-8 h-8 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 flex items-center justify-center flex-shrink-0">
               <Percent className="w-4 h-4" />
             </div>

@@ -17,6 +17,11 @@ export interface ExampleRow {
   highlight?: boolean;
 }
 
+export interface InternalLink {
+  to: string;
+  label: string;
+}
+
 export interface PageConfig {
   title: string;
   description: string;
@@ -30,7 +35,76 @@ export interface PageConfig {
     rows: ExampleRow[];
     insight: string;
   };
+  understandingResults?: {
+    intro: string;
+    items: { term: string; explanation: string }[];
+  };
+  commonMistakes?: {
+    intro: string;
+    items: { mistake: string; fix: string }[];
+  };
+  relatedContent?: {
+    intro: string;
+    links: InternalLink[];
+  };
   faqs: FAQ[];
+}
+
+function UnderstandingResults({ config }: { config: PageConfig }) {
+  if (!config.understandingResults) return null;
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+      <h2 className="text-xl font-bold tracking-tight">Understanding Your Results</h2>
+      <p className="text-muted-foreground text-sm leading-relaxed">{config.understandingResults.intro}</p>
+      <div className="grid sm:grid-cols-2 gap-4">
+        {config.understandingResults.items.map((item, i) => (
+          <div key={i} className="border border-border rounded-lg p-4">
+            <span className="font-semibold text-foreground text-sm block mb-1">{item.term}</span>
+            <span className="text-muted-foreground text-sm leading-relaxed">{item.explanation}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CommonMistakes({ config }: { config: PageConfig }) {
+  if (!config.commonMistakes) return null;
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+      <h2 className="text-xl font-bold tracking-tight">Common Mistakes to Avoid</h2>
+      <p className="text-muted-foreground text-sm leading-relaxed">{config.commonMistakes.intro}</p>
+      <div className="space-y-4">
+        {config.commonMistakes.items.map((item, i) => (
+          <div key={i} className="border-l-4 border-red-400/60 pl-4">
+            <p className="text-sm font-semibold text-foreground">❌ {item.mistake}</p>
+            <p className="text-sm text-muted-foreground mt-1">✅ {item.fix}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RelatedContent({ config }: { config: PageConfig }) {
+  if (!config.relatedContent) return null;
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+      <h2 className="text-xl font-bold tracking-tight">Related Tools & Guides</h2>
+      <p className="text-muted-foreground text-sm leading-relaxed">{config.relatedContent.intro}</p>
+      <div className="flex flex-wrap gap-3">
+        {config.relatedContent.links.map((link, i) => (
+          <a
+            key={i}
+            href={link.to}
+            className="inline-flex items-center px-4 py-2 bg-primary/10 text-primary text-sm font-medium rounded-lg hover:bg-primary/20 transition-colors"
+          >
+            {link.label} →
+          </a>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function CalculatorPageLayout({
@@ -95,6 +169,15 @@ export default function CalculatorPageLayout({
           {config.example.insight}
         </p>
       </div>
+
+      {/* Understanding Your Results */}
+      <UnderstandingResults config={config} />
+
+      {/* Common Mistakes */}
+      <CommonMistakes config={config} />
+
+      {/* Related Tools & Guides (internal links) */}
+      <RelatedContent config={config} />
 
       {/* FAQ */}
       <div className="pt-4 border-t border-border">

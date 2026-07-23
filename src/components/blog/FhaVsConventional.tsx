@@ -360,6 +360,30 @@ export default function FhaVsConventional() {
           </Link>
         </div>
       </section>
+      
+      {/* Continue Reading */}
+      <div className="mt-10 pt-8 border-t border-border">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Link to="/blog/credit-score-needed" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">What Credit Score Do I Need to Buy a House?</div>
+          </Link>
+          <Link to="/blog/what-is-pmi" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">PMI: The Complete Guide to Getting Rid of It</div>
+          </Link>
+          <Link to="/blog/can-i-buy-with-5-percent-down" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Can I Buy a House with 5% Down?</div>
+          </Link>
+          <Link to="/mortgage-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Tools</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Browse All 10 Calculators →</div>
+          </Link>
+        </div>
+      </div>
+
       <AllCalculatorsGrid />
 
     </article>

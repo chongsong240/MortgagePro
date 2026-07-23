@@ -361,6 +361,30 @@ export default function WhenShouldYouRefinance() {
           </div>
         </div>
       </section>
+      
+      {/* Continue Reading */}
+      <div className="mt-10 pt-8 border-t border-border">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Link to="/blog/arm-vs-fixed-arm" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">ARM vs Fixed Mortgage: Which Makes Sense Right Now?</div>
+          </Link>
+          <Link to="/blog/biweekly-payments" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Related guide</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Bi-Weekly Payments: Are They Worth It?</div>
+          </Link>
+          <Link to="/refinance-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Calculator</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Refinance Savings Calculator</div>
+          </Link>
+          <Link to="/extra-payment-calculator" className="block p-4 bg-card border border-border rounded-lg hover:shadow-sm transition-all group">
+            <div className="text-xs text-muted-foreground mb-1">Calculator</div>
+            <div className="font-medium text-foreground group-hover:text-primary transition-colors">Extra Payment Calculator</div>
+          </Link>
+        </div>
+      </div>
+
       <AllCalculatorsGrid />
 
     </article>

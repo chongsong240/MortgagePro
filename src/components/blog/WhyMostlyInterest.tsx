@@ -470,6 +470,7 @@ export default function WhyMostlyInterest() {
             <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
           </Link>
 
+        <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>
           <Link to="/blog/monthly-payment-breakdown" className="flex items-center gap-3 bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors group">
             <div className="w-8 h-8 rounded bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 flex items-center justify-center flex-shrink-0">
               <DollarSign className="w-4 h-4" />
