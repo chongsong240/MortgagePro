@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Home, Calculator, TrendingUp, Shield, Building, DollarSign, Calendar, Clock } from 'lucide-react';
+import { ArrowRight, Home, Calculator, TrendingUp, Shield, Building, DollarSign, Calendar, Clock, BookOpen } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 
@@ -44,21 +44,32 @@ export default function RentVsBuy2026() {
       </div>
 
       {/* Table of Contents */}
-      <div className="bg-muted/40 border border-border rounded-xl p-5 mb-10">
-        <p className="font-semibold text-foreground mb-3 text-sm">📖 What's in this article</p>
-        <ol className="space-y-1.5 text-sm">
-          {['The Gut Check That Matters More Than Math', 'What Renting Actually Costs You', 'What Buying Actually Costs You', 'When Buying Wins', 'When Renting Wins', 'The Rule of Thumb That Actually Works', 'What Jen and Mike Finally Decided'].map((section, i) => (
-            <li key={i}>
-              <a
-                href={`#section-${i}`}
-                onClick={(e) => scrollToSection(e, `section-${i}`)}
-                className="text-primary hover:underline"
-              >
-                {section}
-              </a>
-            </li>
+      <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">
+        <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+          <BookOpen className="w-4 h-4" />
+          What's in This Article
+        </h2>
+        <nav className="space-y-2 text-sm">
+          {[
+            ['section-0', 'The Gut Check That Matters More Than Math'],
+            ['section-1', 'What Renting Actually Costs You'],
+            ['section-2', 'What Buying Actually Costs You'],
+            ['section-3', 'When Buying Wins'],
+            ['section-4', 'When Renting Wins'],
+            ['section-5', 'The Rule of Thumb That Actually Works'],
+            ['section-6', 'What Jen and Mike Finally Decided'],
+          ].map(([id, label]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={(e) => scrollToSection(e, id)}
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+            >
+              <ArrowRight className="w-3 h-3" />
+              {label}
+            </a>
           ))}
-        </ol>
+        </nav>
       </div>
 
       {/* 1. Gut Check */}
