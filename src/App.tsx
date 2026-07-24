@@ -899,6 +899,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "Rent vs Buy in 2026: The Decision That's Keeping Everyone Up at Night",
+      path: "/blog/rent-vs-buy-2026",
+      category: "Guides",
+      date: "July 24, 2026",
+      readTime: "12 min read",
+      description: "My neighbors Jen and Mike have been renting the same apartment for four years. They have a baby due in September. Should they buy a house or keep renting? Here's what they decided."
+    },
+    { 
       title: "ARM vs Fixed Mortgage: Which One Makes Sense Right Now?",
       path: "/blog/arm-vs-fixed-arm",
       category: "Comparisons",
