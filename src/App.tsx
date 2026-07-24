@@ -16,6 +16,7 @@ import FivePercentDown from '@/src/components/blog/FivePercentDown';
 import CreditScoreNeeded from '@/src/components/blog/CreditScoreNeeded';
 import WhenShouldYouRefinance from '@/src/components/blog/WhenShouldYouRefinance';
 import ClosingCostsExplained from '@/src/components/blog/ClosingCostsExplained';
+import RentVsBuy2026 from '@/src/components/blog/RentVsBuy2026';
 import ArmVsFixedArm from '@/src/components/blog/ArmVsFixedArm';
 import ContactPage from '@/src/components/pages/ContactPage';
 import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
@@ -366,6 +367,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "Rent vs Buy in 2026: The Decision That's Keeping Everyone Up at Night",
+      path: "/blog/rent-vs-buy-2026",
+      date: "July 24, 2026",
+    },
     {
       title: "ARM vs Fixed Mortgage: Which One Makes Sense Right Now?",
       path: "/blog/arm-vs-fixed-arm",
@@ -1138,6 +1144,7 @@ export default function App() {
             <Route path="/blog/when-should-you-refinance" element={<WhenShouldYouRefinance />} />
             <Route path="/blog/closing-costs-explained" element={<ClosingCostsExplained />} />
             <Route path="/blog/arm-vs-fixed-arm" element={<ArmVsFixedArm />} />
+            <Route path="/blog/rent-vs-buy-2026" element={<RentVsBuy2026 />} />
 
             {/* Other pages */}
             <Route path="/about" element={<AboutPage />} />

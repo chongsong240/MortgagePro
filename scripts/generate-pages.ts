@@ -1293,6 +1293,7 @@ function generateSitemap(): string {
     'is-buying-worth-it-2026', 'can-i-buy-with-5-percent-down', 'credit-score-needed',
     'when-should-you-refinance',
     'closing-costs-explained',
+    'rent-vs-buy-2026',
     'arm-vs-fixed-arm',
   ];
   for (const slug of blogs) {
@@ -1392,7 +1393,8 @@ function main() {
     { path: 'blog/credit-score-needed', title: 'What Credit Score Do You Need to Buy a House? | MortgagePro', description: 'What credit score do you need to buy a house in 2026? Minimum requirements for FHA, conventional, and USDA loans.', priority: 0.8 },
     { path: 'blog/when-should-you-refinance', title: 'When Should You Refinance Your Home Loan? | MortgagePro', description: 'My friend Kevin refinanced his mortgage twice in three years. My cousin Lisa almost did but it would have cost her thousands. Here\'s how to know which camp you\'re in.', priority: 0.8 },
     { path: 'blog/closing-costs-explained', title: 'Closing Costs Explained: The Money You Need Beyond the Down Payment | MortgagePro', description: 'My neighbors Jen and Mike thought they had the numbers figured out. Then a week before closing, they found out they needed nearly $12,000 more than they\'d planned.', priority: 0.8 },
-        { path: 'blog/arm-vs-fixed-arm', title: 'ARM vs Fixed Mortgage: Which One Makes Sense Right Now? | MortgagePro', description: 'My friend Dave had two loan estimates on the same house. His agent told him fixed. His brother-in-law said ARM. Here\'s how he decided in five minutes.', priority: 0.8 },
+        { path: 'blog/rent-vs-buy-2026', title: 'Rent vs Buy in 2026: The Decision That\'s Keeping Everyone Up at Night | MortgagePro', description: 'My neighbors Jen and Mike have been renting the same apartment for four years. They have a baby due in September. Should they buy a house or keep renting? Here\'s what they decided.', priority: 0.8 },
+    { path: 'blog/arm-vs-fixed-arm', title: 'ARM vs Fixed Mortgage: Which One Makes Sense Right Now? | MortgagePro', description: 'My friend Dave had two loan estimates on the same house. His agent told him fixed. His brother-in-law said ARM. Here\'s how he decided in five minutes.', priority: 0.8 },
     { path: 'about', title: 'About MortgagePro - Free Mortgage Calculators & Resources', description: 'Learn about MortgagePro. We provide free mortgage calculators, educational resources, and state-specific data for home buyers.', priority: 0.5 },
     { path: 'contact', title: 'Contact Us | MortgagePro', description: 'Contact MortgagePro. Reach out with questions, bug reports, or suggestions for our mortgage calculators and content.', priority: 0.5 },
     { path: 'editorial-policy', title: 'Editorial Policy | MortgagePro', description: 'MortgagePro editorial policy. Learn how we create, review, and maintain accurate, trustworthy mortgage content.', priority: 0.5 },
