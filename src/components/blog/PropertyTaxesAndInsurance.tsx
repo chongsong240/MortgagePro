@@ -250,14 +250,23 @@ export default function PropertyTaxesAndInsurance() {
       <section id="homeowners-insurance" className="mb-12">
         <h2 className="text-2xl font-bold tracking-tight text-foreground mb-4">Homeowners Insurance: The Other Monthly Cost</h2>
         <p className="text-lg leading-relaxed text-foreground mb-4">
-          Insurance costs also vary by location, sometimes dramatically. A home in a wildfire-prone area of California or a hurricane zone in Florida will cost much more to insure than a similar home in a low-risk area in Ohio or Michigan.
+          Insurance costs also vary by location, sometimes dramatically. According to the National Association of Insurance Commissioners, the average annual homeowners insurance premium in the United States was <strong>$1,411</strong> in 2021—but that national number hides enormous variation. In Florida, owners pay an average of <strong>$2,437</strong> a year. In Wisconsin, it's around <strong>$780</strong>. Same kind of insurance, wildly different prices.
         </p>
         <p className="text-lg leading-relaxed text-foreground mb-4">
-          But even in normal markets, insurance is a meaningful monthly expense. On a $400,000 home, a typical annual premium might run <strong>$1,200 to $2,000</strong> — $100 to $170 a month. Older homes, homes with outdated electrical or plumbing, and homes in flood zones all push that number higher. According to the{' '}
+          Why such a big gap? The answer lies in what insurance actually pays for. According to data from the{' '}
           <a href="https://www.iii.org/fact-statistic/facts-statistics-homeowners-and-renters-insurance" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">
             Insurance Information Institute
           </a>
-          , the national average premium in 2024 was about $1,400 annually, but that number can double depending on where you live.
+          , wind and hail account for the largest share of claims—about 40% of all property damage claims from 2018 to 2022. Water damage and freezing add another 28%. Fire and lightning, despite getting most of the attention, represent about 22% of claims but come with a much higher average cost per claim—over <strong>$83,000</strong> per fire claim, compared to about <strong>$13,500</strong> for wind and hail. Your premium is heavily shaped by where you live and what kinds of disasters tend to strike there.
+        </p>
+        <p className="text-lg leading-relaxed text-foreground mb-4">
+          Even in a moderate-risk area, a typical annual premium on a $400,000 home might run <strong>$1,200 to $2,000</strong>—$100 to $170 a month. But if you're buying near the coast or in a wildfire zone, budget for significantly more. Our{' '}
+          <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">California Mortgage Calculator</Link>{' '}
+          uses state-level insurance data to give you a more accurate estimate based on where you're looking to buy.
+        </p>
+
+        <p className="text-lg leading-relaxed text-foreground mb-4">
+          And that standard policy only covers so much. Here's what a lot of buyers don't realize until it's too late:
         </p>
 
         <TipBox>
