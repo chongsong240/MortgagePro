@@ -18,6 +18,7 @@ import WhenShouldYouRefinance from '@/src/components/blog/WhenShouldYouRefinance
 import ClosingCostsExplained from '@/src/components/blog/ClosingCostsExplained';
 import RentVsBuy2026 from '@/src/components/blog/RentVsBuy2026';
 import ArmVsFixedArm from '@/src/components/blog/ArmVsFixedArm';
+import PropertyTaxesAndInsurance from '@/src/components/blog/PropertyTaxesAndInsurance';
 import ContactPage from '@/src/components/pages/ContactPage';
 import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
 import CalculatorMethodologyPage from '@/src/components/pages/CalculatorMethodologyPage';
@@ -367,6 +368,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "How Much Are Property Taxes and Insurance on a Mortgage?",
+      path: "/blog/property-taxes-and-insurance",
+      date: "July 29, 2026",
+    },
     {
       title: "Rent vs Buy in 2026: The Decision That's Keeping Everyone Up at Night",
       path: "/blog/rent-vs-buy-2026",
@@ -899,6 +905,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "How Much Are Property Taxes and Insurance on a Mortgage?",
+      path: "/blog/property-taxes-and-insurance",
+      category: "Education",
+      date: "July 29, 2026",
+      readTime: "10 min read",
+      description: "My brother-in-law Chris thought his mortgage payment was $2,528. Then his Loan Estimate arrived — over $3,100. Here's why property taxes and insurance add hundreds to your monthly payment."
+    },
+    { 
       title: "Rent vs Buy in 2026: The Decision That's Keeping Everyone Up at Night",
       path: "/blog/rent-vs-buy-2026",
       category: "Guides",
@@ -1153,6 +1167,7 @@ export default function App() {
             <Route path="/blog/closing-costs-explained" element={<ClosingCostsExplained />} />
             <Route path="/blog/arm-vs-fixed-arm" element={<ArmVsFixedArm />} />
             <Route path="/blog/rent-vs-buy-2026" element={<RentVsBuy2026 />} />
+            <Route path="/blog/property-taxes-and-insurance" element={<PropertyTaxesAndInsurance />} />
 
             {/* Other pages */}
             <Route path="/about" element={<AboutPage />} />
