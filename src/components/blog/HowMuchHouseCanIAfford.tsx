@@ -108,21 +108,13 @@ export default function HowMuchHouseCanIAfford() {
         </p>
         <p className="text-muted-foreground leading-relaxed mb-4">
           The problem is that house prices and monthly payments don't move in a straight line. A $350,000 house
-          in one state might cost you <strong className="text-foreground">$700 more per month</strong> than the same-priced house in another
+          in one state could cost you <strong className="text-foreground">several hundred dollars more per month</strong> than the same-priced house in another
           state &mdash; all because of property taxes, insurance, and local rates. And if you're putting down less than
           20%, PMI adds another layer of cost that most online calculators won't even show you.
         </p>
         <p className="text-muted-foreground leading-relaxed mb-6">
           It's not magic. It's just a few simple ratios. Let's walk through them step by step.
         </p>
-        <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
-          <p className="text-foreground font-medium mb-1">Start Here</p>
-          <p className="text-sm text-muted-foreground">
-            If you want to skip ahead and see your number right now, open our{' '}
-            <Link to="/affordability-calculator" className="text-primary font-medium hover:underline">Affordability Calculator</Link>.
-            This article will help you understand exactly what those numbers mean and why they matter.
-          </p>
-        </div>
       </section>
 
       {/* Section 2: DTI */}
@@ -147,22 +139,33 @@ export default function HowMuchHouseCanIAfford() {
           to stay under <strong className="text-foreground">36%</strong>. Some government-backed programs (FHA, VA) go up to 43% or
           even 50%, but 36% is the sweet spot where you get the best rates.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-          <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-lg p-4 text-center">
-            <div className="text-lg font-bold text-green-600 mb-1">{'\u2264'} 36%</div>
-            <div className="text-xs text-green-700 dark:text-green-400">Ideal Range</div>
-            <div className="text-[10px] text-green-600">Best rates and terms</div>
-          </div>
-          <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 text-center">
-            <div className="text-lg font-bold text-amber-600 mb-1">37%&ndash;43%</div>
-            <div className="text-xs text-amber-700 dark:text-amber-400">Acceptable</div>
-            <div className="text-[10px] text-amber-600">May still qualify</div>
-          </div>
-          <div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-center">
-            <div className="text-lg font-bold text-red-600 mb-1">{'\u2265'} 44%</div>
-            <div className="text-xs text-red-700 dark:text-red-400">Hard to Qualify</div>
-            <div className="text-[10px] text-red-600">Limited loan options</div>
-          </div>
+        <div className="overflow-x-auto mb-6 border border-border rounded-lg">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/50">
+              <tr>
+                <th className="text-left py-3 px-4 font-medium text-muted-foreground">DTI Range</th>
+                <th className="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
+                <th className="text-left py-3 px-4 font-medium text-muted-foreground">What It Means</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              <tr className="hover:bg-muted/30">
+                <td className="py-3 px-4 font-semibold">{'\u2264'} 36%</td>
+                <td className="py-3 px-4 text-green-600 font-medium">Ideal Range</td>
+                <td className="py-3 px-4">Best rates and terms</td>
+              </tr>
+              <tr className="hover:bg-muted/30">
+                <td className="py-3 px-4 font-semibold">37%&ndash;43%</td>
+                <td className="py-3 px-4 text-amber-600 font-medium">Acceptable</td>
+                <td className="py-3 px-4">May still qualify</td>
+              </tr>
+              <tr className="hover:bg-muted/30">
+                <td className="py-3 px-4 font-semibold">{'\u2265'} 44%</td>
+                <td className="py-3 px-4 text-red-600 font-medium">Hard to Qualify</td>
+                <td className="py-3 px-4">Limited loan options</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-xl p-5">
           <div className="flex items-start gap-3">
@@ -417,7 +420,7 @@ export default function HowMuchHouseCanIAfford() {
           {/* Student Loans */}
           <div className="bg-card border border-border rounded-xl p-5">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0"><span className="text-lg font-bold text-blue-600">S</span></div>
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-600 shrink-0 mt-1.5" aria-hidden="true" />
               <div>
                 <h3 className="font-semibold text-foreground mb-2">Student Loans</h3>
                 <p className="text-sm text-muted-foreground mb-2">
@@ -438,27 +441,27 @@ export default function HowMuchHouseCanIAfford() {
           {/* Property Taxes */}
           <div className="bg-card border border-border rounded-xl p-5">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0"><span className="text-lg font-bold text-red-600">$</span></div>
+              <span className="w-2.5 h-2.5 rounded-full bg-red-600 shrink-0 mt-1.5" aria-hidden="true" />
               <div>
                 <h3 className="font-semibold text-foreground mb-2">Property Taxes (The Hidden Bombshell)</h3>
                 <p className="text-sm text-muted-foreground mb-2">
                   Property taxes vary wildly by state. This is the single biggest variable
                   most generic online calculators get wrong.
                 </p>
-                <div className="overflow-x-auto mb-3">
-                  <table className="w-full text-xs">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-1.5 px-2">Location</th>
-                        <th className="text-right py-1.5 px-2">Tax Rate</th>
-                        <th className="text-right py-1.5 px-2">Monthly Tax on $400k Home</th>
+                <div className="overflow-x-auto mb-3 border border-border rounded-lg">
+                  <table className="w-full text-sm">
+                    <thead className="bg-muted/50">
+                      <tr>
+                        <th className="text-left py-3 px-4 font-medium text-muted-foreground">Location</th>
+                        <th className="text-right py-3 px-4 font-medium text-muted-foreground">Tax Rate</th>
+                        <th className="text-right py-3 px-4 font-medium text-muted-foreground">Monthly Tax on $400k Home</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr><td className="py-1.5 px-2">Alabama</td><td className="text-right py-1.5 px-2 text-green-600">0.40%</td><td className="text-right py-1.5 px-2 text-green-600">$133</td></tr>
-                      <tr><td className="py-1.5 px-2">California</td><td className="text-right py-1.5 px-2 text-amber-600">0.76%</td><td className="text-right py-1.5 px-2 text-amber-600">$253</td></tr>
-                      <tr className="bg-muted/20"><td className="py-1.5 px-2 font-medium">Texas</td><td className="text-right py-1.5 px-2 text-red-500 font-medium">1.80%</td><td className="text-right py-1.5 px-2 text-red-500 font-medium">$600</td></tr>
-                      <tr><td className="py-1.5 px-2">New Jersey</td><td className="text-right py-1.5 px-2 text-red-600">2.40%</td><td className="text-right py-1.5 px-2 text-red-600">$800</td></tr>
+                    <tbody className="divide-y divide-border">
+                      <tr className="hover:bg-muted/30"><td className="py-3 px-4">Alabama</td><td className="text-right py-3 px-4 text-green-600">0.40%</td><td className="text-right py-3 px-4 text-green-600">$133</td></tr>
+                      <tr className="hover:bg-muted/30"><td className="py-3 px-4">California</td><td className="text-right py-3 px-4 text-amber-600">0.76%</td><td className="text-right py-3 px-4 text-amber-600">$253</td></tr>
+                      <tr className="hover:bg-muted/30 bg-muted/20"><td className="py-3 px-4 font-medium">Texas</td><td className="text-right py-3 px-4 text-red-500 font-medium">1.80%</td><td className="text-right py-3 px-4 text-red-500 font-medium">$600</td></tr>
+                      <tr className="hover:bg-muted/30"><td className="py-3 px-4">New Jersey</td><td className="text-right py-3 px-4 text-red-600">2.40%</td><td className="text-right py-3 px-4 text-red-600">$800</td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -468,7 +471,7 @@ export default function HowMuchHouseCanIAfford() {
           {/* PMI */}
           <div className="bg-card border border-border rounded-xl p-5">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center shrink-0"><span className="text-lg font-bold text-purple-600">P</span></div>
+              <span className="w-2.5 h-2.5 rounded-full bg-purple-600 shrink-0 mt-1.5" aria-hidden="true" />
               <div>
                 <h3 className="font-semibold text-foreground mb-2">PMI (Private Mortgage Insurance)</h3>
                 <p className="text-sm text-muted-foreground mb-2">
@@ -516,7 +519,8 @@ export default function HowMuchHouseCanIAfford() {
         <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
           <p className="text-foreground font-medium mb-1">The 25% Rule of Thumb</p>
           <p className="text-sm text-muted-foreground">
-            Many financial independence enthusiasts recommend keeping housing to <strong>25%</strong>
+            Of course, the 28% number is a <strong>ceiling</strong>, not a target. Some financial independence
+            advocates go even further, recommending you keep housing to <strong>25%</strong>
             of your gross income. At $85,000/year, that's <strong>$1,479/month</strong>
             instead of $1,983. That extra $504/month invested in the S&P 500 over 30 years could grow to
             <strong> over $1 million</strong>.
