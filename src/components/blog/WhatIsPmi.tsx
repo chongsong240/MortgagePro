@@ -95,17 +95,20 @@ export default function WhatIsPmi() {
         </nav>
       </div>
 
+      {/* Intro */}
+      <p className="text-muted-foreground leading-relaxed mb-10">
+        Marcus and Elena bought their first home in Atlanta in 2021. They had good jobs, decent credit, 
+        and a 5% down payment. What they didn't have was an extra $60,000 sitting around for a 20% down 
+        payment on a $300,000 house. So they paid PMI. Here's what happened next—and how to make sure it 
+        doesn't happen to you longer than necessary.
+      </p>
+
       {/* Section 1 - The Story */}
       <section id="section-1" className="mb-12 scroll-mt-20">
         <h2 className="text-2xl font-bold text-foreground mb-4">1. The $178 Lesson</h2>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
-            Marcus and Elena bought their first home in Atlanta in 2021. They had good jobs, decent credit, 
-            and a 5% down payment. What they didn't have was an extra $60,000 sitting around for a 20% down 
-            payment on a $300,000 house.
-          </p>
-          <p>
-            So they paid PMI. Every month, $178 disappeared from their account—money that didn't build equity, 
+            Every month, $178 disappeared from their account—money that didn't build equity, 
             didn't pay down debt, and didn't come back.
           </p>
           <p>
@@ -134,7 +137,7 @@ export default function WhatIsPmi() {
         <h2 className="text-2xl font-bold text-foreground mb-4">2. What Exactly Are You Paying For?</h2>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
-            Let's be blunt: <strong>PMI protects the lender, not you.</strong>
+            Here's the uncomfortable truth about PMI: <strong>it protects the lender, not you.</strong>
           </p>
           <p>
             When you put down less than 20%, the bank gets nervous. They're lending you more than 80% of the 
@@ -293,7 +296,8 @@ export default function WhatIsPmi() {
               <div>
                 <h3 className="font-semibold text-foreground text-lg">Your Right to Request</h3>
                 <p className="text-muted-foreground mt-2">
-                  Under the Homeowners Protection Act, the lender can require:
+                  The Homeowners Protection Act gives you the right to request cancellation at 80% LTV. 
+                  But the lender can ask for a few things first:
                 </p>
                 <ul className="list-disc pl-5 mt-2 text-muted-foreground space-y-1">
                   <li>A good payment history (current on all payments)</li>
@@ -482,6 +486,13 @@ export default function WhatIsPmi() {
           </p>
           <p>
             Then try adding <strong>$100/month</strong> in extra principal and watch that date jump forward—sometimes by years.
+          </p>
+
+          <p>
+            Marcus and Elena spent $450 on an appraisal and saved $2,136 a year. That's a{' '}
+            <strong>475% return on investment</strong> in the first year alone. PMI isn't forever—but the 
+            sooner you start tracking your LTV, the sooner it ends. Know your numbers. Know your rights. 
+            And don't pay a dollar more in mortgage insurance than you have to.
           </p>
 
           <div className="bg-gradient-to-br from-primary/5 via-primary/[0.02] to-background border-2 border-primary/20 rounded-xl p-8 text-center mt-8">
