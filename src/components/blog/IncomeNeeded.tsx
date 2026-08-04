@@ -18,12 +18,12 @@ export default function IncomeNeeded() {
     <article className="max-w-3xl mx-auto py-8 px-4">
       <BlogSchema
         title="How Much Income Do I Need for a $500,000 House?"
-        description="The short answer is around $135,000 a year. The longer answer depends on your down payment, interest rate, other debts, and the expenses most people forget."
+        description="The short answer is around $132,000 a year. The longer answer depends on your down payment, interest rate, other debts, and the expenses most people forget."
         datePublished="2026-06-05"
         url="https://www.mortgagepro.io/blog/income-needed"
         faqs={[
-          { q: 'How much income do I need to buy a $500,000 house?', a: 'With 20% down at 6.5% interest, the monthly payment is about $3,178. Using the 28% DTI rule, you need roughly $136,200/year in gross income. With only 5% down, the required income rises to about $158,500/year due to PMI and a larger loan.' },
-          { q: 'Can I buy a $500,000 house on a $100,000 salary?', a: 'Generally no, not comfortably. A $100,000 salary allows a maximum housing payment of about $2,333/month under the 28% rule, but a $500,000 home with 20% down costs about $3,178/month. A very large down payment could make it work.' },
+          { q: 'How much income do I need to buy a $500,000 house?', a: 'With 20% down at 6.5% interest, the monthly payment is about $3,087. Using the 28% DTI rule, you need roughly $132,300/year in gross income. With only 5% down, the required income rises to about $158,500/year due to PMI and a larger loan.' },
+          { q: 'Can I buy a $500,000 house on a $100,000 salary?', a: 'Generally no, not comfortably. A $100,000 salary allows a maximum housing payment of about $2,333/month under the 28% rule, but a $500,000 home with 20% down costs about $3,087/month. A very large down payment could make it work.' },
           { q: 'How does debt affect how much house I can afford?', a: 'Lenders use a 36% back-end DTI ratio for all debts combined. If you have $500/month in car and student loan payments, that reduces your available housing budget by $500/month, potentially lowering your maximum home price by $60,000-$80,000.' },
         ]}
       />
@@ -41,7 +41,7 @@ export default function IncomeNeeded() {
           How Much Income Do I Need for a $500,000 House?
         </h1>
         <p className="text-xl text-muted-foreground leading-relaxed">
-          The short answer is around $135,000 a year. The longer answer depends on your down payment, 
+          The short answer is around $132,000 a year. The longer answer depends on your down payment, 
           your other debts, and the stuff most people don't think about until closing.
         </p>
       </div>
@@ -91,7 +91,8 @@ export default function IncomeNeeded() {
         </p>
         <p className="text-lg leading-relaxed mb-4">
           The monthly payment, fully loaded, was almost $1,200 more than he expected. He hadn't accounted 
-          for property taxes at our local rate. He hadn't factored in PMI because his down payment was 
+          for property taxes at our local rate. He hadn't factored in{' '}
+          <Link to="/blog/what-is-pmi" className="text-primary hover:underline font-medium">PMI</Link> because his down payment was 
           under 20%. And he was carrying a car loan that chewed into his debt-to-income ratio.
         </p>
         <p className="text-lg leading-relaxed">
@@ -112,7 +113,17 @@ export default function IncomeNeeded() {
           Banks don't guess. They follow a formula, and that formula is surprisingly simple.
         </p>
         <p className="text-lg leading-relaxed mb-4">
-          Most conventional lenders use the <strong>28% front-end ratio</strong>: your total monthly housing 
+          Most conventional lenders use the{' '}
+          <strong>
+            <a
+              href="https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline decoration-primary/40 hover:decoration-primary underline-offset-2"
+            >
+              28% front-end ratio
+            </a>
+          </strong>: your total monthly housing 
           payment should not exceed 28% of your gross monthly income. "Gross" means before taxes and 
           deductions. "Housing payment" means everything—principal, interest, property taxes, insurance, 
           and PMI if it applies.
@@ -132,7 +143,7 @@ export default function IncomeNeeded() {
           That's it. Once you know your likely payment, divide by 0.28, and you've got your minimum 
           monthly income. Multiply by 12, and you've got your annual salary requirement.
         </p>
-        <StatHighlight value="$136,200" label="Minimum annual income needed for a $500K home with 20% down at 6.5%" color="blue" />
+        <StatHighlight value="$132,300" label="Minimum annual income needed for a $500K home with 20% down at 6.5%" color="blue" />
       </section>
 
       {/* ============================================ */}
@@ -168,16 +179,16 @@ export default function IncomeNeeded() {
                 <td className="text-right py-2 font-semibold">$2,528</td>
               </tr>
               <tr className="border-b border-border">
-                <td className="py-2 pr-4">Property Taxes (estimated)</td>
-                <td className="text-right py-2">~$500</td>
+                <td className="py-2 pr-4">Property Taxes (estimated, 1%)</td>
+                <td className="text-right py-2">~$417</td>
               </tr>
               <tr className="border-b border-border">
                 <td className="py-2 pr-4">Homeowners Insurance</td>
-                <td className="text-right py-2">~$150</td>
+                <td className="text-right py-2">~$142</td>
               </tr>
               <tr className="bg-primary/5">
                 <td className="py-3 pr-4 font-bold text-foreground">Total Housing Payment</td>
-                <td className="text-right py-3 font-bold text-foreground text-lg">~$3,178</td>
+                <td className="text-right py-3 font-bold text-foreground text-lg">~$3,087</td>
               </tr>
             </tbody>
           </table>
@@ -188,16 +199,16 @@ export default function IncomeNeeded() {
         </p>
         <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-4 text-center">
           <p className="text-lg">
-            <span className="font-semibold">$3,178</span> ÷ 0.28 = 
-            <span className="font-semibold"> $11,350</span> per month
+            <span className="font-semibold">$3,087</span> ÷ 0.28 = 
+            <span className="font-semibold"> $11,025</span> per month
           </p>
           <p className="text-lg">
-            × 12 = <span className="font-semibold text-primary">~$136,200 per year</span>
+            × 12 = <span className="font-semibold text-primary">~$132,300 per year</span>
           </p>
         </div>
         <p className="text-lg leading-relaxed">
-          That's the income a lender would typically want to see for this loan. Roughly $135,000 to 
-          $140,000 in household income.
+          That's the income a lender would typically want to see for this loan. Roughly $130,000 to 
+          $135,000 in household income.
         </p>
       </section>
 
@@ -271,7 +282,7 @@ export default function IncomeNeeded() {
           What Changes the Math
         </h2>
         <p className="text-lg leading-relaxed mb-4">
-          That $136,000 figure assumes a clean scenario. Here's what happens when you change one variable.
+          That $132,300 figure assumes a clean scenario. Here's what happens when you change one variable.
         </p>
 
         <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-xl p-5 mb-4">
@@ -300,7 +311,7 @@ export default function IncomeNeeded() {
             × 12 = <strong className="text-emerald-700 dark:text-emerald-300">~$125,000 per year</strong>
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            A 1% rate drop just made the same house affordable at $11,000 less in annual income.
+            A 1% rate drop just made the same house affordable at $7,300 less in annual income.
           </p>
         </div>
 
@@ -340,18 +351,20 @@ export default function IncomeNeeded() {
         </h2>
         <p className="text-lg leading-relaxed mb-4">
           The 28% rule only looks at housing. But lenders also apply a <strong>36% back-end ratio</strong>: 
-          your total debts, including the mortgage, shouldn't exceed 36% of gross income.
+          your total debts, including the mortgage, shouldn't exceed 36% of gross income. That's the{' '}
+          <Link to="/blog/debt-to-income-ratio" className="text-primary hover:underline font-medium">debt-to-income ratio</Link>{' '}
+          lenders use to approve or deny your application.
         </p>
         <p className="text-lg leading-relaxed mb-4">
-          So if you earn $11,350 a month, your total debt payments—mortgage, car loan, student loans, 
+          So if you earn $11,025 a month, your total debt payments—mortgage, car loan, student loans, 
           credit card minimums—should stay under:
         </p>
         <div className="bg-muted/40 border border-border rounded-lg p-4 mb-4 text-center">
-          <p className="text-lg font-semibold">$11,350 × 0.36 = $4,086</p>
+          <p className="text-lg font-semibold">$11,025 × 0.36 = $3,969</p>
         </div>
         <p className="text-lg leading-relaxed mb-4">
-          Your mortgage alone is $3,178. That leaves <strong>$908 for everything else</strong>. If you 
-          pay $500 a month on a car and $400 on student loans, you're at $900. Right at the edge. 
+          Your mortgage alone is $3,087. That leaves <strong>$882 for everything else</strong>. If you 
+          pay $500 a month on a car and $400 on student loans, you're at $900 — just over the line. 
           The lender might approve you, but it's tight.
         </p>
         <p className="text-lg leading-relaxed">
@@ -374,7 +387,7 @@ export default function IncomeNeeded() {
           of about <strong>$2,333</strong>.
         </p>
         <p className="text-lg leading-relaxed mb-4">
-          The payment on a $500,000 house with 20% down is around $3,178. That's $845 over the guideline. 
+          The payment on a $500,000 house with 20% down is around $3,087. That's $754 over the guideline. 
           Even with no other debts and excellent credit, you'd be pushing well past what most lenders 
           consider prudent.
         </p>
@@ -451,7 +464,7 @@ export default function IncomeNeeded() {
           <div className="flex items-start gap-3 bg-card border border-border rounded-lg p-4">
             <div className="w-7 h-7 rounded bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400 flex items-center justify-center flex-shrink-0 text-sm font-bold">$</div>
             <div>
-              <div className="font-medium text-foreground">Closing costs</div>
+              <Link to="/blog/closing-costs-explained" className="font-medium text-foreground hover:text-primary transition-colors">Closing costs</Link>
               <div className="text-sm text-muted-foreground">Typically 2–5% of the purchase price, due at signing. On a $500,000 house, that's $10,000 to $25,000.</div>
             </div>
           </div>
