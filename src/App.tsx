@@ -19,6 +19,7 @@ import ClosingCostsExplained from '@/src/components/blog/ClosingCostsExplained';
 import RentVsBuy2026 from '@/src/components/blog/RentVsBuy2026';
 import ArmVsFixedArm from '@/src/components/blog/ArmVsFixedArm';
 import PropertyTaxesAndInsurance from '@/src/components/blog/PropertyTaxesAndInsurance';
+import DebtToIncomeRatio from '@/src/components/blog/DebtToIncomeRatio';
 import ContactPage from '@/src/components/pages/ContactPage';
 import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
 import CalculatorMethodologyPage from '@/src/components/pages/CalculatorMethodologyPage';
@@ -368,6 +369,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "What Is a Good Debt-to-Income Ratio for Buying a House?",
+      path: "/blog/debt-to-income-ratio",
+      date: "August 3, 2026",
+    },
     {
       title: "How Much Are Property Taxes and Insurance on a Mortgage?",
       path: "/blog/property-taxes-and-insurance",
@@ -905,6 +911,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "What Is a Good Debt-to-Income Ratio for Buying a House?",
+      path: "/blog/debt-to-income-ratio",
+      category: "Education",
+      date: "August 3, 2026",
+      readTime: "12 min read",
+      description: "A friend of mine makes $100,000 a year and got pre-approved for $340,000 — way less than he expected. Here's the DTI math that explains why two people with the same salary get wildly different loan offers."
+    },
+    { 
       title: "How Much Are Property Taxes and Insurance on a Mortgage?",
       path: "/blog/property-taxes-and-insurance",
       category: "Education",
@@ -1168,6 +1182,7 @@ export default function App() {
             <Route path="/blog/arm-vs-fixed-arm" element={<ArmVsFixedArm />} />
             <Route path="/blog/rent-vs-buy-2026" element={<RentVsBuy2026 />} />
             <Route path="/blog/property-taxes-and-insurance" element={<PropertyTaxesAndInsurance />} />
+            <Route path="/blog/debt-to-income-ratio" element={<DebtToIncomeRatio />} />
 
             {/* Other pages */}
             <Route path="/about" element={<AboutPage />} />
