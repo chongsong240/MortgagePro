@@ -1004,7 +1004,7 @@ function BlogStub() {
       category: "Education",
       date: "May 15, 2026",
       readTime: "10 min read",
-      description: "Discover why 86% of your first mortgage payment goes to interest and how understanding amortization can save you thousands."
+      description: "In month one of a $400,000 mortgage at 6.5%, only $361 of your $2,528 payment goes to principal. My friend Rob discovered this after six months of payments had barely moved his balance. Here's why that happens and how to change it."
     },
     {
       title: "Bi-Weekly Mortgage Payments: Are They Worth It?",

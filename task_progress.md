@@ -9,3 +9,4 @@
 - [x] 在 generate-pages.ts 的 sitemap blogs 列表中添加文章
 - [x] 在 DebtToIncomeRatio.tsx 正文中添加三个权威外链（CFPB、Fannie Mae、HUD）
 - [x] 重新构建项目并验证 (dist/blog/debt-to-income-ratio/index.html 已生成, sitemap.xml 已含链接, 外链已编译进 dist/assets JS)
+- [x] 提交并推送到 GitHub (commit d06ef79, origin/main 已更新)

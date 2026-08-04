@@ -17,7 +17,7 @@ export default function AmortizationSchedule() {
     <article className="max-w-3xl mx-auto py-8 px-4">
       <BlogSchema
         title="Amortization Schedule: The Hidden Truth About Your Mortgage Payments"
-        description="Discover why 86% of your first mortgage payment goes to interest and how understanding amortization can save you thousands."
+        description="In month one of a $400,000 mortgage at 6.5%, only $361 of your $2,528 payment goes to principal. My friend Rob discovered this after six months of payments had barely moved his balance. Here's why that happens and how to change it."
         datePublished="2026-05-15"
         url="https://www.mortgagepro.io/blog/amortization-schedule"
         faqs={[
