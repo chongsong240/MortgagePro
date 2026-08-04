@@ -269,12 +269,16 @@ export default function ThirtyVsFifteenYear() {
                 <Lightbulb className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <p className="text-muted-foreground italic">
+                <p className="text-muted-foreground">
+                  James Chen is a software developer in Austin. He chose a 30-year mortgage{' '}
+                  <strong className="text-foreground">intentionally</strong> — even though he could afford 
+                  the 15-year. His reasoning:
+                </p>
+                <p className="text-muted-foreground italic mt-2">
                   "I'm 32. My career is growing. I'd rather put that extra $800/month into a diversified 
                   portfolio and let it compound for 30 years. Historically, the market returns more than 
                   my mortgage rate. I'm betting the spread."
                 </p>
-                <p className="text-sm text-muted-foreground mt-2">— James Chen, software developer, Austin</p>
               </div>
             </div>
           </div>
@@ -411,17 +415,32 @@ export default function ThirtyVsFifteenYear() {
 
         <div className="space-y-4">
           {[
-            { q: "If you lost your job tomorrow, how many months could you cover the 15-year payment?" },
-            { q: "What would you actually do with the $800/month savings on a 30-year—invest it, or spend it?" },
+            {
+              q: "If you lost your job tomorrow, how many months could you cover the 15-year payment?",
+              why: "This is the stress test. If the answer is fewer than three, the 30-year's lower minimum payment could be the difference between keeping the house and losing it.",
+            },
+            {
+              q: "What would you actually do with the $800/month savings on a 30-year—invest it, or spend it?",
+              why: "This is the whole ballgame. The 30-year only beats the 15-year mathematically if that savings is actually invested—and most people overestimate their own discipline.",
+            },
             { q: "How long do you realistically plan to stay in this home?" },
             { q: "What else are you sacrificing for the higher payment—retirement contributions, kids' college funds, travel?" },
             { q: "Does being completely debt-free matter to you emotionally, or is this purely a math decision?" },
           ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3 p-4 bg-muted/30 rounded-xl border border-border">
-              <HelpCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-              <p className="text-muted-foreground">
-                <strong className="text-foreground">Question {i + 1}:</strong> {item.q}
-              </p>
+            <div key={i} className="p-4 bg-muted/30 rounded-xl border border-border">
+              <div className="flex items-start gap-3">
+                <HelpCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-muted-foreground">
+                    <strong className="text-foreground">Question {i + 1}:</strong> {item.q}
+                  </p>
+                  {item.why && (
+                    <p className="text-sm text-muted-foreground mt-2">
+                      <strong className="text-foreground">Why it matters:</strong> {item.why}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -444,6 +463,14 @@ export default function ThirtyVsFifteenYear() {
           <p>
             Now toggle the "Extra Payment" slider and simulate the middle path. The right answer for your 
             life might appear in that chart.
+          </p>
+
+          <p>
+            The 30-year vs 15-year decision isn't just about $312,000 in interest. It's about what kind of 
+            life you want while you're paying it off. Some people want the house gone by 55 and are willing 
+            to tighten their budget to make it happen. Others would rather have the breathing room and are 
+            disciplined enough to invest the difference. Neither choice is wrong—as long as you make it with 
+            your eyes open.
           </p>
 
           {/* CTA */}
