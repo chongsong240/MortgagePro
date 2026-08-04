@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator } from 'lucide-react';
+import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen } from 'lucide-react';
 import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight, ExampleBox, Checklist } from './BlogComponents';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
@@ -153,8 +153,8 @@ export default function MonthlyPaymentBreakdown() {
               If you put down less than 20%, the bank considers you a higher risk. So they charge you an 
               insurance premium to protect <em>themselves</em>. It's money you pay every month that doesn't 
               build equity or pay down your loan. It just covers the bank if you default. 
-              {' '}<Link to="/blog/what-is-pmi" className="text-primary hover:underline font-medium">
-                We have a full guide on PMI and how to get rid of it →
+              <Link to="/blog/what-is-pmi" className="text-primary hover:underline font-medium">
+                We have a full guide on what PMI is and how to cancel it as soon as you're eligible.
               </Link>
             </p>
           </div>
@@ -263,25 +263,11 @@ export default function MonthlyPaymentBreakdown() {
       </section>
 
       {/* ============================================ */}
-      {/* CALCULATOR EMBED - CTA */}
+      {/* Light calculator hint — full CTA follows in Section 4 */}
       {/* ============================================ */}
-      <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-10 text-center">
-        <div className="flex justify-center mb-3">
-          <Calculator className="w-8 h-8 text-primary" />
-        </div>
-        <h3 className="text-xl font-semibold text-foreground mb-2">Want to know your exact number?</h3>
-        <p className="text-muted-foreground mb-4 max-w-lg mx-auto">
-          Plug in your home price, down payment, interest rate, and location into our interactive calculator. 
-          It gives you the full PITI breakdown in seconds — no sign-up required.
-        </p>
-        <Link
-          to="/mortgage-calculator"
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors"
-        >
-          <Calculator className="w-4 h-4" />
-          Try the Mortgage Calculator Now
-        </Link>
-      </div>
+      <p className="text-sm text-muted-foreground text-center mb-10">
+        Use the mortgage calculator below to adjust these variables and see how your payment changes.
+      </p>
 
       {/* ============================================ */}
       {/* Section 4 - Real Life Numbers */}
