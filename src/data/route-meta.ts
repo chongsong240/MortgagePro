@@ -69,8 +69,8 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/blog/income-needed',
-    title: "Income Needed to Buy a House in 2025 | MortgagePro",
-    description: "How much income do you need to buy a house in 2025? State-by-state income requirements based on median home prices.",
+    title: "Income Needed to Buy a House in 2026 | MortgagePro",
+    description: "How much income do you need to buy a house in 2026? State-by-state income requirements based on median home prices.",
   },
   {
     path: '/blog/why-mostly-interest',
@@ -172,10 +172,15 @@ export function findRouteMeta(pathname: string): RouteMeta | undefined {
 
   let best: RouteMeta | undefined;
   for (const m of ROUTE_META) {
-    // Prefix matching only for "folder-like" paths (e.g. /blog/xxx)
-    if (m.path.endsWith('/') && pathname.startsWith(m.path)) {
+    // Prefix matching only for "folder-like" paths (e.g. /blog/xxx).
+    // IMPORTANT: skip the bare "/" home path — every pathname starts with
+    // "/", so without this guard unmatched routes (like calculator pages)
+    // would incorrectly inherit the homepage title/description.
+    if (m.path.length > 1 && m.path.endsWith('/') && pathname.startsWith(m.path)) {
       if (!best || m.path.length > best.path.length) best = m;
     }
   }
   return best;
 }
+
+

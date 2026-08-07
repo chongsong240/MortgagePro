@@ -31,6 +31,29 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://www.mortgagepro.io/" />
 
+    <!-- Organization & WebSite structured data (static, visible to crawlers) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.mortgagepro.io/#organization",
+          "name": "MortgagePro",
+          "url": "https://www.mortgagepro.io",
+          "email": "hello@mortgagepro.io"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.mortgagepro.io/#website",
+          "url": "https://www.mortgagepro.io",
+          "name": "MortgagePro",
+          "publisher": { "@id": "https://www.mortgagepro.io/#organization" }
+        }
+      ]
+    }
+    </script>
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4050078688462520" crossorigin="anonymous"></script>
   </head>
   <body>

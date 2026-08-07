@@ -481,11 +481,11 @@ function generateStateFAQ(stateName: string, _code: string, taxRate: number, ins
 // ============================================================
 
 function generateStateMetaTitle(stateName: string): string {
-  return `${stateName} Mortgage Calculator (2025) | Monthly Payment & Home Affordability`;
+  return `${stateName} Mortgage Calculator (2026) | Monthly Payment & Home Affordability`;
 }
 
 function generateStateMetaDescription(stateName: string, medianPrice: number, monthly: number): string {
-  return `Calculate your monthly mortgage payment in ${stateName} for 2025. See the breakdown of principal, interest, property taxes (state-specific rate), and insurance. Based on a median home price of ${fmtCurrency(medianPrice)} with 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo.`;
+  return `Calculate your monthly mortgage payment in ${stateName} for 2026. See the breakdown of principal, interest, property taxes (state-specific rate), and insurance. Based on a median home price of ${fmtCurrency(medianPrice)} with 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo.`;
 }
 
 function generateRecommendedReadingHtml(articles: { url: string; title: string }[]): string {
@@ -871,11 +871,11 @@ ${amortRows}
 // ============================================================
 
 function generateMetaTitle(amount: number): string {
-  return `$${fmtNumber(amount)} Mortgage Calculator (2025) | Monthly Payment & Home Affordability`;
+  return `$${fmtNumber(amount)} Mortgage Calculator (2026) | Monthly Payment & Home Affordability`;
 }
 
 function generateMetaDescription(amount: number, monthly: number): string {
-  return `Calculate your monthly mortgage payment on a $${fmtNumber(amount)} house for 2025. With 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo including principal, interest, taxes & insurance. Full PITI breakdown and amortization schedule.`;
+  return `Calculate your monthly mortgage payment on a $${fmtNumber(amount)} house for 2026. With 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo including principal, interest, taxes & insurance. Full PITI breakdown and amortization schedule.`;
 }
 
 function generateAmountFaq(amount: number, data: MortgageData, downPct: number): { q: string; a: string }[] {
@@ -1062,7 +1062,7 @@ function generateAmountHtml(amount: number, slug: string): string {
 
   <section class="hero">
     <div class="container">
-      <h1>$${fmtNumber(amount)} Mortgage Payment (2025)</h1>
+      <h1>$${fmtNumber(amount)} Mortgage Payment (2026)</h1>
       <p>What it actually costs to own a $${fmtNumber(amount)} home — down payment, closing costs, monthly PITI, PMI scenarios, and amortization.</p>
     </div>
   </section>

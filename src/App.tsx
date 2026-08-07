@@ -462,6 +462,16 @@ function HomePage() {
       path: "/blog/biweekly-payments",
       date: "May 20, 2026",
     },
+    {
+      title: "Amortization Schedule: The Hidden Truth About Your Mortgage Payments",
+      path: "/blog/amortization-schedule",
+      date: "May 15, 2026",
+    },
+    {
+      title: "How to Use Our Mortgage Calculator to Plan Your Monthly Payment",
+      path: "/blog/how-to-use-calculator",
+      date: "May 10, 2026",
+    },
   ];
 
   const faqs = [
@@ -1142,14 +1152,13 @@ function BlogStub() {
   );
 }
 
-export default function App() {
+export function AppRoutes() {
   return (
-    <Router>
-      <div className="min-h-screen flex flex-col bg-background font-sans">
-        <Navigation />
-        <RouteMetaManager />
-        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <Routes>
+    <div className="min-h-screen flex flex-col bg-background font-sans">
+      <Navigation />
+      <RouteMetaManager />
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Routes>
 
             <Route path="/" element={<HomePage />} />
             
@@ -1204,6 +1213,13 @@ export default function App() {
         </main>
         <Footer />
       </div>
+    );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AppRoutes />
     </Router>
   );
 }

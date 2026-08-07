@@ -125,7 +125,7 @@ export default function CalculatorPageLayout({
     <div className="space-y-8">
       {/* SEO: unique title + meta description + social tags for every calculator page */}
       <Helmet>
-        <title>{config.title} | MortgagePro</title>
+        <title>{`${config.title} | MortgagePro`}</title>
         <meta name="description" content={config.description} />
         <link rel="canonical" href={canonical} />
         <meta property="og:title" content={`${config.title} | MortgagePro`} />

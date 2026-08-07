@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 interface CalculatorSchemaProps {
   name: string;
   description: string;
@@ -8,12 +6,10 @@ interface CalculatorSchemaProps {
 }
 
 /**
- * Injects SoftwareApplication schema.org JSON-LD into <head>
- * for each calculator page. This helps Google understand that
- * the page contains a functional web application (not just an article),
- * which can enable rich results and improved indexing.
- *
- * Usage: place <CalculatorSchema ... /> inside each calculator page component.
+ * Renders SoftwareApplication schema.org JSON-LD as a STATIC <script> tag
+ * in the page body. This helps Google understand the page contains a
+ * functional web application, and (being static HTML) it is visible to
+ * crawlers even without JavaScript.
  */
 export default function CalculatorSchema({
   name,
@@ -21,38 +17,29 @@ export default function CalculatorSchema({
   applicationCategory = 'FinanceApplication',
   url,
 }: CalculatorSchemaProps) {
-  useEffect(() => {
-    const schema = {
-      '@context': 'https://schema.org',
-      '@type': 'SoftwareApplication',
-      name,
-      description,
-      applicationCategory,
-      operatingSystem: 'Web',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-      url,
-      browserRequirements: 'Requires JavaScript',
-    };
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name,
+    description,
+    applicationCategory,
+    operatingSystem: 'Web',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    url,
+    browserRequirements: 'Requires JavaScript',
+  };
 
-    const id = 'calc-schema';
-    const existing = document.getElementById(id);
-    if (existing) existing.remove();
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.id = id;
-    script.textContent = JSON.stringify(schema);
-    document.head.appendChild(script);
-
-    return () => {
-      const el = document.getElementById(id);
-      if (el) el.remove();
-    };
-  }, [name, description, applicationCategory, url]);
-
-  return null;
+  return (
+    <script
+      type="application/ld+json"
+      data-calc-schema
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
+      }}
+    />
+  );
 }

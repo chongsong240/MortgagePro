@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 interface FAQ {
   q: string;
   a: string;
@@ -15,67 +13,65 @@ interface BlogSchemaProps {
 }
 
 /**
- * Injects Article + optional FAQPage schema.org JSON-LD into <head>.
- * Usage: place <BlogSchema ... /> at the top of each blog article component.
+ * Renders Article + optional FAQPage schema.org JSON-LD as a STATIC
+ * <script> tag in the page body. Because the tag is part of the server
+ * rendered / prerendered HTML, crawlers (Googlebot, AdSense review) can
+ * read the structured data without executing JavaScript.
  */
 export default function BlogSchema({ title, description, datePublished, dateModified, url, faqs }: BlogSchemaProps) {
-  useEffect(() => {
-    const schemas: object[] = [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'Article',
-        headline: title,
-        description,
-        datePublished,
-        dateModified: dateModified ?? datePublished,
-        url,
-        author: {
-          '@type': 'Person',
-          name: 'Chong Song',
-          url: 'https://www.mortgagepro.io/about',
-        },
-        publisher: {
-          '@type': 'Organization',
-          name: 'MortgagePro',
-          url: 'https://www.mortgagepro.io',
-        },
-        mainEntityOfPage: {
-          '@type': 'WebPage',
-          '@id': url,
-        },
+  const schemas: object[] = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: title,
+      description,
+      datePublished,
+      dateModified: dateModified ?? datePublished,
+      url,
+      author: {
+        '@type': 'Person',
+        name: 'Chong Song',
+        url: 'https://www.mortgagepro.io/about',
       },
-    ];
+      publisher: {
+        '@type': 'Organization',
+        name: 'MortgagePro',
+        url: 'https://www.mortgagepro.io',
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': url,
+      },
+    },
+  ];
 
-    if (faqs && faqs.length > 0) {
-      schemas.push({
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: faqs.map((f) => ({
-          '@type': 'Question',
-          name: f.q,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: f.a,
-          },
-        })),
-      });
-    }
-
-    const existing = document.querySelectorAll('script[data-blog-schema]');
-    existing.forEach((el) => el.remove());
-
-    schemas.forEach((schema, i) => {
-      const script = document.createElement('script');
-      script.type = 'application/ld+json';
-      script.setAttribute('data-blog-schema', String(i));
-      script.textContent = JSON.stringify(schema);
-      document.head.appendChild(script);
+  if (faqs && faqs.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: f.a,
+        },
+      })),
     });
+  }
 
-    return () => {
-      document.querySelectorAll('script[data-blog-schema]').forEach((el) => el.remove());
-    };
-  }, [title, description, datePublished, dateModified, url, faqs]);
-
-  return null;
+  return (
+    <>
+      {schemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          data-blog-schema={i}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
+          }}
+        />
+      ))}
+    </>
+  );
 }
