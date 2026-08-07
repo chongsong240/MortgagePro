@@ -23,6 +23,8 @@ import DebtToIncomeRatio from '@/src/components/blog/DebtToIncomeRatio';
 import ContactPage from '@/src/components/pages/ContactPage';
 import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
 import CalculatorMethodologyPage from '@/src/components/pages/CalculatorMethodologyPage';
+import RouteMetaManager from '@/src/components/pages/RouteMetaManager';
+import NotFoundPage from '@/src/components/pages/NotFoundPage';
 import {
   MortgageCalculatorPage,
   AffordabilityCalculatorPage,
@@ -35,6 +37,7 @@ import {
   ExtraPaymentCalculatorPage,
   ArmVsFixedCalculatorPage,
 } from '@/src/components/pages/CalculatorPages';
+
 import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X, ChevronDown } from 'lucide-react';
 
 const CALCULATOR_LINKS = [
@@ -1144,8 +1147,10 @@ export default function App() {
     <Router>
       <div className="min-h-screen flex flex-col bg-background font-sans">
         <Navigation />
+        <RouteMetaManager />
         <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Routes>
+
             <Route path="/" element={<HomePage />} />
             
             {/* Calculator routes — standalone pages with individual SEO */}
@@ -1193,7 +1198,8 @@ export default function App() {
             <Route path="/calculator-methodology" element={<CalculatorMethodologyPage />} />
             
             {/* 404 catch-all */}
-            <Route path="*" element={<div className="text-center py-20 text-muted-foreground">Page under construction via the blueprint instructions.</div>} />
+            <Route path="*" element={<NotFoundPage />} />
+
           </Routes>
         </main>
         <Footer />

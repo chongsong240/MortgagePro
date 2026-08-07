@@ -1250,11 +1250,81 @@ interface SPAEntry {
   priority: number;
 }
 
-function generateSpaPage(_entry: SPAEntry, rootHtml: string): string {
-  // Return the root index.html so React Router handles the route client-side.
-  // This is the standard SPA fallback pattern for static hosts (Vercel/GitHub Pages).
-  return rootHtml;
+/** Escape a string for safe inclusion inside HTML text/attribute context. */
+function escapeHtml(s: string): string {
+  // Build entity strings via char codes so no HTML entities appear as raw
+  // string literals (which an aggressive formatter/beautifier may decode).
+  const codes: Record<string, string> = {
+    '&': String.fromCharCode(38, 97, 109, 112, 59),     // &
+    '<': String.fromCharCode(38, 108, 116, 59),         // <
+    '>': String.fromCharCode(38, 103, 116, 59),         // >
+    '"': String.fromCharCode(38, 113, 117, 111, 116, 59), // "
+    "'": String.fromCharCode(38, 35, 51, 57, 59),       // &#39;
+  };
+  return s.replace(/[&<>"']/g, (ch) => codes[ch]);
 }
+
+
+
+/**
+ * Generate an SPA route page from the root index.html.
+ * Unlike a plain copy, this injects per-route <title>, meta description,
+ * canonical, and Open Graph tags so crawlers see unique metadata for
+ * every route even though the app renders client-side.
+ */
+function generateSpaPage(entry: SPAEntry, rootHtml: string): string {
+  let html = rootHtml;
+
+  const title = escapeHtml(entry.title);
+  const desc = escapeHtml(entry.description);
+  const canonical = `${SITE_URL}/${entry.path}`;
+
+  // --- <title> ---
+  html = html.replace(/<title>[^<]*<\/title>/i, `<title>${title}</title>`);
+
+  // --- meta description (replace if present, otherwise insert) ---
+  const descTag = `    <meta name="description" content="${desc}" />`;
+  if (/<meta name=["']description["'][^>]*>/i.test(html)) {
+    html = html.replace(/<meta name=["']description["'][^>]*>/i, descTag);
+  } else {
+    html = html.replace('</head>', `  ${descTag}\n  </head>`);
+  }
+
+  // --- canonical (replace if present, otherwise insert) ---
+  const canonicalTag = `    <link rel="canonical" href="${canonical}" />`;
+  if (/<link rel=["']canonical["'][^>]*>/i.test(html)) {
+    html = html.replace(/<link rel=["']canonical["'][^>]*>/i, canonicalTag);
+  } else {
+    html = html.replace('</head>', `  ${canonicalTag}\n  </head>`);
+  }
+
+  // --- Open Graph / Twitter ---
+  // index.html already ships default og/twitter tags, so REPLACE them (not
+  // append) to avoid duplicate social tags on every generated route page.
+  const socialPairs: { re: RegExp; tag: string }[] = [
+    { re: /<meta property=["']og:title["'][^>]*>/i, tag: `    <meta property="og:title" content="${title}" />` },
+    { re: /<meta property=["']og:description["'][^>]*>/i, tag: `    <meta property="og:description" content="${desc}" />` },
+    { re: /<meta property=["']og:url["'][^>]*>/i, tag: `    <meta property="og:url" content="${canonical}" />` },
+    { re: /<meta property=["']og:type["'][^>]*>/i, tag: `    <meta property="og:type" content="website" />` },
+    { re: /<meta name=["']twitter:title["'][^>]*>/i, tag: `    <meta name="twitter:title" content="${title}" />` },
+    { re: /<meta name=["']twitter:description["'][^>]*>/i, tag: `    <meta name="twitter:description" content="${desc}" />` },
+  ];
+
+  let social = html;
+  for (const { re, tag } of socialPairs) {
+    if (re.test(social)) {
+      social = social.replace(re, tag);
+    } else {
+      // Missing tag — append it just before </head>
+      social = social.replace('</head>', `  ${tag}\n  </head>`);
+    }
+  }
+  html = social;
+
+  return html;
+}
+
+
 
 // ============================================================
 // 5c. Sitemap generator
@@ -1265,8 +1335,8 @@ function generateSitemap(): string {
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
     `  <url><loc>${SITE_URL}/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/mortgage-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
+
     `  <url><loc>${SITE_URL}/affordability-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/biweekly-mortgage-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/rent-vs-buy-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,

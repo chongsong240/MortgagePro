@@ -1,4 +1,8 @@
 import { ReactNode } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
+import { SITE_URL } from '@/src/data/route-meta';
+
 
 export interface FAQ {
   q: string;
@@ -114,13 +118,30 @@ export default function CalculatorPageLayout({
   config: PageConfig;
   children: ReactNode;
 }) {
+  const location = useLocation();
+  const canonical = `${SITE_URL}${location.pathname === '/' ? '/' : location.pathname}`;
+
   return (
     <div className="space-y-8">
+      {/* SEO: unique title + meta description + social tags for every calculator page */}
+      <Helmet>
+        <title>{config.title} | MortgagePro</title>
+        <meta name="description" content={config.description} />
+        <link rel="canonical" href={canonical} />
+        <meta property="og:title" content={`${config.title} | MortgagePro`} />
+        <meta property="og:description" content={config.description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content={`${config.title} | MortgagePro`} />
+        <meta name="twitter:description" content={config.description} />
+      </Helmet>
+
       {/* H1 + description */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight mb-2">{config.title}</h1>
         <p className="text-muted-foreground text-lg">{config.description}</p>
       </div>
+
 
       {/* Calculator component */}
       {children}
