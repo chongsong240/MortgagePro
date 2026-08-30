@@ -125,11 +125,15 @@ export default function EditorialPolicyPage() {
         <h2 className="text-2xl font-semibold text-foreground mt-8">Affiliate & Advertising Disclosure</h2>
         <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-xl p-5">
           <p className="text-sm text-amber-800 dark:text-amber-300">
-            MortgagePro currently does not accept affiliate commissions or sponsored content. We may
-            serve advertisements through Google AdSense to support the cost of operating this website
-            and keeping all tools free for users. Ad selection is managed by Google and is not
-            influenced by our editorial team. We clearly distinguish advertisements from editorial
-            content at all times.
+            Some links on MortgagePro are affiliate links. When you click an affiliate link and take a
+            qualifying action, such as applying for a loan or subscribing to a service, we may earn a
+            commission at no additional cost to you. Affiliate relationships never influence our editorial
+            content, opinions, or recommendations — if we recommend a product or service, it is because we
+            believe it offers real value. We may also serve advertisements through Google AdSense to support
+            the cost of operating this website and keeping all tools free for users. Ad selection is managed
+            by Google and is not influenced by our editorial team. We clearly distinguish advertisements from
+            editorial content at all times. For more details, see our{' '}
+            <Link to="/affiliate-disclosure.html" className="text-primary underline font-medium">Affiliate Disclosure</Link>.
           </p>
         </div>
 

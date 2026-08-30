@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, PieChart, BookOpen, Calculator, AlertTriangle, TrendingUp } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -45,6 +46,8 @@ export default function PayOffEarly() {
           smart people, two completely different answers. Here's how to figure out yours.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

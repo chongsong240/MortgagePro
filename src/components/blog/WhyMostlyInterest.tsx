@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator, TrendingUp, AlertTriangle } from 'lucide-react';
 import BlogSchema from './BlogSchema';
-import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight, ExampleBox, Checklist } from './BlogComponents';
+import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight, ExampleBox, Checklist, AffiliateDisclosure } from './BlogComponents';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
@@ -46,6 +46,8 @@ export default function WhyMostlyInterest() {
           is something most people never see until they sign.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

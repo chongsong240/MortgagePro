@@ -857,7 +857,8 @@ ${amortRows}
         <a href="${SITE_URL}/editorial-policy">Editorial Policy</a> &middot;
         <a href="${SITE_URL}/calculator-methodology">Methodology</a> &middot;
         <a href="${SITE_URL}/privacy">Privacy</a> &middot;
-        <a href="${SITE_URL}/disclaimer">Disclaimer</a>
+        <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
+        <a href="${SITE_URL}/affiliate-disclosure.html">Affiliate Disclosure</a>
       </p>
     </div>
   </footer>
@@ -1231,7 +1232,8 @@ function generateAmountHtml(amount: number, slug: string): string {
         <a href="${SITE_URL}/editorial-policy">Editorial Policy</a> &middot;
         <a href="${SITE_URL}/calculator-methodology">Methodology</a> &middot;
         <a href="${SITE_URL}/privacy">Privacy</a> &middot;
-        <a href="${SITE_URL}/disclaimer">Disclaimer</a>
+        <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
+        <a href="${SITE_URL}/affiliate-disclosure.html">Affiliate Disclosure</a>
       </p>
     </div>
   </footer>
@@ -1353,6 +1355,7 @@ function generateSitemap(): string {
     `  <url><loc>${SITE_URL}/calculator-methodology</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/privacy</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>`,
     `  <url><loc>${SITE_URL}/disclaimer</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>`,
+    `  <url><loc>${SITE_URL}/affiliate-disclosure.html</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>`,
   ];
 
   // Blog articles

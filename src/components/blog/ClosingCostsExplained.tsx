@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, FileText, Home, Calculator, BookOpen, Shield, PieChart, AlertTriangle, Landmark } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -46,6 +47,8 @@ export default function ClosingCostsExplained() {
           They knew their monthly budget. They'd gotten pre-approved. They were ready.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

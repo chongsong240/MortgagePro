@@ -163,6 +163,11 @@ export const ROUTE_META: RouteMeta[] = [
     title: 'Disclaimer | MortgagePro',
     description: 'MortgagePro disclaimer. Our calculators provide estimates for informational purposes only.',
   },
+  {
+    path: '/affiliate-disclosure.html',
+    title: 'Affiliate Disclosure | MortgagePro',
+    description: 'MortgagePro affiliate disclosure. Learn how affiliate links support our free mortgage tools and how we keep our content independent.',
+  },
 ];
 
 /** Find metadata for a given pathname (exact match first, then longest prefix). */

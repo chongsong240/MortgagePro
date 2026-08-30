@@ -156,6 +156,7 @@ function Navigation() {
   const linksAfter = [
     { name: 'Blog', path: '/blog', icon: BookOpen },
     { name: 'About', path: '/about', icon: Info },
+    { name: 'Affiliate Disclosure', path: '/affiliate-disclosure.html', icon: ShieldAlert },
   ];
 
   const closeMobile = () => setIsOpen(false);
@@ -281,6 +282,7 @@ function Footer() {
             <div className="flex flex-col gap-2 text-sm">
               <Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
               <Link to="/disclaimer" className="text-muted-foreground hover:text-foreground transition-colors">Disclaimer</Link>
+              <Link to="/affiliate-disclosure.html" className="text-muted-foreground hover:text-foreground transition-colors">Affiliate Disclosure</Link>
             </div>
             <div className="flex items-center gap-2 mt-4 text-muted-foreground">
               <ShieldAlert className="w-4 h-4" />
@@ -809,7 +811,7 @@ function PrivacyPage() {
     <div className="max-w-3xl mx-auto py-12 px-4">
       <h1 className="text-4xl font-bold tracking-tight mb-6">Privacy Policy</h1>
       <div className="text-muted-foreground space-y-6 leading-relaxed">
-        <p><strong>Last updated:</strong> May 11, 2026</p>
+        <p><strong>Last updated:</strong> August 30, 2026</p>
 
         <h2 className="text-xl font-semibold text-foreground mt-6">1. Information We Collect</h2>
         <p>MortgagePro does not require user registration and does not collect personal information such as your name, email address, or phone number.</p>
@@ -840,22 +842,25 @@ function PrivacyPage() {
           <li><strong>GitHub Pages</strong> — Hosting provider.</li>
         </ul>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">4. Cookies</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">4. Affiliate Relationships</h2>
+        <p>Some links on MortgagePro.io are affiliate links. This means we may earn a commission if you click the link and take a qualifying action, such as applying for a loan or subscribing to a service. These commissions help support the operation of this website at no additional cost to you. For more details, please see our <Link to="/affiliate-disclosure.html" className="text-primary hover:underline">Affiliate Disclosure</Link>.</p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">5. Cookies</h2>
         <p>You can control cookie preferences through your browser settings. Disabling cookies may affect the functionality of certain website features.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">5. Do Not Track Signals</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">6. Do Not Track Signals</h2>
         <p>Our website does not respond to Do Not Track (DNT) signals. However, you can control the use of cookies through your browser settings as described above.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">6. Children's Privacy</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">7. Children's Privacy</h2>
         <p>MortgagePro is not directed to children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">7. Data Security</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">8. Data Security</h2>
         <p>We implement industry-standard security measures to protect any data collected. However, no method of transmission over the Internet is 100% secure.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">8. Changes to This Policy</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">9. Changes to This Policy</h2>
         <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">9. Contact</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">10. Contact</h2>
         <p>For questions about this privacy policy, contact us at <strong>hello@mortgagepro.io</strong>.</p>
       </div>
     </div>
@@ -916,6 +921,36 @@ function DisclaimerPage() {
         <p>
           For questions about this disclaimer, contact us at <strong>hello@mortgagepro.io</strong>.
         </p>
+      </div>
+    </div>
+  );
+}
+
+function AffiliateDisclosurePage() {
+  return (
+    <div className="max-w-3xl mx-auto py-12 px-4">
+      <h1 className="text-4xl font-bold tracking-tight mb-6">Affiliate Disclosure</h1>
+      <div className="text-muted-foreground space-y-6 leading-relaxed">
+        <p><strong>Last updated:</strong> August 30, 2026</p>
+
+        <p>MortgagePro.io is a free resource dedicated to helping first-time home buyers understand mortgages and make smarter financial decisions.</p>
+        <p>To keep this website running at no cost to our readers, we may earn a commission when you click on certain links on this site and make a purchase or submit an inquiry. These links are called "affiliate links."</p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">What This Means</h2>
+        <ul className="list-disc pl-6 space-y-1">
+          <li>We may receive compensation when you use an affiliate link to visit a partner website and take an action, such as applying for a loan or signing up for a credit monitoring service.</li>
+          <li>This compensation comes at no additional cost to you.</li>
+          <li>We only recommend products, services, and tools that we believe are genuinely useful for our readers.</li>
+        </ul>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">Our Content Is Independent</h2>
+        <p>The presence of affiliate links does not influence the information, opinions, or recommendations in our articles. Our primary goal is to provide accurate, helpful mortgage guidance. If we recommend a product or service, it is because we believe it offers real value—not solely because of a potential commission.</p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">Why You Should Still Do Your Own Research</h2>
+        <p>Mortgage rates, loan terms, and financial products vary by individual circumstances. We encourage you to compare options and consult with a qualified financial professional before making major decisions.</p>
+
+        <p>If you have any questions about this disclosure, please contact us at <strong>hello@mortgagepro.io</strong>.</p>
+        <p>This disclosure is provided in accordance with the Federal Trade Commission's guidelines on endorsements and testimonials.</p>
       </div>
     </div>
   );
@@ -1202,6 +1237,7 @@ export function AppRoutes() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
+            <Route path="/affiliate-disclosure.html" element={<AffiliateDisclosurePage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/editorial-policy" element={<EditorialPolicyPage />} />
             <Route path="/calculator-methodology" element={<CalculatorMethodologyPage />} />

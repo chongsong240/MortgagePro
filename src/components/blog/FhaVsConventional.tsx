@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Shield, BookOpen, Calculator, AlertTriangle, TrendingUp, Home } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -45,6 +46,8 @@ export default function FhaVsConventional() {
           than her friend's conventional mortgage. Here's what she wishes someone had explained on day one.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

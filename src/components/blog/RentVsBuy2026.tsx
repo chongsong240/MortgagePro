@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Home, Calculator, TrendingUp, Shield, Building, DollarSign, Calendar, Clock, BookOpen } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -42,6 +43,8 @@ export default function RentVsBuy2026() {
           My neighbors Jen and Mike have been renting the same apartment for four years. It's a perfectly fine place—two bedrooms, decent light, a landlord who actually fixes things when they break. Their rent is $2,400 a month, which feels steep but manageable.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

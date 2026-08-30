@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -46,6 +47,8 @@ export default function AmortizationSchedule() {
           can be shocking. In the early years, the vast majority of your hard-earned money is paying the bank, not your house.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

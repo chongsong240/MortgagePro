@@ -266,3 +266,19 @@ export function Checklist({ items, type = 'pro' }: { items: string[]; type?: 'pr
     </ul>
   );
 }
+
+// ============================================================
+// AffiliateDisclosure — FTC-required disclosure banner for any
+// article that contains affiliate links. Place directly below
+// the article title, before the first body paragraph.
+// ============================================================
+export function AffiliateDisclosure() {
+  return (
+    <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg px-4 py-3 mb-6 text-sm">
+      <p className="text-amber-800 dark:text-amber-300 leading-relaxed">
+        <strong>Disclosure:</strong> This article contains affiliate links. If you click one and take action, we may earn a commission at no extra cost to you.{' '}
+        <Link to="/affiliate-disclosure.html" className="text-primary underline hover:opacity-80 font-medium">Learn more</Link>
+      </p>
+    </div>
+  );
+}

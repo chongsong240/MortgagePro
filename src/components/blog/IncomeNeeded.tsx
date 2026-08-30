@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Calculator } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
-import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight } from './BlogComponents';
+import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight, AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -45,6 +45,8 @@ export default function IncomeNeeded() {
           your other debts, and the stuff most people don't think about until closing.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

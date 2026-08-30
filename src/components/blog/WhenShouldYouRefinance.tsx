@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, PieChart, BookOpen, Calculator, AlertTriangle, TrendingUp, Home, Clock } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -46,6 +47,8 @@ export default function WhenShouldYouRefinance() {
           most lenders won't do for you unless you ask.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

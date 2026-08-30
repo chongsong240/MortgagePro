@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen } from 'lucide-react';
-import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight, ExampleBox, Checklist } from './BlogComponents';
+import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight, ExampleBox, Checklist, AffiliateDisclosure } from './BlogComponents';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 
@@ -45,6 +45,8 @@ export default function MonthlyPaymentBreakdown() {
           Here's what actually goes into your monthly number — and how to figure yours out before you shop.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, ExternalLink, Scale, Wallet, FileText, Calculator, AlertTriangle, Info, TrendingUp } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -48,6 +49,8 @@ export default function DebtToIncomeRatio() {
           The lender came back with $340,000.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, ExternalLink, CheckCircle2, XCircle, Landmark, ClipboardCheck } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -44,6 +45,8 @@ export default function WhatIsPmi() {
           Here's exactly how to cancel it—and save thousands.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents - 10 sections */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">

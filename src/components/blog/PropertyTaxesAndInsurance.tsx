@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Home, Shield, LandPlot, BookOpen, Calculator, Info, Building, AlertTriangle } from 'lucide-react';
-import { TipBox, WarningBox, InfoBox } from './BlogComponents';
+import { TipBox, WarningBox, InfoBox, AffiliateDisclosure } from './BlogComponents';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 
@@ -45,6 +45,8 @@ export default function PropertyTaxesAndInsurance() {
           My brother-in-law Chris thought he had his mortgage payment figured out to the dollar. Then his Loan Estimate showed up.
         </p>
       </div>
+
+      <AffiliateDisclosure />
 
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">
