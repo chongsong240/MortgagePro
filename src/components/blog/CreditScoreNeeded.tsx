@@ -512,8 +512,11 @@ export default function CreditScoreNeeded() {
         </p>
 
         <p className="text-lg leading-relaxed text-foreground">
-          Start by checking your current score. SmartCredit offers a $1 trial that shows your score and what's 
-          impacting it—so you know exactly where you stand before talking to lenders.
+          Start by checking your current score.{' '}
+          <a href="https://www.dpbolvw.net/click-101868701-16981737" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            SmartCredit
+          </a>{' '}
+          offers a $1 trial that shows your score and what's impacting it—so you know exactly where you stand before talking to lenders.
         </p>
       </section>
 
