@@ -332,7 +332,11 @@ export default function CreditScoreNeeded() {
           You can get a free copy from each of the three major bureaus once a year at{' '}
           <a href="https://www.annualcreditreport.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
             annualcreditreport.com
-          </a>. Look for errors—accounts you don't recognize, incorrect late payments, balances that are wrong. 
+          </a>. If you want to monitor your score more regularly, services like{' '}
+          <a href="https://www.tkqlhce.com/click-101868701-16981737" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            SmartCredit
+          </a>{' '}
+          show your score and the factors affecting it in real time. Look for errors—accounts you don't recognize, incorrect late payments, balances that are wrong. 
           Dispute anything that looks off. I know someone who found a medical collection on their report for a 
           bill they'd already paid. Removing it boosted their score by 45 points. That's three minutes of work 
           that saved them thousands.
@@ -505,6 +509,11 @@ export default function CreditScoreNeeded() {
           your income, your debts, your down payment—our{' '}
           <Link to="/blog/income-needed" className="text-primary hover:underline font-medium">income guide for a $500,000 house</Link>{' '}
           shows you exactly how lenders calculate what you can afford. It might be closer than you think.
+        </p>
+
+        <p className="text-lg leading-relaxed text-foreground">
+          Start by checking your current score. SmartCredit offers a $1 trial that shows your score and what's 
+          impacting it—so you know exactly where you stand before talking to lenders.
         </p>
       </section>
 
