@@ -49,8 +49,8 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/blog/what-is-pmi',
-    title: "PMI in Mortgages: What It Is and How to Calculate It | MortgagePro",
-    description: "Learn what PMI is, how it works, and how to calculate it. Tips for removing PMI from your mortgage payment.",
+    title: "How Is PMI Calculated? What It Costs and How to Cancel It | MortgagePro",
+    description: "PMI costs 0.5%–1.5% of your loan per year. On a $350,000 loan, that's $145–$438/month added to your payment. Learn how PMI is calculated, when it cancels, and how to get rid of it faster.",
   },
   {
     path: '/blog/30-vs-15-year',

@@ -98,6 +98,16 @@ export default function WhatIsPmi() {
         </nav>
       </div>
 
+      {/* Quick Answer block — targets "how is pmi calculated" search intent */}
+      <div className="bg-primary/5 border-l-4 border-primary rounded-r-xl px-5 py-4 mb-10">
+        <p className="text-sm font-semibold text-foreground mb-1">How is PMI calculated?</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          PMI is calculated as a percentage of your original loan amount — typically <strong>0.5% to 1.5% per year</strong>, depending on your credit score and down payment. For example, a $350,000 loan with a 1% PMI rate costs $3,500 per year — about <strong>$292 per month</strong> added to your payment. Use our{' '}
+          <Link to="/pmi-calculator" className="text-primary hover:underline font-medium">PMI calculator</Link>{' '}
+          to get your exact number.
+        </p>
+      </div>
+
       {/* Intro */}
       <p className="text-muted-foreground leading-relaxed mb-10">
         Marcus and Elena bought their first home in Atlanta in 2021. They had good jobs, decent credit, 

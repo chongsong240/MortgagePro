@@ -481,7 +481,39 @@ function generateStateFAQ(stateName: string, _code: string, taxRate: number, ins
 // ============================================================
 
 function generateStateMetaTitle(stateName: string): string {
+  if (stateName === 'Utah') {
+    return `Utah Mortgage Calculator: Estimate Your Payment with Taxes & Insurance (2026)`;
+  }
   return `${stateName} Mortgage Calculator (2026) | Monthly Payment & Home Affordability`;
+}
+
+function generateUtahSpotlightHtml(p: PurchaseExampleResult, taxRate: number, insurance: number): string {
+  return `<div class="card">
+  <h2>🏔️ Utah Housing Market: What Buyers Need to Know</h2>
+  <p>Utah has one of the most competitive housing markets in the Mountain West. Here are the key facts that directly affect your monthly payment:</p>
+
+  <h3 style="margin-top: 16px;">Property Taxes — One of the Lowest in the Nation</h3>
+  <p>Utah's effective property tax rate is just <strong>${fmtPct(taxRate)}%</strong> — well below the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%. On a ${fmtCurrency(p.homePrice)} home, that's only <strong>${fmtCurrency(Math.round(p.homePrice * taxRate))}/year</strong> (${fmtCurrency(p.monthlyTax)}/month). This low tax burden is one of Utah's biggest financial advantages for homeowners.</p>
+
+  <h3 style="margin-top: 16px;">Homeowners Insurance — Below Average</h3>
+  <p>Utah's average annual homeowners insurance premium is approximately <strong>${fmtCurrency(insurance)}/year</strong> (${fmtCurrency(p.monthlyInsurance)}/month) — below the US median of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}. Utah's dry climate and lower severe weather risk keep insurance costs manageable.</p>
+
+  <h3 style="margin-top: 16px;">City-by-City Price Differences</h3>
+  <table>
+    <thead><tr><th>City / Area</th><th class="text-right">Approx. Median Price</th><th class="text-right">Est. Monthly PITI</th></tr></thead>
+    <tbody>
+      <tr><td>Salt Lake City</td><td class="text-right">~$550,000</td><td class="text-right">~${fmtCurrency(Math.round(calcMortgage(550000, taxRate, insurance).totalMonthly))}/mo</td></tr>
+      <tr><td>Provo / Orem</td><td class="text-right">~$490,000</td><td class="text-right">~${fmtCurrency(Math.round(calcMortgage(490000, taxRate, insurance).totalMonthly))}/mo</td></tr>
+      <tr><td>Ogden</td><td class="text-right">~$380,000</td><td class="text-right">~${fmtCurrency(Math.round(calcMortgage(380000, taxRate, insurance).totalMonthly))}/mo</td></tr>
+      <tr><td>St. George</td><td class="text-right">~$460,000</td><td class="text-right">~${fmtCurrency(Math.round(calcMortgage(460000, taxRate, insurance).totalMonthly))}/mo</td></tr>
+      <tr><td>Logan</td><td class="text-right">~$340,000</td><td class="text-right">~${fmtCurrency(Math.round(calcMortgage(340000, taxRate, insurance).totalMonthly))}/mo</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 8px; font-size: 0.85rem; color: #94a3b8;">Estimates based on 20% down, 6.5% APR, 30-year fixed. Prices approximate as of 2025.</p>
+
+  <h3 style="margin-top: 16px;">First-Time Buyer Programs in Utah</h3>
+  <p>The <strong>Utah Housing Corporation (UHC)</strong> offers down payment assistance and low-interest loans for first-time buyers. Programs include FirstHome, HomeAgain, and Score loans — some with as little as 3.5% down. Visit <a href="https://www.utahhousingcorp.org" target="_blank" rel="noopener noreferrer" style="color: #2563eb;">utahhousingcorp.org</a> for current rates and eligibility.</p>
+</div>`;
 }
 
 function generateStateMetaDescription(stateName: string, medianPrice: number, monthly: number): string {
@@ -538,6 +570,7 @@ function generateStateHtml(
   const purchaseExampleHtml = generatePurchaseExampleHtml(stateName, purchaseExample, taxRate);
   const costNotes = generateCostNotes(stateName, code, taxRate, insurance, purchaseExample);
   const faqHtml = generateStateFAQ(stateName, code, taxRate, insurance, purchaseExample);
+  const utahSpotlight = stateName === 'Utah' ? generateUtahSpotlightHtml(purchaseExample, taxRate, insurance) : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -751,6 +784,8 @@ function generateStateHtml(
     ${purchaseExampleHtml}
 
     ${costNotes}
+
+    ${utahSpotlight}
 
     <div class="card">
       <h2>Monthly Payment on a ${fmtCurrency(medianPrice)} Home in ${stateName}</h2>

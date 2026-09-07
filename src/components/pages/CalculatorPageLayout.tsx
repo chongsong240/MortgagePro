@@ -29,6 +29,7 @@ export interface InternalLink {
 export interface PageConfig {
   title: string;
   description: string;
+  quickAnswer?: string;
   howToUse: {
     intro: string;
     steps: HowToStep[];
@@ -142,6 +143,12 @@ export default function CalculatorPageLayout({
         <p className="text-muted-foreground text-lg">{config.description}</p>
       </div>
 
+      {/* Quick Answer block — shown above the calculator when provided */}
+      {config.quickAnswer && (
+        <div className="bg-primary/5 border-l-4 border-primary rounded-r-xl px-5 py-4 text-sm text-foreground leading-relaxed">
+          {config.quickAnswer}
+        </div>
+      )}
 
       {/* Calculator component */}
       {children}
