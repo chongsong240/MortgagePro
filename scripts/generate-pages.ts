@@ -547,7 +547,7 @@ function generateStateHtml(
   <meta name="description" content="${generateStateMetaDescription(stateName, medianPrice, data.totalMonthly)}">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#1e3a8a">
-  <link rel="canonical" href="${SITE_URL}/mortgage-payment/${stateSlug}/">
+  <link rel="canonical" href="${SITE_URL}/mortgage-payment/${stateSlug}">
 
   <title>${generateStateMetaTitle(stateName)}</title>
 
@@ -957,7 +957,7 @@ function generateAmountHtml(amount: number, slug: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="${generateMetaDescription(amount, data.totalMonthly)}">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="${SITE_URL}/mortgage-payment/${slug}/">
+  <link rel="canonical" href="${SITE_URL}/mortgage-payment/${slug}">
   <title>${generateMetaTitle(amount)}</title>
 
   <script type="application/ld+json">
@@ -1378,13 +1378,13 @@ function generateSitemap(): string {
   // Amount pages
   const amounts = [150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 650000, 700000, 750000, 800000];
   for (const a of amounts) {
-    lines.push(`  <url><loc>${SITE_URL}/mortgage-payment/${fmtDollar(a).replace(/,/g, '')}/</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>`);
+    lines.push(`  <url><loc>${SITE_URL}/mortgage-payment/${fmtDollar(a).replace(/,/g, '')}</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>`);
   }
 
   // State pages
   for (const [code] of Object.entries(STATE_DATA)) {
     const stateSlug = STATE_DATA[code].name.toLowerCase().replace(/\s+/g, '-');
-    lines.push(`  <url><loc>${SITE_URL}/mortgage-payment/${stateSlug}/</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>`);
+    lines.push(`  <url><loc>${SITE_URL}/mortgage-payment/${stateSlug}</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>`);
   }
 
   lines.push(`</urlset>`);

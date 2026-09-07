@@ -1242,6 +1242,10 @@ export function AppRoutes() {
             <Route path="/editorial-policy" element={<EditorialPolicyPage />} />
             <Route path="/calculator-methodology" element={<CalculatorMethodologyPage />} />
             
+            {/* Redirects for crawled legacy URLs */}
+            <Route path="/affiliate-disclosure.html" element={<Navigate to="/disclaimer" replace />} />
+            <Route path="/affiliate-disclosure" element={<Navigate to="/disclaimer" replace />} />
+            
             {/* 404 catch-all */}
             <Route path="*" element={<NotFoundPage />} />
 
