@@ -137,6 +137,43 @@ export default function CalculatorPageLayout({
         <meta name="twitter:description" content={config.description} />
       </Helmet>
 
+      {/* Structured data: HowTo + FAQPage mirror the on-page steps and FAQ Q&A */}
+      <script
+        type="application/ld+json"
+        data-calc-howto-schema
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'HowTo',
+            name: config.title,
+            description: config.howToUse.intro,
+            step: config.howToUse.steps.map((s) => ({
+              '@type': 'HowToStep',
+              position: s.step,
+              name: s.title,
+              text: s.desc,
+            })),
+          }).replace(/</g, '\\u003c'),
+        }}
+      />
+      {config.faqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          data-calc-faq-schema
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: config.faqs.map((f) => ({
+                '@type': 'Question',
+                name: f.q,
+                acceptedAnswer: { '@type': 'Answer', text: f.a },
+              })),
+            }).replace(/</g, '\\u003c'),
+          }}
+        />
+      )}
+
       {/* H1 + description */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight mb-2">{config.title}</h1>

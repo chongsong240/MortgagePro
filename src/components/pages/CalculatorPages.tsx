@@ -245,9 +245,9 @@ export function BiWeeklyCalculatorPage() {
 // 4. Rent vs Buy Calculator
 // ============================================================
 const rentVsBuyConfig: PageConfig = {
-  title: 'Rent vs Buy Calculator: Find Your Breakeven Year (2026)',
-  description: "Should you rent or buy a home? Our free rent vs buy calculator compares the true costs — mortgage, taxes, maintenance, and appreciation — to show your exact breakeven year.",
-  quickAnswer: "Renting isn't always throwing money away — and buying isn't always the smarter move. Your breakeven year depends on home prices, rent increases, and how long you stay. Enter your numbers below to see exactly when buying becomes cheaper than renting.",
+  title: 'Rent vs Buy Calculator: Is Buying Worth It in Your City? (2026)',
+  description: 'Most people break even on buying vs renting in 3–7 years. Enter your home price, rent, and how long you’ll stay — our free calculator shows the exact year buying becomes cheaper, including taxes, maintenance, and appreciation.',
+  quickAnswer: "Renting isn't always throwing money away — and buying isn't always the smarter move. Most buyers break even in 3–7 years, but it depends on your local market, how long you stay, and what you'd earn investing the down payment instead. Enter your numbers below to find your exact breakeven year.",
   howToUse: {
     intro: 'Adjust the buy-side and rent-side parameters to match your situation. The chart updates automatically to show two cumulative cost curves — the point where they cross is your breakeven year.',
     steps: [
@@ -398,9 +398,9 @@ export function FIRECalculatorPage() {
 // 6. PMI Calculator
 // ============================================================
 const pmiConfig: PageConfig = {
-  title: 'PMI Calculator: Estimate Your Monthly PMI Cost (2026)',
-  description: 'Use our free PMI calculator to see exactly how much private mortgage insurance adds to your monthly payment. Get your PMI cost, cancellation date, and total paid — based on your loan and down payment.',
-  quickAnswer: 'PMI typically costs between 0.5% and 1.5% of your loan amount per year. For a $300,000 mortgage, that’s $1,500–$4,500 annually, or $125–$375 added to your monthly payment. Your exact rate depends on your credit score and down payment size — use the calculator below to get your precise number.',
+  title: 'PMI Calculator: Monthly Cost + Exact Cancellation Date (2026)',
+  description: 'A $300,000 loan with 10% down adds $175–$250/month in PMI. Use our free calculator to see your exact cost, when PMI cancels, and the total you’ll pay before it ends — free, instant, no sign-up.',
+  quickAnswer: 'PMI typically costs 0.5%–1.5% of your loan per year. On a $300,000 mortgage that’s $125–$375/month added to your payment — money that protects the lender, not you. Enter your loan details below to see your exact monthly PMI, your cancellation date, and how much you’ll pay in total.',
   howToUse: {
     intro: 'Enter your home price, down payment, and interest rate. The calculator shows your PMI cost and — crucially — how many months until you can cancel PMI. Toggle the appreciation slider to see how rising home values accelerate your path to 20% equity.',
     steps: [
@@ -549,9 +549,9 @@ export function RefinanceCalculatorPage() {
 // 8. Closing Cost Calculator
 // ============================================================
 const closingCostConfig: PageConfig = {
-  title: 'Closing Costs Calculator: Estimate Your Total Cash to Close (2026)',
-  description: 'Calculate your total closing costs including loan fees, title insurance, and prepaid taxes. Free closing cost estimator with state-specific data — see exactly how much cash you need at closing.',
-  quickAnswer: 'Closing costs typically run 2% to 5% of the home price — separate from your down payment. On a $400,000 home, that’s $8,000 to $20,000 in additional cash needed at closing. Use the calculator below to get a state-specific, itemized estimate.',
+  title: 'Closing Cost Calculator: How Much Cash Do You Really Need? (2026)',
+  description: 'Closing costs catch most first-time buyers off guard. On a $400,000 home that’s $8,000–$20,000 on top of your down payment. Get a free state-specific, itemized breakdown in 30 seconds.',
+  quickAnswer: 'Closing costs are separate from your down payment — and most first-time buyers underestimate them. On a $400,000 home, expect $8,000–$20,000 in fees including loan origination, title insurance, appraisal, and prepaid taxes. The exact amount varies by state. Use the calculator below for a full itemized estimate.',
   howToUse: {
     intro: 'Enter the home price, down payment, and select your state for localized estimates. The calculator generates a detailed itemized breakdown of every closing cost — from origination fees to prepaid taxes.',
     steps: [

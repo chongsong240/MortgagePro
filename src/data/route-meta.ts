@@ -50,7 +50,7 @@ export const ROUTE_META: RouteMeta[] = [
   {
     path: '/blog/what-is-pmi',
     title: "How Is PMI Calculated? What It Costs and How to Cancel It | MortgagePro",
-    description: "PMI costs 0.5%–1.5% of your loan per year. On a $350,000 loan, that's $145–$438/month added to your payment. Learn how PMI is calculated, when it cancels, and how to get rid of it faster.",
+    description: "PMI on a $350,000 loan costs $145–$438/month — and it doesn't protect you, only the lender. Here's the exact formula, when it auto-cancels at 78% LTV, and the $450 appraisal trick that can end it years early.",
   },
   {
     path: '/blog/30-vs-15-year',
@@ -109,13 +109,13 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/blog/closing-costs-explained',
-    title: "Closing Costs Explained: The Money You Need Beyond the Down Payment | MortgagePro",
-    description: "My neighbors Jen and Mike thought they had the numbers figured out. Then a week before closing, they found out they needed nearly $12,000 more than they'd planned.",
+    title: "Closing Costs Explained: The $12,000 Surprise Most Buyers Don't See Coming | MortgagePro",
+    description: "My neighbors thought they had the numbers figured out. A week before closing, they needed $12,000 more than planned. Here's every closing cost itemized — and how to avoid the same shock.",
   },
   {
     path: '/blog/rent-vs-buy-2026',
-    title: "Rent vs Buy in 2026: The Decision That's Keeping Everyone Up at Night | MortgagePro",
-    description: "My neighbors Jen and Mike have been renting the same apartment for four years. They have a baby due in September. Should they buy a house or keep renting? Here's what they decided.",
+    title: "Rent vs Buy in 2026: The Math Most People Get Wrong | MortgagePro",
+    description: "My neighbors have been renting 4 years. Baby due in September. They ran the numbers — the answer surprised them. Here's the full rent vs buy breakdown with real 2026 data.",
   },
   {
     path: '/blog/arm-vs-fixed-arm',

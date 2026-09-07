@@ -516,7 +516,11 @@ function generateUtahSpotlightHtml(p: PurchaseExampleResult, taxRate: number, in
 </div>`;
 }
 
-function generateStateMetaDescription(stateName: string, medianPrice: number, monthly: number): string {
+function generateStateMetaDescription(stateName: string, medianPrice: number, monthly: number, taxRate: number): string {
+  // Utah gets a custom description: big concrete numbers + its standout low tax rate + local city differentiation.
+  if (stateName === 'Utah') {
+    return `Utah's ${fmtCurrency(medianPrice)} median home costs ${fmtCurrency(monthly)}/mo at 6.5% with 20% down. Property tax is just ${fmtPct(taxRate)}%, but prices vary widely in Salt Lake City, Provo, and Ogden.`;
+  }
   return `Calculate your monthly mortgage payment in ${stateName} for 2026. See the breakdown of principal, interest, property taxes (state-specific rate), and insurance. Based on a median home price of ${fmtCurrency(medianPrice)} with 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo.`;
 }
 
@@ -549,6 +553,41 @@ function getRecommendedArticles(_isState: boolean): BlogArticle[] {
   ];
 }
 
+function generateStateFAQSchema(stateName: string, taxRate: number, insurance: number, p: PurchaseExampleResult): string {
+  const items = [
+    {
+      q: `How much income do I need to buy a house in ${stateName}?`,
+      a: `With the median home price in ${stateName} at ${fmtCurrency(p.homePrice)} and a 20% down payment, you need roughly ${fmtCurrency(p.incomeNeeded)}/year based on the 28% front-end DTI rule.`,
+    },
+    {
+      q: `What is the property tax rate in ${stateName}?`,
+      a: `${stateName}'s effective property tax rate is ${fmtPct(taxRate)}%, which is ${taxRate < NATIONAL_AVG_TAX_RATE ? 'below' : 'above'} the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%. On a ${fmtCurrency(p.homePrice)} home, that's about ${fmtCurrency(Math.round(p.homePrice * taxRate))}/year.`,
+    },
+    {
+      q: `How much is homeowners insurance in ${stateName}?`,
+      a: `The average annual homeowners insurance premium in ${stateName} is ${fmtCurrency(insurance)}, or about ${fmtCurrency(p.monthlyInsurance)}/month added to your mortgage payment.`,
+    },
+    {
+      q: `What is the monthly mortgage payment on the median home in ${stateName}?`,
+      a: `On the median-priced home in ${stateName} (${fmtCurrency(p.homePrice)}) with 20% down at 6.5% APR on a 30-year fixed mortgage, the estimated total monthly payment (PITI) is ${fmtCurrency(p.totalMonthly)}.`,
+    },
+    {
+      q: `What are closing costs in ${stateName}?`,
+      a: `Closing costs in ${stateName} typically run 2%\\u20134% of the purchase price. On a ${fmtCurrency(p.homePrice)} home, expect to pay approximately ${fmtCurrency(p.closingCosts)} in closing costs, bringing total cash needed at closing to about ${fmtCurrency(p.totalCashNeeded)}.`,
+    },
+  ];
+  const entities = items.map(item => `{
+        "@type": "Question",
+        "name": "${item.q}",
+        "acceptedAnswer": { "@type": "Answer", "text": "${item.a}" }
+      }`).join(',\n      ');
+  return `{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [\n      ${entities}\n    ]
+  }`;
+}
+
 function generateStateHtml(
   stateName: string,
   code: string,
@@ -571,13 +610,14 @@ function generateStateHtml(
   const costNotes = generateCostNotes(stateName, code, taxRate, insurance, purchaseExample);
   const faqHtml = generateStateFAQ(stateName, code, taxRate, insurance, purchaseExample);
   const utahSpotlight = stateName === 'Utah' ? generateUtahSpotlightHtml(purchaseExample, taxRate, insurance) : '';
+  const faqSchema = generateStateFAQSchema(stateName, taxRate, insurance, purchaseExample);
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="${generateStateMetaDescription(stateName, medianPrice, data.totalMonthly)}">
+  <meta name="description" content="${generateStateMetaDescription(stateName, medianPrice, data.totalMonthly, taxRate)}">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#1e3a8a">
   <link rel="canonical" href="${SITE_URL}/mortgage-payment/${stateSlug}">
@@ -585,36 +625,7 @@ function generateStateHtml(
   <title>${generateStateMetaTitle(stateName)}</title>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How much income do I need to buy a house in ${stateName}?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "In ${stateName}, with a median home price of ${fmtCurrency(medianPrice)} and 20% down, you need about ${fmtCurrency(purchaseExample.incomeNeeded)} per year based on the 28% DTI rule."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the typical property tax rate in ${stateName}?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "${stateName}'s effective property tax rate is ${fmtPct(taxRate)}%, which is ${taxRate < NATIONAL_AVG_TAX_RATE ? 'below' : 'above'} the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How much is homeowners insurance in ${stateName}?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The average annual premium in ${stateName} is ${fmtCurrency(insurance)}."
-        }
-      }
-    ]
-  }
+  ${faqSchema}
   </script>
 
   <style>
@@ -1479,11 +1490,11 @@ function main() {
     { path: 'mortgage-calculator', title: 'Mortgage Calculator - Free Online Mortgage Payment Calculator | MortgagePro', description: 'Free mortgage calculator with amortization schedule, PMI, taxes & insurance. Calculate your monthly payment in real time.', priority: 0.9 },
     { path: 'affordability-calculator', title: 'Mortgage Affordability Calculator - How Much House Can I Afford? | MortgagePro', description: 'Calculate how much house you can afford based on your income, debt, down payment, and state-specific taxes.', priority: 0.9 },
     { path: 'biweekly-mortgage-calculator', title: 'Bi-Weekly Mortgage Payment Calculator | MortgagePro', description: 'See how much you can save with bi-weekly mortgage payments. Compare standard vs accelerated payment plans.', priority: 0.9 },
-    { path: 'rent-vs-buy-calculator', title: 'Rent vs Buy Calculator - Should I Rent or Buy a Home? | MortgagePro', description: 'Compare the total cost of renting vs buying a home. Find your breakeven year with personalized data.', priority: 0.9 },
+    { path: 'rent-vs-buy-calculator', title: 'Rent vs Buy Calculator: Is Buying Worth It in Your City? (2026) | MortgagePro', description: 'Most people break even buying vs renting in 3-7 years. Enter your local home price, rent, and how long you\'ll stay to find your exact breakeven year.', priority: 0.9 },
     { path: 'fire-impact-calculator', title: 'FIRE Mortgage Calculator - How Buying a Home Affects Your FIRE Goal | MortgagePro', description: 'Calculate how buying a home impacts your FIRE (Financial Independence Retire Early) timeline.', priority: 0.9 },
-    { path: 'pmi-calculator', title: 'PMI Calculator - Private Mortgage Insurance Calculator | MortgagePro', description: 'Calculate PMI costs based on down payment, loan amount, and credit score. See when you can cancel PMI.', priority: 0.9 },
+    { path: 'pmi-calculator', title: 'PMI Calculator: Monthly Cost + Exact Cancellation Date (2026) | MortgagePro', description: 'On a $300,000 loan with 10% down, PMI adds $175-$250/month. See your exact cost, when PMI cancels, and the total you\'ll pay before it ends - free, instant, no sign-up.', priority: 0.9 },
     { path: 'refinance-calculator', title: 'Refinance Calculator - Should You Refinance Your Mortgage? | MortgagePro', description: 'Compare your current mortgage vs refinancing. Calculate break-even point and total interest savings.', priority: 0.9 },
-    { path: 'closing-cost-calculator', title: 'Closing Cost Calculator - Estimate Home Buying Closing Costs | MortgagePro', description: 'Estimate your closing costs by state. See a detailed breakdown of all fees involved in buying a home.', priority: 0.9 },
+    { path: 'closing-cost-calculator', title: 'Closing Cost Calculator: How Much Cash Do You Really Need? (2026) | MortgagePro', description: 'Closing costs catch most first-time buyers off guard. On a $400,000 home that\'s $8,000-$20,000 on top of your down payment. Get a state-specific, itemized breakdown in 30 seconds.', priority: 0.9 },
     { path: 'extra-payment-calculator', title: 'Extra Payment Calculator - Pay Off Mortgage Early | MortgagePro', description: 'See how extra payments reduce your mortgage term and save interest. Compare one-time vs recurring payments.', priority: 0.9 },
     { path: 'arm-vs-fixed-calculator', title: 'ARM vs Fixed Rate Mortgage Calculator | MortgagePro', description: 'Compare adjustable-rate (ARM) vs fixed-rate mortgages. See which loan type saves you more over time.', priority: 0.9 },
     { path: 'blog', title: 'Mortgage Blog - Guides, Tips & Resources | MortgagePro', description: 'Expert mortgage guides, affordability tips, and home buying resources. Learn about PMI, amortization, and more.', priority: 0.8 },
