@@ -1,5 +1,6 @@
 import CalculatorPageLayout, { PageConfig } from './CalculatorPageLayout';
 import CalculatorSchema from './CalculatorSchema';
+import PmiDeepContent from './PmiDeepContent';
 import StandardCalculator from '@/src/components/calculators/StandardCalculator';
 import AffordabilityCalculator from '@/src/components/calculators/AffordabilityCalculator';
 import BiWeeklyCalculator from '@/src/components/calculators/BiWeeklyCalculator';
@@ -418,8 +419,8 @@ const pmiConfig: PageConfig = {
       { label: 'Down Payment (10%)', value: '$40,000' },
       { label: 'Loan Amount', value: '$360,000' },
       { label: 'Monthly PMI Payment', value: '$255/mo' },
-      { label: 'Months Until PMI Canceled (3% appreciation)', value: '46 months (3.8 yrs)' },
-      { label: 'Total PMI Paid', value: '$11,730', highlight: true },
+      { label: 'Months Until PMI Canceled (3% appreciation)', value: '34 months (2.8 yrs)' },
+      { label: 'Total PMI Paid', value: '$8,670', highlight: true },
     ],
     insight: 'With 0% appreciation (flat market), you\'d pay PMI for 89 months (7.4 years) and spend over $22,000 in PMI premiums. That\'s why a 20% down payment — or accelerated principal payments — saves real money.',
   },
@@ -446,7 +447,7 @@ const pmiConfig: PageConfig = {
       { to: '/mortgage-calculator', label: 'Mortgage Calculator' },
       { to: '/affordability-calculator', label: 'Affordability Calculator' },
       { to: '/blog/what-is-pmi', label: 'What is PMI? Complete Guide' },
-      { to: '/blog/5-percent-down', label: 'Buying with 5% Down' },
+      { to: '/blog/can-i-buy-with-5-percent-down', label: 'Buying with 5% Down' },
     ],
   },
   faqs: [
@@ -459,7 +460,7 @@ const pmiConfig: PageConfig = {
 
 export function PmiCalculatorPage() {
   return (
-    <CalculatorPageLayout config={pmiConfig}>
+    <CalculatorPageLayout config={pmiConfig} deepContent={<PmiDeepContent />}>
       <CalculatorSchema
         name="PMI Calculator (Private Mortgage Insurance)"
         description="Calculate your PMI monthly cost, how long it will take to reach 20% equity, and the total PMI you'll pay. Includes home appreciation to accelerate LTV progress."

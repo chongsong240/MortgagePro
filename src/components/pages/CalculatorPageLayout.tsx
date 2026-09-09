@@ -115,9 +115,11 @@ function RelatedContent({ config }: { config: PageConfig }) {
 export default function CalculatorPageLayout({
   config,
   children,
+  deepContent,
 }: {
   config: PageConfig;
   children: ReactNode;
+  deepContent?: ReactNode;
 }) {
   const location = useLocation();
   const canonical = `${SITE_URL}${location.pathname === '/' ? '/' : location.pathname}`;
@@ -240,6 +242,9 @@ export default function CalculatorPageLayout({
 
       {/* Common Mistakes */}
       <CommonMistakes config={config} />
+
+      {/* Optional long-form content section (deep-dive SEO content below the calculator) */}
+      {deepContent}
 
       {/* Related Tools & Guides (internal links) */}
       <RelatedContent config={config} />
