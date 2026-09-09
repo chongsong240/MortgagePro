@@ -617,6 +617,10 @@ function generateStateHtml(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <meta name="description" content="${generateStateMetaDescription(stateName, medianPrice, data.totalMonthly, taxRate)}">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#1e3a8a">
@@ -1001,6 +1005,10 @@ function generateAmountHtml(amount: number, slug: string): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <meta name="description" content="${generateMetaDescription(amount, data.totalMonthly)}">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="${SITE_URL}/mortgage-payment/${slug}">

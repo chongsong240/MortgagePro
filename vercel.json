@@ -16,7 +16,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!sitemap\\.xml|robots\\.txt|ads\\.txt|favicon\\.ico|images/|assets/).*)",
+      "source": "/((?!sitemap\\.xml|robots\\.txt|ads\\.txt|favicon\\.ico|favicon\\.svg|favicon-\\d+\\.png|apple-touch-icon\\.png|images/|assets/).*)",
       "destination": "/index.html"
     }
   ],
