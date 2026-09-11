@@ -238,7 +238,7 @@ export default function FhaVsConventional() {
               <tr className="border-b border-border">
                 <td className="py-3 px-4 font-medium">Mortgage Insurance</td>
                 <td className="py-3 px-4">MIP: ~0.55% annually, <strong className="text-red-600">for life of loan</strong></td>
-                <td className="py-3 px-4">PMI: ~0.5–1% annually, <strong className="text-green-600">cancelable</strong></td>
+                <td className="py-3 px-4">PMI: ~0.5–1.5% annually, <strong className="text-green-600">cancelable</strong></td>
               </tr>
               <tr>
                 <td className="py-3 px-4 font-medium border-t-2 border-border">Monthly Insurance Cost</td>

@@ -42,7 +42,7 @@ export default function CalculatorMethodologyPage() {
             <ul className="list-disc pl-6 space-y-1 mb-4">
               <li><strong>Property Taxes:</strong> Monthly amount = (annual tax rate × home value) ÷ 12. Default rate is based on state-level averages from ATTOM Data Solutions.</li>
               <li><strong>Home Insurance:</strong> Monthly amount based on state-average annual premiums. Sources include NAIC (National Association of Insurance Commissioners) data.</li>
-              <li><strong>PMI:</strong> Calculated as 0.5% to 1% of the loan amount annually, divided by 12, applied when down payment is less than 20%.</li>
+              <li><strong>PMI:</strong> Calculated as 0.5% to 1.5% of the loan amount annually, divided by 12, applied when down payment is less than 20%.</li>
             </ul>
 
             <h3 className="font-semibold text-foreground mb-2">Assumptions</h3>
@@ -132,7 +132,7 @@ export default function CalculatorMethodologyPage() {
             </div>
             <div className="border-b border-border pb-4 last:border-0 last:pb-0">
               <h3 className="font-semibold text-foreground mb-1">PMI Calculator</h3>
-              <p>Calculates PMI cost based on loan-to-value ratio (LTV). PMI rates range from 0.5% to 1% annually depending on credit score and LTV, following industry-standard PMI pricing grids.</p>
+              <p>Calculates PMI cost based on loan-to-value ratio (LTV). PMI rates range from 0.5% to 1.5% annually depending on credit score and LTV, following industry-standard PMI pricing grids.</p>
             </div>
             <div className="border-b border-border pb-4 last:border-0 last:pb-0">
               <h3 className="font-semibold text-foreground mb-1">Closing Cost Calculator</h3>

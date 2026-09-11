@@ -487,7 +487,7 @@ function HomePage() {
     },
     {
       q: "How much should I put down on a house?",
-      a: "While 20% down eliminates Private Mortgage Insurance (PMI), many first-time buyers put down much less. FHA loans require as little as 3.5% down, and conventional loans can go as low as 3–5%. However, a smaller down payment means higher monthly payments and the added cost of PMI — typically 0.5% to 1% of the loan amount annually.",
+      a: "While 20% down eliminates Private Mortgage Insurance (PMI), many first-time buyers put down much less. FHA loans require as little as 3.5% down, and conventional loans can go as low as 3–5%. However, a smaller down payment means higher monthly payments and the added cost of PMI — typically 0.5% to 1.5% of the loan amount annually.",
     },
     {
       q: "What is PMI and when can I cancel it?",

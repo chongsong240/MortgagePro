@@ -415,13 +415,13 @@ export function FIRECalculatorPage() {
 // ============================================================
 const pmiConfig: PageConfig = {
   title: 'PMI Calculator: Monthly Cost + Exact Cancellation Date (2026)',
-  description: '10% down on a $300,000 loan adds roughly $115–$225/month in PMI. Use our free calculator to see your exact cost, when PMI cancels, and the total you’ll pay before it ends — free, instant, no sign-up.',
+  description: '10% down on a $300,000 loan adds roughly $125–$375/month in PMI. Use our free calculator to see your exact cost, when PMI cancels, and the total you’ll pay before it ends — free, instant, no sign-up.',
   quickAnswer: 'PMI typically costs 0.5%–1.5% of your loan per year. On a $300,000 mortgage that’s $125–$375/month added to your payment — money that protects the lender, not you. Enter your loan details below to see your exact monthly PMI, your cancellation date, and how much you’ll pay in total.',
   howToUse: {
     intro: 'Enter your home price, down payment, and interest rate. The calculator shows your PMI cost and — crucially — how many months until you can cancel PMI. Toggle the appreciation slider to see how rising home values accelerate your path to 20% equity.',
     steps: [
       { step: 1, title: 'Enter Your Home Price & Down Payment', desc: 'The down payment percentage determines your starting LTV. Any amount under 20% triggers PMI.' },
-      { step: 2, title: 'Set the PMI Rate', desc: 'PMI typically costs 0.5% to 1% of the loan amount annually. The default is 0.85% — adjust based on your credit score and lender quote.' },
+      { step: 2, title: 'Set the PMI Rate', desc: 'PMI typically costs 0.5% to 1.5% of the loan amount annually. This calculator defaults to 0.85% — adjust it up or down based on your credit score and lender quote.' },
       { step: 3, title: 'Adjust Home Appreciation', desc: 'Default is 3% annually. Higher appreciation means you reach 80% LTV (and cancel PMI) faster. Try 0% for a worst-case scenario.' },
       { step: 4, title: 'Review the Results', desc: 'See your monthly PMI cost, how many months you\'ll pay PMI, and the total PMI cost over that period.' },
     ],
@@ -442,7 +442,7 @@ const pmiConfig: PageConfig = {
   understandingResults: {
     intro: 'PMI can significantly increase your housing costs. Here\'s how to interpret the key results:',
     items: [
-      { term: 'Monthly PMI Premium', explanation: 'PMI costs 0.5–1% of your loan amount annually, divided into monthly payments. For a $360K loan at 0.85%, that\'s $255/mo — $3,060/year added to your housing costs for zero benefit to you (it protects the lender).' },
+      { term: 'Monthly PMI Premium', explanation: 'PMI costs 0.5–1.5% of your loan amount annually, divided into monthly payments. For a $360K loan at 0.85%, that\'s $255/mo — $3,060/year added to your housing costs for zero benefit to you (it protects the lender).' },
       { term: 'LTV Ratio (Loan-to-Value)', explanation: 'Your loan balance divided by the home\'s value. You start at 90% LTV with 10% down. When your balance reaches 80% of the original price you can request cancellation in writing; your servicer must terminate PMI automatically at 78% of the original value. Appreciation lowers LTV faster, which is what lets you cancel early.' },
       { term: 'PMI Cancellation Timeline', explanation: 'With 3% annual appreciation, this 10%-down buyer reaches 80% LTV in month 34 (about 2.8 years). With 0% appreciation it takes 95 months (7.9 years) of principal payments. And if you never request cancellation, the automatic 78% termination does not arrive until month 109 — which is why an early written request plus a rising market is the cheapest exit.' },
       { term: 'Total PMI Cost', explanation: 'The total dollar amount you pay in PMI premiums before cancellation. On a $400,000 home this ranges from about $4,100 (15% down with steady appreciation) to more than $33,000 (5% down in a flat market). Shortening the timeline — extra principal, an early appraisal, or a refinance — is the only lever that moves this number.' },
