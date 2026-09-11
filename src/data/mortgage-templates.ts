@@ -21,7 +21,7 @@ export const DEFAULT_ASSUMPTIONS = {
   propertyTaxRate: 1.2,     // National average
   homeInsurance: 1500,       // National average annual
   hoaFees: 0,
-  pmiRate: 0.5,
+  pmiRate: 0.85, // site-standard annual PMI rate — mirrors the mortgage / PMI calculators
 };
 
 // 28/36 rule: max 28% of gross monthly income on housing

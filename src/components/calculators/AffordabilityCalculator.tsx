@@ -47,7 +47,7 @@ function findMaxAffordablePrice(
       propertyTaxRate,
       homeInsurance,
       hoaFees: 0,
-      pmiRate: 0.5,
+      pmiRate: 0.85, // site-standard annual PMI rate — mirrors the mortgage / PMI calculators
     };
     const result = calculateMortgage(inputs);
     if (result.totalMonthlyPayment <= maxAllowedPayment) {

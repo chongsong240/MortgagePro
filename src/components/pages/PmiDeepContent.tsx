@@ -173,7 +173,151 @@ export default function PmiDeepContent() {
           cancellation strategies below matter.
         </p>
       </div>
-      {/* ============ 4. Avoid or cancel ============ */}
+      {/* ============ 4. Total PMI cost by down payment ============ */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold tracking-tight">What PMI Costs in Total by Down Payment</h2>
+        <p className="text-muted-foreground leading-relaxed">
+          A monthly PMI line looks small next to a mortgage payment, but the total is what actually leaves
+          your pocket. Here is the same $400,000 purchase modeled with this calculator's defaults: a 0.85%
+          annual PMI rate, a 6.5% 30-year loan, and 3% annual appreciation. "PMI ends" is the month the
+          balance reaches 80% of the home's current value, which is when you can ask your servicer to
+          cancel it. "Wait for 78%" is what happens if you never ask and the loan runs to the automatic
+          termination date, which the law measures against your original price:
+        </p>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm" aria-label="Total PMI cost by down payment on a 400,000 dollar home">
+            <thead>
+              <tr className="border-b border-border">
+                <th scope="col" className="text-left py-2.5 pr-4 font-semibold text-foreground">Down Payment</th>
+                <th scope="col" className="text-right py-2.5 pr-4 font-semibold text-foreground">Loan Amount</th>
+                <th scope="col" className="text-right py-2.5 pr-4 font-semibold text-foreground">Monthly PMI</th>
+                <th scope="col" className="text-right py-2.5 pr-4 font-semibold text-foreground">PMI Ends (80% LTV)</th>
+                <th scope="col" className="text-right py-2.5 pr-4 font-semibold text-foreground">Total if You Ask</th>
+                <th scope="col" className="text-right py-2.5 font-semibold text-foreground">Total if You Wait for 78%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <td className="py-2.5 pr-4 text-foreground">5%</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">$380,000</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">$269</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">Month 49 (4.1 yrs)</td>
+                <td className="py-2.5 pr-4 text-right text-foreground font-mono">48 payments, $12,920</td>
+                <td className="py-2.5 text-right text-muted-foreground font-mono">134 payments, $36,068</td>
+              </tr>
+              <tr className="border-b border-border bg-primary/5">
+                <td className="py-2.5 pr-4 text-foreground font-semibold">10% (default)</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">$360,000</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">$255</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">Month 34 (2.8 yrs)</td>
+                <td className="py-2.5 pr-4 text-right text-foreground font-mono">33 payments, $8,415</td>
+                <td className="py-2.5 text-right text-muted-foreground font-mono">108 payments, $27,540</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2.5 pr-4 text-foreground">15%</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">$340,000</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">$241</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">Month 18 (1.5 yrs)</td>
+                <td className="py-2.5 pr-4 text-right text-foreground font-mono">17 payments, $4,094</td>
+                <td className="py-2.5 text-right text-muted-foreground font-mono">74 payments, $17,822</td>
+              </tr>
+              <tr>
+                <td className="py-2.5 pr-4 text-foreground">20%</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">$320,000</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">$0</td>
+                <td className="py-2.5 pr-4 text-right text-muted-foreground font-mono">No PMI</td>
+                <td className="py-2.5 pr-4 text-right text-foreground font-mono">$0</td>
+                <td className="py-2.5 text-right text-muted-foreground font-mono">$0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-muted-foreground leading-relaxed">
+          Three things stand out. First, PMI is a timing cost rather than a down payment tax: the same
+          0.85% rate costs $12,920 at 5% down, $8,415 at 10% down, and nothing at 20% down, because the
+          premium simply stops once the loan is small enough relative to the home's value. Second, asking
+          at 80% LTV beats waiting for the automatic 78% termination, and the savings grow as the down
+          payment shrinks: $13,728 at 15% down, $19,125 at 10% down, and $23,148 at 5% down. Third, the
+          calendar is driven by home values as much as by your principal. At 5% down, 3% annual
+          appreciation moves the 80% date from month 124 to month 49, while the 80%-versus-78% threshold
+          alone moves it from month 135 to month 124 when values are flat.
+        </p>
+
+        <p className="text-muted-foreground leading-relaxed">
+          Put differently: the smaller your down payment, the more it costs to also be patient. The Rent vs
+          Buy Calculator prices that trade-off directly, comparing 5%, 10%, 15%, and 20% down against
+          renting the same home, so you can see whether paying PMI for a few years still beats waiting
+          until you have more cash:{' '}
+          <Link to="/rent-vs-buy-calculator" className="text-primary hover:underline font-medium">
+            see how PMI shifts your breakeven year
+          </Link>
+          .
+        </p>
+      </div>
+
+      {/* ============ 5. Types of mortgage insurance ============ */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold tracking-tight">PMI vs. MIP vs. Lender-Paid vs. Single-Premium</h2>
+        <p className="text-muted-foreground leading-relaxed">
+          People use "PMI" for four different products, and only one of them goes away at 80% LTV. If you
+          are comparing lender quotes, knowing which one you were handed is the difference between a cost
+          that expires and a cost that does not:
+        </p>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm" aria-label="PMI compared with FHA MIP, lender-paid PMI, and single-premium PMI">
+            <thead>
+              <tr className="border-b border-border">
+                <th scope="col" className="text-left py-2.5 pr-4 font-semibold text-foreground">Type</th>
+                <th scope="col" className="text-left py-2.5 pr-4 font-semibold text-foreground">Where It Shows Up</th>
+                <th scope="col" className="text-left py-2.5 pr-4 font-semibold text-foreground">What It Costs</th>
+                <th scope="col" className="text-left py-2.5 font-semibold text-foreground">Can You Cancel It?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border bg-primary/5">
+                <td className="py-2.5 pr-4 text-foreground font-semibold">Borrower-paid PMI</td>
+                <td className="py-2.5 pr-4 text-muted-foreground">Conventional loan with less than 20% down</td>
+                <td className="py-2.5 pr-4 text-muted-foreground">0.25% to 1.5% of the loan a year, paid monthly</td>
+                <td className="py-2.5 text-foreground">Yes: request at 80% LTV, automatic at 78%</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2.5 pr-4 text-foreground font-semibold">FHA MIP</td>
+                <td className="py-2.5 pr-4 text-muted-foreground">FHA loan</td>
+                <td className="py-2.5 pr-4 text-muted-foreground">1.75% upfront (usually financed) plus 0.50% to 0.55% a year</td>
+                <td className="py-2.5 text-foreground">Only with 10% or more down, then after 11 years; below that it lasts the life of the loan</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-2.5 pr-4 text-foreground font-semibold">Lender-paid PMI</td>
+                <td className="py-2.5 pr-4 text-muted-foreground">Conventional loan, built into the rate</td>
+                <td className="py-2.5 pr-4 text-muted-foreground">No monthly MI line, but a rate roughly 0.25% to 0.75% higher</td>
+                <td className="py-2.5 text-foreground">No: only a refinance removes it</td>
+              </tr>
+              <tr>
+                <td className="py-2.5 pr-4 text-foreground font-semibold">Single-premium PMI</td>
+                <td className="py-2.5 pr-4 text-muted-foreground">Conventional loan, paid once at closing</td>
+                <td className="py-2.5 pr-4 text-muted-foreground">A lump sum, often around 1% of the loan, sometimes financed</td>
+                <td className="py-2.5 text-foreground">Nothing to cancel monthly, though a refund may apply if you sell or refinance early</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-muted-foreground leading-relaxed">
+          The trap is that lender-paid PMI looks cheapest on day one because there is no extra line item.
+          Because mortgage insurance is quoted as a percentage of the loan, a lender can price it so that
+          the two loans cost the same at closing. The difference is the exit: borrower-paid PMI on our
+          default $400,000 purchase costs $8,415 and then disappears around month 34, while a rate-based
+          premium keeps charging for as long as you hold the loan. Borrower-paid PMI you can cancel usually
+          wins if you plan to keep the loan; lender-paid can win if you expect to refinance within a few
+          years, since the whole loan gets replaced. FHA MIP sits outside that logic entirely, which is why
+          conventional loans with PMI often beat FHA once your credit score is decent.
+        </p>
+      </div>
+
+      {/* ============ 6. Avoid or cancel ============ */}
       <div className="space-y-4">
         <h2 className="text-2xl font-bold tracking-tight">How to Avoid or Cancel PMI</h2>
         <p className="text-muted-foreground leading-relaxed">

@@ -20,7 +20,7 @@ export default function BiWeeklyCalculator() {
     propertyTaxRate: 1.2,
     homeInsurance: 1500,
     hoaFees: 0,
-    pmiRate: 0.5
+    pmiRate: 0.85 // site-standard annual PMI rate — mirrors the mortgage / PMI calculators
   });
 
   const handleHomePriceChange = (val: number) => {

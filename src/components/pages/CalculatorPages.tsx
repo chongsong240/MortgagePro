@@ -1,6 +1,9 @@
 import CalculatorPageLayout, { PageConfig } from './CalculatorPageLayout';
 import CalculatorSchema from './CalculatorSchema';
+import MortgageCalculatorDeepContent from './MortgageCalculatorDeepContent';
 import PmiDeepContent from './PmiDeepContent';
+import RentVsBuyDeepContent from './RentVsBuyDeepContent';
+import ClosingCostDeepContent from './ClosingCostDeepContent';
 import StandardCalculator from '@/src/components/calculators/StandardCalculator';
 import AffordabilityCalculator from '@/src/components/calculators/AffordabilityCalculator';
 import BiWeeklyCalculator from '@/src/components/calculators/BiWeeklyCalculator';
@@ -17,7 +20,8 @@ import ArmVsFixedCalculator from '@/src/components/calculators/ArmVsFixedCalcula
 // ============================================================
 const mortgageCalcConfig: PageConfig = {
   title: 'Mortgage Calculator',
-  description: 'Calculate your monthly mortgage payment with real-time sliders for home price, down payment, interest rate, and loan term. Full PITI breakdown, amortization schedule, and charts.',
+  metaTitle: 'Mortgage Calculator With PMI, Taxes & Insurance (2026)',
+  description: 'Calculate your monthly mortgage payment with PMI, property taxes, and insurance. Real-time sliders for home price, down payment, interest rate, and loan term — plus a full PITI breakdown, PMI cost tables, and an amortization schedule.',
   howToUse: {
     intro: 'Adjust the four main sliders to explore different home prices, down payments, interest rates, and loan terms. The results update instantly — you\'ll see your total monthly payment, a PITI breakdown, and an interactive amortization chart.',
     steps: [
@@ -25,7 +29,7 @@ const mortgageCalcConfig: PageConfig = {
       { step: 2, title: 'Choose Your Down Payment', desc: 'Adjust the percentage (10%–50%). The dollar amount updates automatically. A 20% down payment eliminates PMI.' },
       { step: 3, title: 'Select Your Interest Rate', desc: 'Current 30-year fixed rates typically range from 5% to 8%. The default is 6.5%.' },
       { step: 4, title: 'Pick a Loan Term', desc: '15-year and 30-year are the most common. A shorter term means higher payments but much less interest.' },
-      { step: 5, title: 'Fine-Tune with State & Costs', desc: 'Select your state for localized property tax rates and insurance estimates. You can also manually adjust the tax rate, insurance, HOA, and PMI.' },
+      { step: 5, title: 'Fine-Tune with State & Costs', desc: 'Select your state for localized property tax rates and insurance estimates. You can also adjust the tax rate, insurance, HOA fees, and the PMI rate — which appears automatically whenever your down payment is under 20%.' },
     ],
   },
   example: {
@@ -48,7 +52,7 @@ const mortgageCalcConfig: PageConfig = {
       { term: 'Principal & Interest (P&I)', explanation: 'P&I is determined by your loan amount, interest rate, and term length. The formula M = P × [r(1+r)^n]/[(1+r)^n−1] calculates your fixed monthly payment. Of every payment, interest is calculated on the remaining balance first, then the rest goes to principal.' },
       { term: 'Property Taxes', explanation: 'Taxes are based on your home\'s assessed value and local millage rates. We use state-level averages (e.g., CA ~0.76%, TX ~1.6%, NJ ~2.4%). Your actual rate may vary by county. Property taxes are typically paid into an escrow account.' },
       { term: 'Homeowners Insurance', explanation: 'Insurance covers damage to your property and liability. Lenders require it. We estimate based on state averages ($800–$2,500/year depending on location and climate risk). You can adjust this to your actual quote.' },
-      { term: 'PMI & HOA', explanation: 'PMI (Private Mortgage Insurance) is required when your down payment is under 20%. HOA fees apply only in planned communities. Both are optional fields in this calculator — toggle them if applicable to your situation.' },
+      { term: 'PMI & HOA', explanation: 'PMI (Private Mortgage Insurance) is added automatically whenever your down payment is under 20% — at the 0.85%/yr default that is about $255/month on a $360,000 loan. It drops out of the breakdown as soon as your down payment reaches 20%, and you can change the rate in the Taxes, Insurance & Fees panel. HOA fees apply only in planned communities and default to $0. This calculator keeps PMI in place for the life of the loan; for a month-by-month cancellation timeline, use our PMI Calculator.' },
     ],
   },
   commonMistakes: {
@@ -73,13 +77,13 @@ const mortgageCalcConfig: PageConfig = {
     { q: 'How is my monthly mortgage payment calculated?', a: 'Your monthly payment (PITI) has four components: Principal (the loan amount), Interest (cost of borrowing), Taxes (property taxes), and Insurance (homeowner\'s insurance). The formula is: M = P × [r(1+r)^n] / [(1+r)^n − 1], where P is loan amount, r is monthly interest rate, and n is number of payments.' },
     { q: 'What is included in PITI?', a: 'PITI stands for Principal, Interest, Taxes, and Insurance. Principal and Interest are determined by your loan amount, rate, and term. Property taxes and homeowners insurance are estimated based on your home price and location.' },
     { q: 'How does the down payment affect my monthly payment?', a: 'A larger down payment reduces your loan amount, which lowers your monthly payment. It also may eliminate PMI if you put down 20% or more. Use the slider to see how different down payment percentages change your payment.' },
-    { q: 'Does this calculator include PMI?', a: 'For simplicity, this calculator assumes a 20% down payment (no PMI). If you\'re putting down less than 20%, use our dedicated PMI Calculator for a more accurate picture that includes private mortgage insurance costs.' },
+    { q: 'Does this calculator include PMI?', a: 'Yes. Whenever your down payment is below 20%, PMI is added automatically at a default rate of 0.85% of the loan amount per year — about $255/month on a $360,000 loan. It appears as its own line in the PITI breakdown and in the payment chart, and you can adjust the rate in the Taxes, Insurance & Fees panel. This calculator applies PMI for the life of the loan; for a month-by-month cancellation timeline (and the total you would pay before it drops off), use our dedicated PMI Calculator.' },
   ],
 };
 
 export function MortgageCalculatorPage() {
   return (
-    <CalculatorPageLayout config={mortgageCalcConfig}>
+    <CalculatorPageLayout config={mortgageCalcConfig} deepContent={<MortgageCalculatorDeepContent />}>
       <CalculatorSchema
         name="Mortgage Calculator"
         description="Calculate your monthly mortgage payment with real-time sliders for home price, down payment, interest rate, and loan term. Full PITI breakdown, amortization schedule, and charts."
@@ -247,45 +251,49 @@ export function BiWeeklyCalculatorPage() {
 // ============================================================
 const rentVsBuyConfig: PageConfig = {
   title: 'Rent vs Buy Calculator: Is Buying Worth It in Your City? (2026)',
-  description: 'Most people break even on buying vs renting in 3–7 years. Enter your home price, rent, and how long you’ll stay — our free calculator shows the exact year buying becomes cheaper, including taxes, maintenance, and appreciation.',
-  quickAnswer: "Renting isn't always throwing money away — and buying isn't always the smarter move. Most buyers break even in 3–7 years, but it depends on your local market, how long you stay, and what you'd earn investing the down payment instead. Enter your numbers below to find your exact breakeven year.",
+  description: 'Rent vs buy calculator that compares net worth instead of monthly payments. Enter your rent, home price, and how long you will stay to get the exact year buying pulls ahead — including closing costs, selling costs, PMI, and what your down payment could earn invested.',
+  quickAnswer: "Renting is not always throwing money away, and buying is not always the smarter move. This calculator compares net worth rather than spending: a buyer gets home equity minus what it costs to sell, while a renter keeps the down payment and closing costs invested. On the defaults — a $400,000 home, 20% down at 6.5%, and $2,400/month rent — buying pulls ahead in year 4. Drop rent to $1,800 and it takes 15 years; at $1,500 with no appreciation, buying never catches up.",
   howToUse: {
-    intro: 'Adjust the buy-side and rent-side parameters to match your situation. The chart updates automatically to show two cumulative cost curves — the point where they cross is your breakeven year.',
+    intro: 'Adjust the buy-side and rent-side parameters to match your situation, then set the return the renter would earn on the cash they keep. The chart updates automatically with two net worth curves: the first year the buying curve rises above the renting curve is your breakeven year.',
     steps: [
-      { step: 1, title: 'Set the Buy-Side Parameters', desc: 'Enter the home price, down payment, interest rate, property tax rate, and maintenance assumptions for the purchase scenario.' },
-      { step: 2, title: 'Set the Rent-Side Parameters', desc: 'Enter your current monthly rent and expected annual rent increase. Rents typically rise 2-4% per year.' },
-      { step: 3, title: 'Adjust Investment Return', desc: 'Set the expected annual return on the money you\'d keep invested if you don\'t buy (down payment + monthly savings). Default is 7%.' },
-      { step: 4, title: 'Find Your Breakeven Year', desc: 'Look at the chart where the red line (buying) and blue line (renting) cross. That\'s the year buying becomes cheaper.' },
+      { step: 1, title: 'Set the Buy-Side Parameters', desc: 'Enter the home price, down payment, interest rate, property tax, and maintenance assumptions for the purchase. Closing costs, selling costs, and the PMI rate are configurable too — they are what usually decide short holds.' },
+      { step: 2, title: 'Set the Rent-Side Parameters', desc: 'Enter your current monthly rent and expected annual rent increase. Rents typically rise 2-4% per year, and this single input moves the breakeven year more than any other.' },
+      { step: 3, title: 'Adjust Investment Return', desc: 'Set the expected annual return on the money you keep invested if you do not buy — the down payment plus closing costs, and any month you spend less than you would owning. Default is 5%.' },
+      { step: 4, title: 'Read Your Breakeven Year', desc: 'The chart plots net worth: the blue line is buying, the orange line is renting. The first year the blue line sits above the orange line is your breakeven year, shown at the top of your results. If the lines never cross, renting wins over 30 years.' },
     ],
   },
   example: {
-    title: '📊 Example: $400,000 Home vs $2,000/Month Rent',
-    scenario: 'You\'re deciding between buying a $400,000 home (20% down, 6.5% rate, 30-year fixed) or continuing to rent at $2,000/month. With 3% appreciation, 3% rent inflation, and 7% investment returns on the opportunity cost:',
+    title: '📊 Example: $400,000 Home vs $2,400/Month Rent',
+    scenario: 'Calculator defaults: buy a $400,000 home with 20% down ($80,000) at 6.5% on a 30-year fixed, or keep renting at $2,400/month. Assumes 3.5% annual appreciation, 3% rent increases, 1.2% property taxes, 1% maintenance, 3% closing costs, 6% selling costs, and a 5% return on the cash a renter keeps invested.',
     rows: [
-      { label: 'Buy: Monthly Payment (PITI)', value: '$2,547/mo' },
-      { label: 'Rent: Monthly Rent', value: '$2,000/mo' },
-      { label: 'Down Payment (Opportunity Cost)', value: '$80,000' },
+      { label: 'Buy: P&I + Taxes + Maintenance', value: '$2,756/mo' },
+      { label: 'Rent: Monthly Rent (rising 3%/yr)', value: '$2,400/mo' },
+      { label: 'Cash to Close (20% down + 3% closing)', value: '$92,000' },
+      { label: 'Selling Costs When You Exit (6%)', value: '$24,000' },
       { label: 'Breakeven Year', value: 'Year 4', highlight: true },
-      { label: 'Net Worth After 10 Years (Buy)', value: '+$156,000' },
-      { label: 'Net Worth After 10 Years (Rent)', value: '+$134,000' },
+      { label: 'Net Worth After 10 Years (Buy)', value: '$262,072' },
+      { label: 'Net Worth After 10 Years (Rent)', value: '$171,601' },
     ],
-    insight: 'The breakeven comes at year 4 — meaning if you plan to stay 4+ years, buying wins financially. But if you might move in 2-3 years, renting is the safer bet given the high transaction costs of buying and selling.',
+    insight: 'Breakeven lands in year 4, and the margin is thin — the buyer is only $834 ahead at that point. Change one input and it moves fast: at $1,800/month rent the crossover slips to year 15, and at $2,000/month it takes 8 years. That sensitivity is the real lesson — what decides this is your rent relative to the home price, plus how long you stay.',
   },
   understandingResults: {
-    intro: 'The rent vs buy decision is about more than just monthly costs. Here\'s what the key metrics in your results mean:',
+    intro: 'This calculator compares net worth rather than spending, so the labels are worth a minute of your time:',
     items: [
-      { term: 'Breakeven Year', explanation: 'The year when cumulative buying costs equal cumulative renting costs. Before this point, renting is cheaper. After it, buying becomes more affordable over time due to home equity growth and fixed mortgage payments vs rising rents.' },
-      { term: 'Opportunity Cost', explanation: 'The investment returns you give up by using your down payment (and monthly savings) for a home instead of investing them in stocks or bonds. At 7% average returns, $80K grows to ~$157K in 10 years — that\'s the "cost" of using that money for a down payment.' },
-      { term: 'Home Equity', explanation: 'As you pay down your mortgage and your home appreciates, you build equity. After 10 years with 3% appreciation, a $400K home would be worth ~$538K, and you\'d have ~$178K in equity from appreciation plus principal paydown on your loan.' },
-      { term: 'Total Cost Comparison', explanation: 'The chart shows two cumulative cost curves. The buying curve includes down payment, closing costs, PITI, and maintenance. The renting curve includes all rent payments. The gap between them at any point tells you the financial advantage of one option over the other.' },
+      { term: 'Breakeven Year', explanation: 'The first year the buying line rises above the renting line. Before that year, renting leaves you wealthier under the assumptions you entered; after it, owning does. If the lines never cross, renting wins over the full 30-year horizon.' },
+      { term: 'Buyer Net Worth', explanation: 'Home value minus the remaining loan balance, minus what it would cost to sell (6% by default), plus any spare cash the owner invests. Interest, taxes, maintenance, and PMI are already reflected in the loan balance and costs — they never become equity.' },
+      { term: 'Renter Net Worth (Side Portfolio)', explanation: 'The renter starts with the same cash a buyer puts into the purchase — the down payment plus closing costs — and invests it at your chosen return. Each month the difference between owning and renting is added to it or drawn from it, which is what makes this model rent sensitive.' },
+      { term: 'Monthly Cost Gap', explanation: 'What owning costs over renting each month: P&I, PMI, property tax, and maintenance versus rent. On the defaults the owner pays $356 more in month one, but that gap narrows every year because rent rises while a fixed mortgage payment does not.' },
+      { term: 'Transaction Costs', explanation: 'Closing costs paid up front plus selling costs paid on the way out — $36,000 in the default scenario — neither of which buys any equity. They are the main reason short holds lose: set both to zero and breakeven moves from year 4 to year 1.' },
     ],
   },
   commonMistakes: {
     intro: 'The rent vs buy decision is often clouded by emotion and common misconceptions. Watch out for these:',
     items: [
-      { mistake: 'Assuming buying is always better because "renting is throwing money away."', fix: 'A $400K home with 20% down at 6.5% costs $2,547/mo in PITI — but only ~$500/mo goes to principal in year one. The rest goes to interest, taxes, and insurance, which is also "throwing money away." Renting is not a bad financial decision if you stay fewer than 4 years.' },
-      { mistake: 'Ignoring maintenance and repair costs in the buying scenario.', fix: 'Homeownership comes with 1–2% of home value in annual maintenance. On a $400K home, that\'s $4K–$8K/year for roof repairs, HVAC, plumbing, and general upkeep. Renters don\'t pay these costs. Always factor maintenance into your buy vs rent analysis.' },
-      { mistake: 'Not considering lifestyle flexibility when making the decision.', fix: 'Renting offers flexibility to move for jobs, relationships, or lifestyle changes without paying 6% in realtor commissions. If your career is unstable or you might relocate, the flexibility of renting has real financial value that goes beyond the breakeven calculation.' },
+      { mistake: 'Assuming buying is always better because renting is throwing money away.', fix: 'A $400,000 home with 20% down at 6.5% costs about $2,756 a month to own — principal, interest, taxes, and maintenance. Only about $290 of the first payment goes to principal; the rest is interest, taxes, and upkeep, money you never see again. Renting is not a bad deal if you stay fewer than four years — that is where the default breakeven lands.' },
+      { mistake: 'Ignoring maintenance and repair costs in the buying scenario.', fix: 'Ownership carries 1% to 2% of home value a year in maintenance — $4,000 to $8,000 on a $400,000 home for the roof, the HVAC, plumbing, and general upkeep. Renters pay none of it. This calculator charges 1% by default, which is already about $333 a month.' },
+      { mistake: 'Not thinking about lifestyle flexibility when making the decision.', fix: 'Renting buys the freedom to move for a job, a relationship, or a lifestyle change without paying roughly 6% of the sale price in commissions. If your career is unstable or you might relocate within a few years, that flexibility has real financial value the breakeven year cannot see.' },
+      { mistake: 'Comparing the monthly mortgage payment to the monthly rent.', fix: 'The payment is not the breakeven. On the defaults a buyer spends $356 a month more than a renter in year one, yet buying still pulls ahead by year 4 — because rent climbs 3% a year while a fixed mortgage payment does not, and part of every payment converts into equity.' },
+      { mistake: 'Assuming a 20% down payment when you plan to put down 5%.', fix: 'At 5% down the loan is $380,000 and PMI runs about 0.85% a year — roughly $3,230 a year, or $269 a month — which pushes breakeven from year 4 to year 7. Check the down-payment table below or run the PMI calculator before you assume 20%.' },
     ],
   },
   relatedContent: {
@@ -293,21 +301,28 @@ const rentVsBuyConfig: PageConfig = {
     links: [
       { to: '/affordability-calculator', label: 'Affordability Calculator' },
       { to: '/mortgage-calculator', label: 'Mortgage Calculator' },
-      { to: '/blog/is-buying-worth-it-2026', label: 'Is Buying Worth It in 2026?' },
+      { to: '/pmi-calculator', label: 'PMI Calculator' },
+      { to: '/blog/rent-vs-buy-2026', label: 'Rent vs Buy in 2026: The Math Most People Get Wrong' },
       { to: '/blog/closing-costs-explained', label: 'Closing Costs Explained' },
+      { to: '/blog/what-is-pmi', label: 'How Is PMI Calculated? What It Costs and How to Cancel It' },
+      { to: '/blog/is-buying-worth-it-2026', label: 'Is Buying a Home Worth It in 2026?' },
     ],
   },
   faqs: [
-    { q: 'How do you calculate the breakeven year?', a: 'The breakeven year is when the cumulative cost of buying (down payment, closing costs, monthly payments, taxes, insurance, maintenance) intersects with the cumulative cost of renting. Before this point, renting is cheaper; after, buying becomes the better financial choice.' },
-    { q: 'Does the calculator consider investment returns?', a: 'Yes. The rent vs buy analysis assumes your down payment and the difference between rent and mortgage payments could be invested in the stock market. We use a default 7% annual return (historical average) to calculate the opportunity cost.' },
-    { q: 'What is home appreciation rate?', a: 'Home appreciation is the annual increase in your home\'s value. Historically, US home prices have appreciated about 3-5% annually on average. We default to 3% for a conservative estimate, but you can adjust this.' },
-    { q: 'How long should I plan to stay in a home for buying to make sense?', a: 'Generally, you need to stay in a home for at least 3-5 years for buying to be financially worthwhile. This is due to the high transaction costs (closing costs, realtor fees) that are incurred when buying and selling. Use the calculator to find your exact breakeven year.' },
+    { q: 'How do you calculate the breakeven year?', a: 'This calculator compares net worth rather than spending. Each month it tracks home equity on the buy side — home value minus the remaining loan balance, minus what it would cost to sell — and the invested down payment plus the monthly cost difference on the rent side. Breakeven is the first year the buying line rises above the renting line. On the defaults that is year 4.' },
+    { q: 'Does the calculator consider investment returns?', a: 'Yes, and this is the piece most rent vs buy tools leave out. A renter keeps the cash a buyer would sink into closing — the down payment plus closing costs — invested at the return you set, 5% by default. In months when owning costs more, the difference is added to that portfolio; in months when owning costs less, it is drawn from it.' },
+    { q: 'What is home appreciation rate?', a: 'It is the annual change in your home value, defaulted to 3.5% here. US home prices have averaged roughly 3% to 5% a year over the long run, but individual years and cities vary widely. Appreciation moves this answer more than any other buy-side input: at 0% the default breakeven pushes out to year 13, and at 5% it comes in to year 3.' },
+    { q: 'How long should I plan to stay in a home for buying to make sense?', a: 'On the default assumptions, four years — and most of that wait is the $36,000 of closing and selling costs you have to earn back. Set those costs to zero and the same scenario breaks even in year 1, so how long you stay is the whole ballgame.' },
+    { q: 'My rent is lower than the mortgage payment. Should I keep renting?', a: 'Not automatically. On the defaults a buyer pays $356 more than a renter in year one, yet buying wins by year 4 because rent inflates 3% a year while the mortgage does not. What actually decides it is rent relative to the purchase price: $2,400 rent on a $400,000 home breaks even in year 4, $2,000 takes 8 years, $1,800 takes 15, and at $1,500 buying never catches up.' },
+    { q: 'How do closing and selling costs affect the answer?', a: 'They are the main reason short holds lose. In the default scenario closing costs are $12,000 and selling costs run $24,000 at 6%. Remove the selling costs and breakeven moves from year 4 to year 2; remove both and it lands at year 1. Nothing else in the model changes the answer as fast as a longer holding period.' },
+    { q: 'How does my down payment or PMI change things?', a: 'A smaller down payment costs you twice: a bigger loan at the same rate, plus PMI at about 0.85% a year while the balance stays above 80% of the original price. At 5% down that is $269 a month and breakeven slides to year 7, with roughly $33,108 of PMI before it drops off. At 15% down it is year 6 and $13,246 of PMI; at 20% down there is no PMI and breakeven is year 4.' },
+    { q: 'Is renting really throwing money away?', a: 'No. Interest, property taxes, maintenance, PMI, and selling costs are all money you never get back — $36,000 of transaction costs alone in the default scenario, plus a first mortgage payment that is about 86% interest. What those dollars buy is equity growth, a fixed payment, and control of your own space. Whether the trade is worth it is exactly what the breakeven year measures.' },
   ],
 };
 
 export function RentVsBuyCalculatorPage() {
   return (
-    <CalculatorPageLayout config={rentVsBuyConfig}>
+    <CalculatorPageLayout config={rentVsBuyConfig} deepContent={<RentVsBuyDeepContent />}>
       <CalculatorSchema
         name="Rent vs Buy Calculator"
         description="Is renting or buying the smarter financial move? This tool factors in home appreciation, rent inflation, property taxes, closing costs, and investment returns to find your breakeven year."
@@ -400,7 +415,7 @@ export function FIRECalculatorPage() {
 // ============================================================
 const pmiConfig: PageConfig = {
   title: 'PMI Calculator: Monthly Cost + Exact Cancellation Date (2026)',
-  description: 'A $300,000 loan with 10% down adds $175–$250/month in PMI. Use our free calculator to see your exact cost, when PMI cancels, and the total you’ll pay before it ends — free, instant, no sign-up.',
+  description: '10% down on a $300,000 loan adds roughly $115–$225/month in PMI. Use our free calculator to see your exact cost, when PMI cancels, and the total you’ll pay before it ends — free, instant, no sign-up.',
   quickAnswer: 'PMI typically costs 0.5%–1.5% of your loan per year. On a $300,000 mortgage that’s $125–$375/month added to your payment — money that protects the lender, not you. Enter your loan details below to see your exact monthly PMI, your cancellation date, and how much you’ll pay in total.',
   howToUse: {
     intro: 'Enter your home price, down payment, and interest rate. The calculator shows your PMI cost and — crucially — how many months until you can cancel PMI. Toggle the appreciation slider to see how rising home values accelerate your path to 20% equity.',
@@ -420,17 +435,18 @@ const pmiConfig: PageConfig = {
       { label: 'Loan Amount', value: '$360,000' },
       { label: 'Monthly PMI Payment', value: '$255/mo' },
       { label: 'Months Until PMI Canceled (3% appreciation)', value: '34 months (2.8 yrs)' },
-      { label: 'Total PMI Paid', value: '$8,670', highlight: true },
+      { label: 'Total PMI Paid', value: '$8,415', highlight: true },
     ],
-    insight: 'With 0% appreciation (flat market), you\'d pay PMI for 89 months (7.4 years) and spend over $22,000 in PMI premiums. That\'s why a 20% down payment — or accelerated principal payments — saves real money.',
+    insight: 'With 0% appreciation (flat market), you\'d pay PMI for 95 months (7.9 years) and spend about $23,970 in premiums. And if you never request cancellation, the automatic 78% LTV termination does not arrive until month 109, by which point you would have paid more than $27,500. That\'s why a 20% down payment — or accelerated principal payments — saves real money.',
   },
   understandingResults: {
     intro: 'PMI can significantly increase your housing costs. Here\'s how to interpret the key results:',
     items: [
       { term: 'Monthly PMI Premium', explanation: 'PMI costs 0.5–1% of your loan amount annually, divided into monthly payments. For a $360K loan at 0.85%, that\'s $255/mo — $3,060/year added to your housing costs for zero benefit to you (it protects the lender).' },
-      { term: 'LTV Ratio (Loan-to-Value)', explanation: 'Your loan balance divided by the home\'s current value. You start at 90% LTV with 10% down. PMI must be canceled when LTV reaches 80% (20% equity). Home appreciation accelerates reaching this threshold.' },
-      { term: 'PMI Cancellation Timeline', explanation: 'With 3% annual appreciation, a 10%-down buyer reaches 80% LTV in ~46 months. With 0% appreciation, it takes ~89 months of regular principal payments to reach the same equity level. Appreciation is the biggest variable in determining how long you\'ll pay PMI.' },
-      { term: 'Total PMI Cost', explanation: 'The total dollar amount you pay in PMI premiums before cancellation. This can range from ~$8K (high appreciation, 5% down with rapid repayment) to $25K+ (low appreciation, 3% down, standard amortization).' },
+      { term: 'LTV Ratio (Loan-to-Value)', explanation: 'Your loan balance divided by the home\'s value. You start at 90% LTV with 10% down. When your balance reaches 80% of the original price you can request cancellation in writing; your servicer must terminate PMI automatically at 78% of the original value. Appreciation lowers LTV faster, which is what lets you cancel early.' },
+      { term: 'PMI Cancellation Timeline', explanation: 'With 3% annual appreciation, this 10%-down buyer reaches 80% LTV in month 34 (about 2.8 years). With 0% appreciation it takes 95 months (7.9 years) of principal payments. And if you never request cancellation, the automatic 78% termination does not arrive until month 109 — which is why an early written request plus a rising market is the cheapest exit.' },
+      { term: 'Total PMI Cost', explanation: 'The total dollar amount you pay in PMI premiums before cancellation. On a $400,000 home this ranges from about $4,100 (15% down with steady appreciation) to more than $33,000 (5% down in a flat market). Shortening the timeline — extra principal, an early appraisal, or a refinance — is the only lever that moves this number.' },
+      { term: 'Requested vs. Automatic Cancellation', explanation: 'Two rules, two very different dates. A written request at 80% LTV can use your home\'s current market value (an appraisal may be required) — month 34 in the example above, about $8,415 in premiums. Automatic termination at 78% follows the original amortization schedule, ignores appreciation, and lands at month 109 — about $27,540 in premiums. Same loan, roughly $19,000 difference.' },
     ],
   },
   commonMistakes: {
@@ -451,10 +467,15 @@ const pmiConfig: PageConfig = {
     ],
   },
   faqs: [
-    { q: 'What is PMI?', a: 'PMI (Private Mortgage Insurance) protects the lender, not you, in case you default on your loan. It\'s required when your down payment is less than 20% of the home\'s purchase price. PMI typically costs 0.5% to 1% of the loan amount annually.' },
-    { q: 'When can I cancel PMI?', a: 'You can request PMI cancellation once your loan balance reaches 80% of the home\'s original value. Under the Homeowners Protection Act, PMI must be automatically terminated when your balance reaches 78% of the original value.' },
-    { q: 'How does home appreciation affect PMI?', a: 'Rising home values can help you reach 20% equity faster. For example, if your home appreciates 5% annually, the combined effect of paying down your loan and your home gaining value accelerates when you can cancel PMI.' },
-    { q: 'Can I avoid PMI without 20% down?', a: 'Yes. Options include: a piggyback loan (80% first mortgage + 10% down + 10% second mortgage), lender-paid PMI (higher rate but no monthly PMI), or an FHA loan (has MIP instead, with different rules). Compare all options with our calculators.' },
+    { q: 'What is PMI?', a: 'PMI (Private Mortgage Insurance) protects the lender, not you, in case you default on your loan. It\'s required on most conventional loans when your down payment is less than 20% of the home\'s purchase price. PMI typically costs 0.5% to 1.5% of the loan amount annually.' },
+    { q: 'How is PMI calculated?', a: 'Monthly PMI = (loan amount × annual PMI rate) ÷ 12. On a $360,000 loan at 0.85%, that is $360,000 × 0.0085 = $3,060 per year, or $255 per month. The premium is based on your original loan amount, so it stays flat until PMI is canceled — it does not shrink as your balance falls, which is why ending it early matters more than waiting.' },
+    { q: 'How much is PMI on a $400,000 home?', a: 'At a 0.85% annual rate — a common quote for good credit — 5% down costs about $269/month, 10% down about $255/month, and 15% down about $241/month. Enter your own numbers above to see the monthly premium, your cancellation month, and the total you will pay before PMI ends.' },
+    { q: 'When can I cancel PMI?', a: 'You can request PMI cancellation once your loan balance reaches 80% of the home\'s original value — and if the market has risen or you have made improvements, a new appraisal can get you there sooner. Under the Homeowners Protection Act, your servicer must also terminate PMI automatically at 78% of the original value. On a $360,000 loan at 6.5%, that is month 34 with 3% annual appreciation, month 95 in a flat market, and month 109 if you simply wait for the automatic termination.' },
+    { q: 'How does home appreciation affect PMI?', a: 'Appreciation lowers your loan-to-value ratio immediately, and that is what lets you cancel early instead of waiting for the automatic date. On a $360,000 loan, the path to 80% LTV takes about 24 months at 5% appreciation, 34 months at 3%, and 95 months if values stay flat. Note that the automatic 78% termination ignores appreciation — only a cancellation request or a refinance can use your home\'s higher market value.' },
+    { q: 'Does PMI fall off automatically?', a: 'Yes, eventually. Federal law requires automatic termination at 78% of the original value, based on the original amortization schedule, so rising home values do not speed that date up. You can almost always end PMI earlier by requesting cancellation at 80% LTV (your servicer may require an appraisal and a clean payment history) or by refinancing once you have 20% equity.' },
+    { q: 'Can I avoid PMI without 20% down?', a: 'Yes. Options include: a piggyback loan (80% first mortgage + 10% down + 10% second mortgage), lender-paid PMI (a higher interest rate instead of a monthly premium — and the cost never goes away), single-premium PMI paid once at closing, or an FHA loan (which charges MIP instead, usually for the life of the loan if you put less than 10% down). Price the real monthly numbers before deciding.' },
+    { q: 'Is PMI tax deductible?', a: 'For most buyers, no. The itemized deduction for mortgage insurance premiums expired and has not been renewed for current tax years, so assume PMI is a non-deductible cost unless Congress restores it. Even when it was available it phased out at higher incomes. Ask a tax professional about your situation.' },
+    { q: 'What is the difference between PMI and MIP?', a: 'PMI is private mortgage insurance on conventional loans, and it can be canceled once you reach 80% LTV. MIP is mortgage insurance on FHA loans: an upfront premium of 1.75% of the loan plus an annual premium of roughly 0.5%–0.55%. Federal rules require MIP for the life of the loan when you put less than 10% down, which usually makes PMI the cheaper structure for borrowers who expect to reach 20% equity.' },
   ],
 };
 
@@ -569,12 +590,15 @@ const closingCostConfig: PageConfig = {
       { label: 'Home Price', value: '$400,000' },
       { label: 'Loan Amount (20% down)', value: '$320,000' },
       { label: 'Loan Origination Fee (1%)', value: '$3,200' },
-      { label: 'Appraisal + Title + Escrow', value: '$2,500' },
-      { label: 'Prepaid Taxes & Insurance', value: '$3,100' },
-      { label: 'Total Estimated Closing Costs', value: '$12,800', highlight: true },
-      { label: 'Total Cash Needed (Down + Closing)', value: '$92,800' },
+      { label: 'Title Insurance (0.5% of price)', value: '$2,000' },
+      { label: 'Appraisal, Title Search, Escrow & Recording', value: '$1,775' },
+      { label: 'Prepaid Interest, Insurance & Tax Escrow', value: '$3,555' },
+      { label: 'Transfer / State Tax (Texas)', value: '$6,400' },
+      { label: 'Home Inspection', value: '$450' },
+      { label: 'Total Estimated Closing Costs', value: '$17,380', highlight: true },
+      { label: 'Total Cash Needed (Down + Closing)', value: '$97,380' },
     ],
-    insight: 'Closing costs in Texas tend to run higher (3-4% of purchase price) due to title insurance requirements and transfer taxes. In states like Colorado or California, closing costs are often at the lower end (2-3%). Always get a Loan Estimate from at least 3 lenders to compare.',
+    insight: 'On a $400,000 Texas home with 20% down, this calculator estimates $17,380 in closing costs — 4.3% of the purchase price, toward the top of the national range. The same home at a 3% state level (Georgia, Utah, Ohio) lands near $15,780, and California at 5% reaches $18,980, so where you buy swings the bill by more than $3,000. Always get a Loan Estimate from at least 3 lenders to compare.',
   },
   understandingResults: {
     intro: 'Closing costs consist of many line items. Here\'s what each major category means and why they vary:',
@@ -612,7 +636,7 @@ const closingCostConfig: PageConfig = {
 
 export function ClosingCostCalculatorPage() {
   return (
-    <CalculatorPageLayout config={closingCostConfig}>
+    <CalculatorPageLayout config={closingCostConfig} deepContent={<ClosingCostDeepContent />}>
       <CalculatorSchema
         name="Closing Cost Calculator"
         description="Estimate your home buying closing costs with itemized breakdown. Includes state-specific data, loan origination fees, title insurance, appraisal, and seller concessions."

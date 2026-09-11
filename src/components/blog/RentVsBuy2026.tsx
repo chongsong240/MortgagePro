@@ -200,7 +200,7 @@ export default function RentVsBuy2026() {
           </li>
         </ul>
         <p className="text-lg leading-relaxed text-foreground">
-          That $52,000 could have been invested. At a conservative 7% annual return, it would grow to about <strong>$73,000</strong> over five years. By buying, they're pulling that money out of the market and putting it into a single, illiquid asset—their home. Curious what your true monthly payment would look like? Our{' '}
+          That $52,000 could have been invested. At the calculator's default 5% annual return, it would grow to about <strong>$66,000</strong> over five years (a 7% return would push it to roughly $73,000). By buying, they're pulling that money out of the market and putting it into a single, illiquid asset—their home. Curious what your true monthly payment would look like? Our{' '}
           <Link to="/mortgage-calculator" className="text-primary hover:underline font-medium">Mortgage Calculator</Link>{' '}
           factors in taxes, insurance, and PMI to give you the real number, not just the principal and interest.
           Want to dig deeper into what goes into those upfront costs? Our{' '}
@@ -219,11 +219,11 @@ export default function RentVsBuy2026() {
           The longer you stay, the more your equity grows. In the early years, your equity builds slowly because most of your payment goes to interest. But as the years stack up, more of each payment goes to principal, and the math tilts in your favor.
         </p>
         <p className="text-lg leading-relaxed text-foreground mb-4">
-          The break-even point—the year when the total cost of buying drops below the total cost of renting a comparable place—is usually somewhere between <strong>year 5 and year 8</strong>, depending on your market, your rate, and your assumptions about rent increases and appreciation.
+          The break-even point—the year when the total cost of buying drops below the total cost of renting a comparable place—is usually somewhere between <strong>year 4 and year 8</strong>, depending on your market, your rate, and your assumptions about rent increases and appreciation. The net-worth version of the question, where you count equity plus any investments minus the cost of getting in and out, tends to land a little earlier than the cash-flow version, because appreciation and principal paydown both pile up on the owner's side. On our rent vs buy calculator's default setup (a $400,000 home with 20% down at 6.5%, $2,400 rent, and 3.5% appreciation), buying pulls ahead in <strong>year 4</strong>.
         </p>
         <p className="text-lg leading-relaxed text-foreground">
           If you're almost certain you'll stay in the same home for 10 years or more, buying is very likely the better financial move in the long run. Use our{' '}
-          <Link to="/rent-vs-buy-calculator" className="text-primary hover:underline font-medium">Rent vs Buy Analyzer</Link>{' '}
+          <Link to="/rent-vs-buy-calculator" className="text-primary hover:underline font-medium">rent vs buy calculator</Link>{' '}
           to find your exact breakeven year with your specific numbers.
         </p>
       </section>

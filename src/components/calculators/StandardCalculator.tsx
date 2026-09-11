@@ -29,7 +29,7 @@ export default function Calculator() {
     propertyTaxRate: 1.2,
     homeInsurance: 1500,
     hoaFees: 0,
-    pmiRate: 0.5
+    pmiRate: 0.85
   });
 
   const [selectedState, setSelectedState] = useState<string>('National');
@@ -325,6 +325,28 @@ export default function Calculator() {
                 />
               </div>
             </div>
+
+            {inputs.downPaymentPercent < 20 && (
+              <>
+                <div className="flex justify-between items-center">
+                  <Label htmlFor="pmiRate" className="text-sm font-medium">PMI Rate (/yr)</Label>
+                  <div className="relative w-28">
+                    <Input
+                      id="pmiRate"
+                      type="number"
+                      value={inputs.pmiRate}
+                      step={0.05}
+                      onChange={(e) => setInputs({...inputs, pmiRate: Number(e.target.value)})}
+                      className="pr-8 text-right"
+                    />
+                    <Percent className="absolute right-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  PMI applies because your down payment is under 20%. Default rate is 0.85% of the loan per year.
+                </p>
+              </>
+            )}
 
           </CardContent>
         </Card>

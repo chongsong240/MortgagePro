@@ -19,9 +19,13 @@ export default function RentVsBuyCalculator() {
     propertyTaxRate: 1.2,
     maintenanceRate: 1.0,
     homeAppreciation: 3.5,
-    monthlyRent: 2000,
+    monthlyRent: 2400,
     rentIncrease: 3.0,
-    investmentReturn: 7.0, // Opportunity cost / growth if invested instead
+    investmentReturn: 5.0, // Return on the cash a renter keeps invested (down payment + monthly savings)
+    // Transaction costs & insurance
+    closingCostRate: 3.0, // % of purchase price paid at closing (sunk)
+    sellingCostRate: 6.0, // % of the sale price paid when you sell (sunk)
+    pmiRate: 0.85, // % of the loan per year, charged while the down payment is under 20%
   });
 
   const chartData = useMemo(() => {
@@ -37,68 +41,72 @@ export default function RentVsBuyCalculator() {
       monthlyPI = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
     }
 
+    // Monthly compounding keeps the timing of rent, costs, and appreciation honest
+    const monthlyInvestRate = inputs.investmentReturn / 100 / 12;
+    const monthlyAppreciation = Math.pow(1 + inputs.homeAppreciation / 100, 1 / 12);
+    const monthlyRentGrowth = Math.pow(1 + inputs.rentIncrease / 100, 1 / 12);
+
+    // PMI is charged on the original loan amount while LTV is above 80%
+    const pmiMonthly = inputs.downPaymentPercent < 20 ? (loanAmount * (inputs.pmiRate / 100)) / 12 : 0;
+    const pmiStopBalance = inputs.homePrice * 0.8;
+
+    // Sunk transaction costs: the buyer pays closing costs up front and selling costs on the way out
+    const closingCosts = inputs.homePrice * (inputs.closingCostRate / 100);
+    const renterStartingCash = downPayment + closingCosts;
+
     let currentHomeValue = inputs.homePrice;
     let loanBalance = loanAmount;
-    let cumBuySunk = 0;
-    let cumRentSunk = 0;
-
     let currentRent = inputs.monthlyRent;
-    let renterInvestedCash = downPayment; // Opportunity cost tracking
+    let renterPortfolio = renterStartingCash; // Down payment + closing costs, invested instead of spent
+    let buyerPortfolio = 0; // An owner only has spare cash when renting costs more than owning
 
     const data = [];
     let criticalYear = null;
+    let yearTen: { buy: number; rent: number } | null = null;
 
     for (let year = 1; year <= 30; year++) {
-      // Rent calculations
-      const yearlyRent = currentRent * 12;
-      cumRentSunk += yearlyRent;
-      // Rent increases at end of year for next year
-      currentRent *= (1 + inputs.rentIncrease / 100);
-
-      // Renter opportunity cost return (they didn't put down payment so it grows)
-      const investmentGain = renterInvestedCash * (inputs.investmentReturn / 100);
-      renterInvestedCash += investmentGain;
-
-      // Net rent cost = Total rent paid - Investment gains from down payment
-      // This is a simplified net cost metric
-      const netRentCost = cumRentSunk - (renterInvestedCash - downPayment);
-
-
-      // Buy calculations
-      let interestThisYear = 0;
       for (let m = 1; m <= 12; m++) {
         const interest = loanBalance * monthlyRate;
         let p = monthlyPI - interest;
         if (p > loanBalance) p = loanBalance;
+        if (p < 0) p = 0;
         loanBalance -= p;
-        interestThisYear += interest;
+
+        // Everything the owner pays this month: P&I, PMI, property tax, and maintenance
+        const pmi = loanBalance > pmiStopBalance ? pmiMonthly : 0;
+        const taxMonthly = (currentHomeValue * (inputs.propertyTaxRate / 100)) / 12;
+        const maintMonthly = (currentHomeValue * (inputs.maintenanceRate / 100)) / 12;
+        const buyMonthlyCost = monthlyPI + pmi + taxMonthly + maintMonthly;
+
+        // Whoever pays less this month invests the difference; the renter's portfolio funds any shortfall
+        const monthlyDifference = buyMonthlyCost - currentRent;
+        renterPortfolio = renterPortfolio * (1 + monthlyInvestRate) + monthlyDifference;
+        buyerPortfolio = buyerPortfolio * (1 + monthlyInvestRate) + Math.max(0, -monthlyDifference);
+
+        currentHomeValue *= monthlyAppreciation;
+        currentRent *= monthlyRentGrowth;
       }
 
-      const taxes = currentHomeValue * (inputs.propertyTaxRate / 100);
-      const maint = currentHomeValue * (inputs.maintenanceRate / 100);
-      
-      const newHomeValue = currentHomeValue * (1 + inputs.homeAppreciation / 100);
-      const appreciation = newHomeValue - currentHomeValue;
-      currentHomeValue = newHomeValue;
+      // Net worth: the owner holds equity minus the cost of selling; the renter holds the portfolio
+      const sellingCosts = currentHomeValue * (inputs.sellingCostRate / 100);
+      const buyNetWorth = currentHomeValue - loanBalance - sellingCosts + buyerPortfolio;
+      const rentNetWorth = renterPortfolio;
 
-      // Unrecoverable buy costs = Interest + Taxes + Maint
-      cumBuySunk += interestThisYear + taxes + maint;
-      
-      // Net buy cost = Unrecoverable costs - Appreciation gain
-      const netBuyCost = cumBuySunk - (currentHomeValue - inputs.homePrice);
-
-      if (criticalYear === null && netBuyCost < netRentCost) {
+      if (criticalYear === null && buyNetWorth > rentNetWorth) {
         criticalYear = year;
+      }
+      if (year === 10) {
+        yearTen = { buy: Math.round(buyNetWorth), rent: Math.round(rentNetWorth) };
       }
 
       data.push({
         year: `Year ${year}`,
-        netRentCost: Math.round(netRentCost),
-        netBuyCost: Math.round(netBuyCost)
+        netWorthBuy: Math.round(buyNetWorth),
+        netWorthRent: Math.round(rentNetWorth)
       });
     }
 
-    return { data, criticalYear };
+    return { data, criticalYear, yearTen };
   }, [inputs]);
 
   return (
@@ -154,6 +162,31 @@ export default function RentVsBuyCalculator() {
                   <Percent className="absolute right-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
                 </div>
               </div>
+              <div className="space-y-2">
+                <Label className="text-xs">PMI Rate (/yr %)</Label>
+                <div className="relative">
+                  <Input type="number" value={inputs.pmiRate} step={0.05} onChange={e => setInputs({...inputs, pmiRate: Number(e.target.value)})} className="pr-6 text-right" />
+                  <Percent className="absolute right-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs">Closing Costs (% of price)</Label>
+                <div className="relative">
+                  <Input type="number" value={inputs.closingCostRate} step={0.1} onChange={e => setInputs({...inputs, closingCostRate: Number(e.target.value)})} className="pr-6 text-right" />
+                  <Percent className="absolute right-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs">Selling Costs (% of sale)</Label>
+                <div className="relative">
+                  <Input type="number" value={inputs.sellingCostRate} step={0.1} onChange={e => setInputs({...inputs, sellingCostRate: Number(e.target.value)})} className="pr-6 text-right" />
+                  <Percent className="absolute right-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground md:col-span-2">
+                PMI is added automatically whenever the down payment is under 20% and stops once the loan reaches 80% LTV. Closing and selling costs are sunk costs — they are what make a short stay expensive.
+              </p>
+
             </div>
           </CardContent>
         </Card>
@@ -179,12 +212,12 @@ export default function RentVsBuyCalculator() {
                 </div>
               </div>
               <div className="space-y-2 md:col-span-2">
-                <Label className="text-xs">Investment Return on Down Payment (/yr %)</Label>
+                <Label className="text-xs">Investment Return (/yr %)</Label>
                 <div className="relative">
                   <Input type="number" value={inputs.investmentReturn} step={0.1} onChange={e => setInputs({...inputs, investmentReturn: Number(e.target.value)})} className="pr-6 text-right" />
                   <Percent className="absolute right-2.5 top-2.5 h-3 w-3 text-muted-foreground" />
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">If renting, the down payment cash is invested in the market instead.</p>
+                <p className="text-xs text-muted-foreground mt-1">Renters invest the down payment, the closing costs, and any month where rent costs less than owning.</p>
               </div>
              </div>
           </CardContent>
@@ -199,10 +232,11 @@ export default function RentVsBuyCalculator() {
           <CardContent className="pt-6 text-center">
             {chartData.criticalYear ? (
               <>
-                <div className="text-muted-foreground text-sm uppercase font-semibold tracking-wider mb-2">Buying becomes cheaper after</div>
+                <div className="text-muted-foreground text-sm uppercase font-semibold tracking-wider mb-2">Buying comes out ahead after</div>
                 <div className="text-5xl font-bold text-primary">
                   Year {chartData.criticalYear}
                 </div>
+                <p className="text-sm text-muted-foreground mt-2">Plan on staying at least that long for buying to pay off.</p>
               </>
             ) : (
                <>
@@ -213,13 +247,25 @@ export default function RentVsBuyCalculator() {
                 <p className="text-sm text-destructive/80 mt-2">Under these assumptions, buying never breaks even.</p>
                </>
             )}
+            {chartData.yearTen && (
+              <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-primary/20 text-left">
+                <div>
+                  <div className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Buyer net worth, 10 yrs</div>
+                  <div className="text-xl font-bold text-foreground">{formatCurrency(chartData.yearTen.buy)}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Renter net worth, 10 yrs</div>
+                  <div className="text-xl font-bold text-foreground">{formatCurrency(chartData.yearTen.rent)}</div>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Net Cumulative Cost</CardTitle>
-            <CardDescription>Lower is better. Includes sunk costs minus asset appreciation or investment growth.</CardDescription>
+            <CardTitle>Net Worth Over Time</CardTitle>
+            <CardDescription>Higher is better. Buying builds home equity minus what it costs to sell; renting grows the down payment, closing costs, and any monthly savings.</CardDescription>
           </CardHeader>
           <CardContent>
              <div className="h-72 w-full mt-4">
@@ -229,8 +275,8 @@ export default function RentVsBuyCalculator() {
                   <XAxis dataKey="year" tickLine={false} axisLine={false} tickMargin={10} tick={{ fontSize: 12, fill: '#6b7280' }} minTickGap={30} />
                   <YAxis tickFormatter={(val) => `$${(val / 1000).toFixed(0)}k`} tickLine={false} axisLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} width={60} />
                   <RechartsTooltip formatter={(value: number) => formatCurrency(value)} labelStyle={{color: 'black'}} />
-                  <Line type="monotone" dataKey="netBuyCost" name="Net Cost to Buy" stroke="#1E3A8A" strokeWidth={3} dot={false} />
-                  <Line type="monotone" dataKey="netRentCost" name="Net Cost to Rent" stroke="#F59E0B" strokeWidth={3} dot={false} />
+                  <Line type="monotone" dataKey="netWorthBuy" name="Net Worth if You Buy" stroke="#1E3A8A" strokeWidth={3} dot={false} />
+                  <Line type="monotone" dataKey="netWorthRent" name="Net Worth if You Rent" stroke="#F59E0B" strokeWidth={3} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

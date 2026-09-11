@@ -48,6 +48,11 @@ const NATIONAL_AVG_TAX_RATE = stateValues.reduce((s, d) => s + d.property_tax_ra
 const NATIONAL_AVG_INSURANCE = Math.round(stateValues.reduce((s, d) => s + d.avg_insurance, 0) / stateValues.length);
 const NATIONAL_AVG_CLOSING_COST_PCT = stateValues.reduce((s, d) => s + d.closing_cost_pct, 0) / stateValues.length;
 
+// Site-standard annual PMI rate. Must stay identical to the PMI / mortgage /
+// affordability calculators so generated pages never contradict the tools.
+const ANNUAL_PMI_RATE = 0.0085;
+const ANNUAL_PMI_RATE_PCT = (ANNUAL_PMI_RATE * 100).toFixed(2); // "0.85"
+
 // ============================================================
 // 1. Shared helpers
 // ============================================================
@@ -291,7 +296,7 @@ function calculatePurchaseExample(homePrice: number, taxRate: number, insurance:
 
   const monthlyTax = (homePrice * taxRate) / 12;
   const monthlyInsurance = insurance / 12;
-  const monthlyPMI = loanAmount * 0.006 / 12; // only used for display in 10%-down comparison
+  const monthlyPMI = loanAmount * ANNUAL_PMI_RATE / 12; // 20% down never displays PMI; kept for parity
   const totalMonthly = monthlyPI + monthlyTax + monthlyInsurance; // 20% down = no PMI
   const incomeNeeded = Math.ceil((totalMonthly / 0.28) * 12 / 1000) * 1000;
 
@@ -308,7 +313,7 @@ function calculatePurchaseExample(homePrice: number, taxRate: number, insurance:
   } else {
     monthlyPI_10 = loanAmount_10 / numPayments;
   }
-  const monthlyPMI_10 = loanAmount_10 * 0.007 / 12;
+  const monthlyPMI_10 = loanAmount_10 * ANNUAL_PMI_RATE / 12;
   const totalMonthly_10 = monthlyPI_10 + monthlyTax + monthlyInsurance + monthlyPMI_10;
   const incomeNeeded_10 = Math.ceil((totalMonthly_10 / 0.28) * 12 / 1000) * 1000;
 
@@ -368,7 +373,7 @@ function generatePurchaseExampleHtml(stateName: string, p: PurchaseExampleResult
   <p style="margin-top: 8px;">Annual income needed (28% DTI): <strong>${fmtCurrency(p.incomeNeeded)}/yr</strong></p>
 
   <h3 style="margin-top: 20px;">PMI Scenario: What If You Put Only 10% Down?</h3>
-  <p>With a <strong>10% down payment</strong> (${fmtCurrency(Math.round(p.homePrice * 0.10))}), you'd have a loan of <strong>${fmtCurrency(Math.round(p.homePrice * 0.90))}</strong> and would need to pay Private Mortgage Insurance (PMI) at roughly 0.7% of the loan annually:</p>
+  <p>With a <strong>10% down payment</strong> (${fmtCurrency(Math.round(p.homePrice * 0.10))}), you'd have a loan of <strong>${fmtCurrency(Math.round(p.homePrice * 0.90))}</strong> and would need to pay Private Mortgage Insurance (PMI) at roughly ${ANNUAL_PMI_RATE_PCT}% of the loan annually:</p>
   <table>
     <thead><tr><th>Item</th><th class="text-right">10% Down</th><th class="text-right">20% Down (savings)</th></tr></thead>
     <tbody>
@@ -935,7 +940,7 @@ function generateAmountFaq(amount: number, data: MortgageData, downPct: number):
   return [
     {
       q: `How much income do I need for a $${fmtNumber(amount)} house?`,
-      a: `For a $${fmtNumber(amount)} home with a ${downPct}% down payment ($${fmtCurrency(downPayment)}) and a 6.5% interest rate, you need about <strong>${fmtCurrency(data.incomeNeeded)}/year</strong> based on the 28% front-end DTI rule. This covers principal, interest, property taxes, and homeowners insurance. If your down payment is smaller, you'll need additional income to cover PMI and a larger loan balance.`,
+      a: `For a $${fmtNumber(amount)} home with a ${downPct}% down payment (${fmtCurrency(downPayment)}) and a 6.5% interest rate, you need about <strong>${fmtCurrency(data.incomeNeeded)}/year</strong> based on the 28% front-end DTI rule. This covers principal, interest, property taxes, and homeowners insurance. If your down payment is smaller, you'll need additional income to cover PMI and a larger loan balance.`,
     },
     {
       q: `What is the monthly payment on a $${fmtNumber(amount)} house?`,
@@ -943,7 +948,7 @@ function generateAmountFaq(amount: number, data: MortgageData, downPct: number):
     },
     {
       q: `How much is the down payment on a $${fmtNumber(amount)} house?`,
-      a: `A standard ${downPct}% down payment is <strong>${fmtCurrency(downPayment)}</strong>, which avoids Private Mortgage Insurance (PMI). If you put down less — for example, 10% (${fmtCurrency(amount * 0.1)}) or 5% (${fmtCurrency(amount * 0.05)}) — you'll pay PMI, typically 0.5%–1% of the loan amount annually, until you reach 20% equity.`,
+      a: `A standard ${downPct}% down payment is <strong>${fmtCurrency(downPayment)}</strong>, which avoids Private Mortgage Insurance (PMI). If you put down less — for example, 10% (${fmtCurrency(amount * 0.1)}) or 5% (${fmtCurrency(amount * 0.05)}) — you'll pay PMI, typically 0.5%–1.5% of the loan amount annually, until you reach 20% equity.`,
     },
     {
       q: `What are the total closing costs on a $${fmtNumber(amount)} home?`,
@@ -980,7 +985,7 @@ function generateAmountHtml(amount: number, slug: string): string {
   // 10% down scenario
   const loan10 = amount - Math.round(amount * 0.1);
   const monthlyP10 = (loan10 * (6.5 / 100 / 12) * Math.pow(1 + (6.5 / 100 / 12), 360)) / (Math.pow(1 + (6.5 / 100 / 12), 360) - 1);
-  const pmi10 = loan10 * 0.007 / 12;
+  const pmi10 = loan10 * ANNUAL_PMI_RATE / 12;
   const total10down = Math.round(monthlyP10 + (amount * taxRate) / 12 + insurance / 12 + pmi10);
 
   const faqItems = generateAmountFaq(amount, data, downPct);
@@ -1148,20 +1153,20 @@ function generateAmountHtml(amount: number, slug: string): string {
 
     <div class="card">
       <h2>🏡 Buyer Story: Sarah Buys a $${fmtNumber(amount)} Home</h2>
-      <p>Sarah is a 30-year-old marketing manager earning $${fmtCurrency(Math.round(data.incomeNeeded * 0.85 / 1000) * 1000)}/year. She's saved $${fmtCurrency(Math.round(downAmount / 1000) * 1000)} for a down payment — about ${downPct}% of her target price. After getting pre-approved at a 6.5% rate, here's what her realtor walked through with her:</p>
+      <p>Sarah is a 30-year-old marketing manager earning ${fmtCurrency(Math.round(data.incomeNeeded * 0.85 / 1000) * 1000)}/year. She's saved ${fmtCurrency(Math.round(downAmount / 1000) * 1000)} for a down payment — about ${downPct}% of her target price. After getting pre-approved at a 6.5% rate, here's what her realtor walked through with her:</p>
       <div style="background: #f0f7ff; border-radius: 8px; padding: 16px; margin: 16px 0;">
         <h3 style="font-size: 1rem; margin-bottom: 8px;">Sarah's Numbers at a Glance</h3>
         <ul style="margin: 0; padding-left: 20px; color: #475569; line-height: 2;">
           <li><strong>Home price:</strong> $${fmtNumber(amount)}</li>
-          <li><strong>Down payment (${downPct}%):</strong> $${fmtCurrency(downAmount)}</li>
-          <li><strong>Loan amount:</strong> $${fmtCurrency(loanAmount)} at 6.5% for 30 years</li>
-          <li><strong>Monthly P&I:</strong> $${fmtCurrency(data.monthlyPI)}</li>
-          <li><strong>Property taxes:</strong> ~$${fmtCurrency(data.monthlyTax)}/mo (national avg ${fmtPct(NATIONAL_AVG_TAX_RATE)}%)</li>
-          <li><strong>Home insurance:</strong> ~$${fmtCurrency(data.monthlyInsurance)}/mo</li>
-          <li><strong>Total monthly payment (PITI):</strong> $${fmtCurrency(data.totalMonthly)}</li>
+          <li><strong>Down payment (${downPct}%):</strong> ${fmtCurrency(downAmount)}</li>
+          <li><strong>Loan amount:</strong> ${fmtCurrency(loanAmount)} at 6.5% for 30 years</li>
+          <li><strong>Monthly P&I:</strong> ${fmtCurrency(data.monthlyPI)}</li>
+          <li><strong>Property taxes:</strong> ~${fmtCurrency(data.monthlyTax)}/mo (national avg ${fmtPct(NATIONAL_AVG_TAX_RATE)}%)</li>
+          <li><strong>Home insurance:</strong> ~${fmtCurrency(data.monthlyInsurance)}/mo</li>
+          <li><strong>Total monthly payment (PITI):</strong> ${fmtCurrency(data.totalMonthly)}</li>
         </ul>
       </div>
-      <p>"I was nervous about whether I could actually afford this," Sarah said. "Seeing the full PITI breakdown made it clear — the payment fit within my budget, and I knew I wouldn't be house-poor." Her lender confirmed the total payment was under <strong>28% of her gross income</strong>, which means she qualified with an income of about <strong>$${fmtCurrency(data.incomeNeeded)}/year</strong>.</p>
+      <p>"I was nervous about whether I could actually afford this," Sarah said. "Seeing the full PITI breakdown made it clear — the payment fit within my budget, and I knew I wouldn't be house-poor." Her lender confirmed the total payment was under <strong>28% of her gross income</strong>, which means she qualified with an income of about <strong>${fmtCurrency(data.incomeNeeded)}/year</strong>.</p>
     </div>
 
     <div class="card">
@@ -1238,8 +1243,8 @@ function generateAmountHtml(amount: number, slug: string): string {
       <table>
         <thead><tr><th>Down Payment</th><th class="text-right">Loan Amount</th><th class="text-right">Monthly P&I</th><th class="text-right">+ PMI</th><th class="text-right">Total PITI</th></tr></thead>
         <tbody>
-          <tr><td><strong>5% Down</strong> ($${fmtCurrency(Math.round(amount * 0.05))})</td><td class="text-right">$${fmtCurrency(Math.round(amount * 0.95))}</td><td class="text-right">$${fmtCurrency(Math.round((amount * 0.95) * (6.5/100/12) * Math.pow(1+(6.5/100/12), 360) / (Math.pow(1+(6.5/100/12), 360)-1)))}</td><td class="text-right">$${fmtCurrency(Math.round(amount * 0.95 * 0.007 / 12))}</td><td class="text-right"><strong>$${fmtCurrency(Math.round(Math.round((amount * 0.95) * (6.5/100/12) * Math.pow(1+(6.5/100/12), 360) / (Math.pow(1+(6.5/100/12), 360)-1)) + (amount * taxRate) / 12 + insurance / 12 + (amount * 0.95 * 0.007 / 12)))}</strong></td></tr>
-          <tr><td><strong>10% Down</strong> ($${fmtCurrency(Math.round(amount * 0.1))})</td><td class="text-right">$${fmtCurrency(Math.round(amount * 0.9))}</td><td class="text-right">${fmtCurrency(Math.round(monthlyP10))}</td><td class="text-right">${fmtCurrency(Math.round(pmi10))}</td><td class="text-right"><strong>${fmtCurrency(total10down)}</strong></td></tr>
+          <tr><td><strong>5% Down</strong> (${fmtCurrency(Math.round(amount * 0.05))})</td><td class="text-right">${fmtCurrency(Math.round(amount * 0.95))}</td><td class="text-right">${fmtCurrency(Math.round((amount * 0.95) * (6.5/100/12) * Math.pow(1+(6.5/100/12), 360) / (Math.pow(1+(6.5/100/12), 360)-1)))}</td><td class="text-right">${fmtCurrency(Math.round(amount * 0.95 * ANNUAL_PMI_RATE / 12))}</td><td class="text-right"><strong>${fmtCurrency(Math.round(Math.round((amount * 0.95) * (6.5/100/12) * Math.pow(1+(6.5/100/12), 360) / (Math.pow(1+(6.5/100/12), 360)-1)) + (amount * taxRate) / 12 + insurance / 12 + (amount * 0.95 * ANNUAL_PMI_RATE / 12)))}</strong></td></tr>
+          <tr><td><strong>10% Down</strong> (${fmtCurrency(Math.round(amount * 0.1))})</td><td class="text-right">${fmtCurrency(Math.round(amount * 0.9))}</td><td class="text-right">${fmtCurrency(Math.round(monthlyP10))}</td><td class="text-right">${fmtCurrency(Math.round(pmi10))}</td><td class="text-right"><strong>${fmtCurrency(total10down)}</strong></td></tr>
           <tr style="background:#f0f7ff;"><td><strong>20% Down</strong> (${fmtCurrency(downAmount)}) <span style="color: #166534;">✓ No PMI</span></td><td class="text-right">${fmtCurrency(loanAmount)}</td><td class="text-right">${fmtCurrency(data.monthlyPI)}</td><td class="text-right">$0</td><td class="text-right"><strong>${fmtCurrency(data.totalMonthly)}</strong></td></tr>
         </tbody>
       </table>
@@ -1383,6 +1388,81 @@ function generateSpaPage(entry: SPAEntry, rootHtml: string): string {
 
 
 // ============================================================
+// 5b. lastmod helpers
+// ------------------------------------------------------------
+// Derive each URL's <lastmod> from the source file that actually
+// defines that page's content, so search engines get a real
+// "this page changed" signal on recrawl instead of a meaningless
+// build timestamp on all 100+ URLs.
+// ============================================================
+
+const PROJECT_ROOT = path.resolve(__dirname, '..');
+const BUILD_LASTMOD = new Date().toISOString().slice(0, 10);
+
+function fileLastmod(relPaths: string[]): string {
+  let newest = 0;
+  for (const rel of relPaths) {
+    try {
+      const { mtimeMs } = fs.statSync(path.join(PROJECT_ROOT, rel));
+      if (mtimeMs > newest) newest = mtimeMs;
+    } catch {
+      // file renamed or removed — fall back to the build date below
+    }
+  }
+  return newest ? new Date(newest).toISOString().slice(0, 10) : BUILD_LASTMOD;
+}
+
+function dirLastmod(relDir: string): string {
+  try {
+    const dir = path.join(PROJECT_ROOT, relDir);
+    let newest = 0;
+    for (const name of fs.readdirSync(dir)) {
+      const { mtimeMs } = fs.statSync(path.join(dir, name));
+      if (mtimeMs > newest) newest = mtimeMs;
+    }
+    if (newest) return new Date(newest).toISOString().slice(0, 10);
+  } catch {
+    // ignore and fall through
+  }
+  return BUILD_LASTMOD;
+}
+
+// Which source files define the content of each hand-built route.
+const PAGE_SOURCES: Record<string, string[]> = {
+  '': ['index.html', 'src/App.tsx', 'src/components/pages/CalculatorPages.tsx'],
+  'mortgage-calculator': [
+    'src/components/calculators/StandardCalculator.tsx',
+    'src/components/pages/MortgageCalculatorDeepContent.tsx',
+  ],
+  'affordability-calculator': ['src/components/calculators/AffordabilityCalculator.tsx'],
+  'biweekly-mortgage-calculator': ['src/components/calculators/BiWeeklyCalculator.tsx'],
+  'rent-vs-buy-calculator': [
+    'src/components/calculators/RentVsBuyCalculator.tsx',
+    'src/components/pages/RentVsBuyDeepContent.tsx',
+  ],
+  'fire-impact-calculator': ['src/components/calculators/FIRECalculator.tsx'],
+  'pmi-calculator': [
+    'src/components/calculators/PmiCalculator.tsx',
+    'src/components/pages/PmiDeepContent.tsx',
+  ],
+  'refinance-calculator': ['src/components/calculators/RefinanceCalculator.tsx'],
+  'closing-cost-calculator': [
+    'src/components/calculators/ClosingCostCalculator.tsx',
+    'src/components/pages/ClosingCostDeepContent.tsx',
+  ],
+  'extra-payment-calculator': ['src/components/calculators/ExtraPaymentCalculator.tsx'],
+  'arm-vs-fixed-calculator': ['src/components/calculators/ArmVsFixedCalculator.tsx'],
+  'calculator-methodology': ['src/components/pages/CalculatorMethodologyPage.tsx'],
+  'editorial-policy': ['src/components/pages/EditorialPolicyPage.tsx'],
+  contact: ['src/components/pages/ContactPage.tsx'],
+};
+
+// Routes with no dedicated source file (about, blog index, legal pages)
+const SITE_LAST_MOD = fileLastmod(['src/components/pages/CalculatorPages.tsx', 'src/lib/mortgage.ts']);
+// Blog article content lives in src/components/blog/*
+const BLOG_LAST_MOD = dirLastmod('src/components/blog');
+
+// ============================================================
 // 5c. Sitemap generator
 // ============================================================
 
@@ -1390,27 +1470,40 @@ function generateSitemap(): string {
   const lines: string[] = [
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
-    `  <url><loc>${SITE_URL}/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/mortgage-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-
-    `  <url><loc>${SITE_URL}/affordability-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/biweekly-mortgage-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/rent-vs-buy-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/fire-impact-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/pmi-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/refinance-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/closing-cost-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/extra-payment-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/arm-vs-fixed-calculator</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/blog</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/about</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/contact</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/editorial-policy</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/calculator-methodology</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/privacy</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/disclaimer</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>`,
-    `  <url><loc>${SITE_URL}/affiliate-disclosure.html</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>`,
   ];
+
+  const add = (locPath: string, priority: number, changefreq: string, lastmod: string) => {
+    lines.push(
+      `  <url><loc>${SITE_URL}${locPath}</loc><lastmod>${lastmod}</lastmod><priority>${priority}</priority><changefreq>${changefreq}</changefreq></url>`
+    );
+  };
+
+  // Hand-built routes: <lastmod> comes from the component that renders them.
+  const page = (locPath: string, priority: number, changefreq: string) => {
+    const sources = PAGE_SOURCES[locPath.replace(/^\//, '')];
+    add(locPath, priority, changefreq, sources ? fileLastmod(sources) : SITE_LAST_MOD);
+  };
+
+  page('/', 1.0, 'weekly');
+  page('/mortgage-calculator', 0.9, 'weekly');
+  page('/affordability-calculator', 0.9, 'weekly');
+  page('/biweekly-mortgage-calculator', 0.9, 'weekly');
+  page('/rent-vs-buy-calculator', 0.9, 'weekly');
+  page('/fire-impact-calculator', 0.9, 'weekly');
+  page('/pmi-calculator', 0.9, 'weekly');
+  page('/refinance-calculator', 0.9, 'weekly');
+  page('/closing-cost-calculator', 0.9, 'weekly');
+  page('/extra-payment-calculator', 0.9, 'weekly');
+  page('/arm-vs-fixed-calculator', 0.9, 'weekly');
+  page('/blog', 0.8, 'weekly');
+  page('/about', 0.5, 'monthly');
+  page('/contact', 0.5, 'monthly');
+  page('/editorial-policy', 0.5, 'monthly');
+  page('/calculator-methodology', 0.5, 'monthly');
+  page('/privacy', 0.3, 'yearly');
+  page('/disclaimer', 0.3, 'yearly');
+  // NOTE: /affiliate-disclosure(.html) 301-redirects to /disclaimer (see vercel.json), so listing it
+  // here would only produce "Page with redirect" errors in Search Console. /disclaimer is already listed.
 
   // Blog articles
    const blogs = [
@@ -1426,19 +1519,19 @@ function generateSitemap(): string {
     'debt-to-income-ratio',
   ];
   for (const slug of blogs) {
-    lines.push(`  <url><loc>${SITE_URL}/blog/${slug}</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>`);
+    add(`/blog/${slug}`, 0.8, 'monthly', BLOG_LAST_MOD);
   }
 
   // Amount pages
   const amounts = [150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 650000, 700000, 750000, 800000];
   for (const a of amounts) {
-    lines.push(`  <url><loc>${SITE_URL}/mortgage-payment/${fmtDollar(a).replace(/,/g, '')}</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>`);
+    add(`/mortgage-payment/${fmtDollar(a).replace(/,/g, '')}`, 0.6, 'monthly', BUILD_LASTMOD);
   }
 
   // State pages
   for (const [code] of Object.entries(STATE_DATA)) {
     const stateSlug = STATE_DATA[code].name.toLowerCase().replace(/\s+/g, '-');
-    lines.push(`  <url><loc>${SITE_URL}/mortgage-payment/${stateSlug}</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>`);
+    add(`/mortgage-payment/${stateSlug}`, 0.6, 'monthly', BUILD_LASTMOD);
   }
 
   lines.push(`</urlset>`);
@@ -1495,7 +1588,7 @@ function main() {
   // ---------- SPA route pages ----------
   const spaEntries: SPAEntry[] = [
     { path: 'calculator', title: 'Mortgage Calculator - Free Online Mortgage Payment Calculator | MortgagePro', description: 'Free mortgage calculator with amortization schedule, PMI, taxes & insurance. Calculate your monthly payment in real time.', priority: 0.9 },
-    { path: 'mortgage-calculator', title: 'Mortgage Calculator - Free Online Mortgage Payment Calculator | MortgagePro', description: 'Free mortgage calculator with amortization schedule, PMI, taxes & insurance. Calculate your monthly payment in real time.', priority: 0.9 },
+    { path: 'mortgage-calculator', title: 'Mortgage Calculator With PMI, Taxes & Insurance (2026) | MortgagePro', description: 'Calculate your monthly mortgage payment with PMI, property taxes, and insurance. Real-time sliders for home price, down payment, interest rate, and loan term — plus a full PITI breakdown and an amortization schedule.', priority: 0.9 },
     { path: 'affordability-calculator', title: 'Mortgage Affordability Calculator - How Much House Can I Afford? | MortgagePro', description: 'Calculate how much house you can afford based on your income, debt, down payment, and state-specific taxes.', priority: 0.9 },
     { path: 'biweekly-mortgage-calculator', title: 'Bi-Weekly Mortgage Payment Calculator | MortgagePro', description: 'See how much you can save with bi-weekly mortgage payments. Compare standard vs accelerated payment plans.', priority: 0.9 },
     { path: 'rent-vs-buy-calculator', title: 'Rent vs Buy Calculator: Is Buying Worth It in Your City? (2026) | MortgagePro', description: 'Most people break even buying vs renting in 3-7 years. Enter your local home price, rent, and how long you\'ll stay to find your exact breakeven year.', priority: 0.9 },

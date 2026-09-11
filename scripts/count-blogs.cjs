@@ -19,9 +19,10 @@ console.log('\n=== dist/blog prerendered pages:', distBlogs.length, '===');
 distBlogs.forEach((r) => console.log('  ', r));
 
 // 3. Count blog sitemap entries
-const sitemap = fs.readFileSync('public/sitemap.xml', 'utf8');
+const sitemapPath = fs.existsSync('dist/sitemap.xml') ? 'dist/sitemap.xml' : 'public/sitemap.xml';
+const sitemap = fs.readFileSync(sitemapPath, 'utf8');
 const sitemapBlogs = [...sitemap.matchAll(/mortgagepro\.io\/blog\/([^<]+)/g)].map((m) => m[1]);
-console.log('\n=== sitemap blog entries:', sitemapBlogs.length, '===');
+console.log('\n=== sitemap blog entries (' + sitemapPath + '):', sitemapBlogs.length, '===');
 
 // 4. Count blog components in src/components/blog (excluding non-blog helpers)
 const blogDir = path.join('src', 'components', 'blog');

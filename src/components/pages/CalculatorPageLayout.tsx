@@ -28,6 +28,8 @@ export interface InternalLink {
 
 export interface PageConfig {
   title: string;
+  /** Optional <title>/og:title override, so a page can keep a clean on-page H1 while the SERP title targets a query. */
+  metaTitle?: string;
   description: string;
   quickAnswer?: string;
   howToUse: {
@@ -128,14 +130,14 @@ export default function CalculatorPageLayout({
     <div className="space-y-8">
       {/* SEO: unique title + meta description + social tags for every calculator page */}
       <Helmet>
-        <title>{`${config.title} | MortgagePro`}</title>
+        <title>{`${config.metaTitle ?? config.title} | MortgagePro`}</title>
         <meta name="description" content={config.description} />
         <link rel="canonical" href={canonical} />
-        <meta property="og:title" content={`${config.title} | MortgagePro`} />
+        <meta property="og:title" content={`${config.metaTitle ?? config.title} | MortgagePro`} />
         <meta property="og:description" content={config.description} />
         <meta property="og:url" content={canonical} />
         <meta property="og:type" content="website" />
-        <meta name="twitter:title" content={`${config.title} | MortgagePro`} />
+        <meta name="twitter:title" content={`${config.metaTitle ?? config.title} | MortgagePro`} />
         <meta name="twitter:description" content={config.description} />
       </Helmet>
 
