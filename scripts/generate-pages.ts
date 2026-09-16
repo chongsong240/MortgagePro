@@ -637,6 +637,9 @@ function generateStateHtml(
   ${faqSchema}
   </script>
 
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4050078688462520"
+     crossorigin="anonymous"></script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { 
@@ -1051,6 +1054,9 @@ function generateAmountHtml(amount: number, slug: string): string {
     ]
   }
   </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4050078688462520"
+     crossorigin="anonymous"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
