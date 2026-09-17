@@ -673,7 +673,9 @@ function getRecommendedArticles(_isState: boolean): BlogArticle[] {
   return [
     { url: '/blog/how-to-use-calculator', title: 'How to Use Our Mortgage Calculator', category: 'guides' },
     { url: '/blog/biweekly-payments', title: 'Bi-Weekly Mortgage Payments: Are They Worth It?', category: 'guides' },
-    { url: '/blog/what-is-pmi', title: 'PMI in Mortgages: What It Is and How to Calculate It', category: 'guides' },
+    // NOTE: this title is written straight into generated HTML anchor text, so
+    // the ampersand must stay escaped.
+    { url: '/blog/what-is-pmi', title: 'How Is PMI Calculated? Formula, Cost &amp; Cancellation', category: 'guides' },
     { url: '/blog/amortization-schedule', title: 'What is an Amortization Schedule?', category: 'guides' },
     { url: '/blog/30-vs-15-year', title: '30-Year vs 15-Year Mortgage', category: 'guides' },
   ];

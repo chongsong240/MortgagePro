@@ -149,7 +149,7 @@ const affordabilityConfig: PageConfig = {
       { to: '/mortgage-calculator', label: 'Mortgage Calculator' },
       { to: '/closing-cost-calculator', label: 'Closing Cost Calculator' },
       { to: '/blog/how-much-house-can-i-afford', label: 'How Much House Can I Afford?' },
-      { to: '/blog/income-needed', label: 'Income Needed Guide' },
+      { to: '/blog/income-needed', label: 'Income Needed to Buy a House in 2026' },
     ],
   },
   faqs: [
@@ -309,7 +309,7 @@ const rentVsBuyConfig: PageConfig = {
       { to: '/pmi-calculator', label: 'PMI Calculator' },
       { to: '/blog/rent-vs-buy-2026', label: 'Rent vs Buy in 2026: The Math Most People Get Wrong' },
       { to: '/blog/closing-costs-explained', label: 'Closing Costs Explained' },
-      { to: '/blog/what-is-pmi', label: 'How Is PMI Calculated? What It Costs and How to Cancel It' },
+      { to: '/blog/what-is-pmi', label: 'How Is PMI Calculated? Formula, Cost & Cancellation' },
       { to: '/blog/is-buying-worth-it-2026', label: 'Is Buying a Home Worth It in 2026?' },
     ],
   },
@@ -470,7 +470,7 @@ const pmiConfig: PageConfig = {
     links: [
       { to: '/mortgage-calculator', label: 'Mortgage Calculator' },
       { to: '/affordability-calculator', label: 'Affordability Calculator' },
-      { to: '/blog/what-is-pmi', label: 'What is PMI? Complete Guide' },
+      { to: '/blog/what-is-pmi', label: 'How Is PMI Calculated? Formula, Cost & Cancellation' },
       { to: '/blog/can-i-buy-with-5-percent-down', label: 'Buying with 5% Down' },
     ],
   },

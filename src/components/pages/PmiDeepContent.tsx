@@ -372,7 +372,7 @@ export default function PmiDeepContent() {
           <p className="text-sm text-muted-foreground leading-relaxed">
             Read{' '}
             <Link to="/blog/what-is-pmi" className="text-primary hover:underline font-medium">
-              How Is PMI Calculated? What It Costs and How to Cancel It
+              How Is PMI Calculated? Formula, Cost &amp; Cancellation
             </Link>{' '}
             — our complete PMI guide — or run your exact numbers above with the PMI Calculator and its
             cancellation timeline.

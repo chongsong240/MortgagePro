@@ -474,7 +474,7 @@ export default function MortgageCalculatorDeepContent() {
             and compares borrower-paid, lender-paid, and FHA MIP side by side. For the rules and the
             appraisal shortcut, read{' '}
             <Link to="/blog/what-is-pmi" className="text-primary hover:underline font-medium">
-              How Is PMI Calculated? What It Costs and How to Cancel It
+              How Is PMI Calculated? Formula, Cost &amp; Cancellation
             </Link>
             . And because PMI is only one of the cash costs of buying, price the rest with the{' '}
             <Link to="/closing-cost-calculator" className="text-primary hover:underline font-medium">
