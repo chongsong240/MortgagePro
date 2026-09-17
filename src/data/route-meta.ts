@@ -12,125 +12,135 @@ export interface RouteMeta {
 
 export const SITE_URL = 'https://www.mortgagepro.io';
 
+/**
+ * Robots directive shared by every indexable route.
+ *
+ * `max-image-preview:large` lets Google show full-width thumbnails and
+ * `max-snippet:-1` removes the snippet length cap — both are free CTR
+ * wins in the SERP and are ignored by crawlers that don't support them.
+ */
+export const ROBOTS_INDEX_FOLLOW =
+  'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
 export const ROUTE_META: RouteMeta[] = [
   // ---------- Home ----------
   {
     path: '/',
-    title: 'MortgagePro - Free Mortgage Calculator',
-    description: 'Professional-grade US mortgage calculator with interactive sliders, state-specific tax data, amortization schedules, bi-weekly vs monthly comparison, rent vs buy analysis, and FIRE impact calculator.',
+    title: 'MortgagePro | Free Mortgage Calculator + PMI & Taxes',
+    description: 'Free US mortgage calculator with state property-tax data. See your monthly payment, PITI breakdown, amortization schedule and rent vs buy math in seconds.',
   },
   // ---------- Redirect (legacy) ----------
   {
     path: '/calculator',
-    title: 'Mortgage Calculator - Free Online Mortgage Payment Calculator | MortgagePro',
-    description: 'Free mortgage calculator with amortization schedule, PMI, taxes & insurance. Calculate your monthly payment in real time.',
+    title: 'Mortgage Calculator (2026) - Monthly Payment Tool',
+    description: 'Free mortgage calculator with amortization schedule, PMI, taxes and insurance. Estimate your monthly payment and full PITI breakdown in seconds.',
   },
   // ---------- Blog index ----------
   {
     path: '/blog',
-    title: 'Mortgage Blog - Guides, Tips & Resources | MortgagePro',
-    description: 'Expert mortgage guides, affordability tips, and home buying resources. Learn about PMI, amortization, and more.',
+    title: 'Mortgage Guides & Free Calculators | MortgagePro Blog',
+    description: 'Step-by-step mortgage guides on PMI, amortization, DTI, closing costs and rent vs buy — with real numbers, worked examples and free calculators.',
   },
   // ---------- Blog articles ----------
   {
     path: '/blog/how-to-use-calculator',
-    title: "How to Use Our Mortgage Calculator - Step by Step Guide | MortgagePro",
-    description: "Learn how to use MortgagePro's mortgage calculator. Step-by-step guide to calculating your monthly payment.",
+    title: "How to Use a Mortgage Calculator: Step-by-Step Guide",
+    description: "A 6-step walkthrough of every input — home price, down payment, rate, term, taxes and insurance — plus how to read the PITI breakdown and amortization chart.",
   },
   {
     path: '/blog/amortization-schedule',
-    title: "What is an Amortization Schedule? Understanding Your Loan | MortgagePro",
-    description: "Learn what an amortization schedule is and how it affects your mortgage. See how principal and interest change over 30 years.",
+    title: "What Is an Amortization Schedule? Example + 30-Year Table",
+    description: "In month one of a $400,000 loan at 6.5%, only $361 of your payment touches principal. See how a 30-year amortization schedule splits principal and interest.",
   },
   {
     path: '/blog/biweekly-payments',
-    title: "Bi-Weekly Mortgage Payments: Are They Worth It? | MortgagePro",
-    description: "Are bi-weekly mortgage payments worth it? We break down the math on interest savings and faster payoffs.",
+    title: "Bi-Weekly Mortgage Payments: Worth It in 2026? The Math",
+    description: "Bi-weekly payments add one extra payment a year and cut years off a 30-year loan. See the real interest savings, the servicer traps, and who it actually fits.",
   },
   {
     path: '/blog/what-is-pmi',
-    title: "How Is PMI Calculated? What It Costs and How to Cancel It | MortgagePro",
-    description: "PMI on a $350,000 loan costs $145–$438/month — and it doesn't protect you, only the lender. Here's the exact formula, when it auto-cancels at 78% LTV, and the $450 appraisal trick that can end it years early.",
+    title: "How Is PMI Calculated? Formula, Cost & Cancellation",
+    description: "PMI runs 0.5%-1.5% of your loan a year: about $145-$438/month on a $350,000 loan. See the formula, the 78% LTV auto-cancel rule, and how to remove it early.",
   },
   {
     path: '/blog/30-vs-15-year',
-    title: "30-Year vs 15-Year Mortgage: More Than Just Time | MortgagePro",
-    description: "Compare 30-year vs 15-year mortgages. See the total cost difference and which loan type fits your financial goals.",
+    title: "30-Year vs 15-Year Mortgage: Which Saves More in 2026?",
+    description: "A 15-year loan saves six figures of interest but costs hundreds more every month. Compare payments, total cost and payoff timelines side by side.",
   },
   {
     path: '/blog/how-much-house-can-i-afford',
-    title: "How Much House Can I Afford? Complete Affordability Guide | MortgagePro",
-    description: "Calculate how much house you can afford based on your income, down payment, and debt. Complete guide with real examples.",
+    title: "How Much House Can I Afford? The 28/36 Rule Explained",
+    description: "Lenders size your loan with the 28/36 rule: housing under 28% of gross income, all debts under 36%. See your maximum price by income, down payment and state.",
   },
   {
     path: '/blog/monthly-payment-breakdown',
-    title: "Mortgage Monthly Payment Breakdown - PITI Explained | MortgagePro",
-    description: "Understand your monthly mortgage payment breakdown: Principal, Interest, Taxes, and Insurance (PITI).",
+    title: "Mortgage Payment Breakdown: PITI Explained With Numbers",
+    description: "Your payment is principal, interest, taxes and insurance — and PITI is often 30% higher than the loan payment alone. See a line-by-line example you can copy.",
   },
   {
     path: '/blog/income-needed',
-    title: "Income Needed to Buy a House in 2026 | MortgagePro",
-    description: "How much income do you need to buy a house in 2026? State-by-state income requirements based on median home prices.",
+    title: "Income Needed to Buy a House in 2026 (State by State)",
+    description: "How much income you need to qualify in 2026, state by state — based on median home prices, the 28% rule, property taxes and insurance. Find your number.",
   },
   {
     path: '/blog/why-mostly-interest',
-    title: "Why Are My Mortgage Payments Mostly Interest? | MortgagePro",
-    description: "Why most of your early mortgage payments go to interest. Understand front-loaded interest and how amortization works.",
+    title: "Why Your Early Mortgage Payments Are Mostly Interest",
+    description: "In his first six months my friend Rob paid over $15,000 and his balance fell by less than $3,000. See why interest is front-loaded and how to shift the split.",
   },
   {
     path: '/blog/pay-off-early',
-    title: "Should You Pay Off Your Mortgage Early? | MortgagePro",
-    description: "Should you pay off your mortgage early or invest the money? We analyze the pros, cons, and math behind each strategy.",
+    title: "Pay Off Your Mortgage Early or Invest? How to Decide",
+    description: "Paying off a 6.5% mortgage is a guaranteed 6.5% return — investing may beat it, or not. Compare both paths plus the liquidity and tax trade-offs.",
   },
   {
     path: '/blog/fha-vs-conventional',
-    title: "FHA vs Conventional Loan: Which Is Better? | MortgagePro",
-    description: "Compare FHA vs conventional loans. See the pros, cons, and costs of each mortgage type for first-time home buyers.",
+    title: "FHA vs Conventional Loan: Which Costs Less in 2026?",
+    description: "FHA allows lower credit scores but adds mortgage insurance for the life of the loan. Compare rates, MIP vs PMI, down payments and 10-year total cost.",
   },
   {
     path: '/blog/is-buying-worth-it-2026',
-    title: "Is Buying a Home Worth It in 2026? | MortgagePro",
-    description: "Is buying a home still worth it in 2026? We analyze current market conditions, interest rates, and rent vs buy math.",
+    title: "Is Buying a Home Worth It in 2026? The Break-Even Math",
+    description: "How long you must stay to beat renting, what closing costs do to your break-even year, and the cases where buying still wins in 2026. Run the numbers.",
   },
   {
     path: '/blog/can-i-buy-with-5-percent-down',
-    title: "Can I Buy a House with 5% Down? Complete Guide | MortgagePro",
-    description: "Can you buy a house with only 5% down? Learn about low down payment options, PMI costs, and strategies to buy sooner.",
+    title: "Can I Buy a House With 5% Down? Costs and Trade-Offs",
+    description: "A 5% down payment gets you in sooner but adds PMI and a bigger loan. See the real monthly cost on a $400,000 home and which programs allow it.",
   },
   {
     path: '/blog/credit-score-needed',
-    title: "What Credit Score Do You Need to Buy a House? | MortgagePro",
-    description: "What credit score do you need to buy a house in 2026? Minimum requirements for FHA, conventional, and USDA loans.",
+    title: "What Credit Score Do You Need to Buy a House in 2026?",
+    description: "Minimum credit scores: 580 for FHA, 620 for conventional, 700+ for the best rates. See how each tier changes your rate and monthly payment in 2026.",
   },
   {
     path: '/blog/when-should-you-refinance',
-    title: "When Should You Refinance Your Home Loan? | MortgagePro",
-    description: "My friend Kevin refinanced his mortgage twice in three years. My cousin Lisa almost did but it would have cost her thousands. Here's how to know which camp you're in.",
+    title: "When Should You Refinance? The Break-Even Rule",
+    description: "Refinancing pays off when monthly savings outrun the closing costs. See how to compute your break-even month and the 1% rate-drop rule of thumb.",
   },
   {
     path: '/blog/closing-costs-explained',
-    title: "Closing Costs Explained: The $12,000 Surprise Most Buyers Don't See Coming | MortgagePro",
-    description: "My neighbors thought they had the numbers figured out. A week before closing, they needed $12,000 more than planned. Here's every closing cost itemized — and how to avoid the same shock.",
+    title: "Closing Costs Explained: What You Pay Beyond the Down Payment",
+    description: "Closing costs run 2%-5% of the purchase price — $8,000-$20,000 on a $400,000 home. See every line item and which fees you can negotiate down.",
   },
   {
     path: '/blog/rent-vs-buy-2026',
-    title: "Rent vs Buy in 2026: The Math Most People Get Wrong | MortgagePro",
-    description: "My neighbors have been renting 4 years. Baby due in September. They ran the numbers — the answer surprised them. Here's the full rent vs buy breakdown with real 2026 data.",
+    title: "Rent vs Buy in 2026: The Math Most People Get Wrong",
+    description: "Buying is not automatically cheaper than renting. Compare the 5-year net-worth math: closing costs, equity, appreciation and what your down payment could earn.",
   },
   {
     path: '/blog/arm-vs-fixed-arm',
-    title: "ARM vs Fixed Mortgage: Which One Makes Sense Right Now? | MortgagePro",
-    description: "My friend Dave had two loan estimates on the same house. His agent told him fixed. His brother-in-law said ARM. Here's how he decided in five minutes.",
+    title: "ARM vs Fixed Mortgage in 2026: Which Should You Pick?",
+    description: "A 5/1 ARM starts lower but resets after five years. Compare ARM vs fixed monthly payments, the break-even horizon and who actually comes out ahead.",
   },
   {
     path: '/blog/property-taxes-and-insurance',
-    title: "How Much Are Property Taxes and Insurance on a Mortgage? | MortgagePro",
-    description: "My brother-in-law Chris thought his mortgage payment was $2,528. Then his Loan Estimate arrived. Here's why property taxes and insurance add hundreds to your monthly payment.",
+    title: "Property Taxes and Insurance: The Hidden Mortgage Cost",
+    description: "Taxes and insurance can add 25% or more to your monthly payment. See average rates by state, how escrow works and how to estimate your real number.",
   },
   {
     path: '/blog/debt-to-income-ratio',
-    title: "What Is a Good Debt-to-Income Ratio for Buying a House? | MortgagePro",
-    description: "My friend makes $100,000 a year and got pre-approved for $340,000 — way less than he expected. Here's the DTI math that explains why two people with the same salary get wildly different loan offers.",
+    title: "What Is a Good Debt-to-Income Ratio for a Mortgage?",
+    description: "Most lenders cap DTI at 43%-50%, but 36% or lower earns the best terms. See how car, student and card payments shrink the loan you qualify for.",
   },
   // ---------- Other pages ----------
   {
@@ -140,7 +150,7 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/contact',
-    title: 'Contact Us | MortgagePro',
+    title: 'Contact MortgagePro | Questions & Feedback',
     description: 'Contact MortgagePro. Reach out with questions, bug reports, or suggestions for our mortgage calculators and content.',
   },
   {
@@ -160,7 +170,7 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/disclaimer',
-    title: 'Disclaimer | MortgagePro',
+    title: 'Disclaimer | MortgagePro Calculator Estimates',
     description: 'MortgagePro disclaimer. Our calculators provide estimates for informational purposes only.',
   },
   {

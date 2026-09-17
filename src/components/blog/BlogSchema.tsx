@@ -13,6 +13,15 @@ interface BlogSchemaProps {
 }
 
 /**
+ * Date the whole blog cluster was last edited (internal-link graph, meta
+ * titles and descriptions were reworked in one pass). Articles that don't
+ * pass their own `dateModified` inherit it, so the Article schema carries a
+ * real "modified" signal instead of echoing `datePublished` — which is what
+ * makes Google recrawl and refresh the SERP snippet.
+ */
+const BLOG_LAST_MODIFIED = '2026-09-17';
+
+/**
  * Renders Article + optional FAQPage schema.org JSON-LD as a STATIC
  * <script> tag in the page body. Because the tag is part of the server
  * rendered / prerendered HTML, crawlers (Googlebot, AdSense review) can
@@ -26,7 +35,7 @@ export default function BlogSchema({ title, description, datePublished, dateModi
       headline: title,
       description,
       datePublished,
-      dateModified: dateModified ?? datePublished,
+      dateModified: dateModified ?? BLOG_LAST_MODIFIED,
       url,
       author: {
         '@type': 'Person',

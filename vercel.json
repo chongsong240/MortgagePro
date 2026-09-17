@@ -4,6 +4,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/calculator",
+      "destination": "/mortgage-calculator",
+      "permanent": true
+    },
+    {
       "source": "/affiliate-disclosure.html",
       "destination": "/disclaimer",
       "permanent": true

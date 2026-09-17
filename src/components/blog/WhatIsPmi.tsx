@@ -18,7 +18,7 @@ export default function WhatIsPmi() {
   return (
     <article className="max-w-3xl mx-auto py-8 px-4">
       <BlogSchema
-        title="PMI in Mortgages: What It Is and How to Get Rid of It"
+        title="How Is PMI Calculated? (And How to Get Rid of It)"
         description="If you're putting down less than 20%, you're paying for something that doesn't protect you. Here's exactly how to cancel PMI and save thousands."
         datePublished="2026-05-22"
         url="https://www.mortgagepro.io/blog/what-is-pmi"
@@ -39,11 +39,11 @@ export default function WhatIsPmi() {
           <span>8 min read</span>
         </div>
         <h1 className="text-4xl font-bold tracking-tight text-foreground mb-4 leading-tight">
-          PMI in Mortgages: What It Is and How to Get Rid of It
+          How Is PMI Calculated? (And How to Get Rid of It)
         </h1>
         <p className="text-xl text-muted-foreground leading-relaxed">
-          If you're putting down less than 20%, you're paying for something that doesn't protect you. 
-          Here's exactly how to cancel it—and save thousands.
+          PMI is calculated as 0.5%–1.5% of your original loan amount per year — and it protects the lender,
+          not you. Here's the exact formula, when it drops off, and how to cancel it early.
         </p>
       </div>
 
@@ -66,7 +66,7 @@ export default function WhatIsPmi() {
           </a>
           <a href="#section-3" onClick={(e) => scrollToSection(e, 'section-3')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
-            3. The Real Cost, in Real Numbers
+            3. How PMI Is Calculated: The Real Cost in Numbers
           </a>
           <a href="#section-4" onClick={(e) => scrollToSection(e, 'section-4')} className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors">
             <ChevronRight className="w-3.5 h-3.5" />
@@ -184,7 +184,7 @@ export default function WhatIsPmi() {
 
       {/* Section 3 - Real Cost */}
       <section id="section-3" className="mb-12 scroll-mt-20">
-        <h2 className="text-2xl font-bold text-foreground mb-4">3. The Real Cost, in Real Numbers</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">3. How PMI Is Calculated: The Real Cost in Numbers</h2>
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
             PMI typically runs <strong>0.5% to 1.5%</strong> of your original loan amount per year. Where you 

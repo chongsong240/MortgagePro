@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { SITE_URL } from '@/src/data/route-meta';
+import { SITE_URL, ROBOTS_INDEX_FOLLOW } from '@/src/data/route-meta';
 
 
 export interface FAQ {
@@ -31,6 +31,12 @@ export interface PageConfig {
   /** Optional <title>/og:title override, so a page can keep a clean on-page H1 while the SERP title targets a query. */
   metaTitle?: string;
   description: string;
+  /**
+   * Optional meta-description override. `description` doubles as the on-page
+   * intro paragraph, so it is often longer than the ~155 characters Google
+   * renders in the SERP; set this when the two need to differ.
+   */
+  metaDescription?: string;
   quickAnswer?: string;
   howToUse: {
     intro: string;
@@ -125,20 +131,28 @@ export default function CalculatorPageLayout({
 }) {
   const location = useLocation();
   const canonical = `${SITE_URL}${location.pathname === '/' ? '/' : location.pathname}`;
+  const pageTitle = `${config.metaTitle ?? config.title} | MortgagePro`;
+  // Prefer the SERP-tuned override: `description` is also the visible intro
+  // paragraph and is frequently longer than Google's ~155-char snippet.
+  const metaDescription = config.metaDescription ?? config.description;
 
   return (
     <div className="space-y-8">
       {/* SEO: unique title + meta description + social tags for every calculator page */}
       <Helmet>
-        <title>{`${config.metaTitle ?? config.title} | MortgagePro`}</title>
-        <meta name="description" content={config.description} />
+        <title>{pageTitle}</title>
+        <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonical} />
-        <meta property="og:title" content={`${config.metaTitle ?? config.title} | MortgagePro`} />
-        <meta property="og:description" content={config.description} />
+        {/* Explicit index signal + large image preview / uncapped snippet,
+            which is what Google needs to show a full-width thumbnail. */}
+        <meta name="robots" content={ROBOTS_INDEX_FOLLOW} />
+        <meta name="googlebot" content={ROBOTS_INDEX_FOLLOW} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonical} />
         <meta property="og:type" content="website" />
-        <meta name="twitter:title" content={`${config.metaTitle ?? config.title} | MortgagePro`} />
-        <meta name="twitter:description" content={config.description} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
       </Helmet>
 
       {/* Structured data: HowTo + FAQPage mirror the on-page steps and FAQ Q&A */}

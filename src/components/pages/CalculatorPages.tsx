@@ -20,7 +20,8 @@ import ArmVsFixedCalculator from '@/src/components/calculators/ArmVsFixedCalcula
 // ============================================================
 const mortgageCalcConfig: PageConfig = {
   title: 'Mortgage Calculator',
-  metaTitle: 'Mortgage Calculator With PMI, Taxes & Insurance (2026)',
+  metaTitle: 'Mortgage Calculator With PMI, Taxes & Insurance',
+  metaDescription: 'See your monthly payment with PMI, property taxes and insurance using real-time sliders — plus the PITI breakdown and a 30-year amortization schedule.',
   description: 'Calculate your monthly mortgage payment with PMI, property taxes, and insurance. Real-time sliders for home price, down payment, interest rate, and loan term — plus a full PITI breakdown, PMI cost tables, and an amortization schedule.',
   howToUse: {
     intro: 'Adjust the four main sliders to explore different home prices, down payments, interest rates, and loan terms. The results update instantly — you\'ll see your total monthly payment, a PITI breakdown, and an interactive amortization chart.',
@@ -99,6 +100,7 @@ export function MortgageCalculatorPage() {
 // ============================================================
 const affordabilityConfig: PageConfig = {
   title: 'Home Affordability Calculator',
+  metaDescription: 'How much house can you afford? Enter income, debts and down payment to see your maximum price under the 28/36 rule — with state property-tax estimates.',
   description: 'How much house can you afford? Based on your income, debts, down payment, and location, this calculator uses the 28/36 rule to determine your maximum home price.',
   howToUse: {
     intro: 'Enter your annual income, monthly debts, and down payment. The calculator uses the 28/36 lending rule to find your maximum affordable home price. Results update instantly as you adjust any input.',
@@ -176,6 +178,7 @@ export function AffordabilityCalculatorPage() {
 // ============================================================
 const biweeklyConfig: PageConfig = {
   title: 'Bi-Weekly Mortgage Payment Calculator',
+  metaDescription: 'See what bi-weekly payments really save: one extra principal payment a year, less interest and an earlier payoff. Monthly vs bi-weekly, side by side.',
   description: 'Compare standard monthly payments against an accelerated bi-weekly schedule. See how much interest you can save and how many years you can shave off your 30-year loan.',
   howToUse: {
     intro: 'Enter your mortgage details on the left, then compare the standard monthly payment side-by-side with the bi-weekly accelerated plan. The results show the exact interest savings and years shaved off.',
@@ -251,6 +254,8 @@ export function BiWeeklyCalculatorPage() {
 // ============================================================
 const rentVsBuyConfig: PageConfig = {
   title: 'Rent vs Buy Calculator: Is Buying Worth It in Your City? (2026)',
+  metaTitle: 'Rent vs Buy Calculator (2026): Break-Even Year',
+  metaDescription: 'Compare the 5-year net-worth math: rent vs buy with closing costs, selling costs, PMI and what your down payment could earn invested instead.',
   description: 'Rent vs buy calculator that compares net worth instead of monthly payments. Enter your rent, home price, and how long you will stay to get the exact year buying pulls ahead — including closing costs, selling costs, PMI, and what your down payment could earn invested.',
   quickAnswer: "Renting is not always throwing money away, and buying is not always the smarter move. This calculator compares net worth rather than spending: a buyer gets home equity minus what it costs to sell, while a renter keeps the down payment and closing costs invested. On the defaults — a $400,000 home, 20% down at 6.5%, and $2,400/month rent — buying pulls ahead in year 4. Drop rent to $1,800 and it takes 15 years; at $1,500 with no appreciation, buying never catches up.",
   howToUse: {
@@ -338,6 +343,7 @@ export function RentVsBuyCalculatorPage() {
 // ============================================================
 const fireConfig: PageConfig = {
   title: 'FIRE Impact Calculator',
+  metaDescription: 'See how buying a home moves your FIRE date: model the down payment, mortgage payment and investing the difference against your target net worth.',
   description: 'Thinking about Financial Independence or Early Retirement? See how buying a home could delay — or accelerate — your FIRE timeline based on your savings rate and investment strategy.',
   howToUse: {
     intro: 'Enter your current investments, annual savings, and expenses. Then compare two scenarios: renting vs buying. The calculator shows how many years each scenario pushes your FIRE date.',
@@ -415,6 +421,8 @@ export function FIRECalculatorPage() {
 // ============================================================
 const pmiConfig: PageConfig = {
   title: 'PMI Calculator: Monthly Cost + Exact Cancellation Date (2026)',
+  metaTitle: 'PMI Calculator (2026): Monthly Cost & Cancel',
+  metaDescription: 'PMI on a $300,000 loan with 10% down costs about $125-$375 a month. Get your exact cost, the month it cancels, and the total you pay before it ends.',
   description: '10% down on a $300,000 loan adds roughly $125–$375/month in PMI. Use our free calculator to see your exact cost, when PMI cancels, and the total you’ll pay before it ends — free, instant, no sign-up.',
   quickAnswer: 'PMI typically costs 0.5%–1.5% of your loan per year. On a $300,000 mortgage that’s $125–$375/month added to your payment — money that protects the lender, not you. Enter your loan details below to see your exact monthly PMI, your cancellation date, and how much you’ll pay in total.',
   howToUse: {
@@ -497,6 +505,7 @@ export function PmiCalculatorPage() {
 // ============================================================
 const refinanceConfig: PageConfig = {
   title: 'Refinance Calculator',
+  metaDescription: 'Compare your current loan against a refinance: monthly savings, closing costs, break-even month and lifetime interest difference, on one screen.',
   description: 'Compare your current mortgage against a refinance. Calculate monthly savings, break-even point, and lifetime interest difference to decide if refinancing makes sense.',
   howToUse: {
     intro: 'Enter your current loan details (balance, rate, months remaining) and the proposed refinance terms (new rate, new term, closing costs). The calculator shows you monthly savings, break-even timeline, and lifetime interest difference.',
@@ -572,6 +581,8 @@ export function RefinanceCalculatorPage() {
 // ============================================================
 const closingCostConfig: PageConfig = {
   title: 'Closing Cost Calculator: How Much Cash Do You Really Need? (2026)',
+  metaTitle: 'Closing Cost Calculator: Cash You Need to Close',
+  metaDescription: 'Closing costs run $8,000-$20,000 on a $400,000 home. Get a state-specific, itemized estimate of the cash you need at closing in about 30 seconds.',
   description: 'Closing costs catch most first-time buyers off guard. On a $400,000 home that’s $8,000–$20,000 on top of your down payment. Get a free state-specific, itemized breakdown in 30 seconds.',
   quickAnswer: 'Closing costs are separate from your down payment — and most first-time buyers underestimate them. On a $400,000 home, expect $8,000–$20,000 in fees including loan origination, title insurance, appraisal, and prepaid taxes. The exact amount varies by state. Use the calculator below for a full itemized estimate.',
   howToUse: {

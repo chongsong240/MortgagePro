@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { findRouteMeta, SITE_URL } from '@/src/data/route-meta';
+import { findRouteMeta, SITE_URL, ROBOTS_INDEX_FOLLOW } from '@/src/data/route-meta';
 
 /**
  * Global SEO manager for non-calculator routes.
@@ -23,6 +23,11 @@ export default function RouteMetaManager() {
     <Helmet>
       <title>{meta.title}</title>
       <meta name="description" content={meta.description} />
+      {/* Explicit index signal + large image previews / unlimited snippet
+          length, so Google can render a full-width thumbnail and a longer
+          description for these pages (higher CTR than the default snippet). */}
+      <meta name="robots" content={ROBOTS_INDEX_FOLLOW} />
+      <meta name="googlebot" content={ROBOTS_INDEX_FOLLOW} />
       <link rel="canonical" href={canonical} />
       <meta property="og:title" content={meta.title} />
       <meta property="og:description" content={meta.description} />

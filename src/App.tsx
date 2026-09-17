@@ -1144,7 +1144,7 @@ function BlogStub() {
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold tracking-tight mb-4">Financial Insights</h1>
+        <h1 className="text-4xl font-bold tracking-tight mb-4">Mortgage Guides & Home Buying Resources</h1>
         <p className="text-xl text-muted-foreground">Expert strategies and guides to navigate the US real estate market.</p>
       </div>
       

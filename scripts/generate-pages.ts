@@ -8,6 +8,18 @@ import { fileURLToPath } from 'url';
 
 const SITE_URL = 'https://www.mortgagepro.io';
 const SITE_NAME = 'MortgagePro';
+
+/**
+ * Robots directive for every generated hub / state / amount page.
+ *
+ * `max-image-preview:large` + `max-snippet:-1` are the two directives Google
+ * uses to render a full-width thumbnail and a longer snippet — they raise CTR
+ * without changing ranking, and are simply ignored by other crawlers.
+ * Keep in sync with ROBOTS_INDEX_FOLLOW in src/data/route-meta.ts.
+ */
+const ROBOTS_INDEX_FOLLOW =
+  'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const OUTPUT_DIR = path.resolve(__dirname, '..', 'dist');
@@ -581,11 +593,18 @@ function generateStateFAQ(stateName: string, _code: string, taxRate: number, ins
 // 4f. HTML template - State pages (enhanced)
 // ============================================================
 
-function generateStateMetaTitle(stateName: string): string {
-  if (stateName === 'Utah') {
-    return `Utah Mortgage Calculator: Estimate Your Payment with Taxes & Insurance (2026)`;
-  }
-  return `${stateName} Mortgage Calculator (2026) | Monthly Payment & Home Affordability`;
+/**
+ * SERP title for a state page.
+ *
+ * Leads with "<State> Mortgage Payment" (the phrase people actually search —
+ * "mortgage calculator" belongs to /mortgage-calculator) and puts the real
+ * monthly cost in the title, which is the strongest CTR lever we have here.
+ * "District of Columbia" is rendered as "Washington DC": shorter, and what
+ * searchers type. Whole string stays inside Google's ~60-char limit.
+ */
+function generateStateMetaTitle(stateName: string, monthly: number): string {
+  const label = stateName === 'District of Columbia' ? 'Washington DC' : stateName;
+  return `${label} Mortgage Payment (2026): ${fmtCurrency(monthly)}/mo Median Home`;
 }
 
 function generateUtahSpotlightHtml(p: PurchaseExampleResult, taxRate: number, insurance: number): string {
@@ -618,11 +637,17 @@ function generateUtahSpotlightHtml(p: PurchaseExampleResult, taxRate: number, in
 }
 
 function generateStateMetaDescription(stateName: string, medianPrice: number, monthly: number, taxRate: number): string {
-  // Utah gets a custom description: big concrete numbers + its standout low tax rate + local city differentiation.
+  // Utah keeps a custom description: its standout low property-tax rate plus
+  // the city-level price spread are what make the page different.
   if (stateName === 'Utah') {
     return `Utah's ${fmtCurrency(medianPrice)} median home costs ${fmtCurrency(monthly)}/mo at 6.5% with 20% down. Property tax is just ${fmtPct(taxRate)}%, but prices vary widely in Salt Lake City, Provo, and Ogden.`;
   }
-  return `Calculate your monthly mortgage payment in ${stateName} for 2026. See the breakdown of principal, interest, property taxes (state-specific rate), and insurance. Based on a median home price of ${fmtCurrency(medianPrice)} with 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo.`;
+  // Front-load the two numbers searchers scan for (median price → monthly
+  // payment) and stop before Google's ~155-character snippet cap so the
+  // sentence never gets cut mid-thought. "District of Columbia" is shortened
+  // to "Washington DC" so the longest state names still fit.
+  const label = stateName === 'District of Columbia' ? 'Washington DC' : stateName;
+  return `${label} median home: ${fmtCurrency(medianPrice)} → ${fmtCurrency(monthly)}/mo at 6.5% with 20% down, taxes and insurance included. See the income you need to qualify.`;
 }
 
 function generateRecommendedReadingHtml(articles: { url: string; title: string }[]): string {
@@ -970,8 +995,8 @@ ${faqs
     byPayment.reduce((s, r) => s + r.monthly, 0) / byPayment.length
   );
 
-  const hubTitle = `Mortgage Payment by State (2026): All 50 States + DC | ${SITE_NAME}`;
-  const hubDescription = `What a median-priced home costs per month in every state — median price, property taxes, insurance and the income needed to qualify. Payments run from ${fmtCurrency(cheapest.monthly)} to ${fmtCurrency(priciest.monthly)} a month.`;
+  const hubTitle = `Mortgage Payment by State (2026): All 50 States + DC`;
+  const hubDescription = `What a median-priced home costs per month in all 50 states: median price, taxes, insurance and the income needed to qualify — from ${fmtCurrency(cheapest.monthly)} to ${fmtCurrency(priciest.monthly)} a month.`;
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -983,7 +1008,7 @@ ${faqs
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <meta name="description" content="${hubDescription}">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="${ROBOTS_INDEX_FOLLOW}">
   <meta name="theme-color" content="#1e3a8a">
   <link rel="canonical" href="${SITE_URL}${HUB_PATH}">
   <meta property="og:title" content="${hubTitle}">
@@ -1183,11 +1208,11 @@ function generateStateHtml(
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <meta name="description" content="${generateStateMetaDescription(stateName, medianPrice, data.totalMonthly, taxRate)}">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="${ROBOTS_INDEX_FOLLOW}">
   <meta name="theme-color" content="#1e3a8a">
   <link rel="canonical" href="${SITE_URL}/mortgage-payment/${stateSlug}">
 
-  <title>${generateStateMetaTitle(stateName)}</title>
+  <title>${generateStateMetaTitle(stateName, data.totalMonthly)}</title>
 
   <script type="application/ld+json">
   ${faqSchema}
@@ -1487,12 +1512,21 @@ ${amortRows}
 // 5a. Content generation - Amount pages (ENHANCED)
 // ============================================================
 
-function generateMetaTitle(amount: number): string {
-  return `$${fmtNumber(amount)} Mortgage Calculator (2026) | Monthly Payment & Home Affordability`;
+/**
+ * Amount-page metadata. Title leads with the price point and its real monthly
+ * cost (the click trigger) instead of "Mortgage Calculator", which belongs to
+ * /mortgage-calculator — that also removes the overlap between the 14 amount
+ * pages and the main calculator page in the SERP.
+ */
+function generateMetaTitle(amount: number, monthly: number): string {
+  return `$${fmtNumber(amount)} Mortgage Payment (2026): ${fmtCurrency(monthly)}/mo`;
 }
 
 function generateMetaDescription(amount: number, monthly: number): string {
-  return `Calculate your monthly mortgage payment on a $${fmtNumber(amount)} house for 2026. With 20% down at 6.5% APR, the estimated payment is ${fmtCurrency(monthly)}/mo including principal, interest, taxes & insurance. Full PITI breakdown and amortization schedule.`;
+  // "An $800,000 home" — the only price point in the ladder that starts with a
+  // vowel sound, so the article has to agree.
+  const article = String(amount).startsWith('8') ? 'An' : 'A';
+  return `${article} $${fmtNumber(amount)} home costs about ${fmtCurrency(monthly)}/mo at 6.5% with 20% down, taxes and insurance included. See the PITI breakdown and income needed.`;
 }
 
 function generateAmountFaq(amount: number, data: MortgageData, downPct: number): { q: string; a: string }[] {
@@ -1591,9 +1625,9 @@ function generateAmountHtml(amount: number, slug: string): string {
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <meta name="description" content="${generateMetaDescription(amount, data.totalMonthly)}">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="${ROBOTS_INDEX_FOLLOW}">
   <link rel="canonical" href="${SITE_URL}/mortgage-payment/${slug}">
-  <title>${generateMetaTitle(amount)}</title>
+  <title>${generateMetaTitle(amount, data.totalMonthly)}</title>
 
   <script type="application/ld+json">
   {
@@ -2010,40 +2044,81 @@ function dirLastmod(relDir: string): string {
   return BUILD_LASTMOD;
 }
 
+/** Newest of several ISO (YYYY-MM-DD) dates, so a page can depend on several sources. */
+function newestDate(dates: string[]): string {
+  return dates.reduce((a, b) => (a > b ? a : b), '');
+}
+
 // Which source files define the content of each hand-built route.
+//
+// CalculatorPages.tsx is included on every calculator route because that is
+// where each page's <title>, meta description and FAQ live: editing the SERP
+// metadata must bump the page's <lastmod>, otherwise re-submitting the sitemap
+// wouldn't flag those URLs as changed.
 const PAGE_SOURCES: Record<string, string[]> = {
   '': ['index.html', 'src/App.tsx', 'src/components/pages/CalculatorPages.tsx'],
   'mortgage-calculator': [
     'src/components/calculators/StandardCalculator.tsx',
     'src/components/pages/MortgageCalculatorDeepContent.tsx',
+    'src/components/pages/CalculatorPages.tsx',
   ],
-  'affordability-calculator': ['src/components/calculators/AffordabilityCalculator.tsx'],
-  'biweekly-mortgage-calculator': ['src/components/calculators/BiWeeklyCalculator.tsx'],
+  'affordability-calculator': [
+    'src/components/calculators/AffordabilityCalculator.tsx',
+    'src/components/pages/CalculatorPages.tsx',
+  ],
+  'biweekly-mortgage-calculator': [
+    'src/components/calculators/BiWeeklyCalculator.tsx',
+    'src/components/pages/CalculatorPages.tsx',
+  ],
   'rent-vs-buy-calculator': [
     'src/components/calculators/RentVsBuyCalculator.tsx',
     'src/components/pages/RentVsBuyDeepContent.tsx',
+    'src/components/pages/CalculatorPages.tsx',
   ],
-  'fire-impact-calculator': ['src/components/calculators/FIRECalculator.tsx'],
+  'fire-impact-calculator': [
+    'src/components/calculators/FIRECalculator.tsx',
+    'src/components/pages/CalculatorPages.tsx',
+  ],
   'pmi-calculator': [
     'src/components/calculators/PmiCalculator.tsx',
     'src/components/pages/PmiDeepContent.tsx',
+    'src/components/pages/CalculatorPages.tsx',
   ],
-  'refinance-calculator': ['src/components/calculators/RefinanceCalculator.tsx'],
+  'refinance-calculator': [
+    'src/components/calculators/RefinanceCalculator.tsx',
+    'src/components/pages/CalculatorPages.tsx',
+  ],
   'closing-cost-calculator': [
     'src/components/calculators/ClosingCostCalculator.tsx',
     'src/components/pages/ClosingCostDeepContent.tsx',
+    'src/components/pages/CalculatorPages.tsx',
   ],
-  'extra-payment-calculator': ['src/components/calculators/ExtraPaymentCalculator.tsx'],
-  'arm-vs-fixed-calculator': ['src/components/calculators/ArmVsFixedCalculator.tsx'],
+  'extra-payment-calculator': [
+    'src/components/calculators/ExtraPaymentCalculator.tsx',
+    'src/components/pages/CalculatorPages.tsx',
+  ],
+  'arm-vs-fixed-calculator': [
+    'src/components/calculators/ArmVsFixedCalculator.tsx',
+    'src/components/pages/CalculatorPages.tsx',
+  ],
   'calculator-methodology': ['src/components/pages/CalculatorMethodologyPage.tsx'],
   'editorial-policy': ['src/components/pages/EditorialPolicyPage.tsx'],
   contact: ['src/components/pages/ContactPage.tsx'],
 };
 
 // Routes with no dedicated source file (about, blog index, legal pages)
-const SITE_LAST_MOD = fileLastmod(['src/components/pages/CalculatorPages.tsx', 'src/lib/mortgage.ts']);
-// Blog article content lives in src/components/blog/*
-const BLOG_LAST_MOD = dirLastmod('src/components/blog');
+const SITE_LAST_MOD = fileLastmod([
+  'src/components/pages/CalculatorPages.tsx',
+  'src/lib/mortgage.ts',
+  'src/data/route-meta.ts',
+]);
+// Blog article content lives in src/components/blog/*, but the SERP title and
+// meta description of every post live in src/data/route-meta.ts — so the blog
+// cluster's lastmod tracks both.
+const BLOG_LAST_MOD = newestDate([
+  dirLastmod('src/components/blog'),
+  fileLastmod(['src/data/route-meta.ts']),
+]);
 
 // ============================================================
 // 5c. Sitemap generator
@@ -2187,8 +2262,16 @@ function main() {
   }
 
   // ---------- SPA route pages ----------
+  // NOTE: every path below is also in ROUTES in scripts/prerender.tsx, and the
+  // prerenderer rewrites the <title>/description/canonical of those files from
+  // the app's <Helmet> (i.e. from src/data/route-meta.ts) right after this
+  // script runs. The values here are therefore only the pre-prerender
+  // fallback — keep them roughly in sync, but route-meta.ts is the source of
+  // truth for anything a crawler ends up seeing. The one exception is
+  // 'calculator': that legacy path is not prerendered, so its metadata below
+  // is what actually ships.
   const spaEntries: SPAEntry[] = [
-    { path: 'calculator', title: 'Mortgage Calculator - Free Online Mortgage Payment Calculator | MortgagePro', description: 'Free mortgage calculator with amortization schedule, PMI, taxes & insurance. Calculate your monthly payment in real time.', priority: 0.9 },
+    { path: 'calculator', title: 'Mortgage Calculator (2026) - Monthly Payment Tool | MortgagePro', description: 'Free mortgage calculator with amortization schedule, PMI, taxes and insurance. Estimate your monthly payment and full PITI breakdown in seconds.', priority: 0.9 },
     { path: 'mortgage-calculator', title: 'Mortgage Calculator With PMI, Taxes & Insurance (2026) | MortgagePro', description: 'Calculate your monthly mortgage payment with PMI, property taxes, and insurance. Real-time sliders for home price, down payment, interest rate, and loan term — plus a full PITI breakdown and an amortization schedule.', priority: 0.9 },
     { path: 'affordability-calculator', title: 'Mortgage Affordability Calculator - How Much House Can I Afford? | MortgagePro', description: 'Calculate how much house you can afford based on your income, debt, down payment, and state-specific taxes.', priority: 0.9 },
     { path: 'biweekly-mortgage-calculator', title: 'Bi-Weekly Mortgage Payment Calculator | MortgagePro', description: 'See how much you can save with bi-weekly mortgage payments. Compare standard vs accelerated payment plans.', priority: 0.9 },
