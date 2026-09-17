@@ -40,7 +40,7 @@ export default function BlogSchema({ title, description, datePublished, dateModi
       author: {
         '@type': 'Person',
         name: 'Chong Song',
-        url: 'https://www.mortgagepro.io/about',
+        url: 'https://www.mortgagepro.io/author',
       },
       publisher: {
         '@type': 'Organization',

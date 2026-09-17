@@ -2105,6 +2105,7 @@ const PAGE_SOURCES: Record<string, string[]> = {
   ],
   'calculator-methodology': ['src/components/pages/CalculatorMethodologyPage.tsx'],
   'editorial-policy': ['src/components/pages/EditorialPolicyPage.tsx'],
+  author: ['src/components/pages/AuthorPage.tsx'],
   contact: ['src/components/pages/ContactPage.tsx'],
 };
 
@@ -2156,6 +2157,7 @@ function generateSitemap(): string {
   page('/extra-payment-calculator', 0.9, 'weekly');
   page('/arm-vs-fixed-calculator', 0.9, 'weekly');
   page('/blog', 0.8, 'weekly');
+  page('/author', 0.6, 'monthly');
   page('/about', 0.5, 'monthly');
   page('/contact', 0.5, 'monthly');
   page('/editorial-policy', 0.5, 'monthly');
@@ -2305,6 +2307,7 @@ function main() {
     { path: 'blog/arm-vs-fixed-arm', title: 'ARM vs Fixed Mortgage: Which One Makes Sense Right Now? | MortgagePro', description: 'My friend Dave had two loan estimates on the same house. His agent told him fixed. His brother-in-law said ARM. Here\'s how he decided in five minutes.', priority: 0.8 },
     { path: 'blog/property-taxes-and-insurance', title: 'How Much Are Property Taxes and Insurance on a Mortgage? | MortgagePro', description: 'My brother-in-law Chris thought his mortgage payment was $2,528. Then his Loan Estimate arrived. Here\'s why property taxes and insurance add hundreds to your monthly payment.', priority: 0.8 },
     { path: 'blog/debt-to-income-ratio', title: 'What Is a Good Debt-to-Income Ratio for Buying a House? | MortgagePro', description: 'My friend makes $100,000 a year and got pre-approved for $340,000 — way less than he expected. Here\'s the DTI math that explains why two people with the same salary get wildly different loan offers.', priority: 0.8 },
+    { path: 'author', title: 'Chong Song — Author &amp; Founder | MortgagePro', description: 'Chong Song researches mortgage costs and builds the free first-time-buyer calculators on MortgagePro.io. See the sources, methodology and contact details.', priority: 0.6 },
     { path: 'about', title: 'About MortgagePro - Free Mortgage Calculators & Resources', description: 'Learn about MortgagePro. We provide free mortgage calculators, educational resources, and state-specific data for home buyers.', priority: 0.5 },
     { path: 'contact', title: 'Contact Us | MortgagePro', description: 'Contact MortgagePro. Reach out with questions, bug reports, or suggestions for our mortgage calculators and content.', priority: 0.5 },
     { path: 'editorial-policy', title: 'Editorial Policy | MortgagePro', description: 'MortgagePro editorial policy. Learn how we create, review, and maintain accurate, trustworthy mortgage content.', priority: 0.5 },

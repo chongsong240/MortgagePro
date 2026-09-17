@@ -144,6 +144,11 @@ export const ROUTE_META: RouteMeta[] = [
   },
   // ---------- Other pages ----------
   {
+    path: '/author',
+    title: 'Chong Song — Author & Founder | MortgagePro',
+    description: 'Chong Song researches mortgage costs and builds the free first-time-buyer calculators on MortgagePro.io. See the sources, methodology and contact details.',
+  },
+  {
     path: '/about',
     title: 'About MortgagePro - Free Mortgage Calculators & Resources',
     description: 'Learn about MortgagePro. We provide free mortgage calculators, educational resources, and state-specific data for home buyers.',

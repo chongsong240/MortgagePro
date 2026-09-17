@@ -24,6 +24,7 @@ import ContactPage from '@/src/components/pages/ContactPage';
 import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
 import CalculatorMethodologyPage from '@/src/components/pages/CalculatorMethodologyPage';
 import RouteMetaManager from '@/src/components/pages/RouteMetaManager';
+import AuthorPage from '@/src/components/pages/AuthorPage';
 import NotFoundPage from '@/src/components/pages/NotFoundPage';
 import {
   MortgageCalculatorPage,
@@ -156,7 +157,7 @@ function Navigation() {
   const linksAfter = [
     { name: 'Blog', path: '/blog', icon: BookOpen },
     { name: 'About', path: '/about', icon: Info },
-    { name: 'Affiliate Disclosure', path: '/affiliate-disclosure.html', icon: ShieldAlert },
+    { name: 'Disclosure', path: '/disclaimer', icon: ShieldAlert },
   ];
 
   const closeMobile = () => setIsOpen(false);
@@ -281,6 +282,7 @@ function Footer() {
             <h3 className="font-semibold text-foreground mb-3 text-sm">Trust & Legal</h3>
             <div className="flex flex-col gap-2 text-sm">
               <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</Link>
+              <Link to="/author" className="text-muted-foreground hover:text-foreground transition-colors">Author</Link>
               <Link to="/editorial-policy" className="text-muted-foreground hover:text-foreground transition-colors">Editorial Policy</Link>
               <Link to="/calculator-methodology" className="text-muted-foreground hover:text-foreground transition-colors">Calculator Methodology</Link>
               <Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link>
@@ -292,8 +294,7 @@ function Footer() {
             <h3 className="font-semibold text-foreground mb-3 text-sm">Legal</h3>
             <div className="flex flex-col gap-2 text-sm">
               <Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
-              <Link to="/disclaimer" className="text-muted-foreground hover:text-foreground transition-colors">Disclaimer</Link>
-              <Link to="/affiliate-disclosure.html" className="text-muted-foreground hover:text-foreground transition-colors">Affiliate Disclosure</Link>
+              <Link to="/disclaimer" className="text-muted-foreground hover:text-foreground transition-colors">Disclosure &amp; Disclaimer</Link>
             </div>
             <div className="flex items-center gap-2 mt-4 text-muted-foreground">
               <ShieldAlert className="w-4 h-4" />
@@ -822,14 +823,15 @@ function PrivacyPage() {
     <div className="max-w-3xl mx-auto py-12 px-4">
       <h1 className="text-4xl font-bold tracking-tight mb-6">Privacy Policy</h1>
       <div className="text-muted-foreground space-y-6 leading-relaxed">
-        <p><strong>Last updated:</strong> August 30, 2026</p>
+        <p><strong>Last updated:</strong> September 17, 2026</p>
 
         <h2 className="text-xl font-semibold text-foreground mt-6">1. Information We Collect</h2>
-        <p>MortgagePro does not require user registration and does not collect personal information such as your name, email address, or phone number.</p>
-        <p>We may collect anonymous usage data through:</p>
+        <p>MortgagePro does not require user registration and does not collect personal information such as your name, email address, or phone number. We do not ask for your income, debts, or any other figure you type into a calculator.</p>
+        <p>We and our third-party providers collect limited, mostly anonymous usage data through:</p>
         <ul className="list-disc pl-6 space-y-1">
-          <li>Cookies and similar tracking technologies (e.g., Google Analytics, AdSense cookies)</li>
-          <li>Anonymous aggregate data about page views and user interactions</li>
+          <li>Cookies and similar technologies used for analytics (Google Analytics 4) and advertising (Google AdSense)</li>
+          <li>Aggregate data about page views, approximate location (country/region level), device type, and referral source</li>
+          <li>Information you send us voluntarily, such as the contents of an email to <strong>hello@mortgagepro.io</strong></li>
         </ul>
 
         <h3 className="text-lg font-semibold text-foreground mt-4">Important Note on Financial Data</h3>
@@ -846,32 +848,94 @@ function PrivacyPage() {
         </ul>
 
         <h2 className="text-xl font-semibold text-foreground mt-6">3. Third-Party Services</h2>
-        <p>We use the following third-party services that may collect data:</p>
+        <p>We use the following third-party services. Each may receive limited technical data (such as your IP address, browser type, and the page requested) when you load a page on this site:</p>
         <ul className="list-disc pl-6 space-y-1">
-          <li><strong>Google AdSense</strong> — Serves personalized ads based on your browsing history. See <a href="https://policies.google.com/technologies/ads" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google's Advertising Privacy Policy</a>.</li>
-          <li><strong>Cloudflare</strong> — Provides CDN and security services.</li>
-          <li><strong>GitHub Pages</strong> — Hosting provider.</li>
+          <li><strong>Vercel</strong> — Hosting provider and content delivery network for MortgagePro.io. See <a href="https://vercel.com/legal/privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Vercel's Privacy Policy</a>.</li>
+          <li><strong>NameSilo / dnsowl</strong> — Domain name registration and DNS resolution. See <a href="https://www.namesilo.com/legal/privacy-policy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">NameSilo's Privacy Policy</a>.</li>
+          <li><strong>Google AdSense</strong> — Serves the advertisements on this site. See <a href="https://policies.google.com/technologies/ads" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google's Advertising Privacy Policy</a> and section 6 below.</li>
+          <li><strong>Google Analytics 4</strong> — Aggregate traffic measurement (pages viewed, country, device type, referring site). See <a href="https://policies.google.com/privacy" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>.</li>
         </ul>
+        <p>We use Google Analytics 4 to measure traffic, and for nothing else. Ad personalization signals and Google signals are switched off in our configuration, and every optional data-sharing setting is disabled in our Google Analytics account. As a result, Analytics data is not used for Google's product improvement, advertising personalization, or business-recommendation features, and we do not use it to build advertising audiences. This statement applies to Analytics only — the advertising cookies described in section 6 are separate, and section 7 explains how to opt out of personalized advertising.</p>
+        <p>We do not transfer your information to any other third party, and we never sell it. Sections 7 and 8 explain how to limit advertising and analytics cookies.</p>
 
         <h2 className="text-xl font-semibold text-foreground mt-6">4. Affiliate Relationships</h2>
-        <p>Some links on MortgagePro.io are affiliate links. This means we may earn a commission if you click the link and take a qualifying action, such as applying for a loan or subscribing to a service. These commissions help support the operation of this website at no additional cost to you. For more details, please see our <Link to="/affiliate-disclosure.html" className="text-primary hover:underline">Affiliate Disclosure</Link>.</p>
+        <p>Some links on MortgagePro.io are affiliate links. This means we may earn a commission if you click the link and take a qualifying action, such as applying for a loan or subscribing to a service. These commissions help support the operation of this website at no additional cost to you, and they never influence our editorial content. For more details, please see our <Link to="/disclaimer" className="text-primary hover:underline">Disclosure &amp; Disclaimer</Link>.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">5. Cookies</h2>
-        <p>You can control cookie preferences through your browser settings. Disabling cookies may affect the functionality of certain website features.</p>
+        <h2 className="text-xl font-semibold text-foreground mt-6">5. Cookies and Similar Technologies</h2>
+        <p>Cookies are small text files stored on your device. MortgagePro uses three kinds:</p>
+        <ul className="list-disc pl-6 space-y-1">
+          <li><strong>Essential cookies</strong> — required for the site to load and function correctly. These are always active.</li>
+          <li><strong>Analytics cookies</strong> — Google Analytics 4, used to count visits and understand which pages are useful. Data is aggregated; we do not use it to identify you, and it is never used for advertising (see section 3).</li>
+          <li><strong>Advertising cookies</strong> — set by Google AdSense and its partners to select and measure ads, as described in section 6.</li>
+        </ul>
+        <p>You can block or delete cookies at any time in your browser settings, and you can opt out of personalized advertising as described in section 7. Blocking cookies does not affect the calculators — every calculation runs locally in your browser.</p>
+        <p>If you are visiting from the European Economic Area, the United Kingdom, or Switzerland, non-essential cookies (analytics and advertising) are only used after you grant consent through the consent notice shown on the site.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">6. Do Not Track Signals</h2>
-        <p>Our website does not respond to Do Not Track (DNT) signals. However, you can control the use of cookies through your browser settings as described above.</p>
+        <h2 className="text-xl font-semibold text-foreground mt-6">6. Third-Party Advertising and Cookies</h2>
+        <p>
+          We use Google AdSense to display advertisements on our website. Google, as a third-party vendor, uses cookies to serve ads based on your prior visits to our website and other websites on the internet.
+        </p>
+        <p>
+          Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to our site and/or other sites on the internet. These cookies include, but are not limited to, the DoubleClick DART cookie.
+        </p>
+        <p>
+          You may opt out of the use of the DART cookie, and of personalized advertising generally, by visiting the Google Ads Settings page at{' '}
+          <a href="https://adssettings.google.com/authenticated" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://adssettings.google.com/authenticated</a>.
+          Google's practices are described in the{' '}
+          <a href="https://policies.google.com/technologies/ads" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">Google Advertising Privacy Policy</a>{' '}
+          and the{' '}
+          <a href="https://policies.google.com/technologies/partner-sites" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">How Google uses information from sites that use its services</a>{' '}
+          page.
+        </p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">7. Children's Privacy</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">7. Your Advertising Choices</h2>
+        <p>You can manage or opt out of personalized advertising from Google by visiting the Google Ads Settings page:</p>
+        <p>
+          <a href="https://adssettings.google.com/authenticated" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://adssettings.google.com/authenticated</a>
+        </p>
+        <p>You can also opt out of third-party vendor cookies used for interest-based advertising by visiting:</p>
+        <p>
+          <a href="https://www.aboutads.info/choices/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">https://www.aboutads.info/choices/</a>
+        </p>
+        <p>Even if you opt out of personalized advertising, you may still see ads on our site — they will simply be less relevant to your interests.</p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">8. Data Sharing and Sale</h2>
+        <p><strong>We do not sell, rent, or trade your personal information to third parties.</strong> We may share limited data with service providers (such as Google AdSense and Google Analytics) strictly for the purpose of operating, measuring, and improving our website, as described in this policy. We may also disclose information if we are legally required to do so.</p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">9. Your Rights Under GDPR (EEA / UK Visitors)</h2>
+        <p>If you are located in the European Economic Area (EEA) or the United Kingdom, you have the right to:</p>
+        <ul className="list-disc pl-6 space-y-1">
+          <li>Access the personal data we hold about you</li>
+          <li>Request correction or deletion of your personal data</li>
+          <li>Object to or restrict our processing of your data</li>
+          <li>Request data portability</li>
+          <li>Withdraw consent at any time</li>
+        </ul>
+        <p>Our legal bases for processing are your consent (analytics and advertising cookies), our legitimate interest in operating and improving a free website, and compliance with legal obligations. Where data is processed by Google in the United States, the transfer relies on the safeguards described in Google's privacy documentation, including standard contractual clauses. To exercise any of these rights, contact us at <strong>hello@mortgagepro.io</strong>. You also have the right to lodge a complaint with your national data protection authority.</p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">10. Your Rights Under CCPA (California Residents)</h2>
+        <p>If you are a California resident, you have the right to:</p>
+        <ul className="list-disc pl-6 space-y-1">
+          <li>Know what personal information we collect and how it is used</li>
+          <li>Request deletion of your personal information</li>
+          <li>Opt out of the sale or sharing of personal information</li>
+          <li>Not be discriminated against for exercising these rights</li>
+        </ul>
+        <p><strong>We do not sell your personal information.</strong> We do not knowingly share personal information for cross-context behavioral advertising on our own behalf; advertising cookies on this site are set by Google, and you can opt out using the links in section 7. To exercise your CCPA rights, contact us at <strong>hello@mortgagepro.io</strong>; we will verify and respond within 45 days.</p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">11. Do Not Track Signals</h2>
+        <p>Our website does not respond to Do Not Track (DNT) signals. However, you can control the use of cookies through your browser settings, and you can opt out of personalized advertising using the links in section 7.</p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">12. Children's Privacy</h2>
         <p>MortgagePro is not directed to children under the age of 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">8. Data Security</h2>
-        <p>We implement industry-standard security measures to protect any data collected. However, no method of transmission over the Internet is 100% secure.</p>
+        <h2 className="text-xl font-semibold text-foreground mt-6">13. Data Security</h2>
+        <p>We implement industry-standard security measures to protect any data collected, and the site is served over HTTPS. However, no method of transmission over the Internet is 100% secure.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">9. Changes to This Policy</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">14. Changes to This Policy</h2>
         <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
 
-        <h2 className="text-xl font-semibold text-foreground mt-6">10. Contact</h2>
+        <h2 className="text-xl font-semibold text-foreground mt-6">15. Contact</h2>
         <p>For questions about this privacy policy, contact us at <strong>hello@mortgagepro.io</strong>.</p>
       </div>
     </div>
@@ -883,7 +947,7 @@ function DisclaimerPage() {
     <div className="max-w-3xl mx-auto py-12 px-4">
       <h1 className="text-4xl font-bold tracking-tight mb-6">Disclaimer</h1>
       <div className="text-muted-foreground space-y-6 leading-relaxed">
-        <p><strong>Last updated:</strong> May 11, 2026</p>
+        <p><strong>Last updated:</strong> September 17, 2026</p>
 
         <h2 className="text-xl font-semibold text-foreground mt-6">Not Financial Advice</h2>
         <p>
@@ -901,6 +965,17 @@ function DisclaimerPage() {
         </p>
         <p>
           We strongly recommend consulting with a qualified mortgage professional, tax advisor, or financial planner for personalized advice tailored to your specific circumstances.
+        </p>
+
+        <h2 className="text-xl font-semibold text-foreground mt-6">Affiliate &amp; Advertising Disclosure</h2>
+        <p>
+          Some links on this website are affiliate links. If you click one and take a qualifying action — such as applying for a loan or subscribing to a service — we may earn a commission at no additional cost to you. Affiliate relationships never influence our editorial content, rankings, or recommendations.
+        </p>
+        <p>
+          We also display advertisements served by Google AdSense. Ad selection is controlled by Google and is not influenced by our editorial team, and advertisements are always distinguishable from editorial content. Our <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link> explains how advertising cookies work and how to opt out of personalized advertising.
+        </p>
+        <p>
+          MortgagePro does not sell leads, and the figures you type into a calculator never leave your browser.
         </p>
 
         <h2 className="text-xl font-semibold text-foreground mt-6">Tax Advice Disclaimer</h2>
@@ -1245,6 +1320,7 @@ export function AppRoutes() {
             <Route path="/blog/debt-to-income-ratio" element={<DebtToIncomeRatio />} />
 
             {/* Other pages */}
+            <Route path="/author" element={<AuthorPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />

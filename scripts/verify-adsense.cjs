@@ -15,7 +15,7 @@ const routes = [
   'blog/index.html', 'blog/how-to-use-calculator/index.html',
   'blog/amortization-schedule/index.html', 'blog/what-is-pmi/index.html',
   'blog/debt-to-income-ratio/index.html', 'blog/property-taxes-and-insurance/index.html',
-  'about/index.html', 'contact/index.html', 'editorial-policy/index.html',
+  'author/index.html', 'about/index.html', 'contact/index.html', 'editorial-policy/index.html',
   'calculator-methodology/index.html', 'privacy/index.html', 'disclaimer/index.html',
 ];
 

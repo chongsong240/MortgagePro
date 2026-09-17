@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, BookOpen } from 'lucide-react';
+import ArticleByline from './ArticleByline';
 
 /**
  * Curated topical internal links between blog posts.
@@ -195,41 +196,48 @@ const RELATED: Record<string, string[]> = {
 };
 
 /**
- * Renders the "Related Reading" section for the current blog route.
- * Returns null on routes without a curated list.
+ * Renders the author byline (always) plus the "Related Reading" section for the
+ * current blog route. The byline lives here on purpose: this is the only
+ * component every article renders at the bottom of its body, so a single edit
+ * gives all 20 posts a visible author — no per-file churn in the content.
  */
 export default function RelatedPosts() {
   const { pathname } = useLocation();
   const current = pathname.replace(/\/+$/, '') || '/';
   const paths = RELATED[current];
-  if (!paths || paths.length === 0) return null;
 
   return (
-    <div className="mt-10 pt-8 border-t border-border">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="bg-primary/10 rounded-lg w-9 h-9 flex items-center justify-center shrink-0">
-          <BookOpen className="w-5 h-5 text-primary" />
+    <>
+      <ArticleByline />
+
+      {paths && paths.length > 0 && (
+        <div className="mt-10 pt-8 border-t border-border">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="bg-primary/10 rounded-lg w-9 h-9 flex items-center justify-center shrink-0">
+              <BookOpen className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-foreground">Related Reading</h2>
+              <p className="text-sm text-muted-foreground">
+                Guides that pick up where this one leaves off.
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {paths.map((to) => (
+              <Link
+                key={to}
+                to={to}
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border text-sm font-medium text-foreground hover:border-primary/40 hover:bg-primary/5 transition-colors duration-200"
+              >
+                <ArrowRight className="w-3.5 h-3.5 text-primary" />
+                <span className="group-hover:text-primary transition-colors">{LABELS[to] ?? to}</span>
+              </Link>
+            ))}
+          </div>
         </div>
-        <div>
-          <h2 className="text-xl font-bold text-foreground">Related Reading</h2>
-          <p className="text-sm text-muted-foreground">
-            Guides that pick up where this one leaves off.
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        {paths.map((to) => (
-          <Link
-            key={to}
-            to={to}
-            className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border text-sm font-medium text-foreground hover:border-primary/40 hover:bg-primary/5 transition-colors duration-200"
-          >
-            <ArrowRight className="w-3.5 h-3.5 text-primary" />
-            <span className="group-hover:text-primary transition-colors">{LABELS[to] ?? to}</span>
-          </Link>
-        ))}
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

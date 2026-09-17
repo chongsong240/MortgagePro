@@ -6,3 +6,12 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Local SEO / verification scaffolding — never part of the site
+log-*.txt
+verify-*.txt
+verify-*.ps1
+run-verify.ps1
+findings-*.txt
+git-check.txt
+commit-msg.txt

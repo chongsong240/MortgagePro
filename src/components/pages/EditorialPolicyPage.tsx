@@ -133,7 +133,7 @@ export default function EditorialPolicyPage() {
             the cost of operating this website and keeping all tools free for users. Ad selection is managed
             by Google and is not influenced by our editorial team. We clearly distinguish advertisements from
             editorial content at all times. For more details, see our{' '}
-            <Link to="/affiliate-disclosure.html" className="text-primary underline font-medium">Affiliate Disclosure</Link>.
+            <Link to="/disclaimer" className="text-primary underline font-medium">Disclosure &amp; Disclaimer</Link>.
           </p>
         </div>
 

@@ -64,6 +64,7 @@ const ROUTES: string[] = [
   '/blog/rent-vs-buy-2026',
   '/blog/property-taxes-and-insurance',
   '/blog/debt-to-income-ratio',
+  '/author',
   '/about',
   '/contact',
   '/editorial-policy',

@@ -3,6 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Analytics 4 with Consent Mode v2 defaults.
+         Visitors in the EEA, UK and Switzerland start with analytics and
+         advertising storage DENIED until they grant consent through the
+         on-site consent notice, which is what section 5 of /privacy promises.
+         Outside that region the defaults do not apply, so US measurement works
+         normally. Loader first, then the config that queues onto dataLayer. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TYG62FCNB0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH']
+      });
+      gtag('js', new Date());
+      // Analytics-only config. Google signals and ad-personalization signals are
+      // disabled at request level, not just left to the account UI: this keeps
+      // GA4 data out of ads personalization and Google's own product features,
+      // which is what section 3 of /privacy states in writing.
+      gtag('config', 'G-TYG62FCNB0', {
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false
+      });
+    </script>
+
     <title>MortgagePro - Free Mortgage Calculator</title>
     <meta name="description" content="Professional-grade US mortgage calculator with interactive sliders, state-specific tax data, amortization schedules, bi-weekly vs monthly comparison, rent vs buy analysis, and FIRE impact calculator." />
     <meta name="keywords" content="mortgage calculator, home loan calculator, amortization schedule, bi-weekly mortgage, rent vs buy, FIRE calculator, monthly payment calculator, US mortgage" />
@@ -45,7 +74,12 @@
           "@id": "https://www.mortgagepro.io/#organization",
           "name": "MortgagePro",
           "url": "https://www.mortgagepro.io",
-          "email": "hello@mortgagepro.io"
+          "email": "hello@mortgagepro.io",
+          "founder": {
+            "@type": "Person",
+            "name": "Chong Song",
+            "url": "https://www.mortgagepro.io/author"
+          }
         },
         {
           "@type": "WebSite",

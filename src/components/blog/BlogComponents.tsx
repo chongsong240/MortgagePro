@@ -277,7 +277,7 @@ export function AffiliateDisclosure() {
     <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg px-4 py-3 mb-6 text-sm">
       <p className="text-amber-800 dark:text-amber-300 leading-relaxed">
         <strong>Disclosure:</strong> This article contains affiliate links. If you click one and take action, we may earn a commission at no extra cost to you.{' '}
-        <Link to="/affiliate-disclosure.html" className="text-primary underline hover:opacity-80 font-medium">Learn more</Link>
+        <Link to="/disclaimer" className="text-primary underline hover:opacity-80 font-medium">Learn more</Link>
       </p>
     </div>
   );
