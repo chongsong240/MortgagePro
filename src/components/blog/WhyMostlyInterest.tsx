@@ -4,6 +4,7 @@ import { ArrowRight, DollarSign, Percent, Calendar, Home, PieChart, BookOpen, Ca
 import BlogSchema from './BlogSchema';
 import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCTA, StatHighlight, ExampleBox, Checklist, AffiliateDisclosure } from './BlogComponents';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import RelatedPosts from './RelatedPosts';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -490,6 +491,9 @@ export default function WhyMostlyInterest() {
         </div>
       </section>
       <AllCalculatorsGrid />
+
+      {/* Curated topical links between posts - see RelatedPosts.tsx */}
+      <RelatedPosts />
 
     </article>
   );

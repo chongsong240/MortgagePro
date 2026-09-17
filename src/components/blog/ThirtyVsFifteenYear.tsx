@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, ExternalLink, CheckCircle2, XCircle, Scale, Lightbulb, HelpCircle } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import RelatedPosts from './RelatedPosts';
 import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
@@ -496,6 +497,9 @@ export default function ThirtyVsFifteenYear() {
       </section>
 
       <AllCalculatorsGrid />
+
+      {/* Curated topical links between posts - see RelatedPosts.tsx */}
+      <RelatedPosts />
 
       {/* Footer */}
       <div className="border-t border-border pt-8 mt-8">

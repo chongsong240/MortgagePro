@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, TrendingUp, BookOpen, ChevronRight, BarChart3, AlertTriangle, CreditCard, Calculator } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import RelatedPosts from './RelatedPosts';
 import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
@@ -636,6 +637,9 @@ export default function HowMuchHouseCanIAfford() {
       </section>
 
       <AllCalculatorsGrid />
+
+      {/* Curated topical links between posts - see RelatedPosts.tsx */}
+      <RelatedPosts />
 
       {/* Related Articles */}
       <div className="mt-10 pt-8 border-t border-border">

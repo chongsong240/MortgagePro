@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, ExternalLink, Scale, Wallet, FileText, Calculator, AlertTriangle, Info, TrendingUp } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import RelatedPosts from './RelatedPosts';
 import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
@@ -410,6 +411,9 @@ export default function DebtToIncomeRatio() {
       </div>
 
       <AllCalculatorsGrid />
+
+      {/* Curated topical links between posts - see RelatedPosts.tsx */}
+      <RelatedPosts />
 
     </article>
   );

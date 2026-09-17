@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, DollarSign, Percent, Calendar, Shield, BookOpen, Calculator, AlertTriangle, TrendingUp, Home } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import RelatedPosts from './RelatedPosts';
 import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
@@ -388,6 +389,9 @@ export default function FhaVsConventional() {
       </div>
 
       <AllCalculatorsGrid />
+
+      {/* Curated topical links between posts - see RelatedPosts.tsx */}
+      <RelatedPosts />
 
     </article>
   );

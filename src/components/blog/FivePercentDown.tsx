@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Calculator, Shield, Home, DollarSign, AlertTriangle } from 'lucide-react';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import RelatedPosts from './RelatedPosts';
 import { AffiliateDisclosure } from './BlogComponents';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
@@ -430,6 +431,9 @@ export default function FivePercentDown() {
       </section>
 
       <AllCalculatorsGrid />
+
+      {/* Curated topical links between posts - see RelatedPosts.tsx */}
+      <RelatedPosts />
 
       <div className="mt-10 pt-8 border-t border-border">
         <h3 className="text-lg font-semibold text-foreground mb-4">Continue Reading</h3>

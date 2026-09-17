@@ -4,6 +4,7 @@ import { ArrowRight, DollarSign, Home, Shield, LandPlot, BookOpen, Calculator, I
 import { TipBox, WarningBox, InfoBox, AffiliateDisclosure } from './BlogComponents';
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
+import RelatedPosts from './RelatedPosts';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -437,6 +438,9 @@ export default function PropertyTaxesAndInsurance() {
       </div>
 
       <AllCalculatorsGrid />
+
+      {/* Curated topical links between posts - see RelatedPosts.tsx */}
+      <RelatedPosts />
     </article>
   );
 }
