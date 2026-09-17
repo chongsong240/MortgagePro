@@ -54,6 +54,102 @@ const ANNUAL_PMI_RATE = 0.0085;
 const ANNUAL_PMI_RATE_PCT = (ANNUAL_PMI_RATE * 100).toFixed(2); // "0.85"
 
 // ============================================================
+// 1b. Cluster linking (state hub + cross-links)
+// ============================================================
+//
+// WHY THIS EXISTS
+// ---------------
+// The 51 /mortgage-payment/{state} pages and the 14 /mortgage-payment/{amount}
+// pages used to be an orphan cluster: the ONLY way to reach them was the XML
+// sitemap (plus four states mentioned in two blog posts). Google discovered the
+// URLs but never spent crawl budget on them, which is exactly what
+// "Discovered - currently not indexed" means in Search Console.
+//
+// These helpers build the missing internal link graph:
+//   * /mortgage-payment            -> hub page listing every state + amount
+//   * /mortgage-payment/{state}    -> links to 12 nearby (same-region) states
+//   * /mortgage-payment/{amount}   -> links to the states where that price is typical
+//
+// Keep the code in sync with src/data/state_data.json: every code in the JSON
+// must appear in exactly one region below, or the state silently drops out of
+// the "nearby states" module.
+
+const HUB_PATH = '/mortgage-payment';
+
+/** Loan-amount pages ($150K–$800K in $50K steps). Single source of truth. */
+const AMOUNT_LEVELS = [
+  150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 650000, 700000,
+  750000, 800000,
+];
+
+/** Census-style regions, keyed by the two-letter codes used in state_data.json. */
+const STATE_REGIONS: { name: string; codes: string[] }[] = [
+  { name: 'Northeast', codes: ['CT', 'ME', 'MA', 'NH', 'RI', 'VT', 'NJ', 'NY', 'PA'] },
+  { name: 'Midwest', codes: ['IL', 'IN', 'MI', 'OH', 'WI', 'IA', 'KS', 'MN', 'MO', 'NE', 'ND', 'SD'] },
+  { name: 'South', codes: ['DE', 'DC', 'FL', 'GA', 'MD', 'NC', 'SC', 'VA', 'WV', 'AL', 'KY', 'MS', 'TN', 'AR', 'LA', 'OK', 'TX'] },
+  { name: 'West', codes: ['AZ', 'CO', 'ID', 'MT', 'NV', 'NM', 'UT', 'WY', 'AK', 'CA', 'HI', 'OR', 'WA'] },
+];
+
+/** URL slug for a state code — must match the loop that writes the state pages. */
+function stateSlugOf(code: string): string {
+  return STATE_DATA[code].name.toLowerCase().replace(/\s+/g, '-');
+}
+
+function stateUrlOf(code: string): string {
+  return `${SITE_URL}/mortgage-payment/${stateSlugOf(code)}`;
+}
+
+/** Region label for a state code ("West" as a safe fallback). */
+function regionNameOf(code: string): string {
+  const region = STATE_REGIONS.find((r) => r.codes.includes(code));
+  return region ? region.name : 'West';
+}
+
+/** [region, codes] for every state, in region order, cheapest median price first. */
+function statesGroupedByRegion(): { name: string; codes: string[] }[] {
+  return STATE_REGIONS.map((region) => ({
+    name: region.name,
+    codes: region.codes
+      .filter((code) => STATE_DATA[code])
+      .sort((a, b) => (STATE_DATA[a].median_price ?? 0) - (STATE_DATA[b].median_price ?? 0)),
+  }));
+}
+
+/** Same-region states (closest median price first) for the "nearby states" module. */
+function relatedStateCodes(code: string, limit = 12): string[] {
+  const region = STATE_REGIONS.find((r) => r.codes.includes(code));
+  const pool = (region ? region.codes : Object.keys(STATE_DATA)).filter(
+    (c) => c !== code && STATE_DATA[c]
+  );
+  const price = STATE_DATA[code].median_price ?? 0;
+  return pool
+    .slice()
+    .sort(
+      (a, b) =>
+        Math.abs((STATE_DATA[a].median_price ?? 0) - price) -
+        Math.abs((STATE_DATA[b].median_price ?? 0) - price)
+    )
+    .slice(0, limit);
+}
+
+/** States whose median home price is closest to a target price (amount pages). */
+function statesNearPrice(price: number, limit = 6): string[] {
+  return Object.keys(STATE_DATA)
+    .sort(
+      (a, b) =>
+        Math.abs((STATE_DATA[a].median_price ?? 0) - price) -
+        Math.abs((STATE_DATA[b].median_price ?? 0) - price)
+    )
+    .slice(0, limit);
+}
+
+/** Estimated monthly PITI for a price in a state, using the site-standard model. */
+function monthlyPitiIn(code: string, price: number): number {
+  const info = STATE_DATA[code];
+  return calcMortgage(price, info.property_tax_rate, info.avg_insurance).totalMonthly;
+}
+
+// ============================================================
 // 1. Shared helpers
 // ============================================================
 
@@ -558,6 +654,466 @@ function getRecommendedArticles(_isState: boolean): BlogArticle[] {
   ];
 }
 
+/**
+ * "Nearby states" module appended to every state page.
+ *
+ * Before this existed, a state page linked to nothing but the site nav, the
+ * calculators and 5 blog posts — every state page was a dead end. This module
+ * gives each state page 12 real outbound links inside its own cluster and one
+ * link back to the hub, which is what makes the cluster crawlable.
+ */
+function generateRelatedStatesHtml(code: string, stateName: string): string {
+  const related = relatedStateCodes(code, 12);
+  const rows = related.map((c) => {
+    const info = STATE_DATA[c];
+    const median = info.median_price ?? 300000;
+    const m = calcMortgage(median, info.property_tax_rate, info.avg_insurance);
+    return `          <tr>
+            <td><a href="${stateUrlOf(c)}" style="color:#2563eb;font-weight:600;">${info.name}</a></td>
+            <td class="text-right">${fmtCurrency(median)}</td>
+            <td class="text-right">${fmtCurrency(m.totalMonthly)}/mo</td>
+            <td class="text-right">${fmtCurrency(info.avg_insurance)}/yr</td>
+          </tr>`;
+  }).join('\n');
+
+  const regionAvg = Math.round(
+    related.reduce((sum, c) => sum + monthlyPitiIn(c, STATE_DATA[c].median_price ?? 300000), 0) /
+      related.length
+  );
+  const here = monthlyPitiIn(code, STATE_DATA[code].median_price ?? 300000);
+  const comparison =
+    here <= regionAvg
+      ? `<strong>below</strong> the ${regionNameOf(code)} average of ${fmtCurrency(regionAvg)}/month`
+      : `<strong>above</strong> the ${regionNameOf(code)} average of ${fmtCurrency(regionAvg)}/month`;
+
+  return `    <div class="card">
+      <h2>Compare ${stateName} With Nearby States</h2>
+      <p>Buyers relocating within the ${regionNameOf(code)} compare these markets most often. Every figure uses the same model as this page — each state's median home price, 20% down, 6.5% APR on a 30-year fixed loan, plus that state's property tax rate and average insurance premium — so the rows are directly comparable.</p>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>State</th>
+              <th class="text-right">Median Price</th>
+              <th class="text-right">Est. Monthly PITI</th>
+              <th class="text-right">Avg. Insurance</th>
+            </tr>
+          </thead>
+          <tbody>
+${rows}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top: 12px;">At <strong>${fmtCurrency(here)}/month</strong> for ${stateName}'s median home, ${stateName} sits ${comparison} for the states listed here.</p>
+      <p style="margin-top: 8px;"><a href="${SITE_URL}${HUB_PATH}" style="color:#2563eb;font-weight:600;">See mortgage payments for all 50 states + DC →</a></p>
+    </div>`;
+}
+
+/**
+ * "What a $X home costs in other states" module for the 14 amount pages.
+ * Holding the purchase price constant and varying the state is the useful
+ * comparison, and it cross-links the amount cluster into the state cluster.
+ */
+function generateSimilarStatesHtml(amount: number): string {
+  const rows = statesNearPrice(amount, 6)
+    .map((c) => {
+      const info = STATE_DATA[c];
+      return `          <tr>
+            <td><a href="${stateUrlOf(c)}" style="color:#2563eb;font-weight:600;">${info.name}</a></td>
+            <td class="text-right">${fmtCurrency(monthlyPitiIn(c, amount))}/mo</td>
+            <td class="text-right">${fmtPct(info.property_tax_rate)}%</td>
+            <td class="text-right">${fmtCurrency(info.avg_insurance)}/yr</td>
+          </tr>`;
+    })
+    .join('\n');
+
+  return `    <div class="card">
+      <h2>What a $${fmtNumber(amount)} Home Costs in Different States</h2>
+      <p>The purchase price is identical in every row — only state property taxes and average insurance change it. These are the six states where a $${fmtNumber(amount)} price point is closest to the local median, so these are realistic local benchmarks rather than a national average.</p>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>State</th>
+              <th class="text-right">Est. Monthly PITI</th>
+              <th class="text-right">Property Tax</th>
+              <th class="text-right">Avg. Insurance</th>
+            </tr>
+          </thead>
+          <tbody>
+${rows}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top: 12px; font-size: 0.85rem; color: #94a3b8;">Assumes 20% down, 6.5% APR, 30-year fixed. Each state page documents its own tax and insurance assumptions.</p>
+      <p style="margin-top: 8px;"><a href="${SITE_URL}${HUB_PATH}" style="color:#2563eb;font-weight:600;">Browse every state's median payment →</a></p>
+    </div>`;
+}
+
+// ============================================================
+// 4h. State hub page — /mortgage-payment
+// ============================================================
+//
+// The hub is the entry point Google needs: one crawlable page that links to
+// all 51 state pages and all 14 amount pages. It is also a genuinely useful
+// page (every state's median price, payment, tax rate, insurance and required
+// income in one place), which is what earns it internal links from the rest of
+// the site. Before it existed the whole /mortgage-payment cluster was only
+// reachable through the XML sitemap.
+
+const HUB_STYLES = `
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1a1a2e; background: #f8fafc; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+    .site-header { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 16px 0; }
+    .site-header .container { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.5rem; font-weight: 800; color: #1a1a2e; text-decoration: none; }
+    .logo span { color: #2563eb; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover { color: #2563eb; }
+    .hero { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; padding: 48px 0; text-align: center; border-radius: 0 0 24px 24px; }
+    .hero h1 { font-size: 2.1rem; font-weight: 800; margin-bottom: 12px; line-height: 1.2; }
+    .hero p { font-size: 1.05rem; opacity: 0.92; max-width: 720px; margin: 0 auto; }
+    .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); padding: 28px; margin: 24px 0; border: 1px solid #e2e8f0; }
+    .card h2 { font-size: 1.3rem; font-weight: 700; color: #1a1a2e; margin-bottom: 14px; }
+    .card h3 { font-size: 1.02rem; font-weight: 600; color: #1a1a2e; margin-bottom: 6px; }
+    .card p { color: #334155; margin-bottom: 12px; }
+    .card p:last-child { margin-bottom: 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #e2e8f0; color: #64748b; font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; }
+    tr:last-child td { border-bottom: none; }
+    .text-right { text-align: right; }
+    .state-table td:first-child { font-weight: 600; }
+    .stat { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+    .stat .k { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; }
+    .stat .v { font-size: 1.15rem; font-weight: 700; color: #1e3a8a; margin-top: 2px; }
+    .cta-box { background: linear-gradient(135deg, #f0f7ff 0%, #e8f0fe 100%); border: 2px dashed #2563eb; border-radius: 16px; padding: 32px; text-align: center; margin: 32px 0; }
+    .cta-box h3 { font-size: 1.3rem; font-weight: 700; color: #1e3a8a; margin-bottom: 10px; }
+    .cta-box p { color: #475569; margin-bottom: 18px; }
+    .cta-btn { display: inline-block; background: #2563eb; color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.05rem; }
+    .neighbor-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+    .neighbor-links-item { display: inline-block; padding: 10px 18px; background: #f1f5f9; border-radius: 8px; color: #2563eb; text-decoration: none; font-weight: 500; font-size: 0.9rem; }
+    .neighbor-links-item:hover { background: #e2e8f0; }
+    .calc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .calc-grid-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; text-decoration: none; color: inherit; transition: all 0.2s; }
+    .calc-grid-item:hover { background: #f0f7ff; border-color: #93c5fd; }
+    .calc-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+    .calc-name { font-weight: 600; color: #1a1a2e; font-size: 0.95rem; margin-bottom: 2px; }
+    .calc-desc { color: #64748b; font-size: 0.8rem; line-height: 1.4; }
+    .site-footer { background: #1a1a2e; color: #94a3b8; padding: 32px 0; margin-top: 48px; text-align: center; font-size: 0.85rem; }
+    .site-footer a { color: #93c5fd; text-decoration: none; }
+    @media (max-width: 640px) { .hero h1 { font-size: 1.5rem; } .nav-links { display: none; } .card { padding: 20px; } table { font-size: 0.82rem; } th, td { padding: 8px 6px; } .calc-grid { grid-template-columns: 1fr; } }
+`;
+
+/** One fully linked table per region — this is what makes 51 pages crawler-reachable. */
+function hubRegionTablesHtml(): string {
+  return statesGroupedByRegion()
+    .map((region) => {
+      const rows = region.codes
+        .map((code) => {
+          const info = STATE_DATA[code];
+          const median = info.median_price ?? 300000;
+          const m = calcMortgage(median, info.property_tax_rate, info.avg_insurance);
+          return `          <tr>
+            <td><a href="${stateUrlOf(code)}" style="color:#2563eb;">${info.name}</a></td>
+            <td class="text-right">${fmtCurrency(median)}</td>
+            <td class="text-right">${fmtCurrency(m.totalMonthly)}/mo</td>
+            <td class="text-right">${fmtPct(info.property_tax_rate)}%</td>
+            <td class="text-right">${fmtCurrency(info.avg_insurance)}/yr</td>
+            <td class="text-right">${fmtCurrency(m.incomeNeeded)}</td>
+          </tr>`;
+        })
+        .join('\n');
+
+      const avgPiti = Math.round(
+        region.codes.reduce(
+          (sum, c) => sum + monthlyPitiIn(c, STATE_DATA[c].median_price ?? 300000),
+          0
+        ) / region.codes.length
+      );
+
+      return `    <div class="card">
+      <h2>${region.name}: Mortgage Payments by State</h2>
+      <p>${region.codes.length} states, cheapest median home price first. Averaged across these states, the estimated payment on a median home is <strong>${fmtCurrency(avgPiti)}/month</strong>.</p>
+      <div style="overflow-x: auto;">
+        <table class="state-table">
+          <thead>
+            <tr>
+              <th>State</th>
+              <th class="text-right">Median Price</th>
+              <th class="text-right">Est. Monthly PITI</th>
+              <th class="text-right">Property Tax</th>
+              <th class="text-right">Insurance</th>
+              <th class="text-right">Income Needed</th>
+            </tr>
+          </thead>
+          <tbody>
+${rows}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+    })
+    .join('\n\n');
+}
+
+/** States ranked cheapest to most expensive — used by the FAQ block and its schema. */
+function rankedStates(): { code: string; monthly: number }[] {
+  return Object.keys(STATE_DATA)
+    .map((code) => ({ code, monthly: monthlyPitiIn(code, STATE_DATA[code].median_price ?? 300000) }))
+    .sort((a, b) => a.monthly - b.monthly);
+}
+
+/** Hub FAQ copy — every answer is computed from the same dataset as the tables. */
+function hubFaqs(): { q: string; a: string }[] {
+  const byPayment = rankedStates();
+  const cheapest = byPayment[0];
+  const priciest = byPayment[byPayment.length - 1];
+  const cheapestName = STATE_DATA[cheapest.code].name;
+  const priciestName = STATE_DATA[priciest.code].name;
+  const gap = priciest.monthly - cheapest.monthly;
+
+  const byTax = Object.keys(STATE_DATA).sort(
+    (a, b) => STATE_DATA[a].property_tax_rate - STATE_DATA[b].property_tax_rate
+  );
+  const lowTax = STATE_DATA[byTax[0]];
+  const highTax = STATE_DATA[byTax[byTax.length - 1]];
+
+  const byInsurance = Object.keys(STATE_DATA).sort(
+    (a, b) => STATE_DATA[a].avg_insurance - STATE_DATA[b].avg_insurance
+  );
+  const lowIns = STATE_DATA[byInsurance[0]];
+  const highIns = STATE_DATA[byInsurance[byInsurance.length - 1]];
+
+  return [
+    {
+      q: 'Which state has the lowest mortgage payment?',
+      a: `${cheapestName} has the lowest estimated payment of any state we track: <strong>${fmtCurrency(cheapest.monthly)}/month</strong> on its ${fmtCurrency(STATE_DATA[cheapest.code].median_price ?? 0)} median home with 20% down at 6.5% APR. ${priciestName} is the most expensive at <strong>${fmtCurrency(priciest.monthly)}/month</strong> — a difference of ${fmtCurrency(gap)}/month, or roughly ${fmtCurrency(gap * 12)}/year for identical financing terms.`,
+    },
+    {
+      q: 'Which states have the highest and lowest property taxes?',
+      a: `${lowTax.name} has the lowest effective property tax rate in this dataset at <strong>${fmtPct(lowTax.property_tax_rate)}%</strong>, while ${highTax.name} is highest at <strong>${fmtPct(highTax.property_tax_rate)}%</strong>. On the same home price that spread moves the monthly payment by hundreds of dollars, which is why comparing states on sticker price alone is misleading — every table above uses each state's own tax rate and insurance average.`,
+    },
+    {
+      q: 'Where is homeowners insurance the most expensive?',
+      a: `Average annual premiums in this dataset run from <strong>${fmtCurrency(lowIns.avg_insurance)}</strong> in ${lowIns.name} to <strong>${fmtCurrency(highIns.avg_insurance)}</strong> in ${highIns.name}. Insurance is the least predictable line in a mortgage payment because it is repriced every year and varies by county, roof age and claims history — always get a quote for the specific address before committing to a budget.`,
+    },
+    {
+      q: 'How are the payments on this page calculated?',
+      a: `Every row uses one model: the state's median home price, a 20% down payment, and a 6.5% APR 30-year fixed loan. Property tax is the state's effective rate applied to the purchase price, and insurance is the state's average annual premium divided by twelve. "Income needed" applies the 28% front-end debt-to-income rule to the total monthly payment. Below 20% down, PMI is modeled at 0.85% of the loan per year. Full assumptions are documented on our <a href="${SITE_URL}/calculator-methodology" style="color:#2563eb;">calculator methodology page</a>.`,
+    },
+    {
+      q: 'Should I use a state page or the calculator?',
+      a: `Use a state page to see how a typical buyer in that market finances a median-priced home, then open the <a href="${SITE_URL}/mortgage-calculator" style="color:#2563eb;">mortgage calculator</a> with your own price, down payment, rate and term. The state page is the benchmark; the calculator is your number. If affordability is the open question, start with the <a href="${SITE_URL}/affordability-calculator" style="color:#2563eb;">affordability calculator</a>, and if you are weighing renting instead, the <a href="${SITE_URL}/rent-vs-buy-calculator" style="color:#2563eb;">rent vs buy calculator</a> answers that directly.`,
+    },
+  ];
+}
+
+/**
+ * Builds /mortgage-payment — the crawl hub for the whole programmatic cluster.
+ * Links out to all 51 state pages, all 14 amount pages and the hand-built
+ * calculators, so link equity reaches pages that previously had no inbound
+ * internal links at all.
+ */
+function generateStateHubHtml(): string {
+  const faqs = hubFaqs();
+  const faqHtml = faqs
+    .map((f, i) => {
+      const border =
+        i < faqs.length - 1
+          ? 'margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0;'
+          : '';
+      return `      <div style="${border}">
+        <h3>${f.q}</h3>
+        <p>${f.a}</p>
+      </div>`;
+    })
+    .join('\n');
+
+  const faqSchema = `{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+${faqs
+  .map(
+    (f) => `      {
+        "@type": "Question",
+        "name": ${JSON.stringify(f.q)},
+        "acceptedAnswer": { "@type": "Answer", "text": ${JSON.stringify(f.a.replace(/<[^>]+>/g, ''))} }
+      }`
+  )
+  .join(',\n')}
+    ]
+  }`;
+
+  const breadcrumbSchema = `{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "${SITE_URL}/" },
+      { "@type": "ListItem", "position": 2, "name": "Mortgage Payments by State", "item": "${SITE_URL}${HUB_PATH}" }
+    ]
+  }`;
+
+  const byPayment = rankedStates();
+  const cheapest = byPayment[0];
+  const priciest = byPayment[byPayment.length - 1];
+  const cheapestName = STATE_DATA[cheapest.code].name;
+  const priciestName = STATE_DATA[priciest.code].name;
+  const medianOfMedians = Math.round(
+    Object.values(STATE_DATA).reduce((s, d) => s + (d.median_price ?? 0), 0) /
+      Object.keys(STATE_DATA).length
+  );
+  const avgPiti = Math.round(
+    byPayment.reduce((s, r) => s + r.monthly, 0) / byPayment.length
+  );
+
+  const hubTitle = `Mortgage Payment by State (2026): All 50 States + DC | ${SITE_NAME}`;
+  const hubDescription = `What a median-priced home costs per month in every state — median price, property taxes, insurance and the income needed to qualify. Payments run from ${fmtCurrency(cheapest.monthly)} to ${fmtCurrency(priciest.monthly)} a month.`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="description" content="${hubDescription}">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#1e3a8a">
+  <link rel="canonical" href="${SITE_URL}${HUB_PATH}">
+  <meta property="og:title" content="${hubTitle}">
+  <meta property="og:description" content="${hubDescription}">
+  <meta property="og:url" content="${SITE_URL}${HUB_PATH}">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>${hubTitle}</title>
+
+  <script type="application/ld+json">
+  ${faqSchema}
+  </script>
+
+  <script type="application/ld+json">
+  ${breadcrumbSchema}
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4050078688462520"
+     crossorigin="anonymous"></script>
+
+  <style>${HUB_STYLES}  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="${SITE_URL}/" class="logo">Mortgage<span>Pro</span></a>
+      <nav class="nav-links">
+        <a href="${SITE_URL}/">Home</a>
+        <a href="${SITE_URL}/mortgage-calculator">Calculator</a>
+        <a href="${SITE_URL}/blog">Blog</a>
+        <a href="${SITE_URL}/about">About</a>
+        <a href="${SITE_URL}/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Mortgage Payment by State: What a Median Home Costs in 2026</h1>
+      <p>Estimated monthly payments for all 50 states and the District of Columbia, built from each state's median home price, effective property tax rate and average insurance premium — plus the income you would need to qualify.</p>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <div class="card">
+      <h2>How to Read This Page</h2>
+      <p>A median home price is not the same as a typical monthly payment. Two states can have the same sticker price and still land hundreds of dollars apart every month, because property tax rates and insurance premiums differ enormously. This page lines all three numbers up side by side so the comparison is honest.</p>
+      <p>Every figure uses one model: the state's median home price, 20% down, a 6.5% APR 30-year fixed loan, the state's effective property tax rate applied to the purchase price, and the state's average annual homeowners insurance premium. "Income needed" applies the standard 28% front-end debt-to-income rule to the resulting payment.</p>
+      <div class="stat">
+        <div class="k">National median home price (average of states)</div>
+        <div class="v">${fmtCurrency(medianOfMedians)}</div>
+      </div>
+      <div class="stat">
+        <div class="k">Typical monthly payment on a median home</div>
+        <div class="v">${fmtCurrency(avgPiti)}/mo</div>
+      </div>
+      <div class="stat">
+        <div class="k">Lowest to highest monthly payment</div>
+        <div class="v">${fmtCurrency(cheapest.monthly)} — ${fmtCurrency(priciest.monthly)}</div>
+        <div class="k" style="margin-top:4px;text-transform:none;letter-spacing:0;">${cheapestName} to ${priciestName}</div>
+      </div>
+    </div>
+
+${hubRegionTablesHtml()}
+
+    <div class="card">
+      <h2>What Actually Drives the Difference</h2>
+      <p>Three inputs do almost all of the work, and only one of them is the price you see on a listing.</p>
+      <p><strong>Home price</strong> sets the loan amount, so it drives principal and interest. It is also the number buyers negotiate, which makes it the easiest one to change. <strong>Property taxes</strong> are set by state and local assessment rules and are collected with your payment every month through escrow — in high-tax states this line alone can exceed the principal and interest on a smaller loan. <strong>Insurance</strong> is the wild card: it is repriced annually, it is heavily influenced by county-level weather and claims history, and it is the line most likely to change between the estimate you run today and the escrow analysis you get a year from now.</p>
+      <p>Down payment matters too, but differently than most people expect. Moving from 10% down to 20% removes PMI at the site-standard 0.85% of the loan per year and shrinks the loan balance at the same time. On a $400,000 home that is a genuine several-hundred-dollar monthly swing — worth checking with the <a href="${SITE_URL}/pmi-calculator" style="color:#2563eb;">PMI calculator</a> before you assume a smaller down payment is the affordable choice.</p>
+    </div>
+
+    <div class="card">
+      <h2>Shop by Home Price Instead</h2>
+      <p>If you already know your budget, start from the price rather than the state. Each page shows the upfront cash, monthly payment, PMI scenario and a state-by-state comparison for that exact price.</p>
+      <div class="neighbor-links">
+${generateAmountLinksHtml()}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Frequently Asked Questions</h2>
+${faqHtml}
+    </div>
+
+    <div class="cta-box">
+      <h3>Run your own numbers</h3>
+      <p>Enter your price, down payment, rate and term to see your actual PITI breakdown, PMI timeline and amortization schedule.</p>
+      <a href="${SITE_URL}/mortgage-calculator" class="cta-btn">Open the Mortgage Calculator →</a>
+    </div>
+
+    ${generateAllCalculatorsHtml()}
+
+    ${generateRecommendedReadingHtml(getRecommendedArticles(true))}
+
+    <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
+      <p><strong>Disclaimer:</strong> Every payment on this page is an estimate for informational purposes only. Actual payments depend on your credit score, the rate you are quoted, the assessed value of the specific property, its insurance profile, HOA dues and local tax rules. Sources: Zillow Q1 2025 (median home prices), ATTOM 2025 (effective property tax rates), Quadrant Information Services Feb 2025 (insurance premiums). Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color:#93c5fd;">Disclaimer</a>.</p>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>${SITE_NAME} — Free mortgage calculators and educational resources.</p>
+      <p style="margin-top: 4px;">
+        <a href="${SITE_URL}/about">About</a> &middot;
+        <a href="${SITE_URL}/contact">Contact</a> &middot;
+        <a href="${SITE_URL}/editorial-policy">Editorial Policy</a> &middot;
+        <a href="${SITE_URL}/calculator-methodology">Methodology</a> &middot;
+        <a href="${SITE_URL}/privacy">Privacy</a> &middot;
+        <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
+        <a href="${SITE_URL}/disclaimer">Affiliate Disclosure</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>`;
+}
+
+/** Price-point links for the hub (and any future amount-page cross-linking). */
+function generateAmountLinksHtml(): string {
+  return AMOUNT_LEVELS.map(
+    (a) =>
+      `        <a href="${SITE_URL}/mortgage-payment/${a}" class="neighbor-links-item">$${fmtNumber(a)} Home</a>`
+  ).join('\n');
+}
+
 function generateStateFAQSchema(stateName: string, taxRate: number, insurance: number, p: PurchaseExampleResult): string {
   const items = [
     {
@@ -890,6 +1446,8 @@ ${amortRows}
 
     ${faqHtml}
 
+    ${generateRelatedStatesHtml(code, stateName)}
+
     <div class="cta-box">
       <h3>🧮 Try the Interactive Calculator</h3>
       <p>Adjust the down payment, interest rate, or loan term — see how your payment changes in real time.</p>
@@ -916,7 +1474,7 @@ ${amortRows}
         <a href="${SITE_URL}/calculator-methodology">Methodology</a> &middot;
         <a href="${SITE_URL}/privacy">Privacy</a> &middot;
         <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
-        <a href="${SITE_URL}/affiliate-disclosure.html">Affiliate Disclosure</a>
+        <a href="${SITE_URL}/disclaimer">Affiliate Disclosure</a>
       </p>
     </div>
   </footer>
@@ -979,6 +1537,9 @@ function generateAmountHtml(amount: number, slug: string): string {
 
   const category = amount <= 250000 ? 'entry-level' : amount <= 450000 ? 'mid-range' : amount <= 650000 ? 'upper-mid-range' : 'premium';
   const categoryLabel = category.charAt(0).toUpperCase() + category.slice(1);
+  // The amount-page stylesheet names the lowest tier ".tier-affordable", so the
+  // badge class cannot simply reuse the display label ("Entry-Level").
+  const categoryClass = category === 'entry-level' ? 'affordable' : category;
   const downPct = 20;
   const downAmount = Math.round(amount * (downPct / 100));
   const loanAmount = amount - downAmount;
@@ -1000,13 +1561,25 @@ function generateAmountHtml(amount: number, slug: string): string {
     </div>`;
   }).join('\n');
 
-  // Neighboring amount links for internal linking
-  const allAmounts = [150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 650000, 700000, 750000, 800000];
+  // Neighboring amount links. A symmetric ±2 window instead of
+  // prev/current/next: the edge price points ($150k / $800k) previously
+  // rendered a two-chip widget, so the amounts that most needed inbound
+  // cluster links were the ones getting the fewest.
+  const allAmounts = AMOUNT_LEVELS;
   const idx = allAmounts.indexOf(amount);
-  const neighborLinks: string[] = [];
-  if (idx > 0) neighborLinks.push(`<a href="${SITE_URL}/mortgage-payment/${allAmounts[idx - 1]}/" class="neighbor-links-item">$${fmtNumber(allAmounts[idx - 1])} House</a>`);
-  neighborLinks.push(`<a href="${SITE_URL}/mortgage-payment/${allAmounts[idx]}/" class="neighbor-links-item" style="background:#2563eb;color:white;">$${fmtNumber(allAmounts[idx])}</a>`);
-  if (idx < allAmounts.length - 1) neighborLinks.push(`<a href="${SITE_URL}/mortgage-payment/${allAmounts[idx + 1]}/" class="neighbor-links-item">$${fmtNumber(allAmounts[idx + 1])} House</a>`);
+  const winFrom = Math.max(0, Math.min(idx - 2, allAmounts.length - 5));
+  const ladder = allAmounts.slice(winFrom, winFrom + 5);
+  const neighborLinks = ladder.map((a) =>
+    a === amount
+      // Current price point is a chip, not a link — a self-link is dead
+      // weight in the crawl graph.
+      ? `<span class="neighbor-links-item is-current">$${fmtNumber(a)}</span>`
+      : `<a href="${SITE_URL}/mortgage-payment/${a}" class="neighbor-links-item">$${fmtNumber(a)} House</a>`
+  );
+
+  // Cross-link this price point into the state cluster. Without this the
+  // amount pages were a closed loop: 14 pages linking only to each other.
+  const similarStatesHtml = generateSimilarStatesHtml(amount);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -1103,6 +1676,8 @@ function generateAmountHtml(amount: number, slug: string): string {
     .neighbor-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
     .neighbor-links-item { display: inline-block; padding: 10px 20px; background: #f1f5f9; border-radius: 8px; color: #2563eb; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: all 0.2s; }
     .neighbor-links-item:hover { background: #e2e8f0; }
+    .neighbor-links-item.is-current { background: #2563eb; color: #fff; cursor: default; }
+    .neighbor-links-item.is-current:hover { background: #2563eb; }
 
     .tier-affordable { background: #dcfce7; color: #166534; display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
     .tier-mid-range { background: #dbeafe; color: #1e40af; display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
@@ -1142,7 +1717,7 @@ function generateAmountHtml(amount: number, slug: string): string {
   <main class="container">
 
     <div class="card">
-      <h2>Monthly Payment on a $${fmtNumber(amount)} Home <span class="tier-${category}">${categoryLabel}</span></h2>
+      <h2>Monthly Payment on a $${fmtNumber(amount)} Home <span class="tier-${categoryClass}">${categoryLabel}</span></h2>
       <p>A <strong>$${fmtNumber(amount)}</strong> purchase price places you in the <strong>${category}</strong> tier of the US housing market. With a <strong>${downPct}% down payment (${fmtCurrency(downAmount)})</strong> and a <strong>6.5% APR on a 30-year fixed-rate mortgage</strong>, the total monthly cost comes to <strong>${fmtCurrency(data.totalMonthly)}</strong>. But buying a $${fmtNumber(amount)} home involves more than just the monthly payment — you also need to plan for the upfront costs.</p>
 
       <h3 style="margin-top: 20px;">What You Need Up Front</h3>
@@ -1222,6 +1797,8 @@ function generateAmountHtml(amount: number, slug: string): string {
       </div>
     </div>
 
+    ${similarStatesHtml}
+
     <div class="card">
       <h2>How Interest Shapes Your Payments</h2>
       <p>In your first year, approximately <strong>${fmtCurrency(firstYearInterest)}</strong> goes toward interest alone. Over the full 30-year term, you'll pay a total of <strong>${fmtCurrency(data.totalInterest)}</strong> in interest on the $${fmtNumber(loanAmount)} loan.</p>
@@ -1298,7 +1875,7 @@ function generateAmountHtml(amount: number, slug: string): string {
         <a href="${SITE_URL}/calculator-methodology">Methodology</a> &middot;
         <a href="${SITE_URL}/privacy">Privacy</a> &middot;
         <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
-        <a href="${SITE_URL}/affiliate-disclosure.html">Affiliate Disclosure</a>
+        <a href="${SITE_URL}/disclaimer">Affiliate Disclosure</a>
       </p>
     </div>
   </footer>
@@ -1528,10 +2105,13 @@ function generateSitemap(): string {
     add(`/blog/${slug}`, 0.8, 'monthly', BLOG_LAST_MOD);
   }
 
+  // Cluster hub — the single page that links every state and amount page
+  // together. Without it the whole cluster was sitemap-only discovery.
+  add(HUB_PATH, 0.8, 'weekly', BUILD_LASTMOD);
+
   // Amount pages
-  const amounts = [150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 650000, 700000, 750000, 800000];
-  for (const a of amounts) {
-    add(`/mortgage-payment/${fmtDollar(a).replace(/,/g, '')}`, 0.6, 'monthly', BUILD_LASTMOD);
+  for (const a of AMOUNT_LEVELS) {
+    add(`/mortgage-payment/${a}`, 0.6, 'monthly', BUILD_LASTMOD);
   }
 
   // State pages
@@ -1562,7 +2142,7 @@ function main() {
   let pageCount = 0;
 
   // ---------- Amount pages ----------
-  const amounts = [150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 650000, 700000, 750000, 800000];
+  const amounts = AMOUNT_LEVELS;
   console.log('\n📊 Amount pages: ' + amounts.length);
   for (const amount of amounts) {
     const slug = fmtDollar(amount).replace(/,/g, '');
@@ -1588,6 +2168,21 @@ function main() {
     slugs.push(`mortgage-payment/${stateSlug}`);
     const data = calcMortgage(medianPrice, info.property_tax_rate, info.avg_insurance);
     log(`✅  ${info.name} → /mortgage-payment/${stateSlug}/   (${fmtCurrency(data.totalMonthly)}/mo)`);
+    pageCount++;
+  }
+
+  // ---------- Cluster hub ----------
+  // Written to dist/mortgage-payment/index.html. Vercel serves static files
+  // before applying the SPA rewrite, so this claims the previously-404
+  // /mortgage-payment path and turns it into the cluster's entry point.
+  {
+    const hubHtml = generateStateHubHtml();
+    const hubDir = path.join(OUTPUT_DIR, 'mortgage-payment');
+    fs.mkdirSync(hubDir, { recursive: true });
+    fs.writeFileSync(path.join(hubDir, 'index.html'), hubHtml, 'utf-8');
+    const hubChars = hubHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().length;
+    console.log('\n🧭 Cluster hub page: ' + HUB_PATH);
+    log(`✅  State hub → ${HUB_PATH}   (${hubChars.toLocaleString()} chars text)`);
     pageCount++;
   }
 
