@@ -466,7 +466,7 @@ function HomePage() {
       date: "May 23, 2026",
     },
     {
-      title: "PMI in Mortgages: What It Is and How to Get Rid of It",
+      title: "How Is PMI Calculated? (And How to Get Rid of It)",
       path: "/blog/what-is-pmi",
       date: "May 22, 2026",
     },
@@ -1074,7 +1074,7 @@ function BlogStub() {
       description: "An honest look at the math, the gotchas, and whether accelerating your mortgage makes sense for your financial situation."
     },
     {
-      title: "PMI in Mortgages: What It Is and How to Get Rid of It",
+      title: "How Is PMI Calculated? (And How to Get Rid of It)",
       path: "/blog/what-is-pmi",
       category: "Education",
       date: "May 22, 2026",
