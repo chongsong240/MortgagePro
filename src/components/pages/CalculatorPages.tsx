@@ -19,7 +19,7 @@ import stateDataRaw from '@/src/data/state_data.json';
 /**
  * The two examples below must never drift again from the dataset the state pages
  * use, so both are read from src/data/state_data.json — Tax Foundation 2024
- * effective property tax rates and NAIC 2021 statewide average premiums —
+ * effective property tax rates and NAIC 2022 statewide average premiums —
  * instead of being typed in by hand.
  */
 type StateRow = { name: string; property_tax_rate: number; avg_annual_insurance: number };
@@ -68,7 +68,7 @@ const mortgageCalcConfig: PageConfig = {
     items: [
       { term: 'Principal & Interest (P&I)', explanation: 'P&I is determined by your loan amount, interest rate, and term length. The formula M = P × [r(1+r)^n]/[(1+r)^n−1] calculates your fixed monthly payment. Of every payment, interest is calculated on the remaining balance first, then the rest goes to principal.' },
       { term: 'Property Taxes', explanation: `Taxes are based on your home's assessed value and local millage rates. Choosing a state applies that state's effective rate from the Tax Foundation's 2024 table (e.g., CA ${rateOf('CA')}, TX ${rateOf('TX')}, NJ ${rateOf('NJ')}). Without a state selected the calculator uses a flat 1.2% national assumption. Your actual rate may vary by county — property taxes are typically paid into an escrow account.` },
-      { term: 'Homeowners Insurance', explanation: `Insurance covers damage to your property and liability, and lenders require it. Choosing a state applies its statewide average premium from the NAIC's 2021 Homeowners Insurance Report — currently ${INSURANCE_RANGE} a year depending on location and climate risk. Without a state selected the calculator uses a flat $1,500 national assumption. You can always adjust this to your actual quote.` },
+      { term: 'Homeowners Insurance', explanation: `Insurance covers damage to your property and liability, and lenders require it. Choosing a state applies its statewide average premium from the NAIC's Homeowners Insurance Report (2022 data year, via the Insurance Information Institute) — currently ${INSURANCE_RANGE} a year depending on location and climate risk. Without a state selected the calculator uses a flat $1,500 national assumption. You can always adjust this to your actual quote.` },
       { term: 'PMI & HOA', explanation: 'PMI (Private Mortgage Insurance) is added automatically whenever your down payment is under 20% — at the 0.85%/yr default that is about $255/month on a $360,000 loan. It drops out of the breakdown as soon as your down payment reaches 20%, and you can change the rate in the Taxes, Insurance & Fees panel. HOA fees apply only in planned communities and default to $0. This calculator keeps PMI in place for the life of the loan; for a month-by-month cancellation timeline, use our PMI Calculator.' },
     ],
   },

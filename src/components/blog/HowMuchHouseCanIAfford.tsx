@@ -589,7 +589,7 @@ export default function HowMuchHouseCanIAfford() {
         </div>
         <p className="text-sm text-muted-foreground mb-2">
           <strong>Assumptions:</strong> 20% down payment, 6.5% APR, 30-year fixed. Property taxes at 1% (~$417/mo per $500K), 
-          homeowners insurance held at a flat $142/mo for this illustration — the mean across our 51 state averages is $1,335/yr (NAIC 2021). Uses the 28% front-end DTI rule.
+          homeowners insurance held at a flat $142/mo for this illustration — the mean across our 51 state averages is $1,492/yr (NAIC 2022). Uses the 28% front-end DTI rule.
         </p>
         <p className="text-sm text-muted-foreground">
           Source: <Link to="/affordability-calculator" className="text-primary hover:underline">MortgagePro Affordability Calculator</Link> — 

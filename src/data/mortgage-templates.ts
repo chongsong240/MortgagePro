@@ -20,7 +20,7 @@ export const LOAN_AMOUNTS = [
 // Tax and insurance are derived from state_data.json — the same file the state
 // and loan-amount pages and the calculators read — so these defaults can never
 // drift from the numbers published elsewhere on the site. Vintages: Tax
-// Foundation 2024 effective property tax rates, NAIC 2021 statewide average
+// Foundation 2024 effective property tax rates, NAIC 2022 statewide average
 // homeowners insurance premiums.
 const STATE_ROWS = Object.values(
   stateDataRaw as Record<string, { property_tax_rate: number; avg_annual_insurance: number }>
@@ -33,7 +33,7 @@ export const DEFAULT_ASSUMPTIONS = {
   interestRate: 6.5,
   loanTermYears: 30,
   propertyTaxRate: Number((meanOf((row) => row.property_tax_rate) * 100).toFixed(2)), // 0.9% — mean of the 51 state effective rates (Tax Foundation 2024)
-  homeInsurance: Math.round(meanOf((row) => row.avg_annual_insurance)), // $1,335 — mean of the 51 statewide averages (NAIC 2021)
+  homeInsurance: Math.round(meanOf((row) => row.avg_annual_insurance)), // $1,492 — mean of the 51 statewide averages (NAIC 2022)
   hoaFees: 0,
   pmiRate: 0.85, // site-standard annual PMI rate — mirrors the mortgage / PMI calculators
 };

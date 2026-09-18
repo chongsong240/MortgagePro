@@ -39,14 +39,14 @@ const SOURCES: { name: string; url: string; note: string }[] = [
     note: 'Which interest and points are deductible, and the mortgage-debt limits.',
   },
   {
-    name: 'U.S. Census Bureau (ACS) and Tax Foundation',
-    url: 'https://www.census.gov/programs-surveys/acs',
-    note: 'Median home values (ACS) and the 2024 state effective property tax rates behind every generated payment page.',
+    name: 'Zillow Research (Home Values) and Tax Foundation',
+    url: 'https://www.zillow.com/research/data/',
+    note: 'Statewide median sale prices for all homes (Zillow Research, July 2026 vintage) and the 2024 state effective property tax rates behind every generated payment page.',
   },
   {
-    name: 'NAIC Homeowners Insurance Report',
-    url: 'https://content.naic.org/',
-    note: 'Statewide average homeowners insurance premiums (2021 release) applied as a flat monthly cost on state pages.',
+    name: 'NAIC Homeowners Insurance Report (data via Triple-I)',
+    url: 'https://www.iii.org/fact-statistic/facts-statistics-homeowners-and-renters-insurance',
+    note: 'Statewide average HO-3 homeowners insurance premiums for the 2022 data year — the most recent national release — applied as a flat monthly cost on state pages.',
   },
   {
     name: 'Federal Reserve and Freddie Mac survey data',

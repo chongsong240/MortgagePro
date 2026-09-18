@@ -146,9 +146,9 @@ export default function EditorialPolicyPage() {
             { name: 'U.S. Department of Housing and Urban Development', url: 'https://www.hud.gov/' },
             { name: 'Internal Revenue Service', url: 'https://www.irs.gov/' },
             { name: 'Federal Reserve', url: 'https://www.federalreserve.gov/' },
-            { name: 'U.S. Census Bureau — ACS (Home Values)', url: 'https://www.census.gov/programs-surveys/acs' },
+            { name: 'Zillow Research — Median Sale Price, All Homes (Home Values)', url: 'https://www.zillow.com/research/data/' },
             { name: 'Tax Foundation (Property Taxes)', url: 'https://taxfoundation.org/' },
-            { name: 'NAIC (Homeowners Insurance)', url: 'https://content.naic.org/' },
+            { name: 'NAIC / Insurance Information Institute (Homeowners Insurance)', url: 'https://www.iii.org/fact-statistic/facts-statistics-homeowners-and-renters-insurance' },
             { name: 'Freddie Mac (Mortgage Rates)', url: 'https://www.freddiemac.com/' },
           ].map((source, i) => (
             <a

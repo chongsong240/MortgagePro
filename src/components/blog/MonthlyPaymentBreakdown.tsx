@@ -444,7 +444,7 @@ export default function MonthlyPaymentBreakdown() {
         </div>
         <p className="text-sm text-muted-foreground mb-2">
           <strong>Assumptions:</strong> 20% down payment, 6.5% APR, 30-year fixed. Property taxes at 1% of home price, 
-          homeowners insurance held at a flat $142/mo for this illustration — the mean across our 51 state averages is $1,335/yr (NAIC 2021). No PMI (20% down).
+          homeowners insurance held at a flat $142/mo for this illustration — the mean across our 51 state averages is $1,492/yr (NAIC 2022). No PMI (20% down).
         </p>
         <p className="text-sm text-muted-foreground">
           Source: <Link to="/mortgage-calculator" className="text-primary hover:underline">MortgagePro Calculator</Link> — 

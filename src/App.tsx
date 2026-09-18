@@ -311,8 +311,8 @@ function Footer() {
             /calculator-methodology.
           */}
           <p>
-            Property tax data: Tax Foundation, 2024. Insurance data: NAIC, 2021. Home value data:
-            U.S. Census Bureau, ACS 2024.
+            Property tax data: Tax Foundation, 2024. Insurance data: NAIC, 2022. Home value data:
+            Zillow Research (median sale price, all homes), July 2026.
           </p>
           <p className="mt-2">
             &copy; {new Date().getFullYear()} MortgagePro. All rights reserved.

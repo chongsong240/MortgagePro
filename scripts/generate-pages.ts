@@ -18,7 +18,7 @@ const SITE_NAME = 'MortgagePro';
  * three different vendors.
  */
 const DATA_SOURCES =
-  'Sources: U.S. Census Bureau, ACS 2024 (median home values); Tax Foundation 2024 (state effective property tax rates); NAIC 2021 (statewide average homeowners insurance premiums).';
+  'Sources: Zillow Research, median sale price, all homes, July 2026 (home values); Tax Foundation 2024 (state effective property tax rates); NAIC 2022 (statewide average HO-3 homeowners insurance premiums).';
 
 /**
  * Robots directive for every generated hub / state / amount page.

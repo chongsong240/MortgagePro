@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
  *
  * Those two assumptions are deliberately round and held constant so the tables
  * below stay comparable; the generated state pages instead use the real dataset
- * (Tax Foundation 2024 rates, NAIC 2021 premiums), so the copy here says "flat
+ * (Tax Foundation 2024 rates, NAIC 2022 premiums), so the copy here says "flat
  * national assumption" rather than "national average".
  *
  * Every figure below is reproducible in the calculator above by dragging the down
@@ -494,7 +494,7 @@ export default function MortgageCalculatorDeepContent() {
           All figures on this page come from this calculator's own model: a $400,000 home, 6.5%
           30-year fixed loan, flat national assumptions of 1.2% property taxes and $1,500 a year
           insurance, and a 0.85% annual PMI rate. State-level rates and premiums — Tax Foundation
-          2024 and NAIC 2021 — are on our state pages. Change any input above to see your own numbers.
+          2024 and NAIC 2022 — are on our state pages. Change any input above to see your own numbers.
         </p>
       </div>
     </section>
