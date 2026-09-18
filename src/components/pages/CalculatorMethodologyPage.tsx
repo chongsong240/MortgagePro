@@ -40,8 +40,8 @@ export default function CalculatorMethodologyPage() {
 
             <h3 className="font-semibold text-foreground mb-2">Additional Components</h3>
             <ul className="list-disc pl-6 space-y-1 mb-4">
-              <li><strong>Property Taxes:</strong> Monthly amount = (annual tax rate × home value) ÷ 12. Default rate is based on state-level averages from ATTOM Data Solutions.</li>
-              <li><strong>Home Insurance:</strong> Monthly amount based on state-average annual premiums. Sources include NAIC (National Association of Insurance Commissioners) data.</li>
+              <li><strong>Property Taxes:</strong> Monthly amount = (annual effective tax rate × home value) ÷ 12. State rates are the Tax Foundation's 2024 effective property tax rates, applied to the purchase price rather than to a locally assessed value.</li>
+              <li><strong>Home Insurance:</strong> Monthly amount = statewide average annual premium ÷ 12. Premiums are statewide averages from the NAIC (National Association of Insurance Commissioners) Homeowners Insurance Report — 2021 is the most recent national release — and are not scaled to the home's price.</li>
               <li><strong>PMI:</strong> Calculated as 0.5% to 1.5% of the loan amount annually, divided by 12, applied when down payment is less than 20%.</li>
             </ul>
 
@@ -136,7 +136,7 @@ export default function CalculatorMethodologyPage() {
             </div>
             <div className="border-b border-border pb-4 last:border-0 last:pb-0">
               <h3 className="font-semibold text-foreground mb-1">Closing Cost Calculator</h3>
-              <p>Estimates closing costs as a percentage of the purchase price. Typical ranges: 2–5% for buyers, adjusted for state-level variations in transfer taxes and recording fees. Data sourced from national real estate settlement averages.</p>
+              <p>Estimates closing costs as a percentage of the purchase price. Typical ranges: 2–5% for buyers, adjusted for state-level variations in transfer taxes and recording fees. State factors follow ALTA/LodeStar 2024 settlement-cost reporting: 3% for 35 states, 4% for 15 states, and 5% for California.</p>
             </div>
             <div className="border-b border-border pb-4 last:border-0 last:pb-0">
               <h3 className="font-semibold text-foreground mb-1">Extra Payment Calculator</h3>
@@ -175,7 +175,7 @@ export default function CalculatorMethodologyPage() {
               <TrendingUp className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
               <div>
                 <strong className="text-foreground">Current Data</strong>
-                <p>Interest rate defaults are based on current market averages from Freddie Mac's Primary Mortgage Market Survey (PMMS). Property tax and insurance defaults are based on the most recent state-level averages available.</p>
+                <p>Interest rate defaults are based on current market averages from Freddie Mac's Primary Mortgage Market Survey (PMMS). Property tax defaults use Tax Foundation effective state rates (2024 vintage) and insurance defaults use NAIC statewide average premiums (2021 release).</p>
               </div>
             </li>
             <li className="flex items-start gap-3">

@@ -39,9 +39,14 @@ const SOURCES: { name: string; url: string; note: string }[] = [
     note: 'Which interest and points are deductible, and the mortgage-debt limits.',
   },
   {
-    name: 'Census / ACS data and state tax authorities',
-    url: 'https://www.census.gov/',
-    note: 'Median home values plus the state-level effective property tax rates and average insurance costs our calculators use.',
+    name: 'U.S. Census Bureau (ACS) and Tax Foundation',
+    url: 'https://www.census.gov/programs-surveys/acs',
+    note: 'Median home values (ACS) and the 2024 state effective property tax rates behind every generated payment page.',
+  },
+  {
+    name: 'NAIC Homeowners Insurance Report',
+    url: 'https://content.naic.org/',
+    note: 'Statewide average homeowners insurance premiums (2021 release) applied as a flat monthly cost on state pages.',
   },
   {
     name: 'Federal Reserve and Freddie Mac survey data',

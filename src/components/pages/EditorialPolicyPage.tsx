@@ -146,8 +146,9 @@ export default function EditorialPolicyPage() {
             { name: 'U.S. Department of Housing and Urban Development', url: 'https://www.hud.gov/' },
             { name: 'Internal Revenue Service', url: 'https://www.irs.gov/' },
             { name: 'Federal Reserve', url: 'https://www.federalreserve.gov/' },
-            { name: 'Zillow Research (Home Values)', url: 'https://www.zillow.com/research/' },
-            { name: 'ATTOM Data Solutions (Property Taxes)', url: 'https://www.attomdata.com/' },
+            { name: 'U.S. Census Bureau — ACS (Home Values)', url: 'https://www.census.gov/programs-surveys/acs' },
+            { name: 'Tax Foundation (Property Taxes)', url: 'https://taxfoundation.org/' },
+            { name: 'NAIC (Homeowners Insurance)', url: 'https://content.naic.org/' },
             { name: 'Freddie Mac (Mortgage Rates)', url: 'https://www.freddiemac.com/' },
           ].map((source, i) => (
             <a

@@ -10,6 +10,17 @@ const SITE_URL = 'https://www.mortgagepro.io';
 const SITE_NAME = 'MortgagePro';
 
 /**
+ * Single source of truth for the provenance line on every generated page.
+ *
+ * Keeping the citation in one constant means it can never drift from the
+ * dataset vintages documented on /calculator-methodology, in the React footer
+ * (src/App.tsx) and on /editorial-policy — three places that previously named
+ * three different vendors.
+ */
+const DATA_SOURCES =
+  'Sources: U.S. Census Bureau, ACS 2024 (median home values); Tax Foundation 2024 (state effective property tax rates); NAIC 2021 (statewide average homeowners insurance premiums).';
+
+/**
  * Robots directive for every generated hub / state / amount page.
  *
  * `max-image-preview:large` + `max-snippet:-1` are the two directives Google
@@ -54,7 +65,9 @@ for (const [code, info] of Object.entries(RAW_STATE_DATA)) {
   };
 }
 
-// National averages for amount pages (calculate from all states)
+// National benchmarks for the generated pages: the unweighted mean of the 51
+// state values in state_data.json (not population-weighted, not a median, so
+// the copy must always call them "averages").
 const stateValues = Object.values(STATE_DATA);
 const NATIONAL_AVG_TAX_RATE = stateValues.reduce((s, d) => s + d.property_tax_rate, 0) / stateValues.length;
 const NATIONAL_AVG_INSURANCE = Math.round(stateValues.reduce((s, d) => s + d.avg_insurance, 0) / stateValues.length);
@@ -356,7 +369,7 @@ function generateMarketOverview(stateName: string, medianPrice: number, taxRate:
   const taxVsNational = taxRate < NATIONAL_AVG_TAX_RATE ? 'lower than' : taxRate > NATIONAL_AVG_TAX_RATE ? 'higher than' : 'close to';
   const insVsNational = insurance < NATIONAL_AVG_INSURANCE ? 'below' : 'above';
 
-  return `<p><strong>${stateName}</strong> ranks as a <strong>${pt.desc}</strong> housing market, with a median home price of <strong>${fmtCurrency(medianPrice)}</strong>. The state's effective property tax rate of <strong>${fmtPct(taxRate)}%</strong> is <strong>${taxVsNational}</strong> the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%, and annual homeowners insurance averaging <strong>${fmtCurrency(insurance)}</strong> falls <strong>${insVsNational}</strong> the US median of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}.</p>
+  return `<p><strong>${stateName}</strong> ranks as a <strong>${pt.desc}</strong> housing market, with a median home price of <strong>${fmtCurrency(medianPrice)}</strong>. The state's effective property tax rate of <strong>${fmtPct(taxRate)}%</strong> is <strong>${taxVsNational}</strong> the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%, and annual homeowners insurance averaging <strong>${fmtCurrency(insurance)}</strong> falls <strong>${insVsNational}</strong> the US average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}.</p>
 
 <p>These three factors — price level, tax burden, and insurance costs — combine to shape the true monthly cost of homeownership in ${stateName}. Below we break down a realistic purchase scenario using state-specific data.</p>`;
 }
@@ -565,7 +578,7 @@ function generateStateFAQ(stateName: string, _code: string, taxRate: number, ins
     },
     {
       q: `How much is homeowners insurance in ${stateName}?`,
-      a: `The average annual premium in ${stateName} is <strong>${fmtCurrency(insurance)}</strong>, which is ${it.tier === 'high' ? 'well above' : it.tier === 'low' ? 'well below' : 'roughly in line with'} the US median of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}. ${it.tier === 'high' ? ' This elevated cost is often tied to weather-related risks. Be sure to shop around and compare quotes from multiple insurers.' : ' This is a relatively affordable insurance market for homeowners.'} This adds <strong>${fmtCurrency(p.monthlyInsurance)}/month</strong> to your payment.`,
+      a: `The average annual premium in ${stateName} is <strong>${fmtCurrency(insurance)}</strong>, which is ${it.tier === 'high' ? 'well above' : it.tier === 'low' ? 'well below' : 'roughly in line with'} the US average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}. ${it.tier === 'high' ? ' This elevated cost is often tied to weather-related risks. Be sure to shop around and compare quotes from multiple insurers.' : ' This is a relatively affordable insurance market for homeowners.'} This adds <strong>${fmtCurrency(p.monthlyInsurance)}/month</strong> to your payment.`,
     },
     {
       q: `What are the total closing costs for a home in ${stateName}?`,
@@ -616,7 +629,7 @@ function generateUtahSpotlightHtml(p: PurchaseExampleResult, taxRate: number, in
   <p>Utah's effective property tax rate is just <strong>${fmtPct(taxRate)}%</strong> — well below the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%. On a ${fmtCurrency(p.homePrice)} home, that's only <strong>${fmtCurrency(Math.round(p.homePrice * taxRate))}/year</strong> (${fmtCurrency(p.monthlyTax)}/month). This low tax burden is one of Utah's biggest financial advantages for homeowners.</p>
 
   <h3 style="margin-top: 16px;">Homeowners Insurance — Below Average</h3>
-  <p>Utah's average annual homeowners insurance premium is approximately <strong>${fmtCurrency(insurance)}/year</strong> (${fmtCurrency(p.monthlyInsurance)}/month) — below the US median of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}. Utah's dry climate and lower severe weather risk keep insurance costs manageable.</p>
+  <p>Utah's average annual homeowners insurance premium is approximately <strong>${fmtCurrency(insurance)}/year</strong> (${fmtCurrency(p.monthlyInsurance)}/month) — below the US average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}. Utah's dry climate and lower severe weather risk keep insurance costs manageable.</p>
 
   <h3 style="margin-top: 16px;">City-by-City Price Differences</h3>
   <table>
@@ -914,6 +927,32 @@ function hubFaqs(): { q: string; a: string }[] {
   const lowIns = STATE_DATA[byInsurance[0]];
   const highIns = STATE_DATA[byInsurance[byInsurance.length - 1]];
 
+  /**
+   * Every state sharing an extreme value, and a readable "A and B" join.
+   *
+   * The Tax Foundation 2024 table puts New Jersey and Illinois on the same
+   * 1.88% effective rate, so an FAQ answer that names one state as "highest"
+   * is factually wrong. Ties are detected from the dataset rather than being
+   * hard-coded, so the copy stays correct when the data is refreshed.
+   */
+  const tieCodes = (codes: string[], pick: (code: string) => number, mode: 'min' | 'max') => {
+    const values = codes.map(pick);
+    const target = mode === 'min' ? Math.min(...values) : Math.max(...values);
+    return codes.filter((code) => Math.abs(pick(code) - target) <= 1e-9);
+  };
+  const joinNames = (codes: string[]) => {
+    const names = codes.map((code) => STATE_DATA[code].name);
+    return names.length > 1
+      ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`
+      : names[0];
+  };
+  const lowTaxCodes = tieCodes(byTax, (code) => STATE_DATA[code].property_tax_rate, 'min');
+  const topTaxCodes = tieCodes(byTax, (code) => STATE_DATA[code].property_tax_rate, 'max');
+  const topTaxLabel =
+    topTaxCodes.length > 1
+      ? ` — a tie between ${joinNames(topTaxCodes)}`
+      : ` in ${joinNames(topTaxCodes)}`;
+
   return [
     {
       q: 'Which state has the lowest mortgage payment?',
@@ -921,7 +960,7 @@ function hubFaqs(): { q: string; a: string }[] {
     },
     {
       q: 'Which states have the highest and lowest property taxes?',
-      a: `${lowTax.name} has the lowest effective property tax rate in this dataset at <strong>${fmtPct(lowTax.property_tax_rate)}%</strong>, while ${highTax.name} is highest at <strong>${fmtPct(highTax.property_tax_rate)}%</strong>. On the same home price that spread moves the monthly payment by hundreds of dollars, which is why comparing states on sticker price alone is misleading — every table above uses each state's own tax rate and insurance average.`,
+      a: `The lowest effective property tax rate in this dataset is <strong>${fmtPct(lowTax.property_tax_rate)}%</strong> in ${joinNames(lowTaxCodes)}, while the highest is <strong>${fmtPct(highTax.property_tax_rate)}%</strong>${topTaxLabel}. Both are the Tax Foundation's published 2024 state effective rates. On the same home price that spread moves the monthly payment by hundreds of dollars, which is why comparing states on sticker price alone is misleading — every table above uses each state's own tax rate and insurance average.`,
     },
     {
       q: 'Where is homeowners insurance the most expensive?',
@@ -1109,7 +1148,7 @@ ${faqHtml}
     ${generateRecommendedReadingHtml(getRecommendedArticles(true))}
 
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
-      <p><strong>Disclaimer:</strong> Every payment on this page is an estimate for informational purposes only. Actual payments depend on your credit score, the rate you are quoted, the assessed value of the specific property, its insurance profile, HOA dues and local tax rules. Sources: Zillow Q1 2025 (median home prices), ATTOM 2025 (effective property tax rates), Quadrant Information Services Feb 2025 (insurance premiums). Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color:#93c5fd;">Disclaimer</a>.</p>
+      <p><strong>Disclaimer:</strong> Every payment on this page is an estimate for informational purposes only. Actual payments depend on your credit score, the rate you are quoted, the assessed value of the specific property, its insurance profile, HOA dues and local tax rules. ${DATA_SOURCES} Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color:#93c5fd;">Disclaimer</a>.</p>
     </div>
 
   </main>
@@ -1486,7 +1525,7 @@ ${amortRows}
     ${generateRecommendedReadingHtml(getRecommendedArticles(true))}
 
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
-      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Sources: Zillow Q1 2025 (median home prices), ATTOM 2025 (property tax rates), Quadrant Information Services Feb 2025 (insurance premiums). Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
+      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. ${DATA_SOURCES} Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
     </div>
 
   </main>
@@ -1897,7 +1936,7 @@ function generateAmountHtml(amount: number, slug: string): string {
     ${generateAllCalculatorsHtml()}
 
     <div style="font-size: 0.8rem; color: #94a3b8; padding: 16px; text-align: center; line-height: 1.5;">
-      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. Sources: Zillow Q1 2025 (median home prices), ATTOM 2025 (property tax rates), Quadrant Information Services Feb 2025 (insurance premiums). Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
+      <p><strong>Disclaimer:</strong> This is an estimate for informational purposes only. Actual mortgage payments depend on your credit score, exact interest rate, property taxes, insurance premiums, PMI, and other factors. ${DATA_SOURCES} Consult a qualified mortgage professional for personalized advice. See our full <a href="${SITE_URL}/disclaimer" style="color: #93c5fd;">Disclaimer</a>.</p>
     </div>
   </main>
 

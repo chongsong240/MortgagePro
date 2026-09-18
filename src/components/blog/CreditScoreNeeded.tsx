@@ -441,7 +441,7 @@ export default function CreditScoreNeeded() {
         </div>
         <p className="text-sm text-muted-foreground mb-2">
           <strong>Assumptions:</strong> $400,000 loan (20% down on $500,000 home), 30-year fixed. 
-          Taxes at 1% (~$417/mo), insurance at national average (~$142/mo). 
+          Taxes at 1% (~$417/mo), insurance held at a flat $142/mo for this illustration — the mean across our 51 state averages is $1,335/yr (NAIC 2021). 
           Rates by credit tier are illustrative based on industry averages as of mid-2026.
         </p>
         <p className="text-sm text-muted-foreground">

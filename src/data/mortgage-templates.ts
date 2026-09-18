@@ -6,6 +6,8 @@
  * Phase 3: Income pages ($50k – $200k)
  */
 
+import stateDataRaw from './state_data.json';
+
 // Phase 1: Loan amounts to generate pages for
 export const LOAN_AMOUNTS = [
   150000, 200000, 250000, 300000, 350000, 400000,
@@ -13,13 +15,25 @@ export const LOAN_AMOUNTS = [
   750000, 800000
 ];
 
-// Default assumptions for calculation
+// Default assumptions for calculation.
+//
+// Tax and insurance are derived from state_data.json — the same file the state
+// and loan-amount pages and the calculators read — so these defaults can never
+// drift from the numbers published elsewhere on the site. Vintages: Tax
+// Foundation 2024 effective property tax rates, NAIC 2021 statewide average
+// homeowners insurance premiums.
+const STATE_ROWS = Object.values(
+  stateDataRaw as Record<string, { property_tax_rate: number; avg_annual_insurance: number }>
+);
+const meanOf = (pick: (row: (typeof STATE_ROWS)[number]) => number) =>
+  STATE_ROWS.reduce((sum, row) => sum + pick(row), 0) / STATE_ROWS.length;
+
 export const DEFAULT_ASSUMPTIONS = {
   downPaymentPercent: 20,
   interestRate: 6.5,
   loanTermYears: 30,
-  propertyTaxRate: 1.2,     // National average
-  homeInsurance: 1500,       // National average annual
+  propertyTaxRate: Number((meanOf((row) => row.property_tax_rate) * 100).toFixed(2)), // 0.9% — mean of the 51 state effective rates (Tax Foundation 2024)
+  homeInsurance: Math.round(meanOf((row) => row.avg_annual_insurance)), // $1,335 — mean of the 51 statewide averages (NAIC 2021)
   hoaFees: 0,
   pmiRate: 0.85, // site-standard annual PMI rate — mirrors the mortgage / PMI calculators
 };

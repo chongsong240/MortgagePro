@@ -15,3 +15,8 @@ run-verify.ps1
 findings-*.txt
 git-check.txt
 commit-msg.txt
+
+# Reference data kept locally (source files for state_data.json calibration) and
+# exported analytics reports — not site assets, not for the repo.
+/data/
+mortgagepro.io-Performance-on-Search-*.zip

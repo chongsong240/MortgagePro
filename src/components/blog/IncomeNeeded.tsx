@@ -268,7 +268,7 @@ export default function IncomeNeeded() {
         </div>
         <p className="text-sm text-muted-foreground mb-2">
           <strong>Assumptions:</strong> $500,000 home price, 6.5% APR, 30-year fixed. Property taxes at 1% (~$417/mo), 
-          homeowners insurance at national average (~$142/mo). PMI at 0.7% of loan annually. 
+          homeowners insurance held at a flat $142/mo for this illustration — the mean across our 51 state averages is $1,335/yr (NAIC 2021). PMI at 0.7% of loan annually. 
           Income calculated using the 28% front-end DTI rule.
         </p>
         <p className="text-sm text-muted-foreground">

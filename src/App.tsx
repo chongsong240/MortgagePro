@@ -304,7 +304,19 @@ function Footer() {
         </div>
         
         <div className="border-t border-border mt-8 pt-6 text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} MortgagePro. All rights reserved.
+          {/*
+            One canonical provenance line for every React page. The generated
+            state / loan-amount / hub pages carry the same citation through
+            DATA_SOURCES in scripts/generate-pages.ts, and the vintages match
+            /calculator-methodology.
+          */}
+          <p>
+            Property tax data: Tax Foundation, 2024. Insurance data: NAIC, 2021. Home value data:
+            U.S. Census Bureau, ACS 2024.
+          </p>
+          <p className="mt-2">
+            &copy; {new Date().getFullYear()} MortgagePro. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

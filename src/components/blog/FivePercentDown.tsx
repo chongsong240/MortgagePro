@@ -415,7 +415,7 @@ export default function FivePercentDown() {
         </div>
         <p className="text-sm text-muted-foreground mb-2">
           <strong>Assumptions:</strong> $350,000 home price, 6.5% APR, 30-year fixed. Property taxes at 1% (~$292/mo), 
-          homeowners insurance at national average (~$142/mo). PMI at 0.7% of loan annually for less than 20% down.
+          homeowners insurance held at a flat $142/mo for this illustration — the mean across our 51 state averages is $1,335/yr (NAIC 2021). PMI at 0.7% of loan annually for less than 20% down.
         </p>
         <p className="text-sm text-muted-foreground">
           Source: <Link to="/mortgage-calculator" className="text-primary hover:underline">MortgagePro Calculator</Link> — 
