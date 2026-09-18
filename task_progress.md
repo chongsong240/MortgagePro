@@ -30,7 +30,7 @@
 - [x] 新增 scripts/refresh-state-data.mjs：从 Zillow 公共 CDN 直接拉取 median sale price（all homes / raw / 月度州级）CSV，无需 API key
 - [x] 自动选取 51 州都有值的最新月份列（Zillow 追加新列后脚本无需改动）；CSV 缓存至 data/zillow/（该目录已被 .gitignore 忽略，仅本地留痕）
 - [x] 只改写 state_data.json 的 median_home_price，保持“一州一行”字节格式；匹配行数不等于 51 或其它字段漂移即中止写入
-- [x] 系列校验（结构性）：URL 文件名、起始月份（2008-02）、月份列数（~225）任一不符则拒绝写入（--force 可覆盖）
+- [x] 系列校验（结构性）：URL 文件名、起始月份（2008-02）、月份列数（>300 即拒绝，销售价文件当前 222 列）任一不符则拒绝写入（--force 可覆盖）
 - [x] 数值护栏：单州变动 >25% 或 51 州均值变动 >15% 时拒绝写入
 - [x] 打印 diff：每州 旧值→新值 与 ±%、51 州均值/区间 前后对比、涨跌州数、变动最大的州
 - [x] diff 同时列出需同步更新的引用标签（generate-pages.ts / App.tsx / CalculatorMethodologyPage.tsx 等），防止文案与数据脱节

@@ -29,7 +29,8 @@ What the script guarantees:
 * rewrites **only** `median_home_price`, one state per line, and aborts if a line
   no longer matches the expected shape or any other field drifted;
 * refuses to write when the CSV is not the median-sale-price series (wrong file
-  name, history before 2008-02, ~320 monthly columns) or when the change looks
+  name, history before 2008-02, more than 300 monthly columns — the sales file
+  has ~225) or when the change looks
   implausible (>25% for a state, >15% for the 51-state mean) — override with
   `--force` once a human has checked;
 * prints the citation labels that must follow the new vintage, so
