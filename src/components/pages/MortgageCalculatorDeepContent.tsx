@@ -5,8 +5,14 @@ import { Link } from 'react-router-dom';
  *
  * Targets the "mortgage calculator with pmi" / "mortgage payment calculator with
  * pmi" queries by answering them with this page's own payment model: the default
- * $400,000 / 20% down / 6.5% / 30-year setup, national-average property taxes
- * (1.2%) and insurance ($1,500/year), and the site-wide 0.85% annual PMI rate.
+ * $400,000 / 20% down / 6.5% / 30-year setup, the flat national assumptions this
+ * calculator ships with (1.2% property taxes, $1,500/year insurance) and the
+ * site-wide 0.85% annual PMI rate.
+ *
+ * Those two assumptions are deliberately round and held constant so the tables
+ * below stay comparable; the generated state pages instead use the real dataset
+ * (Tax Foundation 2024 rates, NAIC 2021 premiums), so the copy here says "flat
+ * national assumption" rather than "national average".
  *
  * Every figure below is reproducible in the calculator above by dragging the down
  * payment to 5%, 10%, or 15%, and by reading the amortization schedule for the
@@ -90,8 +96,8 @@ export default function MortgageCalculatorDeepContent() {
         </h2>
         <p className="text-muted-foreground leading-relaxed">
           Here is the same purchase modeled four ways with this page's defaults — a 6.5% 30-year
-          fixed loan, national-average property taxes of 1.2% ($400/month), insurance of $1,500 a
-          year ($125/month), and 0.85% annual PMI priced on the loan amount:
+          fixed loan, flat national assumptions of 1.2% property taxes ($400/month) and $1,500 a
+          year insurance ($125/month), and 0.85% annual PMI priced on the loan amount:
         </p>
 
         <div className="overflow-x-auto">
@@ -486,8 +492,9 @@ export default function MortgageCalculatorDeepContent() {
 
         <p className="text-xs text-muted-foreground leading-relaxed">
           All figures on this page come from this calculator's own model: a $400,000 home, 6.5%
-          30-year fixed loan, national-average property taxes (1.2%) and insurance ($1,500 a year),
-          and a 0.85% annual PMI rate. Change any input above to see your own numbers.
+          30-year fixed loan, flat national assumptions of 1.2% property taxes and $1,500 a year
+          insurance, and a 0.85% annual PMI rate. State-level rates and premiums — Tax Foundation
+          2024 and NAIC 2021 — are on our state pages. Change any input above to see your own numbers.
         </p>
       </div>
     </section>

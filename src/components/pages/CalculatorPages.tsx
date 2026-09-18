@@ -14,6 +14,22 @@ import RefinanceCalculator from '@/src/components/calculators/RefinanceCalculato
 import ClosingCostCalculator from '@/src/components/calculators/ClosingCostCalculator';
 import ExtraPaymentCalculator from '@/src/components/calculators/ExtraPaymentCalculator';
 import ArmVsFixedCalculator from '@/src/components/calculators/ArmVsFixedCalculator';
+import stateDataRaw from '@/src/data/state_data.json';
+
+/**
+ * The two examples below must never drift again from the dataset the state pages
+ * use, so both are read from src/data/state_data.json — Tax Foundation 2024
+ * effective property tax rates and NAIC 2021 statewide average premiums —
+ * instead of being typed in by hand.
+ */
+type StateRow = { name: string; property_tax_rate: number; avg_annual_insurance: number };
+const stateDataset = stateDataRaw as Record<string, StateRow>;
+const stateRows = Object.values(stateDataset);
+const rateOf = (code: string) => `${(stateDataset[code].property_tax_rate * 100).toFixed(2)}%`;
+const usd = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+const INSURANCE_RANGE = `${usd(Math.min(...stateRows.map((r) => r.avg_annual_insurance)))}–${usd(
+  Math.max(...stateRows.map((r) => r.avg_annual_insurance))
+)}`;
 
 // ============================================================
 // 1. Mortgage Calculator
@@ -35,7 +51,7 @@ const mortgageCalcConfig: PageConfig = {
   },
   example: {
     title: '📊 Example: $400,000 Home with 20% Down',
-    scenario: 'Let\'s say you\'re buying a $400,000 home with a 20% down payment ($80,000), financing the remaining $320,000 at a 6.5% interest rate on a 30-year fixed-rate mortgage. Using national-average property taxes (1.2%) and insurance ($1,500/year), here\'s what your monthly payment looks like:',
+    scenario: 'Let\'s say you\'re buying a $400,000 home with a 20% down payment ($80,000), financing the remaining $320,000 at a 6.5% interest rate on a 30-year fixed-rate mortgage. Using this calculator\'s flat national assumptions — 1.2% for property taxes and $1,500/year for insurance, held constant so the columns stay comparable — here\'s what your monthly payment looks like:',
     rows: [
       { label: 'Home Price', value: '$400,000' },
       { label: 'Down Payment (20%)', value: '$80,000' },
@@ -51,8 +67,8 @@ const mortgageCalcConfig: PageConfig = {
     intro: 'Your mortgage payment consists of four main components. Understanding each one helps you evaluate trade-offs between different loan options and home prices.',
     items: [
       { term: 'Principal & Interest (P&I)', explanation: 'P&I is determined by your loan amount, interest rate, and term length. The formula M = P × [r(1+r)^n]/[(1+r)^n−1] calculates your fixed monthly payment. Of every payment, interest is calculated on the remaining balance first, then the rest goes to principal.' },
-      { term: 'Property Taxes', explanation: 'Taxes are based on your home\'s assessed value and local millage rates. We use state-level averages (e.g., CA ~0.76%, TX ~1.6%, NJ ~2.4%). Your actual rate may vary by county. Property taxes are typically paid into an escrow account.' },
-      { term: 'Homeowners Insurance', explanation: 'Insurance covers damage to your property and liability. Lenders require it. We estimate based on state averages ($800–$2,500/year depending on location and climate risk). You can adjust this to your actual quote.' },
+      { term: 'Property Taxes', explanation: `Taxes are based on your home's assessed value and local millage rates. Choosing a state applies that state's effective rate from the Tax Foundation's 2024 table (e.g., CA ${rateOf('CA')}, TX ${rateOf('TX')}, NJ ${rateOf('NJ')}). Without a state selected the calculator uses a flat 1.2% national assumption. Your actual rate may vary by county — property taxes are typically paid into an escrow account.` },
+      { term: 'Homeowners Insurance', explanation: `Insurance covers damage to your property and liability, and lenders require it. Choosing a state applies its statewide average premium from the NAIC's 2021 Homeowners Insurance Report — currently ${INSURANCE_RANGE} a year depending on location and climate risk. Without a state selected the calculator uses a flat $1,500 national assumption. You can always adjust this to your actual quote.` },
       { term: 'PMI & HOA', explanation: 'PMI (Private Mortgage Insurance) is added automatically whenever your down payment is under 20% — at the 0.85%/yr default that is about $255/month on a $360,000 loan. It drops out of the breakdown as soon as your down payment reaches 20%, and you can change the rate in the Taxes, Insurance & Fees panel. HOA fees apply only in planned communities and default to $0. This calculator keeps PMI in place for the life of the loan; for a month-by-month cancellation timeline, use our PMI Calculator.' },
     ],
   },
