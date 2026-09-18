@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { SITE_URL, ROBOTS_INDEX_FOLLOW } from '@/src/data/route-meta';
+import CreditScoreOffer from './CreditScoreOffer';
 
 
 export interface FAQ {
@@ -56,6 +57,14 @@ export interface PageConfig {
     intro: string;
     items: { mistake: string; fix: string }[];
   };
+  /**
+   * Render the SmartCredit affiliate CTA (CreditScoreOffer.tsx) directly below
+   * this page's calculator — the point of highest intent, since the visitor has
+   * just seen their payment and their next question is the rate they will be
+   * quoted. Opt-in per page; only pages where a credit score is the natural
+   * next step should set it.
+   */
+  creditScoreOffer?: boolean;
   relatedContent?: {
     intro: string;
     links: InternalLink[];
@@ -207,6 +216,9 @@ export default function CalculatorPageLayout({
 
       {/* Calculator component */}
       {children}
+
+      {/* High-intent affiliate CTA — see PageConfig.creditScoreOffer */}
+      {config.creditScoreOffer && <CreditScoreOffer />}
 
       {/* How to Use */}
       <div className="bg-card border border-border rounded-xl p-6 space-y-4">

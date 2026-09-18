@@ -5,6 +5,7 @@ import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 import RelatedPosts from './RelatedPosts';
 import { AffiliateDisclosure } from './BlogComponents';
+import { SMARTCREDIT } from '@/src/data/affiliate-offers';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -334,7 +335,7 @@ export default function CreditScoreNeeded() {
           <a href="https://www.annualcreditreport.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
             annualcreditreport.com
           </a>. If you want to monitor your score more regularly, services like{' '}
-          <a href="https://www.tkqlhce.com/click-101868701-16981737" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+          <a href={SMARTCREDIT.url} target="_blank" rel={SMARTCREDIT.rel} className="text-primary hover:underline">
             SmartCredit
           </a>{' '}
           show your score and the factors affecting it in real time. Look for errors—accounts you don't recognize, incorrect late payments, balances that are wrong. 
@@ -517,7 +518,7 @@ export default function CreditScoreNeeded() {
 
         <p className="text-lg leading-relaxed text-foreground">
           Start by checking your current score.{' '}
-          <a href="https://www.dpbolvw.net/click-101868701-16981737" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+          <a href={SMARTCREDIT.url} target="_blank" rel={SMARTCREDIT.rel} className="text-primary hover:underline">
             SmartCredit
           </a>{' '}
           offers a $1 trial that shows your score and what's impacting it—so you know exactly where you stand before talking to lenders.

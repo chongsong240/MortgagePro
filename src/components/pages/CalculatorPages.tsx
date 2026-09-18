@@ -39,6 +39,14 @@ const mortgageCalcConfig: PageConfig = {
   metaTitle: 'Mortgage Calculator With PMI, Taxes & Insurance',
   metaDescription: 'See your monthly payment with PMI, property taxes and insurance using real-time sliders — plus the PITI breakdown and a 30-year amortization schedule.',
   description: 'Calculate your monthly mortgage payment with PMI, property taxes, and insurance. Real-time sliders for home price, down payment, interest rate, and loan term — plus a full PITI breakdown, PMI cost tables, and an amortization schedule.',
+  /**
+   * The site's flagship calculator is the highest-intent page we own: the rate a
+   * visitor is quoted (and therefore this payment) depends on their credit
+   * score. The affiliate CTA renders directly under the results — see
+   * CreditScoreOffer.tsx. Add `creditScoreOffer: true` to another config to
+   * place the same link on that page.
+   */
+  creditScoreOffer: true,
   howToUse: {
     intro: 'Adjust the four main sliders to explore different home prices, down payments, interest rates, and loan terms. The results update instantly — you\'ll see your total monthly payment, a PITI breakdown, and an interactive amortization chart.',
     steps: [
