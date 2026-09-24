@@ -14,8 +14,11 @@
  *
  * WHAT IT DOES
  * ------------
- *  1. Pulls every county in the country in ONE request to the newest ACS
- *     5-year release that exists (2024 = the 2020-2024 vintage):
+ *  1. Pulls every county in the country in ONE request to one pinned ACS
+ *     5-year release — `--year`, default 2024, i.e. the 2020-2024 vintage the
+ *     generated pages print. The year is pinned on purpose: the release has to
+ *     be bumped by hand (--year 2025 for 2021-2025) so a new vintage can never
+ *     reach the site unnoticed.
  *
  *       https://api.census.gov/data/<year>/acs/acs5
  *         ?get=NAME,B01003_001E,B25077_001E,B25103_001E,B19013_001E,...
@@ -70,7 +73,7 @@
  *   node scripts/fetch-county-data.mjs --write            # apply
  *   node scripts/fetch-county-data.mjs --check            # CI: exit 2 if stale
  *   node scripts/fetch-county-data.mjs --offline          # cache only, no net
- *   node scripts/fetch-county-data.mjs --year 2024        # pin the vintage
+ *   node scripts/fetch-county-data.mjs --year 2025        # next release, 2021-2025
  *   node scripts/fetch-county-data.mjs --file <json>      # local payload
  *   node scripts/fetch-county-data.mjs --report <path>    # save the table
  *   node scripts/fetch-county-data.mjs --quiet            # report file only

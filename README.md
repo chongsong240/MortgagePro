@@ -60,6 +60,10 @@ npm run refresh:county:check    # CI/cron: exit code 2 when a newer release exis
 
 What the script guarantees:
 
+* the release year is pinned (`--year`, default 2024 = the 2020–2024 vintage) and
+  the script asks for exactly that year — when the Census Bureau ships the next
+  release, pass `--year 2025` to pull 2021–2025 instead of letting a new vintage
+  reach the site unnoticed;
 * one request to `api.census.gov/data/<year>/acs/acs5` for **every county in the
   country** — a state-level query would still look plausible, so the row count is
   the wrong-geography guard (fewer than 2500 rows blocks a write);
