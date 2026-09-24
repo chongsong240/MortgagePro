@@ -95,7 +95,7 @@ the tables the pages already cite. `0` = identical, `1` = the check itself could
 not run (no payload, API error).
 
 The comparison needs the ACS payload, so it needs either the `data/census/`
-cache (a local re-run) or the network — one keyless request, the same nationwide
+cache (a local re-run) or the network — one keyed request, the same nationwide
 pull the build makes. `--offline` is for a sandbox that has the cache and no
 outbound HTTPS; with neither cache nor network the check exits `1` instead of
 pretending the data is stale.

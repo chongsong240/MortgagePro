@@ -366,7 +366,8 @@ async function loadParts() {
   fs.mkdirSync(CACHE_DIR, { recursive: true });
   fs.writeFileSync(NATIONAL_COUNTY_CACHE, JSON.stringify(payload), 'utf8');
   note(`💾 cached ${rel(NATIONAL_COUNTY_CACHE)} (${(fs.statSync(NATIONAL_COUNTY_CACHE).size / 1024).toFixed(0)} KB)`);
-  if (!KEY) warn('no CENSUS_API_KEY in the environment — the keyless tier is rate limited to a few hundred calls a day (this run needs one).');
+  if (!KEY) warn('no CENSUS_API_KEY in the environment — the API turns keyless requests away ' +
+    '(302 to /data/missing_key.html), so this payload probably came from a cache or a hand pass. Set the key before the next pull.');
   sources.push(rel(NATIONAL_COUNTY_CACHE));
   parts.push({ label: rel(NATIONAL_COUNTY_CACHE), parsed: parseAcsPayload(payload, rel(NATIONAL_COUNTY_CACHE)) });
   return { parts, sources };
