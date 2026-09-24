@@ -1,0 +1,58 @@
+# Monthly ACS sentinel — does src/data/county_data.json still match the vintage
+# the 51 state pages print?
+#
+# `npm run refresh:county:check` rebuilds the file from the pinned ACS release
+# and exits 2 when the result differs: either a new 5-year release is out, or
+# the Census rebalanced the tables the pages already cite. A red run is the
+# reminder to run `npm run refresh:county --year 2025`, review the diff, then
+# `refresh:county:write` and sync the citation labels — see README,
+# "Maintaining src/data/county_data.json".
+#
+# No install step and no node_modules on purpose: the script is pure Node
+# (fs/path/global fetch, needs 18+), so this job only ever goes red for data
+# reasons. CENSUS_API_KEY is optional — the single keyless call is far inside
+# the Census rate limit, and the secret is passed through when it exists.
+name: county-data-check
+
+on:
+  schedule:
+    # 06:00 UTC on the 5th. ACS 5-year releases land in December (occasionally
+    # September), so monthly is about noticing the release, not its exact day.
+    - cron: '0 6 5 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Is county_data.json still the pinned build?
+        shell: bash
+        run: |
+          set +e
+          npm run refresh:county:check
+          status=$?
+          set -e
+          case "$status" in
+            0)
+              echo "::notice title=ACS vintage::county_data.json still matches the pinned ACS release."
+              ;;
+            2)
+              echo "::error title=New ACS release or rebalance::county_data.json is stale. Run 'npm run refresh:county --year 2025', review the diff, then 'refresh:county:write' and sync the citation labels."
+              ;;
+            *)
+              echo "::error title=Census check did not run::exit $status — the API call failed or no payload was available. See the log above; retry before touching county_data.json."
+              ;;
+          esac
+          exit "$status"

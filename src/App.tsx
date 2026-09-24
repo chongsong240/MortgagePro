@@ -1024,36 +1024,6 @@ function DisclaimerPage() {
   );
 }
 
-function AffiliateDisclosurePage() {
-  return (
-    <div className="max-w-3xl mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold tracking-tight mb-6">Affiliate Disclosure</h1>
-      <div className="text-muted-foreground space-y-6 leading-relaxed">
-        <p><strong>Last updated:</strong> August 30, 2026</p>
-
-        <p>MortgagePro.io is a free resource dedicated to helping first-time home buyers understand mortgages and make smarter financial decisions.</p>
-        <p>To keep this website running at no cost to our readers, we may earn a commission when you click on certain links on this site and make a purchase or submit an inquiry. These links are called "affiliate links."</p>
-
-        <h2 className="text-xl font-semibold text-foreground mt-6">What This Means</h2>
-        <ul className="list-disc pl-6 space-y-1">
-          <li>We may receive compensation when you use an affiliate link to visit a partner website and take an action, such as applying for a loan or signing up for a credit monitoring service.</li>
-          <li>This compensation comes at no additional cost to you.</li>
-          <li>We only recommend products, services, and tools that we believe are genuinely useful for our readers.</li>
-        </ul>
-
-        <h2 className="text-xl font-semibold text-foreground mt-6">Our Content Is Independent</h2>
-        <p>The presence of affiliate links does not influence the information, opinions, or recommendations in our articles. Our primary goal is to provide accurate, helpful mortgage guidance. If we recommend a product or service, it is because we believe it offers real value—not solely because of a potential commission.</p>
-
-        <h2 className="text-xl font-semibold text-foreground mt-6">Why You Should Still Do Your Own Research</h2>
-        <p>Mortgage rates, loan terms, and financial products vary by individual circumstances. We encourage you to compare options and consult with a qualified financial professional before making major decisions.</p>
-
-        <p>If you have any questions about this disclosure, please contact us at <strong>hello@mortgagepro.io</strong>.</p>
-        <p>This disclosure is provided in accordance with the Federal Trade Commission's guidelines on endorsements and testimonials.</p>
-      </div>
-    </div>
-  );
-}
-
 function BlogStub() {
   const posts = [
     { 
@@ -1336,7 +1306,8 @@ export function AppRoutes() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/disclaimer" element={<DisclaimerPage />} />
-            <Route path="/affiliate-disclosure.html" element={<AffiliateDisclosurePage />} />
+            {/* /affiliate-disclosure(.html) is a redirect now: vercel.json 308s both
+                forms, and the two routes below cover in-app navigation. */}
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/editorial-policy" element={<EditorialPolicyPage />} />
             <Route path="/calculator-methodology" element={<CalculatorMethodologyPage />} />

@@ -53,9 +53,9 @@ paid, median household income) from the Census Bureau's American Community
 Survey:
 
 ```bash
-npm run refresh:county          # one nationwide Census request + a per-state table
-npm run refresh:county:write    # apply the 51 rows
-npm run refresh:county:check    # CI/cron: exit code 2 when a newer release exists
+npm run refresh:county          # dry run: one nationwide Census request + a per-state table
+npm run refresh:county:write    # apply the 51 rows to src/data/county_data.json
+npm run refresh:county:check    # sentinel: exit 2 when the pinned build is no longer current
 ```
 
 What the script guarantees:
@@ -80,6 +80,28 @@ What the script guarantees:
 * keeps the citation in one place: the card text and the ACS entry on
   `/calculator-methodology` both follow `_meta` in this file, and the value is
   never compared with the Zillow sale price printed on the same page.
+
+### `refresh:county:check` — what exit 2 means
+
+The check reruns that same build and compares it with the `county_data.json` in
+the repo on two things: the pinned release year in `_meta`, and every row, byte
+for byte. So exit `2` means "the numbers the 51 live pages print are no longer
+what this build produces" — either the pinned year moved (`--year 2025`, review
+the diff, then `--write` and sync the citation labels) or the Census rebalanced
+the tables the pages already cite. `0` = identical, `1` = the check itself could
+not run (no payload, API error).
+
+The comparison needs the ACS payload, so it needs either the `data/census/`
+cache (a local re-run) or the network — one keyless request, the same nationwide
+pull the build makes. `--offline` is for a sandbox that has the cache and no
+outbound HTTPS; with neither cache nor network the check exits `1` instead of
+pretending the data is stale.
+
+`.github/workflows/county-check.yml` runs it on the 5th of every month
+(06:00 UTC) and on demand, so a new vintage shows up as a failing job instead of
+a stale number on 51 live pages. It needs no dependencies and no secrets: the
+script is pure Node, and `CENSUS_API_KEY` is used when the repository secret
+exists, keyless otherwise.
 
 ## Run Locally
 
