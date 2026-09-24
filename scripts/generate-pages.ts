@@ -65,6 +65,54 @@ for (const [code, info] of Object.entries(RAW_STATE_DATA)) {
   };
 }
 
+// ============================================================
+// 1a-2. Load the county-level Census data (largest county per state)
+// ============================================================
+/**
+ * A second, independent dataset: for every state, the U.S. Census Bureau's ACS
+ * 5-year estimates for its most populous county.
+ *
+ * It is deliberately NOT merged into state_data.json. It comes from a different
+ * vendor, a different vintage and — most importantly — a different measure (a
+ * survey of what owners say their home is worth, not a sale price), so the two
+ * datasets must never be averaged together or described with one sentence.
+ * Built by scripts/fetch-county-data.mjs, which is where the guards live.
+ */
+const RAW_COUNTY_DATA: Record<string, any> = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '..', 'src/data/county_data.json'), 'utf-8')
+);
+
+interface CountyInfo {
+  county: string;
+  county_full: string;
+  geo_kind: string;
+  county_equivalent: boolean;
+  fips: string;
+  population: number;
+  median_home_value: number;
+  median_real_estate_taxes: number;
+  effective_tax_rate: number;
+  median_household_income: number;
+  median_gross_rent: number;
+  median_owner_costs: number;
+  owner_occupied: number;
+  renter_occupied: number;
+}
+
+const COUNTY_DATA: Record<string, CountyInfo> = {};
+for (const [code, info] of Object.entries(RAW_COUNTY_DATA)) {
+  if (code === '_meta') continue;
+  COUNTY_DATA[code] = info as CountyInfo;
+}
+
+/**
+ * Provenance for the county card, taken from the JSON's own strings so the
+ * vintage printed on the page can never drift from the vintage of the numbers —
+ * and so the verifier can grep for the citation verbatim in dist/.
+ */
+const COUNTY_META: { citation: string; vintage: string; year: number; api: string; retrieved: string } =
+  RAW_COUNTY_DATA._meta;
+
 // National benchmarks for the generated pages: the unweighted mean of the 51
 // state values in state_data.json (not population-weighted, not a median, so
 // the copy must always call them "averages").
@@ -472,6 +520,86 @@ function generateStateRankHtml(code: string): string {
   </table>
   <p style="margin-top: 12px;">${reachSentence}</p>
   <p style="margin-top: 10px;">Within the ${me.region} region, ${me.name} has the <strong>#${regionRank} lowest</strong> median-price monthly payment of the ${regionPeers.length} states there.</p>
+</div>`;
+}
+
+
+// ============================================================
+// 4ab. Largest county card (Census ACS 5-year estimates)
+// ============================================================
+
+/**
+ * What each state calls its county equivalents, and the one sentence that
+ * explains the local term. Louisiana has parishes, Alaska boroughs /
+ * municipalities / census areas, Connecticut planning regions (its counties
+ * were retired in 2022) and the District of Columbia is its own equivalent —
+ * without this the card would call the Capitol Planning Region a "county",
+ * which is both wrong and the kind of detail a reader from Hartford notices.
+ * Keys match `geo_kind` in src/data/county_data.json.
+ */
+/**
+ * Display forms used in the card heading ("…'s Largest Planning Region"), so
+ * each kind is title-cased explicitly instead of by a generic capitaliser that
+ * would turn "city and borough" into "City and borough". Keys match `geo_kind`
+ * in src/data/county_data.json.
+ */
+const COUNTY_KIND_WORD: Record<string, string> = {
+  county: 'County',
+  parish: 'Parish',
+  borough: 'Borough',
+  city_and_borough: 'City and Borough',
+  municipality: 'Municipality',
+  census_area: 'Census Area',
+  planning_region: 'Planning Region',
+  district: 'County Equivalent',
+  county_equivalent: 'County Equivalent',
+};
+
+const COUNTY_KIND_NOTE: Record<string, string> = {
+  parish: 'Louisiana is divided into parishes rather than counties, and the Census Bureau counts each parish as a county equivalent.',
+  borough: 'Alaska covers the state with boroughs and census areas, and the Census Bureau counts each as a county equivalent.',
+  city_and_borough: 'Alaska counts a consolidated city-and-borough government as a single county equivalent.',
+  municipality: 'Alaska counts the unified Municipality of Anchorage as one county equivalent.',
+  census_area: 'Alaska covers the areas outside its boroughs with census areas, which the Census Bureau treats as county equivalents.',
+  planning_region: 'Connecticut retired its eight counties in 2022, and the Census Bureau now reports the state\u2019s nine planning regions as county equivalents.',
+  district: 'The District of Columbia has no counties, so the district itself is its single county equivalent \u2014 these figures are district-wide.',
+};
+
+/**
+ * The county card for one state page: the state's most populous county from the
+ * ACS 5-year release, plus the two methodology notes that keep these numbers
+ * from being read as sale prices or as the statewide tax rate.
+ */
+function generateCountyFactsHtml(code: string): string {
+  const facts = COUNTY_DATA[code];
+  if (!facts) return '';
+  const stateName = STATE_DATA[code].name;
+  const isCounty = facts.geo_kind === 'county';
+  const kindWord = COUNTY_KIND_WORD[facts.geo_kind] ?? 'County Equivalent';
+  const kindNote = COUNTY_KIND_NOTE[facts.geo_kind] ?? '';
+  const heading = `\u{1F4CD} ${stateName}'s Largest ${kindWord}: ${facts.county}`;
+  const ratePct = (facts.effective_tax_rate * 100).toFixed(2);
+
+  return `<div class="card">
+  <h2>${heading}</h2>
+  <p>Everywhere else on this page ${stateName} is one set of numbers — one median price, one tax rate, one insurance premium. The U.S. Census Bureau's American Community Survey publishes the same kind of measures for individual counties, so here is ${stateName}'s most populous ${isCounty ? 'county' : 'county equivalent'} — <strong>${facts.county}</strong> — from the <strong>${COUNTY_META.vintage}</strong> release.${kindNote ? ` ${kindNote}` : ''}</p>
+
+  <table>
+    <thead>
+      <tr><th>${facts.county} \u2014 ${COUNTY_META.vintage}</th><th class="text-right">Estimate</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Population</td><td class="text-right">${facts.population.toLocaleString('en-US')}</td></tr>
+      <tr><td>Median home value (owner-reported)</td><td class="text-right">${fmtCurrency(facts.median_home_value)}</td></tr>
+      <tr><td>Median real estate taxes paid (annual)</td><td class="text-right">${fmtCurrency(facts.median_real_estate_taxes)}</td></tr>
+      <tr class="total-row"><td><strong>Effective property tax rate (taxes \u00F7 value)</strong></td><td class="text-right"><strong>${ratePct}%</strong></td></tr>
+      <tr><td>Median household income</td><td class="text-right">${fmtCurrency(facts.median_household_income)}</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 12px;">Two things to keep in mind before you use these numbers. First, the Census asks owners what their home is <em>worth</em>: this is a five-year survey estimate, not the sale price of homes that changed hands, so it is not comparable with the sale-price figures elsewhere on this page. Second, ${ratePct}% is the median tax bill divided by the median home value, which is a different calculation from the statewide effective rate in the comparison table above (that one weighs total taxes collected against total value).</p>
+
+  <p style="margin-top: 10px; font-size: 0.85rem; color: #64748b;">Source: ${COUNTY_META.citation} Retrieved ${COUNTY_META.retrieved}. Learn how the American Community Survey <a href="https://www.census.gov/programs-surveys/acs" style="color: #2563eb;">collects these estimates</a>.</p>
 </div>`;
 }
 
@@ -1410,6 +1538,7 @@ function generateStateHtml(
   const purchaseExampleHtml = generatePurchaseExampleHtml(stateName, purchaseExample, taxRate);
   const costNotes = generateCostNotes(stateName, code, taxRate, insurance, purchaseExample);
   const rankHtml = generateStateRankHtml(code);
+  const countyFactsHtml = generateCountyFactsHtml(code);
   const faqHtml = generateStateFAQ(stateName, code, taxRate, insurance, purchaseExample);
   const utahSpotlight = stateName === 'Utah' ? generateUtahSpotlightHtml(purchaseExample, taxRate, insurance) : '';
   const faqSchema = generateStateFAQSchema(stateName, taxRate, insurance, purchaseExample);
@@ -1602,6 +1731,8 @@ function generateStateHtml(
     </div>
 
     ${rankHtml}
+
+    ${countyFactsHtml}
 
     ${purchaseExampleHtml}
 

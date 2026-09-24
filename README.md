@@ -45,6 +45,38 @@ node scripts/refresh-state-data.mjs --insurance-file data/naic-2022.json --write
 # {"vintage":"NAIC 2022","values":{"AL":1748,"AK":1129, ...}}  # all 51 states
 ```
 
+## Maintaining `src/data/county_data.json` (annual, with each ACS release)
+
+On top of its statewide numbers, every generated state page prints the largest
+county's owner-reported figures (median home value, median real estate taxes
+paid, median household income) from the Census Bureau's American Community
+Survey:
+
+```bash
+npm run refresh:county          # one nationwide Census request + a per-state table
+npm run refresh:county:write    # apply the 51 rows
+npm run refresh:county:check    # CI/cron: exit code 2 when a newer release exists
+```
+
+What the script guarantees:
+
+* one request to `api.census.gov/data/<year>/acs/acs5` for **every county in the
+  country** — a state-level query would still look plausible, so the row count is
+  the wrong-geography guard (fewer than 2500 rows blocks a write);
+* the API key is optional and read from `CENSUS_API_KEY` only — never stored in
+  the repo; raw payloads are cached under `data/census/` (gitignored, a local
+  audit trail), and `--offline` / `--refresh` / `--file <json>` cover sandboxes;
+* picks the most populous county — or county equivalent, e.g. the District of
+  Columbia — per state, and derives the county effective tax rate as median real
+  estate taxes paid ÷ median home value;
+* treats ACS "estimate not available" sentinels as missing, range-checks every
+  measure, and refuses to write when a county's home value would move more than
+  25% or when a state's chosen county changes (`--force` overrides once a human
+  has read the diff);
+* keeps the citation in one place: the card text and the ACS entry on
+  `/calculator-methodology` both follow `_meta` in this file, and the value is
+  never compared with the Zillow sale price printed on the same page.
+
 ## Run Locally
 
 **Prerequisites:**  Node.js

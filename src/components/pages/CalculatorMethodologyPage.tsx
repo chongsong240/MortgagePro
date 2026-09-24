@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Calculator, DollarSign, Percent, Home, Banknote, TrendingUp, Shield, ArrowRight } from 'lucide-react';
+import { Calculator, DollarSign, Percent, Home, Banknote, TrendingUp, Shield, ArrowRight, Landmark } from 'lucide-react';
 
 export default function CalculatorMethodologyPage() {
   return (
@@ -179,10 +179,17 @@ export default function CalculatorMethodologyPage() {
               </div>
             </li>
             <li className="flex items-start gap-3">
+              <Landmark className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+              <div>
+                <strong className="text-foreground">Census County Data (State Pages)</strong>
+                <p>The county figures on our state payment pages come from a fourth source: the U.S. Census Bureau's American Community Survey (ACS) 5-year estimates, <strong>2020–2024</strong> release — tables B01003 (population), B25077 (median home value), B25103 (median real estate taxes paid), and B19013 (median household income) for the most populous county, or county equivalent, in each state. The county effective tax rate shown there is derived as median real estate taxes paid ÷ median home value. These are five-year survey estimates of what owners reported, not current sale prices, and they are not the Tax Foundation statewide rate used for the calculator defaults.</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3">
               <Calculator className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
               <div>
                 <strong className="text-foreground">Regular Updates</strong>
-                <p>We review and update our calculator defaults quarterly to reflect changes in interest rates, tax data, and insurance costs. We also review our formulas annually to ensure they continue to reflect industry standards.</p>
+                <p>We review and update our calculator defaults quarterly to reflect changes in interest rates, tax data, and insurance costs. We also review our formulas annually to ensure they continue to reflect industry standards. The Census county figures are refreshed when the Census Bureau publishes a new ACS 5-year release; our refresh tooling compares the published vintage with the one stored on the site and flags it when they diverge.</p>
               </div>
             </li>
           </ul>
