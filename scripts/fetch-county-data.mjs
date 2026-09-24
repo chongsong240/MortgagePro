@@ -45,9 +45,11 @@
  * API KEY
  * -------
  * Read from process.env.CENSUS_API_KEY (or --key) and never written to disk.
- * Do not put a key in this file or in county_data.json: both are committed. A
- * keyless call also works (one request is far inside the keyless tier); the
- * script just says so.
+ * Do not put a key in this file or in county_data.json: both are committed.
+ * The key is required for a live pull: api.census.gov answers a keyless request
+ * with a 302 to /data/missing_key.html, an HTML page the fetch below reports as
+ * such instead of letting response.json() die on "Unexpected token '<'". Signup
+ * is free and instant: https://api.census.gov/data/key_signup.html
  *
  * GUARDS (a wrong dataset must not reach the site)
  * -----------------------------------------------
@@ -341,7 +343,26 @@ async function loadParts() {
     die(`the Census API answered ${response.status} ${response.statusText}.\n` +
         `   ${response.status === 404 ? `No ACS 5-year release for ${YEAR} — check https://api.census.gov/data/${YEAR}/acs/acs5.html` : 'Check the key, or retry later.'}`);
   }
-  const payload = await response.json();
+  // The API does not always answer with JSON: a keyless request is redirected to
+  // /data/missing_key.html, and a tired tier answers with a maintenance page.
+  // Left alone, response.json() fails as a bare "Unexpected token '<'" — which
+  // says nothing about the missing key, and in CI nothing about the secret.
+  const contentType = response.headers.get('content-type') || '(no content type)';
+  if (!contentType.includes('json')) {
+    const body = (await response.text()).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
+    die(`the Census API answered ${response.status} with ${contentType}, not JSON.\n` +
+        `   ${response.url.includes('missing_key')
+          ? `That is the missing-key page (${response.url}): the API turns keyless requests away, so ` +
+            `set CENSUS_API_KEY (free signup: https://api.census.gov/data/key_signup.html).`
+          : `Body starts: ${body || '(empty)'}`}`);
+  }
+  let payload;
+  try {
+    payload = await response.json();
+  } catch (err) {
+    die(`the Census API body is not valid JSON (${err.message}) — most often a rate-limit or ` +
+        `maintenance page. Retry later, or set CENSUS_API_KEY.`);
+  }
   fs.mkdirSync(CACHE_DIR, { recursive: true });
   fs.writeFileSync(NATIONAL_COUNTY_CACHE, JSON.stringify(payload), 'utf8');
   note(`💾 cached ${rel(NATIONAL_COUNTY_CACHE)} (${(fs.statSync(NATIONAL_COUNTY_CACHE).size / 1024).toFixed(0)} KB)`);

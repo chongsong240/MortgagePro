@@ -10,8 +10,9 @@
 #
 # No install step and no node_modules on purpose: the script is pure Node
 # (fs/path/global fetch, needs 18+), so this job only ever goes red for data
-# reasons. CENSUS_API_KEY is optional — the single keyless call is far inside
-# the Census rate limit, and the secret is passed through when it exists.
+# reasons. CENSUS_API_KEY *is* required — api.census.gov redirects keyless
+# requests to /data/missing_key.html — and the first step fails with the signup
+# link if the repository secret is missing.
 name: county-data-check
 
 on:
@@ -36,6 +37,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Is CENSUS_API_KEY set?
+        run: |
+          if [ -z "${CENSUS_API_KEY}" ]; then
+            echo "::error title=CENSUS_API_KEY missing::api.census.gov redirects keyless requests to /data/missing_key.html, so this sentinel cannot run. Add the repository secret CENSUS_API_KEY (Settings > Secrets and variables > Actions). Free signup: https://api.census.gov/data/key_signup.html"
+            exit 1
+          fi
 
       - name: Is county_data.json still the pinned build?
         shell: bash

@@ -67,9 +67,12 @@ What the script guarantees:
 * one request to `api.census.gov/data/<year>/acs/acs5` for **every county in the
   country** — a state-level query would still look plausible, so the row count is
   the wrong-geography guard (fewer than 2500 rows blocks a write);
-* the API key is optional and read from `CENSUS_API_KEY` only — never stored in
-  the repo; raw payloads are cached under `data/census/` (gitignored, a local
-  audit trail), and `--offline` / `--refresh` / `--file <json>` cover sandboxes;
+* the key is read from `CENSUS_API_KEY` only — never stored in the repo — and it
+  is required for a live pull: `api.census.gov` answers a keyless request with a
+  302 to `/data/missing_key.html`, which the script now reports as exactly that
+  instead of dying on a JSON parse error (signup is free); raw payloads are
+  cached under `data/census/` (gitignored, a local audit trail), and `--offline`
+  / `--refresh` / `--file <json>` cover sandboxes;
 * picks the most populous county — or county equivalent, e.g. the District of
   Columbia — per state, and derives the county effective tax rate as median real
   estate taxes paid ÷ median home value;
@@ -99,9 +102,10 @@ pretending the data is stale.
 
 `.github/workflows/county-check.yml` runs it on the 5th of every month
 (06:00 UTC) and on demand, so a new vintage shows up as a failing job instead of
-a stale number on 51 live pages. It needs no dependencies and no secrets: the
-script is pure Node, and `CENSUS_API_KEY` is used when the repository secret
-exists, keyless otherwise.
+a stale number on 51 live pages. It needs no dependencies — the script is pure
+Node — but it does need the `CENSUS_API_KEY` repository secret, and the job
+fails fast with the signup link if that secret is missing instead of reporting a
+keyless Census error as a data problem.
 
 ## Run Locally
 
