@@ -10,9 +10,11 @@
 #
 # No install step and no node_modules on purpose: the script is pure Node
 # (fs/path/global fetch, needs 18+), so this job only ever goes red for data
-# reasons. CENSUS_API_KEY *is* required — api.census.gov redirects keyless
-# requests to /data/missing_key.html — and the first step fails with the signup
-# link if the repository secret is missing.
+# reasons. The actions are pinned to their node24 majors — the v4 line still
+# targets node20, which the runners now deprecate on every run. CENSUS_API_KEY
+# *is* required — api.census.gov redirects keyless requests to
+# /data/missing_key.html — and the first step fails with the signup link if the
+# repository secret is missing.
 name: county-data-check
 
 on:
@@ -32,11 +34,14 @@ jobs:
     env:
       CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
+          # Auto-caching keys off a packageManager field in package.json, and this
+          # job installs nothing — keep it off rather than cache an empty tree.
+          package-manager-cache: false
 
       - name: Is CENSUS_API_KEY set?
         run: |
