@@ -279,7 +279,7 @@ export function BiWeeklyCalculatorPage() {
 const rentVsBuyConfig: PageConfig = {
   title: 'Rent vs Buy Calculator: Is Buying Worth It in Your City? (2026)',
   metaTitle: 'Rent vs Buy Calculator (2026): Break-Even Year',
-  metaDescription: 'Compare the 5-year net-worth math: rent vs buy with closing costs, selling costs, PMI and what your down payment could earn invested instead.',
+  metaDescription: 'Buying beats renting in year 4 on our defaults. Enter rent, home price and time horizon to see your break-even year — closing and selling costs included.',
   description: 'Rent vs buy calculator that compares net worth instead of monthly payments. Enter your rent, home price, and how long you will stay to get the exact year buying pulls ahead — including closing costs, selling costs, PMI, and what your down payment could earn invested.',
   quickAnswer: "Renting is not always throwing money away, and buying is not always the smarter move. This calculator compares net worth rather than spending: a buyer gets home equity minus what it costs to sell, while a renter keeps the down payment and closing costs invested. On the defaults — a $400,000 home, 20% down at 6.5%, and $2,400/month rent — buying pulls ahead in year 4. Drop rent to $1,800 and it takes 15 years; at $1,500 with no appreciation, buying never catches up.",
   howToUse: {

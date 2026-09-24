@@ -305,17 +305,176 @@ function priceTier(price: number): { tier: Tier; desc: string } {
   return { tier: 'high-cost', desc: 'high-cost / premium' };
 }
 
+/**
+ * Tax tier — ABSOLUTE bands, used only for the cost-note framing below, where
+ * each branch's wording is justified by its own band ("among the highest in the
+ * nation" only prints above 1.5%, "relatively low" only below 0.6%).
+ *
+ * Comparative sentences must use vsNationalPhrase()/nationalGap() instead:
+ * `desc` is a tier label, and only 'well below' / 'well above' happen to read
+ * as comparisons — 'moderate' does not, which is why the FAQ used to say
+ * "which is moderate the national average of 0.90%".
+ */
 function taxTier(rate: number): { tier: TaxTier; desc: string; label: string } {
   if (rate < 0.006) return { tier: 'low', desc: 'well below', label: 'low' };
   if (rate <= 0.015) return { tier: 'moderate', desc: 'moderate', label: 'moderate' };
   return { tier: 'high', desc: 'well above', label: 'high' };
 }
 
+/**
+ * Insurance tier — RELATIVE to the national average, because every sentence
+ * built from it is a comparison.
+ *
+ * The previous absolute bands (<$1,300 low | <=$2,800 moderate | >$2,800 high)
+ * classified all 51 states as "low" or "moderate", so Florida — 79% above the
+ * national average — was described as "roughly in line with" it, and the "high"
+ * wording was unreachable dead code. Thresholds are mirrored in
+ * data/build-state-board.mjs (see the header of that file).
+ */
 function insuranceTier(annualCost: number): { tier: InsuranceTier; desc: string } {
-  if (annualCost < 1300) return { tier: 'low', desc: 'low' };
-  if (annualCost <= 2800) return { tier: 'moderate', desc: 'moderate' };
-  return { tier: 'high', desc: 'high — likely driven by exposure to severe weather, coastal winds, or tornado activity' };
+  const ratio = annualCost / NATIONAL_AVG_INSURANCE;
+  if (ratio < 0.8) return { tier: 'low', desc: 'below the national average' };
+  if (ratio <= 1.2) return { tier: 'moderate', desc: 'close to the national average' };
+  return { tier: 'high', desc: 'above the national average, usually driven by exposure to severe weather, coastal winds, or tornado activity' };
 }
+
+/**
+ * Comparison wording for "<state value> vs. the national average".
+ *
+ * Every comparative sentence must be driven by the RATIO to the national
+ * average — never by the tier labels above. Using an absolute tier label as a
+ * comparison is what produced "which is moderate the national average" on all
+ * 32 states between 0.6% and 1.5% property tax: the word carried no
+ * information and the sentence had no verb.
+ */
+function vsNationalPhrase(ratio: number): string {
+  if (ratio < 0.7) return 'far below';
+  if (ratio < 0.95) return 'below';
+  if (ratio <= 1.05) return 'right in line with';
+  if (ratio <= 1.45) return 'above';
+  if (ratio <= 2) return 'well above';
+  return 'far above';
+}
+
+/** " (about 79% higher than the average state)" — empty when the gap is under 3%. */
+function nationalGap(ratio: number): string {
+  const delta = Math.round(Math.abs(ratio - 1) * 100);
+  if (delta < 3) return '';
+  return ` (about ${delta}% ${ratio > 1 ? 'higher' : 'lower'} than the average state)`;
+}
+
+// ============================================================
+// 4a-3. Cross-state ranks (derived — never hand-written)
+// ============================================================
+
+interface RankRow {
+  code: string;
+  name: string;
+  region: string;
+  price: number;
+  tax: number;
+  ins: number;
+  total: number;
+}
+
+/**
+ * Every state's median-price payment, ready to be ranked against the other 50.
+ *
+ * All of it is recomputed from state_data.json on every build with the same
+ * 20%-down / 6.5% / 30-year formula the rest of the page prints, so a state page
+ * can never claim a rank, a count or a comparison the data does not support.
+ * This is what makes the comparison card differ from page to page: the ranks,
+ * the counts and the example states change with the numbers.
+ */
+const STATE_RANK_ROWS: RankRow[] = Object.entries(STATE_DATA).map(([code, info]) => {
+  const price = info.median_price || 300000;
+  return {
+    code,
+    name: info.name,
+    region: regionNameOf(code),
+    price,
+    tax: info.property_tax_rate,
+    ins: info.avg_insurance,
+    total: calcMortgage(price, info.property_tax_rate, info.avg_insurance).totalMonthly,
+  };
+});
+
+/** 1-based rank per state for one measure; ties share the better rank (1 = cheapest). */
+function rankStatesBy(key: 'price' | 'tax' | 'ins' | 'total'): Map<string, number> {
+  const sorted = [...STATE_RANK_ROWS].sort((a, b) => a[key] - b[key]);
+  const ranks = new Map<string, number>();
+  sorted.forEach((row, i) => {
+    const prev = sorted[i - 1];
+    ranks.set(row.code, prev && prev[key] === row[key] ? (ranks.get(prev.code) as number) : i + 1);
+  });
+  return ranks;
+}
+
+const STATE_RANK = {
+  price: rankStatesBy('price'),
+  tax: rankStatesBy('tax'),
+  ins: rankStatesBy('ins'),
+  total: rankStatesBy('total'),
+  of: STATE_RANK_ROWS.length,
+};
+
+/** The state with the lowest value for one measure (ties resolved by input order). */
+function lowestState(key: 'price' | 'tax' | 'ins' | 'total'): RankRow {
+  return [...STATE_RANK_ROWS].sort((a, b) => a[key] - b[key])[0];
+}
+
+/**
+ * "How {State} compares to the other 50 states" card.
+ *
+ * Four ranks plus two sentences about what the same monthly payment buys
+ * elsewhere. Every number here is derived, so the copy is as auditable as the
+ * rest of the page — and unlike the templated sections it is different on all
+ * 51 pages.
+ */
+function generateStateRankHtml(code: string): string {
+  const me = STATE_RANK_ROWS.find((r) => r.code === code);
+  if (!me) return '';
+
+  const of = STATE_RANK.of;
+  const cheapest = lowestState('price');
+  const cheapestTax = lowestState('tax');
+  const cheapestIns = lowestState('ins');
+  const cheapestTotal = lowestState('total');
+
+  // States whose median-priced home costs the same or less per month than this one.
+  const reachable = STATE_RANK_ROWS.filter((r) => r.code !== code && r.total <= me.total)
+    .sort((a, b) => a.total - b.total);
+  const cheapestReach = reachable[0];
+  const priciestReach = reachable[reachable.length - 1];
+
+  const reachSentence = reachable.length === 0
+    ? `At ${fmtCurrency(me.total)}/month, no other state in our data is cheaper to buy at the median price — ${me.name} has the lowest estimated monthly payment of the ${of} states we track.`
+    : `The same ${fmtCurrency(me.total)}/month would cover the median-priced home in <strong>${reachable.length} other state${reachable.length === 1 ? '' : 's'}</strong>`
+      + `${cheapestReach ? `, including <strong>${cheapestReach.name}</strong> (${fmtCurrency(cheapestReach.total)}/month)` : ''}`
+      + `${priciestReach && priciestReach.code !== (cheapestReach as RankRow).code ? ` and <strong>${priciestReach.name}</strong> (${fmtCurrency(priciestReach.total)}/month)` : ''}.`;
+
+  const regionPeers = STATE_RANK_ROWS.filter((r) => r.region === me.region);
+  // Same tie rule as the table above: states with an identical payment share the
+  // better position, so this can never disagree with the "#N of 51" rank.
+  const regionRank = 1 + regionPeers.filter((r) => r.code !== code && r.total < me.total).length;
+
+  return `<div class="card">
+  <h2>📊 How ${me.name} Compares to the Other 50 States</h2>
+  <p>Rank 1 is the cheapest. Every row below uses the same 20% down, 6.5% APR and 30-year term as the rest of this page.</p>
+  <table>
+    <thead><tr><th>Measure</th><th class="text-right">${me.name}</th><th class="text-right">Rank</th><th class="text-right">Lowest of the 51</th></tr></thead>
+    <tbody>
+      <tr><td>Median home price</td><td class="text-right">${fmtCurrency(me.price)}</td><td class="text-right">#${STATE_RANK.price.get(code)} of ${of}</td><td class="text-right">${cheapest.name} (${fmtCurrency(cheapest.price)})</td></tr>
+      <tr><td>Effective property tax rate</td><td class="text-right">${fmtPct(me.tax)}%</td><td class="text-right">#${STATE_RANK.tax.get(code)} of ${of}</td><td class="text-right">${cheapestTax.name} (${fmtPct(cheapestTax.tax)}%)</td></tr>
+      <tr><td>Average homeowners insurance</td><td class="text-right">${fmtCurrency(me.ins)}/yr</td><td class="text-right">#${STATE_RANK.ins.get(code)} of ${of}</td><td class="text-right">${cheapestIns.name} (${fmtCurrency(cheapestIns.ins)}/yr)</td></tr>
+      <tr class="total-row"><td><strong>Est. monthly payment</strong></td><td class="text-right"><strong>${fmtCurrency(me.total)}/mo</strong></td><td class="text-right"><strong>#${STATE_RANK.total.get(code)} of ${of}</strong></td><td class="text-right">${cheapestTotal.name} (${fmtCurrency(cheapestTotal.total)}/mo)</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 12px;">${reachSentence}</p>
+  <p style="margin-top: 10px;">Within the ${me.region} region, ${me.name} has the <strong>#${regionRank} lowest</strong> median-price monthly payment of the ${regionPeers.length} states there.</p>
+</div>`;
+}
+
 
 function fmtPct(v: number): string {
   return (v * 100).toFixed(2);
@@ -364,12 +523,14 @@ ${items}
 
 function generateMarketOverview(stateName: string, medianPrice: number, taxRate: number, insurance: number): string {
   const pt = priceTier(medianPrice);
-  const tt = taxTier(taxRate);
-  const it = insuranceTier(insurance);
-  const taxVsNational = taxRate < NATIONAL_AVG_TAX_RATE ? 'lower than' : taxRate > NATIONAL_AVG_TAX_RATE ? 'higher than' : 'close to';
-  const insVsNational = insurance < NATIONAL_AVG_INSURANCE ? 'below' : 'above';
+  // Comparisons come from the ratio helpers, so this paragraph and the FAQ
+  // further down the same page can never describe the same number differently.
+  const taxRatio = taxRate / NATIONAL_AVG_TAX_RATE;
+  const insRatio = insurance / NATIONAL_AVG_INSURANCE;
+  const taxVsNational = vsNationalPhrase(taxRatio);
+  const insVsNational = vsNationalPhrase(insRatio);
 
-  return `<p><strong>${stateName}</strong> ranks as a <strong>${pt.desc}</strong> housing market, with a median home price of <strong>${fmtCurrency(medianPrice)}</strong>. The state's effective property tax rate of <strong>${fmtPct(taxRate)}%</strong> is <strong>${taxVsNational}</strong> the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%, and annual homeowners insurance averaging <strong>${fmtCurrency(insurance)}</strong> falls <strong>${insVsNational}</strong> the US average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}.</p>
+  return `<p><strong>${stateName}</strong> ranks as a <strong>${pt.desc}</strong> housing market, with a median home price of <strong>${fmtCurrency(medianPrice)}</strong>. The state's effective property tax rate of <strong>${fmtPct(taxRate)}%</strong> is <strong>${taxVsNational}</strong> the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%${nationalGap(taxRatio)}, and annual homeowners insurance averaging <strong>${fmtCurrency(insurance)}</strong> falls <strong>${insVsNational}</strong> the US average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}${nationalGap(insRatio)}.</p>
 
 <p>These three factors — price level, tax burden, and insurance costs — combine to shape the true monthly cost of homeownership in ${stateName}. Below we break down a realistic purchase scenario using state-specific data.</p>`;
 }
@@ -524,11 +685,22 @@ function generateCostNotes(stateName: string, _code: string, taxRate: number, in
     ? `<strong>Property taxes</strong> in ${stateName} are relatively low at <strong>${fmtPct(taxRate)}%</strong>, costing about <strong>${fmtCurrency(Math.round(p.homePrice * taxRate))}/year</strong> (${fmtCurrency(p.monthlyTax)}/month) on the median home. This is one area where ${stateName} offers a clear cost advantage.`
     : `<strong>Property taxes</strong> in ${stateName} are <strong>${fmtPct(taxRate)}%</strong>, meaning about <strong>${fmtCurrency(Math.round(p.homePrice * taxRate))}/year</strong> (${fmtCurrency(p.monthlyTax)}/month) on the median-priced home.`;
 
+  // Each branch states a fact that its own band guarantees, and every branch
+  // carries the exact gap to the national average, so the sentence is true for
+  // any input (the 'high' branch used to be unreachable — no state was above
+  // $2,800 — while 16 states 11%-79% above the average got the neutral line).
+  const insRatio = insurance / NATIONAL_AVG_INSURANCE;
+  const insVsAvg = insRatio >= 1.02
+    ? `about <strong>${Math.round((insRatio - 1) * 100)}% above</strong> the national average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}`
+    : insRatio <= 0.98
+    ? `about <strong>${Math.round((1 - insRatio) * 100)}% below</strong> the national average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}`
+    : `right at the national average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}`;
+
   const insComment = it.tier === 'high'
-    ? `<strong>Homeowners insurance</strong> in ${stateName} is notably expensive — <strong>${fmtCurrency(insurance)}/year</strong>. This is likely due to exposure to severe weather patterns. It adds <strong>${fmtCurrency(p.monthlyInsurance)}/month</strong> to your housing costs.`
+    ? `<strong>Homeowners insurance</strong> in ${stateName} is among the more expensive in the country — <strong>${fmtCurrency(insurance)}/year</strong> (${fmtCurrency(p.monthlyInsurance)}/month), ${insVsAvg}. Premiums this high are usually driven by weather exposure, so it is worth comparing quotes from several insurers before you commit.`
     : it.tier === 'low'
-    ? `<strong>Homeowners insurance</strong> in ${stateName} is quite affordable at <strong>${fmtCurrency(insurance)}/year</strong> (${fmtCurrency(p.monthlyInsurance)}/month), well below the national median.`
-    : `<strong>Homeowners insurance</strong> in ${stateName} averages <strong>${fmtCurrency(insurance)}/year</strong> (${fmtCurrency(p.monthlyInsurance)}/month).`;
+    ? `<strong>Homeowners insurance</strong> in ${stateName} is relatively affordable at <strong>${fmtCurrency(insurance)}/year</strong> (${fmtCurrency(p.monthlyInsurance)}/month), ${insVsAvg} — one of the lower insurance burdens in our state data.`
+    : `<strong>Homeowners insurance</strong> in ${stateName} averages <strong>${fmtCurrency(insurance)}/year</strong> (${fmtCurrency(p.monthlyInsurance)}/month), ${insVsAvg}.`;
 
   return `<div class="card">
   <h2>💰 State-Specific Cost Notes for ${stateName}</h2>
@@ -558,8 +730,10 @@ function getAgencyName(stateName: string): string {
 }
 
 function generateStateFAQ(stateName: string, _code: string, taxRate: number, insurance: number, p: PurchaseExampleResult): string {
-  const tt = taxTier(taxRate);
-  const it = insuranceTier(insurance);
+  // Comparisons here are driven by the same ratio helpers the Market Overview
+  // uses — the absolute tier labels above are not comparison words.
+  const taxRatio = taxRate / NATIONAL_AVG_TAX_RATE;
+  const insRatio = insurance / NATIONAL_AVG_INSURANCE;
   const taxYear = Math.round(p.homePrice * taxRate);
   const agencyName = getAgencyName(stateName);
 
@@ -574,11 +748,11 @@ function generateStateFAQ(stateName: string, _code: string, taxRate: number, ins
     },
     {
       q: `What are property taxes like in ${stateName}?`,
-      a: `${stateName}'s effective property tax rate is <strong>${fmtPct(taxRate)}%</strong>, which is ${tt.desc} the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}. On a ${fmtCurrency(p.homePrice)} home, you'd pay approximately <strong>${fmtCurrency(taxYear)}/year</strong> in property taxes (${fmtCurrency(p.monthlyTax)}/month).${tt.tier === 'high' ? ' This is a significant ongoing cost that buyers should weigh carefully against their monthly budget.' : tt.tier === 'low' ? ' This lower tax burden helps keep monthly costs more manageable.' : ''}`,
+      a: `${stateName}'s effective property tax rate is <strong>${fmtPct(taxRate)}%</strong>, which is <strong>${vsNationalPhrase(taxRatio)}</strong> the national average of ${fmtPct(NATIONAL_AVG_TAX_RATE)}%${nationalGap(taxRatio)}. On a ${fmtCurrency(p.homePrice)} home, you'd pay approximately <strong>${fmtCurrency(taxYear)}/year</strong> in property taxes (${fmtCurrency(p.monthlyTax)}/month).${taxRatio >= 1.45 ? ' That is a significant ongoing cost worth weighing carefully against the rest of your monthly budget.' : taxRatio <= 0.85 ? ' That lower tax burden helps keep monthly costs more manageable.' : ''}`,
     },
     {
       q: `How much is homeowners insurance in ${stateName}?`,
-      a: `The average annual premium in ${stateName} is <strong>${fmtCurrency(insurance)}</strong>, which is ${it.tier === 'high' ? 'well above' : it.tier === 'low' ? 'well below' : 'roughly in line with'} the US average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}. ${it.tier === 'high' ? ' This elevated cost is often tied to weather-related risks. Be sure to shop around and compare quotes from multiple insurers.' : ' This is a relatively affordable insurance market for homeowners.'} This adds <strong>${fmtCurrency(p.monthlyInsurance)}/month</strong> to your payment.`,
+      a: `The average annual premium in ${stateName} is <strong>${fmtCurrency(insurance)}</strong>, which is <strong>${vsNationalPhrase(insRatio)}</strong> the US average of ${fmtCurrency(NATIONAL_AVG_INSURANCE)}${nationalGap(insRatio)}. ${insRatio >= 1.15 ? 'Premiums like these are usually tied to weather exposure — coastal wind, hail, or tornado risk — so it is worth comparing several quotes before you commit.' : insRatio <= 0.9 ? `That makes ${stateName} a relatively affordable insurance market for homeowners.` : 'That is close to the middle of the pack, so insurance should not swing your budget much either way.'} This adds <strong>${fmtCurrency(p.monthlyInsurance)}/month</strong> to your payment.`,
     },
     {
       q: `What are the total closing costs for a home in ${stateName}?`,
@@ -1235,6 +1409,7 @@ function generateStateHtml(
   const purchaseExample = calculatePurchaseExample(medianPrice, taxRate, insurance);
   const purchaseExampleHtml = generatePurchaseExampleHtml(stateName, purchaseExample, taxRate);
   const costNotes = generateCostNotes(stateName, code, taxRate, insurance, purchaseExample);
+  const rankHtml = generateStateRankHtml(code);
   const faqHtml = generateStateFAQ(stateName, code, taxRate, insurance, purchaseExample);
   const utahSpotlight = stateName === 'Utah' ? generateUtahSpotlightHtml(purchaseExample, taxRate, insurance) : '';
   const faqSchema = generateStateFAQSchema(stateName, taxRate, insurance, purchaseExample);
@@ -1425,6 +1600,8 @@ function generateStateHtml(
       <h2>Market Overview: ${stateName} Housing ${pt.tier === 'affordable' ? '<span class="tier-badge tier-affordable">Affordable</span>' : pt.tier === 'mid-range' ? '<span class="tier-badge tier-mid-range">Mid-Range</span>' : pt.tier === 'upper-mid-range' ? '<span class="tier-badge tier-upper-mid-range">Upper Mid-Range</span>' : '<span class="tier-badge tier-high-cost">High Cost</span>'}</h2>
       ${marketOverview}
     </div>
+
+    ${rankHtml}
 
     ${purchaseExampleHtml}
 

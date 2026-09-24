@@ -26,8 +26,8 @@ export const ROUTE_META: RouteMeta[] = [
   // ---------- Home ----------
   {
     path: '/',
-    title: 'MortgagePro | Free Mortgage Calculator + PMI & Taxes',
-    description: 'Free US mortgage calculator with state property-tax data. See your monthly payment, PITI breakdown, amortization schedule and rent vs buy math in seconds.',
+    title: 'Free Mortgage Calculator With Taxes, PMI & Insurance (2026)',
+    description: 'See your real monthly payment: principal, interest, property taxes, insurance and PMI — with 2026 state-by-state tax data. Free, instant, no sign-up required.',
   },
   // ---------- Redirect (legacy) ----------
   {
@@ -38,7 +38,7 @@ export const ROUTE_META: RouteMeta[] = [
   // ---------- Blog index ----------
   {
     path: '/blog',
-    title: 'Mortgage Guides & Free Calculators | MortgagePro Blog',
+    title: 'Mortgage Guides & Free Calculators (2026) | MortgagePro Blog',
     description: 'Step-by-step mortgage guides on PMI, amortization, DTI, closing costs and rent vs buy — with real numbers, worked examples and free calculators.',
   },
   // ---------- Blog articles ----------

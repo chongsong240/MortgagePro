@@ -296,10 +296,10 @@ export default function ClosingCostsExplained() {
         </p>
         <p className="text-lg leading-relaxed text-foreground mb-4">
           If you're shopping in{' '}
-          <a href="/mortgage-payment/california/" className="text-primary hover:underline font-medium">California</a>,{' '}
-          <a href="/mortgage-payment/texas/" className="text-primary hover:underline font-medium">Texas</a>,{' '}
-          <a href="/mortgage-payment/florida/" className="text-primary hover:underline font-medium">Florida</a>,{' '}
-          <a href="/mortgage-payment/new-york/" className="text-primary hover:underline font-medium">New York</a>, or 
+          <a href="/mortgage-payment/california" className="text-primary hover:underline font-medium">California</a>,{' '}
+          <a href="/mortgage-payment/texas" className="text-primary hover:underline font-medium">Texas</a>,{' '}
+          <a href="/mortgage-payment/florida" className="text-primary hover:underline font-medium">Florida</a>,{' '}
+          <a href="/mortgage-payment/new-york" className="text-primary hover:underline font-medium">New York</a>, or 
           anywhere else, the rules look different. Your lender will give you a location-specific estimate. But it's also worth 
           asking your real estate agent what's typical in your market. They see closing statements every day and can tell you 
           what to expect.
