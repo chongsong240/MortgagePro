@@ -279,8 +279,8 @@ export function BiWeeklyCalculatorPage() {
 // ============================================================
 const rentVsBuyConfig: PageConfig = {
   title: 'Rent vs Buy Calculator: Is Buying Worth It in Your State? (2026)',
-  metaTitle: 'Rent vs Buy Calculator (2026): Break-Even Year',
-  metaDescription: 'Buying beats renting in year 4 on our defaults. Enter rent, home price and time horizon — or pick your state — to see your break-even year.',
+  metaTitle: 'Rent vs Buy Calculator (2026) — Find Your Break-Even Year Free',
+  metaDescription: 'Is buying worth it? Enter your rent, home price & state — see the exact year buying beats renting, with net worth charts. Free, instant, no sign-up.'},
   description: 'Rent vs buy calculator that compares net worth instead of monthly payments. Enter your rent, home price, and how long you will stay to get the exact year buying pulls ahead — including closing costs, selling costs, PMI, and what your down payment could earn invested. Pick your state first and we load its median home price, effective property tax rate and typical closing costs from the same data our state pages use.',
   quickAnswer: "Renting is not always throwing money away, and buying is not always the smarter move. This calculator compares net worth rather than spending: a buyer gets home equity minus what it costs to sell, while a renter keeps the down payment and closing costs invested. On the defaults — a $400,000 home, 20% down at 6.5%, and $2,400/month rent — buying pulls ahead in year 4. Drop rent to $1,800 and it takes 15 years; at $1,500 with no appreciation, buying never catches up.",
   howToUse: {
@@ -446,8 +446,8 @@ export function FIRECalculatorPage() {
 // ============================================================
 const pmiConfig: PageConfig = {
   title: 'PMI Calculator: Monthly Cost + Exact Cancellation Date (2026)',
-  metaTitle: 'PMI Calculator (2026): Monthly Cost & Cancel',
-  metaDescription: 'PMI on a $300,000 loan with 10% down costs about $125-$375 a month. Get your exact cost, the month it cancels, and the total you pay before it ends.',
+  metaTitle: 'Free PMI Calculator (2026) — Monthly Cost & Exact Cancel Date',
+  metaDescription: '10% down on a $300K loan = ~$125–$375/mo in PMI. See your exact monthly cost, the month PMI cancels, and total paid — free, instant, no sign-up.',
   description: '10% down on a $300,000 loan adds roughly $125–$375/month in PMI. Use our free calculator to see your exact cost, when PMI cancels, and the total you’ll pay before it ends — free, instant, no sign-up.',
   quickAnswer: 'PMI typically costs 0.5%–1.5% of your loan per year. On a $300,000 mortgage that’s $125–$375/month added to your payment — money that protects the lender, not you. Enter your loan details below to see your exact monthly PMI, your cancellation date, and how much you’ll pay in total.',
   howToUse: {
@@ -606,8 +606,8 @@ export function RefinanceCalculatorPage() {
 // ============================================================
 const closingCostConfig: PageConfig = {
   title: 'Closing Cost Calculator: How Much Cash Do You Really Need? (2026)',
-  metaTitle: 'Closing Cost Calculator: Cash You Need to Close',
-  metaDescription: 'Closing costs run $8,000-$20,000 on a $400,000 home. Get a state-specific, itemized estimate of the cash you need at closing in about 30 seconds.',
+  metaTitle: 'Closing Cost Calculator (2026) — Free Itemized Estimate by State',
+  metaDescription: 'Closing costs run $8,000–$20,000 on a $400K home. Get a free state-specific, itemized breakdown of every fee in 30 seconds — no sign-up required.',
   description: 'Closing costs catch most first-time buyers off guard. On a $400,000 home that’s $8,000–$20,000 on top of your down payment. Get a free state-specific, itemized breakdown in 30 seconds.',
   quickAnswer: 'Closing costs are separate from your down payment — and most first-time buyers underestimate them. On a $400,000 home, expect $8,000–$20,000 in fees including loan origination, title insurance, appraisal, and prepaid taxes. The exact amount varies by state. Use the calculator below for a full itemized estimate.',
   howToUse: {

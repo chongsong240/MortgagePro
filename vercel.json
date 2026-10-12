@@ -17,6 +17,21 @@
       "source": "/affiliate-disclosure",
       "destination": "/disclaimer",
       "permanent": true
+    },
+    {
+      "source": "/mortgage-payment/:path*/",
+      "destination": "/mortgage-payment/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:path*/",
+      "destination": "/blog/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "permanent": true
     }
   ],
   "rewrites": [

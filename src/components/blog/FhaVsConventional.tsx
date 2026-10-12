@@ -351,6 +351,13 @@ export default function FhaVsConventional() {
           her home had appreciated, and the math finally worked. She pays less now. But she told me she wished someone had
           explained the insurance difference on day one.
         </p>
+        <p className="text-lg leading-relaxed text-foreground mb-4">
+          If you're already in an FHA loan and wondering whether to refinance, use our{' '}
+          <Link to="/refinance-calculator" className="text-primary hover:underline font-medium">refinance calculator</Link>{' '}
+          to see your break-even month. And if you're weighing a fixed rate against an ARM for either loan type, the{' '}
+          <Link to="/arm-vs-fixed-calculator" className="text-primary hover:underline font-medium">ARM vs fixed calculator</Link>{' '}
+          shows the exact month each option wins.
+        </p>
 
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border border-blue-200 dark:border-blue-800 rounded-xl p-8 text-center mt-8">
           <Calculator className="w-10 h-10 text-primary mx-auto mb-4" />

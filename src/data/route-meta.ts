@@ -29,9 +29,51 @@ export const ROUTE_META: RouteMeta[] = [
     title: 'Free Mortgage Calculator With Taxes, PMI & Insurance (2026)',
     description: 'See your real monthly payment: principal, interest, property taxes, insurance and PMI — with 2026 state-by-state tax data. Free, instant, no sign-up required.',
   },
-  // ---------- Redirect (legacy) ----------
   {
-    path: '/calculator',
+    path: '/mortgage-calculator',
+    title: 'Free Mortgage Calculator With PMI, Taxes & Insurance (2026)',
+    description: 'Calculate your real monthly payment: P&I, property taxes, insurance and PMI with real-time sliders. Full PITI breakdown + 30-year amortization schedule. Free, instant.',
+  },
+  {
+    path: '/pmi-calculator',
+    title: 'Free PMI Calculator (2026) — Monthly Cost & Exact Cancel Date',
+    description: '10% down on a $300K loan = ~$125–$375/mo in PMI. See your exact monthly cost, the month PMI cancels, and total paid — free, instant, no sign-up.',
+  },
+  {
+    path: '/closing-cost-calculator',
+    title: 'Closing Cost Calculator (2026) — Free Itemized Estimate by State',
+    description: 'Closing costs run $8,000–$20,000 on a $400K home. Get a free state-specific, itemized breakdown of every fee in 30 seconds — no sign-up required.',
+  },
+  {
+    path: '/biweekly-mortgage-calculator',
+    title: 'Biweekly Mortgage Calculator (2026) — Save Interest & Pay Off Early',
+    description: 'On a $320K loan at 6.5%, biweekly payments save $62,425 and pay off 4 years early. Compare monthly vs bi-weekly side by side — free, instant.',
+  },
+  {
+    path: '/affordability-calculator',
+    title: 'Home Affordability Calculator (2026) — How Much House Can I Afford?',
+    description: 'Enter income, debts & down payment to see your max home price under the 28/36 rule — with state property-tax estimates. Free, instant, no sign-up.',
+  },
+  {
+    path: '/arm-vs-fixed-calculator',
+    title: 'ARM vs Fixed Mortgage Calculator (2026) — Compare 5/1, 7/1 & 30-Year',
+    description: 'Compare 30-year fixed, 15-year fixed, 5/1 ARM and 7/1 ARM side by side. See monthly payments, total interest and the exact year each option wins.',
+  },
+  {
+    path: '/refinance-calculator',
+    title: 'Refinance Calculator (2026) — Break-Even Month & Lifetime Savings',
+    description: 'Should you refinance? Enter your current loan and the new offer to see monthly savings, break-even month and lifetime interest difference in seconds.',
+  },
+  {
+    path: '/extra-payment-calculator',
+    title: 'Extra Mortgage Payment Calculator (2026) — Interest Saved & Payoff Date',
+    description: '$200/mo extra on a $320K loan at 6.5% saves $78,000 and pays off 6 years early. See your exact savings and new payoff date — free, instant.',
+  },
+  {
+    path: '/rent-vs-buy-calculator',
+    title: 'Rent vs Buy Calculator (2026) — Find Your Break-Even Year Free',
+    description: 'Is buying worth it? Enter your rent, home price & state — see the exact year buying beats renting, with net worth charts. Free, instant, no sign-up.',
+  },
     title: 'Mortgage Calculator (2026) - Monthly Payment Tool',
     description: 'Free mortgage calculator with amortization schedule, PMI, taxes and insurance. Estimate your monthly payment and full PITI breakdown in seconds.',
   },
@@ -49,8 +91,8 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/blog/amortization-schedule',
-    title: "What Is an Amortization Schedule? Example + 30-Year Table",
-    description: "In month one of a $400,000 loan at 6.5%, only $361 of your payment touches principal. See how a 30-year amortization schedule splits principal and interest.",
+    title: 'Amortization Schedule Explained: Free 30-Year Table + Calculator (2026)',
+    description: 'Month 1 of a $400K loan at 6.5%: only $361 goes to principal. See a full 30-year amortization table, how to read it, and how to pay off your loan years early.',
   },
   {
     path: '/blog/biweekly-payments',
@@ -94,8 +136,8 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/blog/fha-vs-conventional',
-    title: "FHA vs Conventional Calculator: Which Loan Costs Less?",
-    description: "FHA allows lower credit scores and 3.5% down but charges MIP for the life of the loan. Run both side by side — monthly payment, upfront MIP vs cancelable PMI, and the 10-year difference.",
+    title: 'FHA vs Conventional Loan Calculator: Which Costs Less in 2026?',
+    description: 'FHA allows 3.5% down but MIP lasts the life of the loan. Conventional PMI cancels at 20% equity. Compare monthly payments, total cost & break-even side by side.',
   },
   {
     path: '/blog/is-buying-worth-it-2026',
