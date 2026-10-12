@@ -3,8 +3,28 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import stateDataRaw from '@/src/data/state_data.json';
 import { DollarSign, Percent } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
+
+/**
+ * State figures for the buy-side preset. Same src/data/state_data.json the state
+ * pages, the mortgage calculator, the affordability calculator and the closing
+ * cost calculator read (Zillow July 2026 · Tax Foundation 2024 · NAIC 2022), so
+ * the preset cannot disagree with those pages.
+ */
+const stateData = stateDataRaw as Record<string, {
+  name: string;
+  median_home_price: number;
+  property_tax_rate: number;
+  closing_cost_pct: number;
+  avg_annual_insurance: number;
+}>;
+
+const stateCodes = Object.keys(stateData).sort((a, b) =>
+  stateData[a].name.localeCompare(stateData[b].name)
+);
 
 const formatCurrency = (value: number) => {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
@@ -27,6 +47,29 @@ export default function RentVsBuyCalculator() {
     sellingCostRate: 6.0, // % of the sale price paid when you sell (sunk)
     pmiRate: 0.85, // % of the loan per year, charged while the down payment is under 20%
   });
+
+  const [selectedState, setSelectedState] = useState<string>('National');
+
+  /**
+   * State preset for the buy side.
+   *
+   * It only writes inputs this model already has, and it never runs on load: the
+   * copy on this page quotes our published defaults ("buying pulls ahead in year
+   * 4"), so silently overriding them from an IP lookup would make that sentence
+   * wrong for most visitors. Rent is deliberately not touched — we have no
+   * citable rent figure.
+   */
+  const handleStateChange = (val: string) => {
+    setSelectedState(val);
+    if (val === 'National' || !stateData[val]) return;
+    const s = stateData[val];
+    setInputs((prev) => ({
+      ...prev,
+      homePrice: s.median_home_price,
+      propertyTaxRate: s.property_tax_rate * 100, // JSON stores 0.007 -> 0.7%
+      closingCostRate: s.closing_cost_pct * 100,  // JSON stores 0.03  -> 3%
+    }));
+  };
 
   const chartData = useMemo(() => {
     const downPayment = inputs.homePrice * (inputs.downPaymentPercent / 100);
@@ -119,6 +162,26 @@ export default function RentVsBuyCalculator() {
             <CardTitle>Buy Scenario</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            {/* Makes the page's "is buying worth it in your state" promise real */}
+            <div className="pb-4 mb-4 border-b border-border space-y-2">
+              <Label className="text-xs">Your State (optional)</Label>
+              <Select value={selectedState} onValueChange={handleStateChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="National (published defaults)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="National">National — published defaults</SelectItem>
+                  {stateCodes.map((code) => (
+                    <SelectItem key={code} value={code}>{stateData[code].name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                {selectedState === 'National'
+                  ? "Loads a state's median home price, effective property tax rate and typical closing costs — the same figures our state pages use (Zillow July 2026 · Tax Foundation 2024 · NAIC 2022). Your rent stays as you enter it."
+                  : `Loaded ${stateData[selectedState].name}: ${formatCurrency(stateData[selectedState].median_home_price)} median price, ${(stateData[selectedState].property_tax_rate * 100).toFixed(2)}% property tax, ${(stateData[selectedState].closing_cost_pct * 100).toFixed(1)}% closing costs. Adjust anything below — your rent stays as you enter it.`}
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-xs">Home Price</Label>

@@ -49,6 +49,21 @@ export default function BiWeeklyPayments() {
 
       <AffiliateDisclosure />
 
+      {/* Tool CTA: this guide owns the informational half of the biweekly cluster;
+          the calculator owns "biweekly mortgage calculator" (GSC: 76+63+53
+          impressions at avg position 61-64) and was not linked from this page. */}
+      <div className="bg-card border-2 border-emerald-200 dark:border-emerald-900/60 rounded-xl p-5 mb-8">
+        <p className="font-semibold text-foreground mb-1">Want your own numbers instead of ours?</p>
+        <p className="text-sm text-muted-foreground mb-3">
+          The bi-weekly mortgage calculator runs this same math on your balance, rate and term — monthly
+          vs bi-weekly side by side, with the interest saved and the payoff date.
+        </p>
+        <Link to="/biweekly-mortgage-calculator" className="inline-flex items-center gap-2 text-primary hover:underline font-medium">
+          Open the bi-weekly mortgage calculator
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">
         <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">

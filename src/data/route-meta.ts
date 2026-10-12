@@ -94,8 +94,8 @@ export const ROUTE_META: RouteMeta[] = [
   },
   {
     path: '/blog/fha-vs-conventional',
-    title: "FHA vs Conventional Loan: Which Costs Less in 2026?",
-    description: "FHA allows lower credit scores but adds mortgage insurance for the life of the loan. Compare rates, MIP vs PMI, down payments and 10-year total cost.",
+    title: "FHA vs Conventional Calculator: Which Loan Costs Less?",
+    description: "FHA allows lower credit scores and 3.5% down but charges MIP for the life of the loan. Run both side by side — monthly payment, upfront MIP vs cancelable PMI, and the 10-year difference.",
   },
   {
     path: '/blog/is-buying-worth-it-2026',

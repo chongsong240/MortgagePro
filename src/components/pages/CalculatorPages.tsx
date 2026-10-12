@@ -202,8 +202,9 @@ export function AffordabilityCalculatorPage() {
 // ============================================================
 const biweeklyConfig: PageConfig = {
   title: 'Bi-Weekly Mortgage Payment Calculator',
-  metaDescription: 'See what bi-weekly payments really save: one extra principal payment a year, less interest and an earlier payoff. Monthly vs bi-weekly, side by side.',
-  description: 'Compare standard monthly payments against an accelerated bi-weekly schedule. See how much interest you can save and how many years you can shave off your 30-year loan.',
+  metaTitle: 'Biweekly Mortgage Calculator: Bi-Weekly vs Monthly',
+  metaDescription: 'On a $320,000 loan at 6.5%, biweekly payments save about $62,425 and pay the loan off 4 years 3 months early. Compare monthly vs bi-weekly side by side.',
+  description: 'Compare standard monthly payments against an accelerated bi-weekly schedule — the same thing searchers type as "biweekly" or "bi weekly", and not the same as bi-monthly (24 half-payments a year, which saves nothing). See how much interest you can save and how many years you can shave off your 30-year loan.',
   howToUse: {
     intro: 'Enter your mortgage details on the left, then compare the standard monthly payment side-by-side with the bi-weekly accelerated plan. The results show the exact interest savings and years shaved off.',
     steps: [
@@ -277,10 +278,10 @@ export function BiWeeklyCalculatorPage() {
 // 4. Rent vs Buy Calculator
 // ============================================================
 const rentVsBuyConfig: PageConfig = {
-  title: 'Rent vs Buy Calculator: Is Buying Worth It in Your City? (2026)',
+  title: 'Rent vs Buy Calculator: Is Buying Worth It in Your State? (2026)',
   metaTitle: 'Rent vs Buy Calculator (2026): Break-Even Year',
-  metaDescription: 'Buying beats renting in year 4 on our defaults. Enter rent, home price and time horizon to see your break-even year — closing and selling costs included.',
-  description: 'Rent vs buy calculator that compares net worth instead of monthly payments. Enter your rent, home price, and how long you will stay to get the exact year buying pulls ahead — including closing costs, selling costs, PMI, and what your down payment could earn invested.',
+  metaDescription: 'Buying beats renting in year 4 on our defaults. Enter rent, home price and time horizon — or pick your state — to see your break-even year.',
+  description: 'Rent vs buy calculator that compares net worth instead of monthly payments. Enter your rent, home price, and how long you will stay to get the exact year buying pulls ahead — including closing costs, selling costs, PMI, and what your down payment could earn invested. Pick your state first and we load its median home price, effective property tax rate and typical closing costs from the same data our state pages use.',
   quickAnswer: "Renting is not always throwing money away, and buying is not always the smarter move. This calculator compares net worth rather than spending: a buyer gets home equity minus what it costs to sell, while a renter keeps the down payment and closing costs invested. On the defaults — a $400,000 home, 20% down at 6.5%, and $2,400/month rent — buying pulls ahead in year 4. Drop rent to $1,800 and it takes 15 years; at $1,500 with no appreciation, buying never catches up.",
   howToUse: {
     intro: 'Adjust the buy-side and rent-side parameters to match your situation, then set the return the renter would earn on the cash they keep. The chart updates automatically with two net worth curves: the first year the buying curve rises above the renting curve is your breakeven year.',

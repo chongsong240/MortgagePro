@@ -5,6 +5,7 @@ import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 import RelatedPosts from './RelatedPosts';
 import { AffiliateDisclosure } from './BlogComponents';
+import FhaVsConventionalCalculator from './FhaVsConventionalCalculator';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -50,6 +51,8 @@ export default function FhaVsConventional() {
 
       <AffiliateDisclosure />
 
+      <FhaVsConventionalCalculator />
+
       {/* Table of Contents */}
       <div className="bg-muted/40 border border-border rounded-xl p-6 mb-10">
         <h2 className="font-semibold text-foreground mb-3 flex items-center gap-2">
@@ -58,6 +61,7 @@ export default function FhaVsConventional() {
         </h2>
         <nav className="space-y-2 text-sm">
           {[
+            ['fha-calculator', 'Loan Calculator: FHA vs Conventional'],
             ['marias-story', `Maria's Story`],
             ['what-each-loan-is', 'What Each Loan Actually Is'],
             ['down-payment-myth', 'The Down Payment Myth'],
