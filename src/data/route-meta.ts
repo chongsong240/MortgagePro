@@ -74,9 +74,6 @@ export const ROUTE_META: RouteMeta[] = [
     title: 'Rent vs Buy Calculator (2026) — Find Your Break-Even Year Free',
     description: 'Is buying worth it? Enter your rent, home price & state — see the exact year buying beats renting, with net worth charts. Free, instant, no sign-up.',
   },
-    title: 'Mortgage Calculator (2026) - Monthly Payment Tool',
-    description: 'Free mortgage calculator with amortization schedule, PMI, taxes and insurance. Estimate your monthly payment and full PITI breakdown in seconds.',
-  },
   // ---------- Blog index ----------
   {
     path: '/blog',
