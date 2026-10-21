@@ -20,6 +20,7 @@ import RentVsBuy2026 from '@/src/components/blog/RentVsBuy2026';
 import ArmVsFixedArm from '@/src/components/blog/ArmVsFixedArm';
 import PropertyTaxesAndInsurance from '@/src/components/blog/PropertyTaxesAndInsurance';
 import DebtToIncomeRatio from '@/src/components/blog/DebtToIncomeRatio';
+import HomePurchaseContractTraps from '@/src/components/blog/HomePurchaseContractTraps';
 import ContactPage from '@/src/components/pages/ContactPage';
 import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
 import CalculatorMethodologyPage from '@/src/components/pages/CalculatorMethodologyPage';
@@ -398,6 +399,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "The Hidden Traps in Your Home Purchase Contract (And How to Avoid Them)",
+      path: "/blog/home-purchase-contract-traps",
+      date: "October 21, 2026",
+    },
     {
       title: "What Is a Good Debt-to-Income Ratio for Buying a House?",
       path: "/blog/debt-to-income-ratio",
@@ -1027,6 +1033,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "The Hidden Traps in Your Home Purchase Contract (And How to Avoid Them)",
+      path: "/blog/home-purchase-contract-traps",
+      category: "Guides",
+      date: "October 21, 2026",
+      readTime: "13 min read",
+      description: "Sarah signed her purchase contract on a Friday night. Seven days later she learned the inspection deadline had already passed — and her $10,000 deposit was on the line. Here are the clauses that cost buyers the most, and how to read them before you sign."
+    },
+    { 
       title: "What Is a Good Debt-to-Income Ratio for Buying a House?",
       path: "/blog/debt-to-income-ratio",
       category: "Education",
@@ -1300,6 +1314,7 @@ export function AppRoutes() {
             <Route path="/blog/rent-vs-buy-2026" element={<RentVsBuy2026 />} />
             <Route path="/blog/property-taxes-and-insurance" element={<PropertyTaxesAndInsurance />} />
             <Route path="/blog/debt-to-income-ratio" element={<DebtToIncomeRatio />} />
+            <Route path="/blog/home-purchase-contract-traps" element={<HomePurchaseContractTraps />} />
 
             {/* Other pages */}
             <Route path="/author" element={<AuthorPage />} />

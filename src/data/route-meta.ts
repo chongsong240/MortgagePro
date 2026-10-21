@@ -82,6 +82,11 @@ export const ROUTE_META: RouteMeta[] = [
   },
   // ---------- Blog articles ----------
   {
+    path: '/blog/home-purchase-contract-traps',
+    title: 'Home Purchase Contract Traps: 7 Clauses That Cost Buyers',
+    description: 'A seven-day inspection window, an early earnest-money release, an as-is clause — the expensive parts of a purchase contract hide in dates and initials. What to check before you sign.',
+  },
+  {
     path: '/blog/how-to-use-calculator',
     title: "How to Use a Mortgage Calculator: Step-by-Step Guide",
     description: "A 6-step walkthrough of every input — home price, down payment, rate, term, taxes and insurance — plus how to read the PITI breakdown and amortization chart.",

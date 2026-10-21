@@ -35,6 +35,7 @@ const LABELS: Record<string, string> = {
   '/blog/fha-vs-conventional': 'FHA vs Conventional',
   '/blog/what-is-pmi': 'How PMI Is Calculated',
   '/blog/closing-costs-explained': 'Closing Costs Explained',
+  '/blog/home-purchase-contract-traps': 'Home Purchase Contract Traps',
   '/blog/property-taxes-and-insurance': 'Property Taxes & Insurance',
   '/blog/is-buying-worth-it-2026': 'Is Buying Worth It in 2026?',
   '/blog/rent-vs-buy-2026': 'Rent vs Buy in 2026',
@@ -138,6 +139,7 @@ const RELATED: Record<string, string[]> = {
     '/blog/income-needed',
     '/blog/closing-costs-explained',
     '/blog/rent-vs-buy-2026',
+    '/blog/home-purchase-contract-traps',
   ],
   '/blog/fha-vs-conventional': [
     '/blog/can-i-buy-with-5-percent-down',
@@ -145,7 +147,7 @@ const RELATED: Record<string, string[]> = {
     '/blog/what-is-pmi',
     '/blog/closing-costs-explained',
     '/blog/debt-to-income-ratio',
-    '/blog/arm-vs-fixed-arm',
+    '/blog/home-purchase-contract-traps',
   ],
   '/blog/what-is-pmi': [
     '/blog/fha-vs-conventional',
@@ -177,6 +179,14 @@ const RELATED: Record<string, string[]> = {
     '/blog/property-taxes-and-insurance',
     '/blog/can-i-buy-with-5-percent-down',
     '/blog/income-needed',
+    '/blog/home-purchase-contract-traps',
+  ],
+  '/blog/home-purchase-contract-traps': [
+    '/blog/closing-costs-explained',
+    '/blog/can-i-buy-with-5-percent-down',
+    '/blog/fha-vs-conventional',
+    '/blog/what-is-pmi',
+    '/blog/how-much-house-can-i-afford',
   ],
   '/blog/property-taxes-and-insurance': [
     '/blog/monthly-payment-breakdown',

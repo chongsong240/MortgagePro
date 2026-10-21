@@ -2526,6 +2526,7 @@ function generateSitemap(): string {
     'arm-vs-fixed-arm',
     'property-taxes-and-insurance',
     'debt-to-income-ratio',
+    'home-purchase-contract-traps',
   ];
   for (const slug of blogs) {
     add(`/blog/${slug}`, 0.8, 'monthly', BLOG_LAST_MOD);
@@ -2634,6 +2635,7 @@ function main() {
     { path: 'extra-payment-calculator', title: 'Extra Payment Calculator - Pay Off Mortgage Early | MortgagePro', description: 'See how extra payments reduce your mortgage term and save interest. Compare one-time vs recurring payments.', priority: 0.9 },
     { path: 'arm-vs-fixed-calculator', title: 'ARM vs Fixed Rate Mortgage Calculator | MortgagePro', description: 'Compare adjustable-rate (ARM) vs fixed-rate mortgages. See which loan type saves you more over time.', priority: 0.9 },
     { path: 'blog', title: 'Mortgage Blog - Guides, Tips & Resources | MortgagePro', description: 'Expert mortgage guides, affordability tips, and home buying resources. Learn about PMI, amortization, and more.', priority: 0.8 },
+    { path: 'blog/home-purchase-contract-traps', title: 'Home Purchase Contract Traps: 7 Clauses That Cost Buyers', description: 'A seven-day inspection window, an early earnest-money release, an as-is clause — the expensive parts of a purchase contract hide in dates and initials. What to check before you sign.', priority: 0.8 },
     { path: 'blog/how-to-use-calculator', title: 'How to Use Our Mortgage Calculator - Step by Step Guide | MortgagePro', description: 'Learn how to use MortgagePro\'s mortgage calculator. Step-by-step guide to calculating your monthly payment.', priority: 0.8 },
     { path: 'blog/amortization-schedule', title: 'What is an Amortization Schedule? Understanding Your Loan | MortgagePro', description: 'Learn what an amortization schedule is and how it affects your mortgage. See how principal and interest change over 30 years.', priority: 0.8 },
     { path: 'blog/biweekly-payments', title: 'Bi-Weekly Mortgage Payments: Are They Worth It? | MortgagePro', description: 'Are bi-weekly mortgage payments worth it? We break down the math on interest savings and faster payoffs.', priority: 0.8 },
