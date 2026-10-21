@@ -1849,6 +1849,7 @@ ${amortRows}
         <a href="${SITE_URL}/privacy">Privacy</a> &middot;
         <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
         <a href="${SITE_URL}/disclaimer">Affiliate Disclosure</a>
+        &middot; <a href="https://www.youtube.com/@MortgageProIO" target="_blank" rel="me noopener">YouTube</a>
       </p>
     </div>
   </footer>
@@ -2259,6 +2260,7 @@ function generateAmountHtml(amount: number, slug: string): string {
         <a href="${SITE_URL}/privacy">Privacy</a> &middot;
         <a href="${SITE_URL}/disclaimer">Disclaimer</a> &middot;
         <a href="${SITE_URL}/disclaimer">Affiliate Disclosure</a>
+        &middot; <a href="https://www.youtube.com/@MortgageProIO" target="_blank" rel="me noopener">YouTube</a>
       </p>
     </div>
   </footer>

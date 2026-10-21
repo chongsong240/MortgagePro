@@ -4,7 +4,9 @@ import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, T
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 import RelatedPosts from './RelatedPosts';
+import YouTubeEmbed from './YouTubeEmbed';
 import { AffiliateDisclosure } from './BlogComponents';
+import { YOUTUBE_VIDEOS } from '@/src/data/youtube';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -21,6 +23,7 @@ export default function WhatIsPmi() {
         title="How Is PMI Calculated? (And How to Get Rid of It)"
         description="If you're putting down less than 20%, you're paying for something that doesn't protect you. Here's exactly how to cancel PMI and save thousands."
         datePublished="2026-05-22"
+        dateModified="2026-10-21"
         url="https://www.mortgagepro.io/blog/what-is-pmi"
         faqs={[
           { q: 'What is PMI and who does it protect?', a: 'PMI (Private Mortgage Insurance) protects the lender, not you. It is required when your down payment is less than 20% of the home price. PMI typically costs 0.5% to 1.5% of the loan amount annually.' },
@@ -110,12 +113,19 @@ export default function WhatIsPmi() {
       </div>
 
       {/* Intro */}
-      <p className="text-muted-foreground leading-relaxed mb-10">
+      <p className="text-muted-foreground leading-relaxed mb-6">
         Marcus and Elena bought their first home in Atlanta in 2021. They had good jobs, decent credit, 
         and a 5% down payment. What they didn't have was an extra $60,000 sitting around for a 20% down 
         payment on a $300,000 house. So they paid PMI. Here's what happened next—and how to make sure it 
         doesn't happen to you longer than necessary.
       </p>
+
+      {/* Video version of the same explainer. Facade only — the player loads on click. */}
+      <YouTubeEmbed
+        video={YOUTUBE_VIDEOS.whatIsPmi}
+        caption="The short video version: what PMI is, and who actually pays it."
+        className="mb-12"
+      />
 
       {/* Section 1 - The Story */}
       <section id="section-1" className="mb-12 scroll-mt-20">

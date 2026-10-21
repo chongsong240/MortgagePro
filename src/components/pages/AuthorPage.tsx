@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Mail, BookOpen, ClipboardCheck, FileText, ShieldCheck } from 'lucide-react';
+import { Mail, BookOpen, ClipboardCheck, FileText, ShieldCheck, Youtube } from 'lucide-react';
+import { YOUTUBE_CHANNEL_URL, YOUTUBE_VIDEOS, watchUrl } from '@/src/data/youtube';
 
 /**
  * Author page (/author).
@@ -15,7 +16,7 @@ import { Mail, BookOpen, ClipboardCheck, FileText, ShieldCheck } from 'lucide-re
  */
 
 const PAGE_URL = 'https://www.mortgagepro.io/author';
-const LAST_UPDATED = 'September 17, 2026';
+const LAST_UPDATED = 'October 21, 2026';
 
 const SOURCES: { name: string; url: string; note: string }[] = [
   {
@@ -128,6 +129,22 @@ export default function AuthorPage() {
           pay.
         </p>
         <p>
+          Some of those explanations are easier to follow on video. The PMI walkthrough on{' '}
+          <a
+            href={watchUrl(YOUTUBE_VIDEOS.whatIsPmi)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            what PMI actually is and who pays for it
+          </a>{' '}
+          covers the same example as the{' '}
+          <Link to="/blog/what-is-pmi" className="text-primary hover:underline">
+            PMI guide
+          </Link>
+          , and it is embedded in that article.
+        </p>
+        <p>
           I'm not a licensed loan officer or financial advisor. What I offer is careful research, transparent
           methodology, and a tool that I wish I had when I started.
         </p>
@@ -225,6 +242,15 @@ export default function AuthorPage() {
             <ShieldCheck className="w-4 h-4 text-primary" />
             Contact page
           </Link>
+          <a
+            href={YOUTUBE_CHANNEL_URL}
+            target="_blank"
+            rel="me noopener"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border text-sm font-medium text-foreground hover:border-primary/40 transition-colors"
+          >
+            <Youtube className="w-4 h-4 text-red-600" aria-hidden="true" />
+            YouTube channel
+          </a>
         </div>
 
         <p className="text-sm pt-4">

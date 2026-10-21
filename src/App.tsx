@@ -40,7 +40,8 @@ import {
   ArmVsFixedCalculatorPage,
 } from '@/src/components/pages/CalculatorPages';
 
-import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X, ChevronDown } from 'lucide-react';
+import { Home, Calculator as CalculatorIcon, BookOpen, Info, ShieldAlert, Menu, X, ChevronDown, Youtube } from 'lucide-react';
+import { YOUTUBE_SUBSCRIBE_URL } from '@/src/data/youtube';
 
 const CALCULATOR_LINKS = [
   { name: 'Mortgage Calculator', path: '/mortgage-calculator' },
@@ -275,6 +276,21 @@ function Footer() {
               className="inline-block mt-3 text-sm font-medium text-primary hover:underline"
             >
               Mortgage payments by state →
+            </a>
+            {/*
+              Social profile, crawlable <a> rather than a widget. rel="me"
+              links this profile to the site for entity reconciliation; the
+              channel is ours, so no nofollow. sub_confirmation=1 opens the
+              subscribe dialog for signed-in viewers arriving from here.
+            */}
+            <a
+              href={YOUTUBE_SUBSCRIBE_URL}
+              target="_blank"
+              rel="me noopener"
+              className="mt-3 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Youtube className="w-4 h-4 text-red-600" aria-hidden="true" />
+              Watch on YouTube
             </a>
           </div>
           
