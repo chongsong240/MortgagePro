@@ -31,11 +31,16 @@ export interface YouTubeVideo {
   thumbnail: string;
 }
 
-export const YOUTUBE_VIDEOS: Record<'whatIsPmi', YouTubeVideo> = {
+export const YOUTUBE_VIDEOS: Record<'whatIsPmi' | 'closingCosts', YouTubeVideo> = {
   whatIsPmi: {
     id: 'H0cn9ru0yWo',
     title: 'What is PMI? Do All First Time Buyers Need To Pay?',
     thumbnail: 'https://i.ytimg.com/vi/H0cn9ru0yWo/hqdefault.jpg',
+  },
+  closingCosts: {
+    id: 'gc3neZosbD0',
+    title: 'Closing Costs Explained For First Time Home Buyers',
+    thumbnail: 'https://i.ytimg.com/vi/gc3neZosbD0/hqdefault.jpg',
   },
 };
 

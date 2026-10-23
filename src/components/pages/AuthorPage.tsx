@@ -16,7 +16,7 @@ import { YOUTUBE_CHANNEL_URL, YOUTUBE_VIDEOS, watchUrl } from '@/src/data/youtub
  */
 
 const PAGE_URL = 'https://www.mortgagepro.io/author';
-const LAST_UPDATED = 'October 21, 2026';
+const LAST_UPDATED = 'October 23, 2026';
 
 const SOURCES: { name: string; url: string; note: string }[] = [
   {
@@ -89,6 +89,10 @@ const PROFILE_SCHEMA = {
         name: 'MortgagePro',
         url: 'https://www.mortgagepro.io',
       },
+      // The channel is the same person publishing the same explanations in
+      // another medium, so linking it here gives the byline a corroborating
+      // profile instead of a name with no footprint.
+      sameAs: [YOUTUBE_CHANNEL_URL],
     },
   ],
 };
@@ -142,7 +146,20 @@ export default function AuthorPage() {
           <Link to="/blog/what-is-pmi" className="text-primary hover:underline">
             PMI guide
           </Link>
-          , and it is embedded in that article.
+          , and{' '}
+          <a
+            href={watchUrl(YOUTUBE_VIDEOS.closingCosts)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            the closing costs walkthrough
+          </a>{' '}
+          matches the{' '}
+          <Link to="/blog/closing-costs-explained" className="text-primary hover:underline">
+            closing costs guide
+          </Link>
+          . Both videos are embedded in those articles.
         </p>
         <p>
           I'm not a licensed loan officer or financial advisor. What I offer is careful research, transparent

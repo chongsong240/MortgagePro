@@ -4,7 +4,9 @@ import { ArrowRight, DollarSign, FileText, Home, Calculator, BookOpen, Shield, P
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 import RelatedPosts from './RelatedPosts';
+import YouTubeEmbed from './YouTubeEmbed';
 import { AffiliateDisclosure } from './BlogComponents';
+import { YOUTUBE_VIDEOS } from '@/src/data/youtube';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -21,6 +23,7 @@ export default function ClosingCostsExplained() {
         title="Closing Costs Explained: The Money You Need Beyond the Down Payment"
         description="My neighbors Jen and Mike thought they had the numbers figured out. Then a week before closing, they found out they needed nearly $12,000 more than they'd planned."
         datePublished="2026-07-12"
+        dateModified="2026-10-23"
         url="https://www.mortgagepro.io/blog/closing-costs-explained"
         faqs={[
           { q: 'How much are closing costs on a house?', a: 'Closing costs typically run 2% to 5% of the home purchase price. On a $400,000 home, that is $8,000 to $20,000. This range depends on your state, your lender, and your loan type.' },
@@ -105,6 +108,13 @@ export default function ClosingCostsExplained() {
           through what they actually are, how much they cost, and how to avoid getting caught off guard like Jen and Mike did.
         </p>
       </section>
+
+      {/* Video version of the same explainer. Facade only — the player loads on click. */}
+      <YouTubeEmbed
+        video={YOUTUBE_VIDEOS.closingCosts}
+        caption="The video version: what closing costs actually cover, and which ones you can push back on."
+        className="mb-12"
+      />
 
       {/* 2. What Are You Actually Paying For */}
       <section id="what-youre-paying-for" className="mb-12">
