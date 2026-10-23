@@ -30,6 +30,7 @@ export default function WhatIsPmi() {
           { q: 'When can I cancel PMI on my mortgage?', a: 'You can request PMI cancellation when your loan balance reaches 80% of the original home value. Under the Homeowners Protection Act, PMI must be automatically terminated when your balance reaches 78%.' },
           { q: 'Can home appreciation help me cancel PMI faster?', a: 'Yes. If your home has appreciated in value, you may already have 20% equity even without paying down much principal. A new appraisal ($400-$600) can confirm this and allow you to request PMI cancellation early.' },
         ]}
+        video={YOUTUBE_VIDEOS.whatIsPmi}
       />
       {/* Header */}
       <div className="mb-10">

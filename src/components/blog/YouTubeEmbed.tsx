@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Play, Youtube } from 'lucide-react';
-import { watchUrl, type YouTubeVideo } from '@/src/data/youtube';
+import { embedUrl, watchUrl, type YouTubeVideo } from '@/src/data/youtube';
 
 interface YouTubeEmbedProps {
   video: YouTubeVideo;
@@ -30,7 +30,7 @@ export default function YouTubeEmbed({ video, caption, className = '' }: YouTube
         {playing ? (
           <iframe
             className="absolute inset-0 h-full w-full"
-            src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0`}
+            src={`${embedUrl(video)}?autoplay=1&rel=0`}
             title={video.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin"

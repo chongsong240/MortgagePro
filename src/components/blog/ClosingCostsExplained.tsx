@@ -31,6 +31,7 @@ export default function ClosingCostsExplained() {
           { q: 'Can closing costs be rolled into the loan?', a: 'In some cases, yes. Certain costs can be financed into your loan balance, which lowers your upfront cash requirement but means you pay interest on those costs for years. It is a tradeoff worth understanding before you commit.' },
           { q: 'Who pays closing costs, the buyer or seller?', a: 'In most deals, the buyer pays the closing costs. However, sellers can agree to cover a portion of the buyer costs through something called a seller concession. This is more common in buyer markets or when a seller needs to close quickly.' },
         ]}
+        video={YOUTUBE_VIDEOS.closingCosts}
       />
 
       {/* Header */}

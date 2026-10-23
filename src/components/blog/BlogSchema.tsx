@@ -1,3 +1,5 @@
+import { embedUrl, watchUrl, type YouTubeVideo } from '@/src/data/youtube';
+
 interface FAQ {
   q: string;
   a: string;
@@ -10,6 +12,12 @@ interface BlogSchemaProps {
   dateModified?: string;
   url: string;                 // full canonical URL
   faqs?: FAQ[];
+  /**
+   * Set this only when the article actually embeds the video. Google requires
+   * the VideoObject to describe a video that is watchable on the page, so
+   * passing it from any other article would be spam markup.
+   */
+  video?: YouTubeVideo;
 }
 
 /**
@@ -27,7 +35,7 @@ const BLOG_LAST_MODIFIED = '2026-09-17';
  * rendered / prerendered HTML, crawlers (Googlebot, AdSense review) can
  * read the structured data without executing JavaScript.
  */
-export default function BlogSchema({ title, description, datePublished, dateModified, url, faqs }: BlogSchemaProps) {
+export default function BlogSchema({ title, description, datePublished, dateModified, url, faqs, video }: BlogSchemaProps) {
   const schemas: object[] = [
     {
       '@context': 'https://schema.org',
@@ -51,6 +59,10 @@ export default function BlogSchema({ title, description, datePublished, dateModi
         '@type': 'WebPage',
         '@id': url,
       },
+      // Cross-reference the VideoObject block pushed below. They are separate
+      // <script> tags, so this @id is the only thing that tells Google the video
+      // belongs to this article rather than floating on its own.
+      ...(video ? { video: { '@id': `${url}#video` } } : {}),
     },
   ];
 
@@ -66,6 +78,28 @@ export default function BlogSchema({ title, description, datePublished, dateModi
           text: f.a,
         },
       })),
+    });
+  }
+
+  if (video) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      '@id': `${url}#video`,
+      name: video.title,
+      description: video.description,
+      thumbnailUrl: [video.thumbnail],
+      uploadDate: video.uploadDate,
+      duration: video.duration,
+      // embedUrl is the playable location Google accepts for a hosted player;
+      // sameAs ties the record back to the YouTube watch page.
+      embedUrl: embedUrl(video),
+      sameAs: [watchUrl(video)],
+      publisher: {
+        '@type': 'Organization',
+        name: 'MortgagePro',
+        url: 'https://www.mortgagepro.io',
+      },
     });
   }
 

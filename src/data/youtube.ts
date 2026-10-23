@@ -29,6 +29,17 @@ export interface YouTubeVideo {
   title: string;
   /** hqdefault always exists (maxresdefault does not, for some uploads). */
   thumbnail: string;
+  /**
+   * Upload day in ISO 8601 (YYYY-MM-DD). Date only, no invented time: this is
+   * all YouTube reports on the public watch page, and VideoObject accepts a
+   * date without a clock time.
+   */
+  uploadDate: string;
+  /** ISO 8601 duration, e.g. PT59S for 0:59 and PT1M20S for 1:20. */
+  duration: string;
+  /** One or two sentences for the VideoObject description. Must stay factually
+   *  true of the video itself, not a copy of the article's meta description. */
+  description: string;
 }
 
 export const YOUTUBE_VIDEOS: Record<'whatIsPmi' | 'closingCosts', YouTubeVideo> = {
@@ -36,14 +47,31 @@ export const YOUTUBE_VIDEOS: Record<'whatIsPmi' | 'closingCosts', YouTubeVideo> 
     id: 'H0cn9ru0yWo',
     title: 'What is PMI? Do All First Time Buyers Need To Pay?',
     thumbnail: 'https://i.ytimg.com/vi/H0cn9ru0yWo/hqdefault.jpg',
+    uploadDate: '2026-10-16',
+    duration: 'PT59S',
+    description:
+      'Private mortgage insurance costs roughly 0.5% to 1.5% of the loan amount a year, protects the lender rather than the borrower, and is required below a 20% down payment. A 59-second explainer of who pays PMI and when it can be removed.',
   },
   closingCosts: {
     id: 'gc3neZosbD0',
     title: 'Closing Costs Explained For First Time Home Buyers',
     thumbnail: 'https://i.ytimg.com/vi/gc3neZosbD0/hqdefault.jpg',
+    uploadDate: '2026-10-23',
+    duration: 'PT1M20S',
+    description:
+      'Closing costs typically run 2% to 5% of the purchase price, or $8,000 to $20,000 on a $400,000 home. A short walkthrough of the fees first-time buyers actually pay, from origination and title to prepaid taxes and insurance.',
   },
 };
 
 export function watchUrl(video: YouTubeVideo): string {
   return `https://www.youtube.com/watch?v=${video.id}`;
+}
+
+/**
+ * Privacy-enhanced embed origin. No iframe is rendered until a visitor clicks,
+ * so this URL shows up in the prerendered HTML only inside the VideoObject
+ * markup (Google needs a playable location) — never as a live player.
+ */
+export function embedUrl(video: YouTubeVideo): string {
+  return `https://www.youtube-nocookie.com/embed/${video.id}`;
 }
