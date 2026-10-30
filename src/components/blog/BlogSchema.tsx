@@ -36,6 +36,17 @@ const BLOG_LAST_MODIFIED = '2026-09-17';
  * read the structured data without executing JavaScript.
  */
 export default function BlogSchema({ title, description, datePublished, dateModified, url, faqs, video }: BlogSchemaProps) {
+  /**
+   * Google requires `uploadDate` on VideoObject, so the markup only goes out
+   * once the registry entry carries a real upload date and duration. Otherwise
+   * the article would publish an invalid video block (and an Article `video`
+   * pointer to nothing).
+   */
+  const videoDates =
+    video?.uploadDate && video.duration
+      ? { uploadDate: video.uploadDate, duration: video.duration }
+      : null;
+
   const schemas: object[] = [
     {
       '@context': 'https://schema.org',
@@ -62,7 +73,7 @@ export default function BlogSchema({ title, description, datePublished, dateModi
       // Cross-reference the VideoObject block pushed below. They are separate
       // <script> tags, so this @id is the only thing that tells Google the video
       // belongs to this article rather than floating on its own.
-      ...(video ? { video: { '@id': `${url}#video` } } : {}),
+      ...(videoDates ? { video: { '@id': `${url}#video` } } : {}),
     },
   ];
 
@@ -81,7 +92,7 @@ export default function BlogSchema({ title, description, datePublished, dateModi
     });
   }
 
-  if (video) {
+  if (video && videoDates) {
     schemas.push({
       '@context': 'https://schema.org',
       '@type': 'VideoObject',
@@ -89,8 +100,8 @@ export default function BlogSchema({ title, description, datePublished, dateModi
       name: video.title,
       description: video.description,
       thumbnailUrl: [video.thumbnail],
-      uploadDate: video.uploadDate,
-      duration: video.duration,
+      uploadDate: videoDates.uploadDate,
+      duration: videoDates.duration,
       // embedUrl is the playable location Google accepts for a hosted player;
       // sameAs ties the record back to the YouTube watch page.
       embedUrl: embedUrl(video),

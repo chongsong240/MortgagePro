@@ -133,33 +133,55 @@ export default function AuthorPage() {
           pay.
         </p>
         <p>
-          Some of those explanations are easier to follow on video. The PMI walkthrough on{' '}
+          Some of those explanations are easier to follow on video. The{' '}
+          <a
+            href={YOUTUBE_CHANNEL_URL}
+            target="_blank"
+            rel="me noopener"
+            className="text-primary hover:underline"
+          >
+            MortgagePro channel
+          </a>{' '}
+          has short walkthroughs of{' '}
           <a
             href={watchUrl(YOUTUBE_VIDEOS.whatIsPmi)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
           >
-            what PMI actually is and who pays for it
-          </a>{' '}
-          covers the same example as the{' '}
-          <Link to="/blog/what-is-pmi" className="text-primary hover:underline">
-            PMI guide
-          </Link>
-          , and{' '}
+            PMI
+          </a>
+          ,{' '}
           <a
             href={watchUrl(YOUTUBE_VIDEOS.closingCosts)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
           >
-            the closing costs walkthrough
+            closing costs
           </a>{' '}
-          matches the{' '}
-          <Link to="/blog/closing-costs-explained" className="text-primary hover:underline">
-            closing costs guide
+          and{' '}
+          <a
+            href={watchUrl(YOUTUBE_VIDEOS.fhaVsConventional)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            FHA vs conventional loans
+          </a>
+          , each embedded in the matching{' '}
+          <Link to="/blog/what-is-pmi" className="text-primary hover:underline">
+            PMI
           </Link>
-          . Both videos are embedded in those articles.
+          ,{' '}
+          <Link to="/blog/closing-costs-explained" className="text-primary hover:underline">
+            closing costs
+          </Link>{' '}
+          and{' '}
+          <Link to="/blog/fha-vs-conventional" className="text-primary hover:underline">
+            FHA vs conventional
+          </Link>{' '}
+          guides.
         </p>
         <p>
           I'm not a licensed loan officer or financial advisor. What I offer is careful research, transparent
