@@ -16,7 +16,7 @@ import { YOUTUBE_CHANNEL_URL, YOUTUBE_VIDEOS, watchUrl } from '@/src/data/youtub
  */
 
 const PAGE_URL = 'https://www.mortgagepro.io/author';
-const LAST_UPDATED = 'October 23, 2026';
+const LAST_UPDATED = 'October 30, 2026';
 
 const SOURCES: { name: string; url: string; note: string }[] = [
   {

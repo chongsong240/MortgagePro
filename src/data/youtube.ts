@@ -67,8 +67,8 @@ export const YOUTUBE_VIDEOS: Record<'whatIsPmi' | 'closingCosts' | 'fhaVsConvent
     id: 'SMbCBn91Nj8',
     title: 'FHA vs Conventional Loan: Which Is Better for First Time Buyers?',
     thumbnail: 'https://i.ytimg.com/vi/SMbCBn91Nj8/hqdefault.jpg',
-    // No uploadDate/duration yet: the video is embedded, but VideoObject stays
-    // off until the real values are supplied rather than guessed.
+    uploadDate: '2026-10-30',
+    duration: 'PT1M40S',
     description:
       'FHA loans allow a 3.5% down payment and credit scores from 580, but their mortgage insurance premium usually lasts the life of the loan. Conventional loans need stronger credit yet let PMI be cancelled at 20% equity. A short comparison of which loan costs less over time.',
   },

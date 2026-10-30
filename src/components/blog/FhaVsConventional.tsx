@@ -24,7 +24,7 @@ export default function FhaVsConventional() {
         title="FHA vs Conventional Loan: Which One Actually Costs You Less?"
         description="My cousin Maria bought with an FHA loan because it was easier to qualify for. Two years later, she learned why that easy loan could cost her $30K more. Here's what she wishes someone had explained."
         datePublished="2026-06-19"
-        dateModified="2026-10-23"
+        dateModified="2026-10-30"
         url="https://www.mortgagepro.io/blog/fha-vs-conventional"
         faqs={[
           { q: 'What is the difference between FHA and conventional loans?', a: 'FHA loans are government-backed and easier to qualify for (minimum 580 credit score, 3.5% down). Conventional loans have stricter requirements (620+ credit score) but offer more flexibility and cancelable PMI.' },
