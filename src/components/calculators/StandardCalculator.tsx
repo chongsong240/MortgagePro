@@ -9,15 +9,12 @@ import stateDataRaw from '@/src/data/state_data.json';
 import { calculateMortgage, MortgageInputs } from '@/src/lib/mortgage';
 import { Building2, DollarSign, Percent, Calendar, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { alignUsdParts, formatUsd as formatCurrency } from '@/src/lib/format';
 
 // Cast the raw imported JSON so TypeScript knows its shape
 const stateData = stateDataRaw as Record<string, { name: string, median_home_price: number, property_tax_rate: number, closing_cost_pct: number, avg_annual_insurance: number }>;
 
 const COLORS = ['#1E3A8A', '#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE'];
-
-const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
-};
 
 export default function Calculator() {
   const [inputs, setInputs] = useState<MortgageInputs>({
@@ -97,6 +94,22 @@ export default function Calculator() {
   };
 
   const results = useMemo(() => calculateMortgage(inputs), [inputs]);
+
+  /**
+   * Whole-dollar values for the payment card. The components are aligned to the
+   * rounded total so the column adds up — see src/lib/format.ts for why the
+   * largest slice absorbs the residual.
+   */
+  const payment = useMemo(() => {
+    const [pi, tax, insurance, hoa, pmi] = alignUsdParts([
+      results.monthlyPrincipalAndInterest,
+      results.monthlyPropertyTax,
+      results.monthlyHomeInsurance,
+      results.monthlyHoaFees,
+      results.monthlyPmi,
+    ]);
+    return { total: pi + tax + insurance + hoa + pmi, pi, tax, insurance, hoa, pmi };
+  }, [results]);
 
   // Flash animation on result change with direction detection
   // Triggers a scale + color pulse whenever the monthly payment changes
@@ -370,31 +383,31 @@ export default function Calculator() {
               flashVisible && flash === 'down' ? "text-green-300 scale-110" : "",
               !flashVisible ? "text-white scale-100" : ""
             )}>
-              {formatCurrency(results.totalMonthlyPayment)}
+              {formatCurrency(payment.total)}
             </div>
             <div className="mt-6 flex flex-col gap-2 relative z-10">
               <div className="flex justify-between text-sm">
                 <span>Principal & Interest</span>
-                <span className="font-semibold">{formatCurrency(results.monthlyPrincipalAndInterest)}</span>
+                <span className="font-semibold">{formatCurrency(payment.pi)}</span>
               </div>
               <div className="flex justify-between text-sm text-primary-foreground/80">
                 <span>Property Tax</span>
-                <span>{formatCurrency(results.monthlyPropertyTax)}</span>
+                <span>{formatCurrency(payment.tax)}</span>
               </div>
               <div className="flex justify-between text-sm text-primary-foreground/80">
                 <span>Home Insurance</span>
-                <span>{formatCurrency(results.monthlyHomeInsurance)}</span>
+                <span>{formatCurrency(payment.insurance)}</span>
               </div>
               {results.monthlyHoaFees > 0 && (
                 <div className="flex justify-between text-sm text-primary-foreground/80">
                   <span>HOA Fees</span>
-                  <span>{formatCurrency(results.monthlyHoaFees)}</span>
+                  <span>{formatCurrency(payment.hoa)}</span>
                 </div>
               )}
               {results.monthlyPmi > 0 && (
                 <div className="flex justify-between text-sm text-destructive-foreground font-medium">
                   <span>PMI</span>
-                  <span>{formatCurrency(results.monthlyPmi)}</span>
+                  <span>{formatCurrency(payment.pmi)}</span>
                 </div>
               )}
             </div>

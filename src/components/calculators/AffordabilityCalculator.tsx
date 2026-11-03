@@ -7,14 +7,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { calculateMortgage, MortgageInputs } from '@/src/lib/mortgage';
 import stateDataRaw from '@/src/data/state_data.json';
 import { DollarSign, Percent, Calendar, Briefcase, CreditCard, Home, TrendingUp } from 'lucide-react';
+import { alignUsdParts, formatUsd as formatCurrency } from '@/src/lib/format';
 
 const stateData = stateDataRaw as Record<string, {
   name: string, median_home_price: number,
   property_tax_rate: number, closing_cost_pct: number, avg_annual_insurance: number
 }>;
-
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
 
 /**
  * Brute-force search for max affordable home price using 28/36 rule.
@@ -117,6 +115,22 @@ export default function AffordabilityCalculator() {
     () => result.maxPrice * (downPaymentPercent / 100),
     [result.maxPrice, downPaymentPercent]
   );
+
+  /**
+   * Whole-dollar view where the visible subtraction holds: Loan Amount is the
+   * displayed max price minus the displayed down payment, not an independently
+   * rounded third figure (see src/lib/format.ts).
+   */
+  const shown = useMemo(() => {
+    const maxPrice = alignUsdParts([result.maxPrice])[0];
+    const upfront = alignUsdParts([totalUpfront])[0];
+    return {
+      maxPrice,
+      upfront,
+      monthlyPayment: alignUsdParts([result.monthlyPayment])[0],
+      loanAmount: maxPrice - upfront,
+    };
+  }, [result, totalUpfront]);
 
   const incomeNeeded = useMemo(() => {
     const estimatedPayment = result.monthlyPayment;
@@ -330,10 +344,10 @@ export default function AffordabilityCalculator() {
             {result.maxPrice > 0 ? (
               <>
                 <div className="text-5xl font-bold tracking-tight text-white">
-                  {formatCurrency(result.maxPrice)}
+                  {formatCurrency(shown.maxPrice)}
                 </div>
                 <p className="text-primary-foreground/70 mt-2 text-sm">
-                  Estimated monthly payment: {formatCurrency(result.monthlyPayment)}
+                  Estimated monthly payment: {formatCurrency(shown.monthlyPayment)}
                 </p>
               </>
             ) : (
@@ -394,12 +408,12 @@ export default function AffordabilityCalculator() {
             <CardContent className="space-y-3 pt-4">
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Down Payment ({downPaymentPercent}%)</div>
-                <div className="text-lg font-semibold">{formatCurrency(totalUpfront)}</div>
+                <div className="text-lg font-semibold">{formatCurrency(shown.upfront)}</div>
               </div>
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Loan Amount</div>
                 <div className="text-lg font-semibold">
-                  {formatCurrency(result.maxPrice - totalUpfront)}
+                  {formatCurrency(shown.loanAmount)}
                 </div>
               </div>
               <div>

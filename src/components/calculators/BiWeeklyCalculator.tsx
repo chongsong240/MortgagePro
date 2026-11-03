@@ -5,10 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DollarSign, Percent } from 'lucide-react';
 import { calculateMortgage, MortgageInputs } from '@/src/lib/mortgage';
-
-const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
-};
+import { alignUsdParts, formatUsd as formatCurrency } from '@/src/lib/format';
 
 export default function BiWeeklyCalculator() {
   const [inputs, setInputs] = useState<MortgageInputs>({
@@ -71,6 +68,25 @@ export default function BiWeeklyCalculator() {
       payoffYears: totalYears,
     };
   }, [standard, inputs]);
+
+  /**
+   * Whole-dollar values whose arithmetic holds on screen: "interest saved" is
+   * the difference of the two displayed interest totals rather than a rounded
+   * third number (see src/lib/format.ts).
+   */
+  const shown = useMemo(() => {
+    const standardPi = alignUsdParts([standard.monthlyPrincipalAndInterest])[0];
+    const monthlyInterest = alignUsdParts([standard.totalInterestPaid])[0];
+    const biweeklyPayment = alignUsdParts([biWeeklyStats.payment])[0];
+    const biweeklyInterest = alignUsdParts([biWeeklyStats.totalInterest])[0];
+    return {
+      standardPi,
+      monthlyInterest,
+      biweeklyPayment,
+      biweeklyInterest,
+      interestSaved: Math.max(0, monthlyInterest - biweeklyInterest),
+    };
+  }, [standard, biWeeklyStats]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
@@ -136,7 +152,7 @@ export default function BiWeeklyCalculator() {
                       You'll Save
                     </div>
                     <div className="text-6xl md:text-7xl font-extrabold text-green-600 dark:text-green-400 leading-none tracking-tight">
-                      {formatCurrency(Math.max(0, biWeeklyStats.interestSaved))}
+                      {formatCurrency(shown.interestSaved)}
                     </div>
                     <div className="text-green-600/60 dark:text-green-400/60 text-sm font-medium mt-1">
                       in total interest
@@ -157,7 +173,7 @@ export default function BiWeeklyCalculator() {
                 </div>
                 {/* Savings detail bar */}
                 <div className="mt-6 max-w-lg mx-auto bg-green-100/50 dark:bg-green-900/20 rounded-lg px-4 py-3 text-center text-sm text-green-800 dark:text-green-200">
-                  Switching from monthly to bi-weekly payments saves you <strong>{formatCurrency(Math.max(0, biWeeklyStats.interestSaved))}</strong> in interest and shortens your loan term by <strong>{biWeeklyStats.yearsSaved.toFixed(1)} years</strong>.
+                  Switching from monthly to bi-weekly payments saves you <strong>{formatCurrency(shown.interestSaved)}</strong> in interest and shortens your loan term by <strong>{biWeeklyStats.yearsSaved.toFixed(1)} years</strong>.
                 </div>
               </>
             ) : (
@@ -178,11 +194,11 @@ export default function BiWeeklyCalculator() {
             <CardContent className="space-y-4 pt-4">
               <div className="flex justify-between items-center pb-4 border-b">
                 <span className="text-muted-foreground">Payment Amount</span>
-                <span className="text-2xl font-bold">{formatCurrency(standard.monthlyPrincipalAndInterest)}<span className="text-sm font-normal text-muted-foreground">/mo</span></span>
+                <span className="text-2xl font-bold">{formatCurrency(shown.standardPi)}<span className="text-sm font-normal text-muted-foreground">/mo</span></span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Total Interest</span>
-                <span className="font-semibold">{formatCurrency(standard.totalInterestPaid)}</span>
+                <span className="font-semibold">{formatCurrency(shown.monthlyInterest)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Payoff Time</span>
@@ -199,11 +215,11 @@ export default function BiWeeklyCalculator() {
             <CardContent className="space-y-4 pt-4">
               <div className="flex justify-between items-center pb-4 border-b">
                 <span className="text-muted-foreground">Payment Amount</span>
-                <span className="text-2xl font-bold text-primary">{formatCurrency(biWeeklyStats.payment)}<span className="text-sm font-normal text-muted-foreground">/2wks</span></span>
+                <span className="text-2xl font-bold text-primary">{formatCurrency(shown.biweeklyPayment)}<span className="text-sm font-normal text-muted-foreground">/2wks</span></span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Total Interest</span>
-                <span className="font-semibold">{formatCurrency(biWeeklyStats.totalInterest)}</span>
+                <span className="font-semibold">{formatCurrency(shown.biweeklyInterest)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Payoff Time</span>

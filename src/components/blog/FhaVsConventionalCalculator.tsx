@@ -28,10 +28,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { calculateMortgage } from '@/src/lib/mortgage';
+import { alignUsdParts, formatUsd as money } from '@/src/lib/format';
 import { AlertTriangle, Calculator } from 'lucide-react';
-
-const money = (v: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
 
 /** Typical annual PMI by credit band, held inside the 0.5%–1.5% range we publish. */
 const PMI_BY_SCORE: { value: string; label: string; rate: number }[] = [
@@ -106,6 +104,30 @@ export default function FhaVsConventionalCalculator() {
     };
   }, [homePrice, downPct, score, rate]);
 
+  /**
+   * Whole-dollar pairs so each "P&I + insurance" row adds up on screen, plus a
+   * ten-year gap derived from the two displayed totals. Rounding P&I, the
+   * insurance and the sum independently used to leave these rows $1 apart
+   * (see src/lib/format.ts).
+   */
+  const shown = useMemo(() => {
+    const [fhaPi, fhaMip] = alignUsdParts([r.fhaPi, r.fhaMipMonthly]);
+    const [convPi, convPmi] = alignUsdParts([r.convPi, r.convPmiMonthly]);
+    const fhaTenYear = alignUsdParts([r.fhaMiTenYear])[0];
+    const convTenYear = alignUsdParts([r.convMiTenYear])[0];
+    return {
+      fhaPi,
+      fhaMip,
+      fhaTotal: fhaPi + fhaMip,
+      convPi,
+      convPmi,
+      convTotal: convPi + convPmi,
+      fhaTenYear,
+      convTenYear,
+      gap: Math.abs(fhaTenYear - convTenYear),
+    };
+  }, [r]);
+
   return (
     <section id="fha-calculator" className="mb-12 scroll-mt-20">
       <h2 className="text-2xl font-bold text-foreground mb-3 flex items-center gap-2">
@@ -165,19 +187,19 @@ export default function FhaVsConventionalCalculator() {
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-muted-foreground">P&amp;I</dt>
-                <dd className="font-medium text-foreground">{money(r.fhaPi)}/mo</dd>
+                <dd className="font-medium text-foreground">{money(shown.fhaPi)}/mo</dd>
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-muted-foreground">MIP ({r.fhaAnnualMipRate}%/yr)</dt>
-                <dd className="font-medium text-foreground">{money(r.fhaMipMonthly)}/mo</dd>
+                <dd className="font-medium text-foreground">{money(shown.fhaMip)}/mo</dd>
               </div>
               <div className="flex justify-between gap-3 pt-2 border-t border-border">
                 <dt className="font-medium text-foreground">P&amp;I + MIP</dt>
-                <dd className="font-bold text-foreground">{money(r.fhaPi + r.fhaMipMonthly)}/mo</dd>
+                <dd className="font-bold text-foreground">{money(shown.fhaTotal)}/mo</dd>
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-muted-foreground">Insurance over 10 yrs</dt>
-                <dd className="font-medium text-foreground">{money(r.fhaMiTenYear)}</dd>
+                <dd className="font-medium text-foreground">{money(shown.fhaTenYear)}</dd>
               </div>
             </dl>
           </div>
@@ -195,19 +217,19 @@ export default function FhaVsConventionalCalculator() {
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-muted-foreground">P&amp;I</dt>
-                <dd className="font-medium text-foreground">{money(r.convPi)}/mo</dd>
+                <dd className="font-medium text-foreground">{money(shown.convPi)}/mo</dd>
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-muted-foreground">PMI</dt>
-                <dd className="font-medium text-foreground">{money(r.convPmiMonthly)}/mo</dd>
+                <dd className="font-medium text-foreground">{money(shown.convPmi)}/mo</dd>
               </div>
               <div className="flex justify-between gap-3 pt-2 border-t border-border">
                 <dt className="font-medium text-foreground">P&amp;I + PMI</dt>
-                <dd className="font-bold text-foreground">{money(r.convPi + r.convPmiMonthly)}/mo</dd>
+                <dd className="font-bold text-foreground">{money(shown.convTotal)}/mo</dd>
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-muted-foreground">Insurance over 10 yrs</dt>
-                <dd className="font-medium text-foreground">{money(r.convMiTenYear)}</dd>
+                <dd className="font-medium text-foreground">{money(shown.convTenYear)}</dd>
               </div>
             </dl>
           </div>
@@ -216,7 +238,7 @@ export default function FhaVsConventionalCalculator() {
         <div className="mt-6 pt-6 border-t border-border">
           <p className="text-foreground">
             Over the first ten years, mortgage insurance costs{' '}
-            <strong>{money(r.gap)} more on the {r.cheaper === 'fha' ? 'conventional' : 'FHA'} side</strong>
+            <strong>{money(shown.gap)} more on the {r.cheaper === 'fha' ? 'conventional' : 'FHA'} side</strong>
             {r.cheaper === 'fha'
               ? ` — FHA wins the first ten years, and here is why that reverses: FHA MIP has no cancellation date at this down payment, while conventional PMI stops once the balance reaches 80% of the price${r.pmiEndsInYears ? ` (year ${r.pmiEndsInYears} at this rate)` : ''}. Keep the loan long enough and the conventional side comes out ahead, which is what the FAQ below means by "cheaper long-term".`
               : r.pmiEndsInYears

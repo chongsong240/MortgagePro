@@ -6,14 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DollarSign, Percent } from 'lucide-react';
 import stateDataRaw from '@/src/data/state_data.json';
+import { alignUsdParts, formatUsd as fmt } from '@/src/lib/format';
 
 const stateData = stateDataRaw as Record<string, {
   name: string; median_home_price: number;
   property_tax_rate: number; closing_cost_pct: number; avg_annual_insurance: number;
 }>;
-
-const fmt = (v: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
 
 interface CostItem { label: string; amount: number; note: string; }
 
@@ -62,6 +60,31 @@ export default function ClosingCostCalculator() {
 
     return { items, totalClosing, netClosing, cashNeeded, loanAmount };
   }, [homePrice, downPct, selectedState, originationPct, sellerConcessions]);
+
+  /**
+   * Whole-dollar view of the same numbers, built so every visible column adds
+   * up: the itemized list sums to the Total Closing Costs line, and
+   * down + closing costs − concessions = net = cash needed. Without this the
+   * eleven line items and the total were rounded independently and could differ
+   * by a dollar (see src/lib/format.ts).
+   */
+  const display = useMemo(() => {
+    const itemAmounts = alignUsdParts(result.items.map((i) => i.amount), result.totalClosing);
+    const totalClosing = itemAmounts.reduce((sum, amount) => sum + amount, 0);
+    const downPayment = alignUsdParts([(homePrice * downPct) / 100])[0];
+    const netClosing = Math.max(0, totalClosing - Math.round(sellerConcessions));
+    // Concessions are shown net of the clamp, so the subtraction line matches
+    // what the total actually used.
+    const concessions = totalClosing - netClosing;
+    return {
+      itemAmounts,
+      totalClosing,
+      downPayment,
+      concessions,
+      netClosing,
+      cashNeeded: downPayment + netClosing,
+    };
+  }, [result, homePrice, downPct, sellerConcessions]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 mt-8">
@@ -143,25 +166,25 @@ export default function ClosingCostCalculator() {
             <CardTitle className="text-primary-foreground/80">Total Cash Needed at Closing</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-5xl font-bold tracking-tight text-white">{fmt(result.cashNeeded)}</div>
+            <div className="text-5xl font-bold tracking-tight text-white">{fmt(display.cashNeeded)}</div>
             <div className="mt-6 flex flex-col gap-2 text-sm">
               <div className="flex justify-between">
                 <span>Down Payment ({downPct}%)</span>
-                <span className="font-semibold">{fmt(homePrice * downPct / 100)}</span>
+                <span className="font-semibold">{fmt(display.downPayment)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Closing Costs</span>
-                <span className="font-semibold">{fmt(result.totalClosing)}</span>
+                <span className="font-semibold">{fmt(display.totalClosing)}</span>
               </div>
-              {sellerConcessions > 0 && (
+              {display.concessions > 0 && (
                 <div className="flex justify-between text-green-300">
                   <span>Seller Concessions</span>
-                  <span className="font-semibold">-{fmt(sellerConcessions)}</span>
+                  <span className="font-semibold">-{fmt(display.concessions)}</span>
                 </div>
               )}
               <div className="flex justify-between border-t border-white/20 pt-2 font-bold">
                 <span>Net Closing Costs</span>
-                <span>{fmt(result.netClosing)}</span>
+                <span>{fmt(display.netClosing)}</span>
               </div>
             </div>
           </CardContent>
@@ -180,12 +203,12 @@ export default function ClosingCostCalculator() {
                     <div className="text-sm font-medium">{item.label}</div>
                     <div className="text-xs text-muted-foreground">{item.note}</div>
                   </div>
-                  <div className="text-sm font-semibold ml-4 shrink-0">{fmt(item.amount)}</div>
+                  <div className="text-sm font-semibold ml-4 shrink-0">{fmt(display.itemAmounts[i])}</div>
                 </div>
               ))}
               <div className="flex justify-between items-center pt-3 font-bold text-primary">
                 <span>Total Closing Costs</span>
-                <span>{fmt(result.totalClosing)}</span>
+                <span>{fmt(display.totalClosing)}</span>
               </div>
             </div>
           </CardContent>

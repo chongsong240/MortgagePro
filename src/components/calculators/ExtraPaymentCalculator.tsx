@@ -5,9 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DollarSign, Percent } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
-
-const fmt = (v: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
+import { alignUsdParts, formatUsd as fmt } from '@/src/lib/format';
 
 function amortize(principal: number, annualRate: number, months: number, extraMonthly: number) {
   const r = annualRate / 100 / 12;
@@ -60,7 +58,26 @@ export default function ExtraPaymentCalculator() {
   );
 
   const monthsSaved = standard.months - withExtra.months;
-  const interestSaved = standard.totalInterest - withExtra.totalInterest;
+
+  /**
+   * Whole-dollar values whose arithmetic holds on screen: interest saved is the
+   * difference of the two totals as displayed, and the "with extra" payment is
+   * base + extra as displayed (see src/lib/format.ts).
+   */
+  const shown = useMemo(() => {
+    const basePayment = alignUsdParts([standard.basePayment])[0];
+    const extra = alignUsdParts([extraMonthly])[0];
+    const standardInterest = alignUsdParts([standard.totalInterest])[0];
+    const extraInterest = alignUsdParts([withExtra.totalInterest])[0];
+    return {
+      basePayment,
+      extra,
+      withExtraPayment: basePayment + extra,
+      standardInterest,
+      extraInterest,
+      interestSaved: standardInterest - extraInterest,
+    };
+  }, [standard, withExtra, extraMonthly]);
 
   // Merge chart data
   const chartData = useMemo(() => {
@@ -160,7 +177,7 @@ export default function ExtraPaymentCalculator() {
               <div className="space-y-1">
                 <div className="text-green-700 dark:text-green-300 text-sm uppercase font-bold tracking-widest mb-1">Interest Saved</div>
                 <div className="text-5xl md:text-6xl font-extrabold text-green-600 dark:text-green-400 leading-none">
-                  {fmt(interestSaved)}
+                  {fmt(shown.interestSaved)}
                 </div>
               </div>
               <div className="space-y-1">
@@ -173,7 +190,7 @@ export default function ExtraPaymentCalculator() {
               </div>
             </div>
             <div className="mt-6 bg-green-100/50 dark:bg-green-900/20 rounded-lg px-4 py-3 text-center text-sm text-green-800 dark:text-green-200">
-              Paying an extra <strong>{fmt(extraMonthly)}/month</strong> saves <strong>{fmt(interestSaved)}</strong> in interest and pays off your loan <strong>{monthsSaved < 12 ? `${monthsSaved} months` : `${(monthsSaved / 12).toFixed(1)} years`}</strong> early.
+              Paying an extra <strong>{fmt(shown.extra)}/month</strong> saves <strong>{fmt(shown.interestSaved)}</strong> in interest and pays off your loan <strong>{monthsSaved < 12 ? `${monthsSaved} months` : `${(monthsSaved / 12).toFixed(1)} years`}</strong> early.
             </div>
           </CardContent>
         </Card>
@@ -186,11 +203,11 @@ export default function ExtraPaymentCalculator() {
             <CardContent className="space-y-3 pt-4">
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Monthly Payment (P&I)</div>
-                <div className="text-xl font-bold">{fmt(standard.basePayment)}/mo</div>
+                <div className="text-xl font-bold">{fmt(shown.basePayment)}/mo</div>
               </div>
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Total Interest</div>
-                <div className="text-lg font-semibold">{fmt(standard.totalInterest)}</div>
+                <div className="text-lg font-semibold">{fmt(shown.standardInterest)}</div>
               </div>
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Payoff</div>
@@ -201,16 +218,16 @@ export default function ExtraPaymentCalculator() {
 
           <Card className="border-primary">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-primary">With Extra {fmt(extraMonthly)}/mo</CardTitle>
+              <CardTitle className="text-sm font-medium text-primary">With Extra {fmt(shown.extra)}/mo</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 pt-4">
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Monthly Payment (P&I)</div>
-                <div className="text-xl font-bold text-primary">{fmt(standard.basePayment + extraMonthly)}/mo</div>
+                <div className="text-xl font-bold text-primary">{fmt(shown.withExtraPayment)}/mo</div>
               </div>
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Total Interest</div>
-                <div className="text-lg font-semibold">{fmt(withExtra.totalInterest)}</div>
+                <div className="text-lg font-semibold">{fmt(shown.extraInterest)}</div>
               </div>
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Payoff</div>

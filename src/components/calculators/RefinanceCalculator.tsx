@@ -4,9 +4,7 @@ import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DollarSign, Percent, Calendar } from 'lucide-react';
-
-const fmt = (v: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(v);
+import { alignUsdParts, formatUsd as fmt } from '@/src/lib/format';
 
 function calcMonthlyPI(principal: number, annualRate: number, months: number): number {
   if (annualRate === 0) return principal / months;
@@ -49,6 +47,28 @@ export default function RefinanceCalculator() {
       worthIt: breakEvenMonths < newTermYears * 12 && monthlySavings > 0,
     };
   }, [currentBalance, currentRate, currentMonthsLeft, newRate, newTermYears, closingCosts]);
+
+  /**
+   * Savings and net interest difference are DERIVED from the rounded payments
+   * and totals rather than rounded on their own. Otherwise the headline
+   * "$x/mo saved" could disagree by a dollar with the Current − New rows right
+   * under it (see src/lib/format.ts).
+   */
+  const shown = useMemo(() => {
+    const currentPayment = alignUsdParts([result.currentPayment])[0];
+    const newPayment = alignUsdParts([result.newPayment])[0];
+    const remainingCurrent = alignUsdParts([result.remainingInterestCurrent])[0];
+    const remainingNew = alignUsdParts([result.remainingInterestNew])[0];
+    const upfront = alignUsdParts([closingCosts])[0];
+    return {
+      currentPayment,
+      newPayment,
+      monthlySavings: currentPayment - newPayment,
+      remainingCurrent,
+      remainingNew,
+      lifetimeDiff: remainingCurrent - remainingNew - upfront,
+    };
+  }, [result, closingCosts]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 mt-8">
@@ -149,7 +169,7 @@ export default function RefinanceCalculator() {
           </CardHeader>
           <CardContent>
             <div className={`text-5xl font-bold tracking-tight ${result.worthIt ? "text-white" : "text-foreground"}`}>
-              {result.monthlySavings > 0 ? `${fmt(result.monthlySavings)}/mo` : `+${fmt(Math.abs(result.monthlySavings))}/mo`}
+              {shown.monthlySavings > 0 ? `${fmt(shown.monthlySavings)}/mo` : `+${fmt(Math.abs(shown.monthlySavings))}/mo`}
             </div>
             <p className={`mt-2 text-sm ${result.worthIt ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
               {result.monthlySavings > 0 ? "monthly savings after refinancing" : "higher monthly payment after refinancing"}
@@ -157,11 +177,11 @@ export default function RefinanceCalculator() {
             <div className="mt-6 flex flex-col gap-2 text-sm">
               <div className="flex justify-between">
                 <span>Current Payment</span>
-                <span className="font-semibold">{fmt(result.currentPayment)}/mo</span>
+                <span className="font-semibold">{fmt(shown.currentPayment)}/mo</span>
               </div>
               <div className="flex justify-between">
                 <span>New Payment</span>
-                <span className="font-semibold">{fmt(result.newPayment)}/mo</span>
+                <span className="font-semibold">{fmt(shown.newPayment)}/mo</span>
               </div>
             </div>
           </CardContent>
@@ -196,16 +216,16 @@ export default function RefinanceCalculator() {
             <CardContent className="space-y-3 pt-4">
               <div>
                 <div className="text-xs text-muted-foreground mb-1">Current remaining interest</div>
-                <div className="text-lg font-semibold">{fmt(result.remainingInterestCurrent)}</div>
+                <div className="text-lg font-semibold">{fmt(shown.remainingCurrent)}</div>
               </div>
               <div>
                 <div className="text-xs text-muted-foreground mb-1">New loan total interest</div>
-                <div className="text-lg font-semibold">{fmt(result.remainingInterestNew)}</div>
+                <div className="text-lg font-semibold">{fmt(shown.remainingNew)}</div>
               </div>
               <div className="pt-2 border-t">
                 <div className="text-xs text-muted-foreground mb-1">Net savings (after closing costs)</div>
-                <div className={`text-xl font-bold ${result.lifetimeInterestDiff > 0 ? "text-green-600" : "text-destructive"}`}>
-                  {result.lifetimeInterestDiff > 0 ? fmt(result.lifetimeInterestDiff) : `-${fmt(Math.abs(result.lifetimeInterestDiff))}`}
+                <div className={`text-xl font-bold ${shown.lifetimeDiff > 0 ? "text-green-600" : "text-destructive"}`}>
+                  {shown.lifetimeDiff > 0 ? fmt(shown.lifetimeDiff) : `-${fmt(Math.abs(shown.lifetimeDiff))}`}
                 </div>
               </div>
             </CardContent>
