@@ -5,6 +5,8 @@ import { TipBox, WarningBox, InfoBox, KeyTakeaway, ComparisonTable, CalculatorCT
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 import RelatedPosts from './RelatedPosts';
+import YouTubeEmbed from './YouTubeEmbed';
+import { YOUTUBE_VIDEOS } from '@/src/data/youtube';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -21,12 +23,14 @@ export default function MonthlyPaymentBreakdown() {
         title="How Much Will My Monthly Mortgage Payment Be? (PITI Explained)"
         description="Most first-time buyers only look at the loan amount and rate. Here's why your actual payment can be hundreds more — and how to calculate the real number before you shop."
         datePublished="2026-06-05"
+        dateModified="2026-11-06"
         url="https://www.mortgagepro.io/blog/monthly-payment-breakdown"
         faqs={[
           { q: 'What does PITI stand for in a mortgage payment?', a: 'PITI stands for Principal, Interest, Taxes, and Insurance. These four components make up your total monthly mortgage payment. PMI (Private Mortgage Insurance) may also be added if your down payment is less than 20%.' },
           { q: 'How much does property tax add to a monthly mortgage payment?', a: 'Property taxes vary widely by state. On a $400,000 home, monthly taxes range from about $133 in Alabama (0.40% rate) to $800 in New Jersey (2.40% rate). Always factor in your local rate for an accurate estimate.' },
           { q: 'What is the 28% rule for mortgage payments?', a: 'The 28% rule states your total monthly housing payment (PITI) should not exceed 28% of your gross monthly income. On a $100,000 salary, that means a maximum housing payment of about $2,333/month.' },
         ]}
+        video={YOUTUBE_VIDEOS.monthlyPayment}
       />
       {/* Header */}
       <div className="mb-10">
@@ -99,6 +103,13 @@ export default function MonthlyPaymentBreakdown() {
           into a monthly mortgage payment. So let's do that now. No textbook definitions. Just the real numbers.
         </p>
       </section>
+
+      {/* Video version of the same explainer. Facade only — the player loads on click. */}
+      <YouTubeEmbed
+        video={YOUTUBE_VIDEOS.monthlyPayment}
+        caption="The video version: what actually goes into the monthly payment, and why the first statement is higher than the quote."
+        className="mb-12"
+      />
 
       {/* ============================================ */}
       {/* Section 2 - PITI */}

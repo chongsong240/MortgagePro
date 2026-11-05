@@ -44,7 +44,10 @@ export interface YouTubeVideo {
   description: string;
 }
 
-export const YOUTUBE_VIDEOS: Record<'whatIsPmi' | 'closingCosts' | 'fhaVsConventional', YouTubeVideo> = {
+export const YOUTUBE_VIDEOS: Record<
+  'whatIsPmi' | 'closingCosts' | 'fhaVsConventional' | 'monthlyPayment',
+  YouTubeVideo
+> = {
   whatIsPmi: {
     id: 'H0cn9ru0yWo',
     title: 'What is PMI? Do All First Time Buyers Need To Pay?',
@@ -71,6 +74,15 @@ export const YOUTUBE_VIDEOS: Record<'whatIsPmi' | 'closingCosts' | 'fhaVsConvent
     duration: 'PT1M40S',
     description:
       'FHA loans allow a 3.5% down payment and credit scores from 580, but their mortgage insurance premium usually lasts the life of the loan. Conventional loans need stronger credit yet let PMI be cancelled at 20% equity. A short comparison of which loan costs less over time.',
+  },
+  monthlyPayment: {
+    id: 'JyomVLpS2QE',
+    title: 'How Much Will My Monthly Mortgage Payment Really Be?',
+    thumbnail: 'https://i.ytimg.com/vi/JyomVLpS2QE/hqdefault.jpg',
+    uploadDate: '2026-11-06',
+    duration: 'PT6M31S',
+    description:
+      'A monthly mortgage payment is principal, interest, property taxes and homeowners insurance, plus private mortgage insurance when the down payment is under 20%. A walkthrough of why the figure quoted at pre-approval is rarely the figure on the first statement.',
   },
 };
 

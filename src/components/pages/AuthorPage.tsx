@@ -159,8 +159,8 @@ export default function AuthorPage() {
             className="text-primary hover:underline"
           >
             closing costs
-          </a>{' '}
-          and{' '}
+          </a>
+          ,{' '}
           <a
             href={watchUrl(YOUTUBE_VIDEOS.fhaVsConventional)}
             target="_blank"
@@ -168,6 +168,15 @@ export default function AuthorPage() {
             className="text-primary hover:underline"
           >
             FHA vs conventional loans
+          </a>{' '}
+          and{' '}
+          <a
+            href={watchUrl(YOUTUBE_VIDEOS.monthlyPayment)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            monthly payment breakdowns
           </a>
           , each embedded in the matching{' '}
           <Link to="/blog/what-is-pmi" className="text-primary hover:underline">
@@ -176,10 +185,14 @@ export default function AuthorPage() {
           ,{' '}
           <Link to="/blog/closing-costs-explained" className="text-primary hover:underline">
             closing costs
-          </Link>{' '}
-          and{' '}
+          </Link>
+          ,{' '}
           <Link to="/blog/fha-vs-conventional" className="text-primary hover:underline">
             FHA vs conventional
+          </Link>{' '}
+          and{' '}
+          <Link to="/blog/monthly-payment-breakdown" className="text-primary hover:underline">
+            monthly payment breakdown
           </Link>{' '}
           guides.
         </p>
