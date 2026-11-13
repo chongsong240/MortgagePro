@@ -45,7 +45,7 @@ export interface YouTubeVideo {
 }
 
 export const YOUTUBE_VIDEOS: Record<
-  'whatIsPmi' | 'closingCosts' | 'fhaVsConventional' | 'monthlyPayment',
+  'whatIsPmi' | 'closingCosts' | 'fhaVsConventional' | 'monthlyPayment' | 'howMuchHouse',
   YouTubeVideo
 > = {
   whatIsPmi: {
@@ -83,6 +83,15 @@ export const YOUTUBE_VIDEOS: Record<
     duration: 'PT6M31S',
     description:
       'A monthly mortgage payment is principal, interest, property taxes and homeowners insurance, plus private mortgage insurance when the down payment is under 20%. A walkthrough of why the figure quoted at pre-approval is rarely the figure on the first statement.',
+  },
+  howMuchHouse: {
+    id: 'aOn79ezE350',
+    title: 'How Much House Can I Afford on My Salary?',
+    thumbnail: 'https://i.ytimg.com/vi/aOn79ezE350/hqdefault.jpg',
+    uploadDate: '2026-11-13',
+    duration: 'PT5M23S',
+    description:
+      'Lenders size a mortgage with the 28/36 rule: housing costs up to 28% of gross monthly income, and all debt payments combined up to 36%. A walkthrough of turning a salary into a maximum home price, and how existing debts and the down payment move that number.',
   },
 };
 

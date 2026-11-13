@@ -177,6 +177,15 @@ export default function AuthorPage() {
             className="text-primary hover:underline"
           >
             monthly payment breakdowns
+          </a>{' '}
+          and{' '}
+          <a
+            href={watchUrl(YOUTUBE_VIDEOS.howMuchHouse)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            how much house a salary supports
           </a>
           , each embedded in the matching{' '}
           <Link to="/blog/what-is-pmi" className="text-primary hover:underline">
@@ -189,10 +198,14 @@ export default function AuthorPage() {
           ,{' '}
           <Link to="/blog/fha-vs-conventional" className="text-primary hover:underline">
             FHA vs conventional
-          </Link>{' '}
-          and{' '}
+          </Link>
+          ,{' '}
           <Link to="/blog/monthly-payment-breakdown" className="text-primary hover:underline">
             monthly payment breakdown
+          </Link>{' '}
+          and{' '}
+          <Link to="/blog/how-much-house-can-i-afford" className="text-primary hover:underline">
+            home affordability
           </Link>{' '}
           guides.
         </p>

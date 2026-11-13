@@ -5,6 +5,8 @@ import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 import RelatedPosts from './RelatedPosts';
 import { AffiliateDisclosure } from './BlogComponents';
+import YouTubeEmbed from './YouTubeEmbed';
+import { YOUTUBE_VIDEOS } from '@/src/data/youtube';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -21,12 +23,14 @@ export default function HowMuchHouseCanIAfford() {
         title="How Much House Can I Afford? A Step-by-Step Guide"
         description="Dave called me stressed out about whether he could afford a home. Here's the exact math lenders use and how to find your number."
         datePublished="2026-05-23"
+        dateModified="2026-11-13"
         url="https://www.mortgagepro.io/blog/how-much-house-can-i-afford"
         faqs={[
           { q: 'How do lenders calculate how much house I can afford?', a: 'Lenders use the 28/36 rule: your total monthly housing costs (PITI) should not exceed 28% of gross monthly income, and all debt payments combined should not exceed 36%. On an $85,000 salary, the maximum housing payment is about $1,983/month.' },
           { q: 'How much house can I afford on an $85,000 salary?', a: 'With an $85,000 salary, 10% down, and 6.5% interest rate, you can typically afford a home around $310,000. Existing debts like car loans and student loans reduce this amount.' },
           { q: 'Does my debt affect how much house I can afford?', a: 'Yes significantly. The 36% back-end DTI rule means all debts combined cannot exceed 36% of gross income. A $750/month car and student loan payment can reduce your maximum home price by $40,000 or more.' },
         ]}
+        video={YOUTUBE_VIDEOS.howMuchHouse}
       />
       {/* Header */}
       <div className="mb-10">
@@ -120,6 +124,13 @@ export default function HowMuchHouseCanIAfford() {
           It's not magic. It's just a few simple ratios. Let's walk through them step by step.
         </p>
       </section>
+
+      {/* Video version of the same explainer. Facade only — the player loads on click. */}
+      <YouTubeEmbed
+        video={YOUTUBE_VIDEOS.howMuchHouse}
+        caption="The video version: turning a salary into a home price with the 28/36 rule."
+        className="mb-12"
+      />
 
       {/* Section 2: DTI */}
       <section id="section-2" className="mb-12">
