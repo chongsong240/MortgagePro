@@ -1,3 +1,17 @@
+# Task Progress: Add "How Student Loans Affect How Much House You Can Afford" blog article
+
+- [x] 新增文章组件 src/components/blog/StudentLoansHomeAffordability.tsx（含 BlogSchema + FAQ、目录、6 张数据表/卡片、Sources 区块）
+- [x] App.tsx：import 组件、添加 /blog/student-loans-home-affordability 路由
+- [x] App.tsx：首页 Latest Articles 与 /blog 列表均置于最前（2026-11-12）
+- [x] route-meta.ts 新增 title/description；prerender.tsx 的 ROUTES 新增该路径
+- [x] generate-pages.ts：spaEntries 兜底元数据 + sitemap blogs 列表
+- [x] RelatedPosts.tsx：LABELS、新文章 RELATED，并在 debt-to-income-ratio / how-much-house-can-i-afford / income-needed / credit-score-needed 四篇文章中加入内链
+- [x] 外链：站内 Affordability Calculator（正文 + CTA）、AnnualCreditReport.com、SmartCredit（复用 src/data/affiliate-offers.ts 的 SMARTCREDIT.url 与 sponsored nofollow rel）
+- [x] 事实核对：Fannie Mae B3-6-05（递延/宽限按余额 1% 或按文件条款全额摊还）、B3-6-02（手工 36%→45%、自动审批上限 50%）、CFPB 的 DTI 定义；$400/月 ≈ $63,000 借款力（6.5%、30 年）
+- [x] tsc --noEmit 通过；npm run build 通过（dist 页面已预渲染、sitemap 含新 URL、canonical/OG/结构化数据已写入）
+
+---
+
 # Task Progress: Add "What Is a Good Debt-to-Income Ratio for Buying a House?" blog article
 
 - [x] 创建博客文章组件文件 (DebtToIncomeRatio.tsx)

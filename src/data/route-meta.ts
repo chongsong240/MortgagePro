@@ -82,6 +82,11 @@ export const ROUTE_META: RouteMeta[] = [
   },
   // ---------- Blog articles ----------
   {
+    path: '/blog/student-loans-home-affordability',
+    title: 'How Student Loans Affect How Much House You Can Afford (2026)',
+    description: 'A $400 student loan payment can shrink your mortgage by about $63,000. See how lenders count student loans in your DTI — and how to qualify for more house.',
+  },
+  {
     path: '/blog/home-purchase-contract-traps',
     title: 'Home Purchase Contract Traps: 7 Clauses That Cost Buyers',
     description: 'A seven-day inspection window, an early earnest-money release, an as-is clause — the expensive parts of a purchase contract hide in dates and initials. What to check before you sign.',

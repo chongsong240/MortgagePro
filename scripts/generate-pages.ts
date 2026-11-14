@@ -2528,6 +2528,7 @@ function generateSitemap(): string {
     'arm-vs-fixed-arm',
     'property-taxes-and-insurance',
     'debt-to-income-ratio',
+    'student-loans-home-affordability',
     'home-purchase-contract-traps',
   ];
   for (const slug of blogs) {
@@ -2658,6 +2659,7 @@ function main() {
     { path: 'blog/arm-vs-fixed-arm', title: 'ARM vs Fixed Mortgage: Which One Makes Sense Right Now? | MortgagePro', description: 'My friend Dave had two loan estimates on the same house. His agent told him fixed. His brother-in-law said ARM. Here\'s how he decided in five minutes.', priority: 0.8 },
     { path: 'blog/property-taxes-and-insurance', title: 'How Much Are Property Taxes and Insurance on a Mortgage? | MortgagePro', description: 'My brother-in-law Chris thought his mortgage payment was $2,528. Then his Loan Estimate arrived. Here\'s why property taxes and insurance add hundreds to your monthly payment.', priority: 0.8 },
     { path: 'blog/debt-to-income-ratio', title: 'What Is a Good Debt-to-Income Ratio for Buying a House? | MortgagePro', description: 'My friend makes $100,000 a year and got pre-approved for $340,000 — way less than he expected. Here\'s the DTI math that explains why two people with the same salary get wildly different loan offers.', priority: 0.8 },
+    { path: 'blog/student-loans-home-affordability', title: 'How Student Loans Affect How Much House You Can Afford (2026) | MortgagePro', description: 'A $400 student loan payment can shrink your mortgage by about $63,000. See how lenders count student loans in your debt-to-income ratio, and how to qualify for more house.', priority: 0.8 },
     { path: 'author', title: 'Chong Song — Author &amp; Founder | MortgagePro', description: 'Chong Song researches mortgage costs and builds the free first-time-buyer calculators on MortgagePro.io. See the sources, methodology and contact details.', priority: 0.6 },
     { path: 'about', title: 'About MortgagePro - Free Mortgage Calculators & Resources', description: 'Learn about MortgagePro. We provide free mortgage calculators, educational resources, and state-specific data for home buyers.', priority: 0.5 },
     { path: 'contact', title: 'Contact Us | MortgagePro', description: 'Contact MortgagePro. Reach out with questions, bug reports, or suggestions for our mortgage calculators and content.', priority: 0.5 },

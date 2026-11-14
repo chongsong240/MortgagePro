@@ -20,6 +20,7 @@ import RentVsBuy2026 from '@/src/components/blog/RentVsBuy2026';
 import ArmVsFixedArm from '@/src/components/blog/ArmVsFixedArm';
 import PropertyTaxesAndInsurance from '@/src/components/blog/PropertyTaxesAndInsurance';
 import DebtToIncomeRatio from '@/src/components/blog/DebtToIncomeRatio';
+import StudentLoansHomeAffordability from '@/src/components/blog/StudentLoansHomeAffordability';
 import HomePurchaseContractTraps from '@/src/components/blog/HomePurchaseContractTraps';
 import ContactPage from '@/src/components/pages/ContactPage';
 import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
@@ -415,6 +416,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "How Student Loans Affect How Much House You Can Afford",
+      path: "/blog/student-loans-home-affordability",
+      date: "November 12, 2026",
+    },
     {
       title: "The Hidden Traps in Your Home Purchase Contract (And How to Avoid Them)",
       path: "/blog/home-purchase-contract-traps",
@@ -1049,6 +1055,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "How Student Loans Affect How Much House You Can Afford",
+      path: "/blog/student-loans-home-affordability",
+      category: "Education",
+      date: "November 12, 2026",
+      readTime: "11 min read",
+      description: "My friend Mark makes $85,000 a year and wanted a $350,000 house. The lender came back with $280,000. Here is the debt-to-income math behind that gap, and what you can do about it before you apply."
+    },
+    { 
       title: "The Hidden Traps in Your Home Purchase Contract (And How to Avoid Them)",
       path: "/blog/home-purchase-contract-traps",
       category: "Guides",
@@ -1330,6 +1344,7 @@ export function AppRoutes() {
             <Route path="/blog/rent-vs-buy-2026" element={<RentVsBuy2026 />} />
             <Route path="/blog/property-taxes-and-insurance" element={<PropertyTaxesAndInsurance />} />
             <Route path="/blog/debt-to-income-ratio" element={<DebtToIncomeRatio />} />
+            <Route path="/blog/student-loans-home-affordability" element={<StudentLoansHomeAffordability />} />
             <Route path="/blog/home-purchase-contract-traps" element={<HomePurchaseContractTraps />} />
 
             {/* Other pages */}
