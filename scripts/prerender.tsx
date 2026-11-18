@@ -66,6 +66,7 @@ const ROUTES: string[] = [
   '/blog/debt-to-income-ratio',
   '/blog/home-purchase-contract-traps',
   '/blog/student-loans-home-affordability',
+  '/blog/lease-clauses-that-cost-renters',
   '/author',
   '/about',
   '/contact',

@@ -21,6 +21,7 @@ import ArmVsFixedArm from '@/src/components/blog/ArmVsFixedArm';
 import PropertyTaxesAndInsurance from '@/src/components/blog/PropertyTaxesAndInsurance';
 import DebtToIncomeRatio from '@/src/components/blog/DebtToIncomeRatio';
 import StudentLoansHomeAffordability from '@/src/components/blog/StudentLoansHomeAffordability';
+import LeaseClausesThatCostRenters from '@/src/components/blog/LeaseClausesThatCostRenters';
 import HomePurchaseContractTraps from '@/src/components/blog/HomePurchaseContractTraps';
 import ContactPage from '@/src/components/pages/ContactPage';
 import EditorialPolicyPage from '@/src/components/pages/EditorialPolicyPage';
@@ -416,6 +417,11 @@ function HomePage() {
   ];
 
   const blogPosts = [
+    {
+      title: "Rent vs. Buy in 2026: Don't Sign That Lease Until You Check These 3 Clauses",
+      path: "/blog/lease-clauses-that-cost-renters",
+      date: "November 18, 2026",
+    },
     {
       title: "How Student Loans Affect How Much House You Can Afford",
       path: "/blog/student-loans-home-affordability",
@@ -1055,6 +1061,14 @@ function DisclaimerPage() {
 function BlogStub() {
   const posts = [
     { 
+      title: "Rent vs. Buy in 2026: Don't Sign That Lease Until You Check These 3 Clauses",
+      path: "/blog/lease-clauses-that-cost-renters",
+      category: "Guides",
+      date: "November 18, 2026",
+      readTime: "12 min read",
+      description: "My friend Maya decided to rent one more year before buying. Then a job offer arrived, and Clause 14 cost her two months of rent. Here are the three lease terms that trap renters, and the five-minute check to run before you sign."
+    },
+    { 
       title: "How Student Loans Affect How Much House You Can Afford",
       path: "/blog/student-loans-home-affordability",
       category: "Education",
@@ -1345,6 +1359,7 @@ export function AppRoutes() {
             <Route path="/blog/property-taxes-and-insurance" element={<PropertyTaxesAndInsurance />} />
             <Route path="/blog/debt-to-income-ratio" element={<DebtToIncomeRatio />} />
             <Route path="/blog/student-loans-home-affordability" element={<StudentLoansHomeAffordability />} />
+            <Route path="/blog/lease-clauses-that-cost-renters" element={<LeaseClausesThatCostRenters />} />
             <Route path="/blog/home-purchase-contract-traps" element={<HomePurchaseContractTraps />} />
 
             {/* Other pages */}

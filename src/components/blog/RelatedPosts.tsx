@@ -40,6 +40,7 @@ const LABELS: Record<string, string> = {
   '/blog/property-taxes-and-insurance': 'Property Taxes & Insurance',
   '/blog/is-buying-worth-it-2026': 'Is Buying Worth It in 2026?',
   '/blog/rent-vs-buy-2026': 'Rent vs Buy in 2026',
+  '/blog/lease-clauses-that-cost-renters': 'Lease Clauses That Cost Renters',
   '/blog/how-to-use-calculator': 'How to Use the Calculator',
 };
 
@@ -173,6 +174,7 @@ const RELATED: Record<string, string[]> = {
   // The buy-or-rent decision
   '/blog/is-buying-worth-it-2026': [
     '/blog/rent-vs-buy-2026',
+    '/blog/lease-clauses-that-cost-renters',
     '/blog/how-much-house-can-i-afford',
     '/blog/closing-costs-explained',
     '/blog/property-taxes-and-insurance',
@@ -180,10 +182,18 @@ const RELATED: Record<string, string[]> = {
   ],
   '/blog/rent-vs-buy-2026': [
     '/blog/is-buying-worth-it-2026',
+    '/blog/lease-clauses-that-cost-renters',
     '/blog/how-much-house-can-i-afford',
     '/blog/income-needed',
     '/blog/closing-costs-explained',
     '/blog/property-taxes-and-insurance',
+  ],
+  '/blog/lease-clauses-that-cost-renters': [
+    '/blog/rent-vs-buy-2026',
+    '/blog/home-purchase-contract-traps',
+    '/blog/is-buying-worth-it-2026',
+    '/blog/closing-costs-explained',
+    '/blog/how-much-house-can-i-afford',
   ],
   // Closing costs and carrying costs
   '/blog/closing-costs-explained': [
@@ -196,6 +206,7 @@ const RELATED: Record<string, string[]> = {
   ],
   '/blog/home-purchase-contract-traps': [
     '/blog/closing-costs-explained',
+    '/blog/lease-clauses-that-cost-renters',
     '/blog/can-i-buy-with-5-percent-down',
     '/blog/fha-vs-conventional',
     '/blog/what-is-pmi',

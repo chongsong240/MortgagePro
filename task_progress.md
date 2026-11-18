@@ -1,3 +1,18 @@
+# Task Progress: Add "Rent vs. Buy in 2026: Don't Sign That Lease Until You Check These 3 Clauses" blog article
+
+- [x] 新增文章组件 src/components/blog/LeaseClausesThatCostRenters.tsx（BlogSchema + 4 条 FAQ、目录、条款拆解、磨损对比表、5 分钟清单、Sources）
+- [x] App.tsx：import 组件、添加 /blog/lease-clauses-that-cost-renters 路由
+- [x] App.tsx：首页 Latest Articles 与 /blog 列表均置于最前（2026-11-18）
+- [x] route-meta.ts 新增 title/description；prerender.tsx 的 ROUTES 新增该路径
+- [x] generate-pages.ts：spaEntries 兜底元数据 + sitemap blogs 列表
+- [x] RelatedPosts.tsx：LABELS、新文章 RELATED，并在 rent-vs-buy-2026 / is-buying-worth-it-2026 / home-purchase-contract-traps 中加入内链
+- [x] 链接：站内 Rent vs Buy Calculator（正文 + CTA）、HUD / LawHelp.org / DOJ SCRA / LSC 外链
+- [x] LawDepot 联盟链接复用 HomePurchaseContractTraps 的同一组 offer（LAWDEPOT_PURCHASE_AGREEMENT + LAWDEPOT_OFFER_TO_PURCHASE，sponsored nofollow），未新建 tracking URL
+- [x] 事实核对：押金与提前解约费属不同规则、多数州要求出租人减损（mitigation）、居住适居性不可放弃、SCRA 30 天/90 天规则、60 天通知按"收到日"计算
+- [x] tsc --noEmit 通过；npm run build 通过（dist 页面已预渲染、sitemap 含新 URL）
+
+---
+
 # Task Progress: Add "How Student Loans Affect How Much House You Can Afford" blog article
 
 - [x] 新增文章组件 src/components/blog/StudentLoansHomeAffordability.tsx（含 BlogSchema + FAQ、目录、6 张数据表/卡片、Sources 区块）

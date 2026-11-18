@@ -82,6 +82,11 @@ export const ROUTE_META: RouteMeta[] = [
   },
   // ---------- Blog articles ----------
   {
+    path: '/blog/lease-clauses-that-cost-renters',
+    title: '3 Lease Clauses That Cost Renters Money — Check Before You Sign',
+    description: 'Early-termination fees, vague maintenance clauses and automatic renewals can cost renters thousands. How to read those three terms, and the five-minute check before you sign.',
+  },
+  {
     path: '/blog/student-loans-home-affordability',
     title: 'How Student Loans Affect How Much House You Can Afford (2026)',
     description: 'A $400 student loan payment can shrink your mortgage by about $63,000. See how lenders count student loans in your DTI — and how to qualify for more house.',
