@@ -186,6 +186,15 @@ export default function AuthorPage() {
             className="text-primary hover:underline"
           >
             how much house a salary supports
+          </a>{' '}
+          and{' '}
+          <a
+            href={watchUrl(YOUTUBE_VIDEOS.creditScore)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            credit scores for buying a house
           </a>
           , each embedded in the matching{' '}
           <Link to="/blog/what-is-pmi" className="text-primary hover:underline">
@@ -206,6 +215,10 @@ export default function AuthorPage() {
           and{' '}
           <Link to="/blog/how-much-house-can-i-afford" className="text-primary hover:underline">
             home affordability
+          </Link>{' '}
+          and{' '}
+          <Link to="/blog/credit-score-needed" className="text-primary hover:underline">
+            credit score requirements
           </Link>{' '}
           guides.
         </p>

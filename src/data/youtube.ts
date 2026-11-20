@@ -45,7 +45,12 @@ export interface YouTubeVideo {
 }
 
 export const YOUTUBE_VIDEOS: Record<
-  'whatIsPmi' | 'closingCosts' | 'fhaVsConventional' | 'monthlyPayment' | 'howMuchHouse',
+  | 'whatIsPmi'
+  | 'closingCosts'
+  | 'fhaVsConventional'
+  | 'monthlyPayment'
+  | 'howMuchHouse'
+  | 'creditScore',
   YouTubeVideo
 > = {
   whatIsPmi: {
@@ -92,6 +97,15 @@ export const YOUTUBE_VIDEOS: Record<
     duration: 'PT5M23S',
     description:
       'Lenders size a mortgage with the 28/36 rule: housing costs up to 28% of gross monthly income, and all debt payments combined up to 36%. A walkthrough of turning a salary into a maximum home price, and how existing debts and the down payment move that number.',
+  },
+  creditScore: {
+    id: 'LfhUMfbUCf4',
+    title: 'What Credit Score Do You Need to Buy a House?',
+    thumbnail: 'https://i.ytimg.com/vi/LfhUMfbUCf4/hqdefault.jpg',
+    uploadDate: '2026-11-20',
+    duration: 'PT4M37S',
+    description:
+      'Conventional loans usually want a 620 minimum, FHA accepts 580 with 3.5% down, and VA sets no official floor. A walkthrough of the score thresholds that actually change your interest rate, and how much a 640 score costs over 30 years.',
   },
 };
 

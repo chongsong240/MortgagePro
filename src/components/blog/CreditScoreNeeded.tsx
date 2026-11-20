@@ -4,8 +4,10 @@ import { ArrowRight, BookOpen, Calculator, TrendingUp, AlertTriangle, CheckCircl
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 import RelatedPosts from './RelatedPosts';
+import YouTubeEmbed from './YouTubeEmbed';
 import { AffiliateDisclosure } from './BlogComponents';
 import { SMARTCREDIT } from '@/src/data/affiliate-offers';
+import { YOUTUBE_VIDEOS } from '@/src/data/youtube';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -22,12 +24,14 @@ export default function CreditScoreNeeded() {
         title="What Credit Score Do I Need to Buy a House?"
         description="A friend spent six months convinced he couldn't buy a house because his credit score was 640. Here's the real truth about minimum credit scores, rate tiers, and how much improving your score is actually worth."
         datePublished="2026-07-01"
+        dateModified="2026-11-20"
         url="https://www.mortgagepro.io/blog/credit-score-needed"
         faqs={[
           { q: 'What is the minimum credit score to buy a house?', a: 'For conventional loans, most lenders require a minimum of 620. FHA loans accept scores as low as 580 with 3.5% down. VA loans have no official minimum but most lenders look for 620+. Higher scores qualify for lower interest rates.' },
           { q: 'How much does credit score affect mortgage rate?', a: 'Significantly. On a $350,000 loan, the difference between a 760+ score (6.25% rate) and a 620-639 score (7.25% rate) is about $233/month and $84,000 in total interest over 30 years.' },
           { q: 'How can I improve my credit score before buying a house?', a: 'Pay all bills on time (35% of FICO score), keep credit card balances below 30% of limits, avoid opening new accounts before applying, and check your credit report for errors at annualcreditreport.com.' },
         ]}
+        video={YOUTUBE_VIDEOS.creditScore}
       />
       {/* Header */}
       <div className="mb-10">
@@ -100,6 +104,13 @@ export default function CreditScoreNeeded() {
           approved at a rate that doesn't quietly drain your bank account for three decades is another.
         </p>
       </section>
+
+      {/* Video version of the same explainer. Facade only — the player loads on click. */}
+      <YouTubeEmbed
+        video={YOUTUBE_VIDEOS.creditScore}
+        caption="The video version: the score thresholds that actually change your rate."
+        className="mb-12"
+      />
 
       {/* 2. Can You Buy With 620 */}
       <section id="can-you-buy-620" className="mb-12">
