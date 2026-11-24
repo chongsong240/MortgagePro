@@ -1,3 +1,12 @@
+# Task Progress: Fix the leading zero when typing into a cleared calculator field
+
+- [x] 定位原因：计算器输入框是数字受控组件，清空后状态为 0，React 会把 "0" 写回；此后输入 "5" 时 DOM 变成 "05"。React 对 `type="number"` 使用宽松比较（`react-dom-client` 的 `updateInput`：`element.value != value`），`"05" != 5` 为 false，所以 React 不会把显示值改回 "5"
+- [x] 在 components/ui/input.tsx 统一修复：`type="number"` 时先把输入字符串的前导零去掉再交给原有 onChange（全部计算器与博客内嵌计算器都走这个 Input）
+- [x] 不影响正常输入：保留 "0"、"0.5"、"0.50"、"-05"→"-5"、"00.5"→"0.5"，小数点的中间态不被清掉
+- [x] 13 组用例全部通过；tsc --noEmit 通过；npm run build 通过（108 页生成、42 条路由预渲染）
+
+---
+
 # Task Progress: Add "Rent vs. Buy in 2026: Don't Sign That Lease Until You Check These 3 Clauses" blog article
 
 - [x] 新增文章组件 src/components/blog/LeaseClausesThatCostRenters.tsx（BlogSchema + 4 条 FAQ、目录、条款拆解、磨损对比表、5 分钟清单、Sources）
