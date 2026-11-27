@@ -4,7 +4,9 @@ import { ArrowRight, DollarSign, Percent, Calendar, Home, Building2, PieChart, T
 import BlogSchema from './BlogSchema';
 import AllCalculatorsGrid from './AllCalculatorsGrid';
 import RelatedPosts from './RelatedPosts';
+import YouTubeEmbed from './YouTubeEmbed';
 import { AffiliateDisclosure } from './BlogComponents';
+import { YOUTUBE_VIDEOS } from '@/src/data/youtube';
 
 function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) {
   e.preventDefault();
@@ -21,12 +23,14 @@ export default function ThirtyVsFifteenYear() {
         title="30-Year vs 15-Year Mortgage: The Decision That Shapes Your Future"
         description="The math favors one side clearly. But the right answer for your life depends on five questions that have nothing to do with interest rates."
         datePublished="2026-05-24"
+        dateModified="2026-11-27"
         url="https://www.mortgagepro.io/blog/30-vs-15-year"
         faqs={[
           { q: 'How much more interest do you pay on a 30-year vs 15-year mortgage?', a: 'On a $400,000 loan, a 30-year mortgage at 6.5% costs roughly $312,000 more in interest than a 15-year mortgage at 5.75%. The 15-year also builds equity about 4x faster in the first 5 years.' },
           { q: 'Is a 15-year mortgage always better than a 30-year?', a: 'Mathematically yes, but practically it depends on your income stability, cash flow needs, and other financial goals. A 30-year with disciplined extra payments can achieve similar results with more flexibility.' },
           { q: 'What is the middle path between 30-year and 15-year mortgages?', a: 'Take a 30-year loan but pay it like a 15-year by adding extra principal each month. You get the lower contractual obligation as a safety net while still paying off the loan in roughly 15 years.' },
         ]}
+        video={YOUTUBE_VIDEOS.thirtyVsFifteen}
       />
       {/* Header */}
       <div className="mb-10">
@@ -125,6 +129,13 @@ export default function ThirtyVsFifteenYear() {
           </div>
         </div>
       </section>
+
+      {/* Video version of the same explainer. Facade only — the player loads on click. */}
+      <YouTubeEmbed
+        video={YOUTUBE_VIDEOS.thirtyVsFifteen}
+        caption="The video version: the same loan on both terms, side by side."
+        className="mb-12"
+      />
 
       {/* Section 2 - The Numbers */}
       <section id="section-2" className="mb-12 scroll-mt-20">

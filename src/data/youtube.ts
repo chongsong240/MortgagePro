@@ -50,7 +50,8 @@ export const YOUTUBE_VIDEOS: Record<
   | 'fhaVsConventional'
   | 'monthlyPayment'
   | 'howMuchHouse'
-  | 'creditScore',
+  | 'creditScore'
+  | 'thirtyVsFifteen',
   YouTubeVideo
 > = {
   whatIsPmi: {
@@ -106,6 +107,15 @@ export const YOUTUBE_VIDEOS: Record<
     duration: 'PT4M37S',
     description:
       'Conventional loans usually want a 620 minimum, FHA accepts 580 with 3.5% down, and VA sets no official floor. A walkthrough of the score thresholds that actually change your interest rate, and how much a 640 score costs over 30 years.',
+  },
+  thirtyVsFifteen: {
+    id: 'IHeNduGoD1M',
+    title: '30-Year vs. 15-Year Mortgage: Which Saves You More?',
+    thumbnail: 'https://i.ytimg.com/vi/IHeNduGoD1M/hqdefault.jpg',
+    uploadDate: '2026-11-27',
+    duration: 'PT4M44S',
+    description:
+      'A 15-year mortgage usually costs more each month but far less in total interest, while a 30-year keeps the payment flexible and asks you to invest the difference yourself. A walkthrough of the same loan on both terms, and how to decide which one fits your cash flow.',
   },
 };
 

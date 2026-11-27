@@ -195,6 +195,15 @@ export default function AuthorPage() {
             className="text-primary hover:underline"
           >
             credit scores for buying a house
+          </a>{' '}
+          and{' '}
+          <a
+            href={watchUrl(YOUTUBE_VIDEOS.thirtyVsFifteen)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            30 vs 15-year mortgages
           </a>
           , each embedded in the matching{' '}
           <Link to="/blog/what-is-pmi" className="text-primary hover:underline">
@@ -219,6 +228,10 @@ export default function AuthorPage() {
           and{' '}
           <Link to="/blog/credit-score-needed" className="text-primary hover:underline">
             credit score requirements
+          </Link>{' '}
+          and{' '}
+          <Link to="/blog/30-vs-15-year" className="text-primary hover:underline">
+            30 vs 15-year mortgages
           </Link>{' '}
           guides.
         </p>
